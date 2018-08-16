@@ -18,7 +18,15 @@ ul li {
   margin: 0;
   padding: 0;
   text-indent: 0;
-  list-style-type: none;
+  color: $ams-donkerantraciet;
+}
+
+ul {
+  padding-left: 18px;
+
+  & li {
+    margin-top: 15px;
+  }
 }
 
 dd {
@@ -39,6 +47,11 @@ dd {
   .app-container {
     padding: 0;
     background-color: $ams-wit;
+  }
+
+  .container {
+    padding-left: 0;
+    margin-left: 86px;
   }
 }
 

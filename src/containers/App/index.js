@@ -6,6 +6,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import Map from 'containers/MapContainer';
+import ContactForm from 'pages/ContactForm';
 import ThingTypes from 'pages/ThingTypes';
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
@@ -24,6 +25,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="content container">
           <Switch>
             <Route exact path="/" component={Map} />
+            <Route path="/contact-owner" component={ContactForm} />
             <Route path="/types" component={ThingTypes} />
             <Route path="" component={NotFoundPage} />
           </Switch>
