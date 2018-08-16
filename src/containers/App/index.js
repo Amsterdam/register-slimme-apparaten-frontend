@@ -8,9 +8,7 @@ import injectReducer from 'utils/injectReducer';
 import Map from 'containers/MapContainer';
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
-import MainMenu from 'components/MainMenu';
 import HeaderContainer from 'containers/HeaderContainer';
-import GlobalError from 'containers/GlobalError';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -19,12 +17,8 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
   render() {
     return (
       <div className="container app-container">
-        <GlobalError />
-        <div className="container">
+        <div>
           <HeaderContainer />
-        </div>
-        <div className="container-fluid">
-          <MainMenu />
         </div>
         <div className="content container">
           <Switch>
