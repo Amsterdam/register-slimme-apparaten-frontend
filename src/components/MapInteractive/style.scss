@@ -1,10 +1,16 @@
 .map-component {
-  margin-top: 5px;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
 
   #mapdiv {
-    position: relative;
+    position: absolute;
     width: 100%;
-    height: 450px;
+    height: 100vh;
+    top: 0;
+    left: 0;
   }
 
   .embed-search {

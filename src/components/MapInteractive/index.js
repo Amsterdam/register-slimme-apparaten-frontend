@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
 import amaps from '../../static/pointquery.iife';
@@ -15,7 +16,7 @@ class Map extends React.Component {
     this.map = null;
   }
 
-  componentWillReceiveProps(props) {
+  componentDidMount() {
     if (!this.map) {
       const options = {
         layer: 'standaard',
@@ -26,20 +27,20 @@ class Map extends React.Component {
         onQueryResult: this.props.onQueryResult
       };
 
-      if (props.location.geometrie) {
+      if (this.props.location.geometrie) {
         options.marker = true;
         options.center = {
-          longitude: props.location.geometrie.coordinates[1],
-          latitude: props.location.geometrie.coordinates[0]
+          longitude: this.props.location.geometrie.coordinates[1],
+          latitude: this.props.location.geometrie.coordinates[0]
         };
       }
 
       this.map = amaps.createMap(options);
     }
-    if (!isEqual(props.location, this.props.location)) {
+    if (!isEqual(this.props.location, this.props.location)) {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
-      if (input && props.location.address) {
-        const address = props.location.address;
+      if (input && this.props.location.address) {
+        const address = this.props.location.address;
         const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
         const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
         input.setAttribute('value', display);
