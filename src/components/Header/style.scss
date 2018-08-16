@@ -2,30 +2,14 @@
 @import '~stijl/dist/scss/ams-breakpoints';
 
 .header-component {
-  .mainlogo {
+  height: 50px;
+  padding-left: 86px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 0 0 #999999;
+
+  .header-title {
+    color: $ams-zwart;
     text-decoration: none;
-
-    .logoset .screen-logo {
-      width: 20px;
-    }
-  }
-
-  .links {
-    margin-top: 1.125rem;
-
-    // TODO: remove this li {} block and uncomment the one below it once npm package stijl v2.9.2 available
-
-    li {
-      text-align: right;
-    }
-      /*
-      li {
-        text-align: left;
-
-        @include media-breakpoint-up(sm) {
-          text-align: right;
-        }
-      }
-      */
   }
 }
