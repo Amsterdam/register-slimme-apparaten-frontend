@@ -7,38 +7,17 @@ function Footer() {
     <div className="footer-wrapper no-print">
       <div className="row bg-darkgrey footer">
         <footer className="container footer-component">
-          <div className="row">
-            <div className="col-12">
-              <h3 className="c-footer__heading">Contact</h3>
-              <p className="u-mb--1">
-                Heeft u een vraag over de informatie die u aantreft op Mijn Amsterdam?<br />
-                Neem dan contact op met de gemeente.
-              </p>
-
-              <p className="u-mb--1">
-                Gemeentelijk informatienummer: <a href="tel:14020" className="c-link c-link--inherit">14 020</a><br />
-                op werkdagen van 08:00 tot 18:00 uur.
-              </p>
-            </div>
-          </div>
+          <h3 className="c-footer__heading">Disclaimer</h3>
+          <span className="u-mb--1">
+            Register IoT is gemaakt door De Gemeente Amsterdam, OIS.
+          </span>
+          <p className="u-mb--1">
+            De inhoud van Register IoT is met uiterste zorgvuldigheid tot stand gebracht. De inhoud wordt regelmatig gecontroleerd en geactualiseerd.
+          </p>
+          <p className="u-mb--1">
+            De Gemeente Amsterdam, OIS kan echter niet aansprakelijk worden gesteld voor de juistheid, volledigheid en actualiteit van de website. De Gemeente Amsterdam, OIS kan in het bijzonder niet aansprakelijk worden gesteld voor eventuele schade of consequenties ontstaan door direct of indirect gebruik van de inhoud van de website.
+          </p>
         </footer>
-      </div>
-      <div className="container grid-below-footer">
-        <div className="row">
-          <div className="col-12">
-            <nav>
-              <ul className="links horizontal left">
-                <li>
-                  <a href="https://www.amsterdam.nl/privacy/">
-                    <span className="linklabel">
-                      Privacy
-                    </span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
       </div>
     </div>
   );
