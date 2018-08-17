@@ -8,6 +8,7 @@ import injectReducer from 'utils/injectReducer';
 import MapContainer from 'containers/MapContainer';
 import ContactForm from 'pages/ContactForm';
 import ThingTypes from 'pages/ThingTypes';
+import About from 'pages/About';
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import HeaderContainer from 'containers/HeaderContainer';
@@ -27,6 +28,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
             <Route exact path="/" component={MapContainer} />
             <Route path="/contact-owner" component={ContactForm} />
             <Route path="/types" component={ThingTypes} />
+            <Route path="/about" component={About} />
             <Route path="" component={NotFoundPage} />
           </Switch>
         </div>
