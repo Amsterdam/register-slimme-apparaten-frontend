@@ -6,7 +6,7 @@ function Footer() {
   return (
     <div className="footer-wrapper no-print">
       <div className="row bg-darkgrey footer">
-        <footer className="container footer-component">
+        <footer className="footer-component">
           <h3 className="c-footer__heading">Disclaimer</h3>
           <span className="u-mb--1">
             Register IoT is gemaakt door De Gemeente Amsterdam, OIS.
