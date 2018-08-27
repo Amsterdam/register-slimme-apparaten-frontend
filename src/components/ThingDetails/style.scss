@@ -38,7 +38,7 @@ $thing-details-bottom: 10px;
   }
   
   &__table {
-    thead {
+    .thing-details__header-row {
       background-color: $secondary-gray60;
       box-shadow: none;
     }
@@ -46,6 +46,7 @@ $thing-details-bottom: 10px;
 
   &__row {
     padding: 8px;
+    position: relative;
     display: flex;
     flex-direction: column;
     font-weight: normal;
@@ -65,7 +66,7 @@ $thing-details-bottom: 10px;
       box-shadow: none;
     }
 
-    thead & {
+    .thing-details__header-row & {
       color: $primary-light;
       background-color: inherit;
     }
@@ -84,9 +85,33 @@ $thing-details-bottom: 10px;
       box-shadow: none;
     }
 
-    thead & {
+    .thing-details__header-row & {
       color: $primary-light;
       background-color: inherit;
+    }
+  }
+
+  &__question-mark-button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    position: absolute;
+    top: 24px;
+    right: 5px;
+    border: solid 1px $secondary-gray20;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      background-color: #ec0000;
+      border-color: #ec0000;
+
+      svg path {
+        fill: white;
+      }
     }
   }
 

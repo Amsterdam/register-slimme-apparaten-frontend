@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 import { getMarkerType } from '../../services/iotmap';
 
 import CloseIcon from '../../images/icon-cross-big.svg';
+import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
 
 import './style.scss';
@@ -27,6 +28,14 @@ class ThingDetails extends React.Component {
       )}
     />);
 
+    const TypesButton = (<Route
+      render={({ history }) => (
+        <button className="thing-details__question-mark-button" onClick={() => { history.push('/types'); }}>
+          <QuestionMarkIcon></QuestionMarkIcon>
+        </button>
+      )}
+    />);
+
     return (
       <section id="thing-details" className="thing-details">
         <div className="thing-details__heading">
@@ -39,36 +48,33 @@ class ThingDetails extends React.Component {
           </button>
         </div>
         <div className="thing-details__body">
-          <table className="thing-details__table">
-            <thead>
-              <tr className="thing-details__row">
-                <th className="thing-details__row-label">Apparaat</th>
-                <th className="thing-details__row-element">{this.props.thing.name}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="thing-details__row">
-                <td className="thing-details__row-label">Type</td>
-                <td className="thing-details__row-element">{getMarkerType(this.props.thing).name}</td>
-              </tr>
-              <tr className="thing-details__row">
-                <td className="thing-details__row-label">Beschrijving</td>
-                <td className="thing-details__row-element">{this.props.thing.description}</td>
-              </tr>
-              <tr className="thing-details__row">
-                <td className="thing-details__row-label">Doel</td>
-                <td className="thing-details__row-element">{this.props.thing.purpose}</td>
-              </tr>
-              <tr className="thing-details__row">
-                <td className="thing-details__row-label">Referentie</td>
-                <td className="thing-details__row-element">{this.props.thing.ref}</td>
-              </tr>
-              <tr className="thing-details__row">
-                <td className="thing-details__row-label">Plaats</td>
-                <td className="thing-details__row-element">{this.props.location.name}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="thing-details__table">
+            <div className="thing-details__header-row thing-details__row">
+              <div className="thing-details__row-label">Apparaat</div>
+              <div className="thing-details__row-element">{this.props.thing.name}</div>
+            </div>
+            <div className="thing-details__row">
+              <div className="thing-details__row-label">Type</div>
+              <div className="thing-details__row-element">{getMarkerType(this.props.thing).name}</div>
+              { TypesButton }
+            </div>
+            <div className="thing-details__row">
+              <div className="thing-details__row-label">Beschrijving</div>
+              <div className="thing-details__row-element">{this.props.thing.description}</div>
+            </div>
+            <div className="thing-details__row">
+              <div className="thing-details__row-label">Doel</div>
+              <div className="thing-details__row-element">{this.props.thing.purpose}</div>
+            </div>
+            <div className="thing-details__row">
+              <div className="thing-details__row-label">Referentie</div>
+              <div className="thing-details__row-element">{this.props.thing.ref}</div>
+            </div>
+            <div className="thing-details__row">
+              <div className="thing-details__row-label">Plaats</div>
+              <div className="thing-details__row-element">{this.props.location.name}</div>
+            </div>
+          </div>
           {ContactButton}
         </div>
       </section>
