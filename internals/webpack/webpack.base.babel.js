@@ -46,12 +46,23 @@ module.exports = (options) => ({
         }
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
           name: 'images/[name].[hash:7].[ext]'
         }
+      },
+      {
+        test: /\.(png|svg|cur)$/,
+        exclude: /src/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'assets/'
+          }
+        }]
       },
       {
         test: /\.html$/,

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
+import { getMarkerType } from '../../services/iotmap';
+
 import CloseIcon from '../../images/icon-cross-big.svg';
 import MailIcon from '../../images/icon-mail.svg';
 
@@ -47,7 +49,7 @@ class ThingDetails extends React.Component {
             <tbody>
               <tr className="thing-details__row">
                 <td className="thing-details__row-label">Type</td>
-                <td className="thing-details__row-element">{this.props.thing.device_type}</td>
+                <td className="thing-details__row-element">{getMarkerType(this.props.thing).name}</td>
               </tr>
               <tr className="thing-details__row">
                 <td className="thing-details__row-label">Beschrijving</td>

@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
+import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
+import { onMap, showLocations, getMarkerTypes, toggleMarkers } from '../../services/iotmap';
 import amaps from '../../static/pointquery.iife';
+
+import MapLegend from '../MapLegend';
+import ThingDetails from '../ThingDetails';
 
 import './style.scss';
 
@@ -13,7 +18,10 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
 
+    initIoT();
     this.map = null;
+    this.state = { isLegendVisible: true };
+    this.closeThing = this.closeThing.bind(this);
   }
 
   componentDidMount() {
@@ -35,7 +43,10 @@ class Map extends React.Component {
         };
       }
 
-      this.map = amaps.createMap(options);
+      amaps.createMap(options).then((result) => {
+        this.map = result;
+        onMap(this.map, 'about-iot', 'topright');
+      });
     }
     if (!isEqual(this.props.location, this.props.location)) {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
@@ -46,13 +57,51 @@ class Map extends React.Component {
         input.setAttribute('value', display);
       }
     }
+
+    this.addMarkers();
+  }
+
+  async addMarkers() {
+    this.markers = await getMarkers();
+    showLocations(this.map, this.markers, this.showThing.bind(this));
+  }
+
+  async showThing(marker) {
+    if (marker) {
+      const thing = await getThing(marker.id);
+      const location = await getLocation(marker.location_id);
+      this.setState({ thing, location });
+    } else {
+      this.thing = null;
+      this.location = null;
+    }
+  }
+
+  closeThing() {
+    this.setState({ thing: null, location: null });
   }
 
   render() {
+    const AboutButton = (<Route
+      render={({ history }) => (
+        <button className="about-button" onClick={() => { history.push('/about'); }}>Over iot-register</button>
+      )}
+    />);
+
+    const markerTypes = Object.keys(getMarkerTypes()).map((key) =>
+      getMarkerTypes()[key]
+    );
+
     return (
       <div className="map-component">
         <div className="map">
-          <div id="mapdiv" />
+          <div id="mapdiv">
+            <div id="about-iot">
+              { AboutButton }
+            </div>
+            <MapLegend markers={markerTypes} onMarkerToggle={toggleMarkers}></MapLegend>
+            <ThingDetails thing={this.state.thing} location={this.state.location} onThingDetailsClose={this.closeThing}></ThingDetails>
+          </div>
         </div>
       </div>
     );

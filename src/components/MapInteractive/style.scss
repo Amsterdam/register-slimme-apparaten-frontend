@@ -17,7 +17,7 @@
     // pull the search input outside of the map
     // top: -50px;
     // left: 0;
-    max-width: 100%;
+    max-width: 328px;
     // width: 100%;
 
     input[type="text"] {
@@ -45,4 +45,20 @@
     position: absolute;
     z-index: 1001;
   }
+}
+
+.about-button {
+  padding: 8px;
+  box-shadow: 2px 2px 0 0 #999999;
+  background-color: #f6f6f6;
+  border: solid 1px #cccccc;
+
+  font-family: Avenir-Roman;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #000000;
 }
