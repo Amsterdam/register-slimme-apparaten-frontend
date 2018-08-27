@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
 import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
