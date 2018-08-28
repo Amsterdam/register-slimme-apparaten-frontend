@@ -1,7 +1,7 @@
 {
-  "name": "iot-register-amsterdam",
+  "name": "register-slimme-apparaten",
   "version": "0.0.2",
-  "description": "Gemeente Amsterdam starter project based on react-boilerplate ",
+  "description": "Register met slimme apparaten in Amsterdam",
   "repository": {
     "type": "git",
     "url": "https://github.com/Amsterdam/react-boilerplate-amsterdam.git"

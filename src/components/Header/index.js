@@ -8,7 +8,7 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div className="header-component no-print">
         <NavLink className="header-title" to="/">
-          <strong>iot</strong> register
+          Register slimme apparaten
         </NavLink>
       </div>
     );
