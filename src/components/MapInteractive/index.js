@@ -84,7 +84,7 @@ class Map extends React.Component {
   render() {
     const AboutButton = (<Route
       render={({ history }) => (
-        <button className="about-button" onClick={() => { history.push('/about'); }}>Over iot-register</button>
+        <button className="about-button" onClick={() => { history.push('/about'); }}>Over dit register</button>
       )}
     />);
 
