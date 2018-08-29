@@ -105,12 +105,14 @@ $thing-details-bottom: 10px;
       height: 24px;
     }
 
-    &:hover {
-      background-color: #ec0000;
-      border-color: #ec0000;
+    &:hover, &:focus {
+      background-color: #ccc;
+      border-color: #000 !important;
+      color: #000 !important;
+      outline: none;
 
       svg path {
-        fill: white;
+        fill: #000;
       }
     }
   }
@@ -127,6 +129,17 @@ $thing-details-bottom: 10px;
       fill: $secondary-gray60;
       height: inherit;
       width: inherit;
+
+      &:hover, &:focus {
+        fill: #000;
+      }
+    }
+
+    &:hover, &:focus {
+      background-color: #ccc;
+      border-color: #000 !important;
+      color: #000 !important;
+      fill: #000;
     }
   }
 

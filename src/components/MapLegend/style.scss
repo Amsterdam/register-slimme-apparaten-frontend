@@ -34,6 +34,13 @@ $secondary-gray4: #f6f6f6;
     border: none;
     border-bottom: solid 1px $secondary-gray20;
 
+    &:hover, &:focus {
+      background-color: $secondary-gray20;
+      border-color: #000 !important;
+      color: #000 !important;
+      fill: #000;
+    }
+
     .map-legend--collapsed & {
       border: solid 1px $secondary-gray20;
     }
