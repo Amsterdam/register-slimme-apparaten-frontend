@@ -205,7 +205,8 @@ export function showLocations(map, markers, onClick) {
   const hidePopup = (loc) => map.closePopup();
 
   markerGroup = L.markerClusterGroup({
-    disableClusteringAtZoom: 15,
+    disableClusteringAtZoom: 16,
+    showCoverageOnHover: false,
     spiderfyOnMaxZoom: false
   });
 
