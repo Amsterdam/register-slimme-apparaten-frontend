@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
 import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
-import { onMap, showLocations, getMarkerTypes, toggleMarkers } from '../../services/iotmap';
+import { showLocations, getMarkerTypes, toggleMarkers } from '../../services/iotmap';
 import amaps from '../../static/pointquery.iife';
 
 import MapLegend from '../MapLegend';
@@ -45,7 +45,6 @@ class Map extends React.Component {
 
       amaps.createMap(options).then((result) => {
         this.map = result;
-        onMap(this.map, 'about-iot', 'topright');
       });
     }
     if (!isEqual(this.props.location, this.props.location)) {

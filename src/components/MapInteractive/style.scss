@@ -49,9 +49,13 @@
 
 .about-button {
   padding: 8px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   box-shadow: 2px 2px 0 0 #999999;
   background-color: #f6f6f6;
   border: solid 1px #cccccc;
+  z-index: 500;
 
   font-family: Avenir-Roman;
   font-size: 16px;
