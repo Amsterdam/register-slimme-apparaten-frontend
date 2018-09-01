@@ -1,5 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
+
+import { getThing, getLocation } from '../../services/api/iot';
+import { getMarkerType } from '../../services/iotmap';
 
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
@@ -8,6 +12,21 @@ import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
 
 class ContactForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+
+    this.state = { thing: null, location: null };
+  }
+
+  componentDidMount() {
+    this.getDeviceInfo();
+  }
+
+  async getDeviceInfo() {
+    const thing = await getThing(this.props.match.params.thingId);
+    const location = await getLocation(this.props.match.params.locationId);
+    this.setState({ thing, location });
+  }
 
   contactForm = FormBuilder.group({
     name: [''],
@@ -30,22 +49,22 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     return (
       <div className="contact-form">
         <h1>Contact met eigenaar</h1>
-        <table className="table table-borderless">
+        { this.state.thing && <table className="table table-borderless">
           <tbody>
             <tr>
               <td><strong>Naam</strong></td>
-              <td>TV camera</td>
+              <td>{ this.state.thing.name }</td>
             </tr>
             <tr>
               <td><strong>Type</strong></td>
-              <td>Camera</td>
+              <td>{getMarkerType(this.state.thing).name}</td>
             </tr>
             <tr>
               <td><strong>Plaats</strong></td>
-              <td>Dam</td>
+              <td>{this.state.location.name}</td>
             </tr>
           </tbody>
-        </table>
+        </table> }
 
         <FieldGroup
           control={this.contactForm}
@@ -79,6 +98,12 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
 }
 
 ContactForm.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      thingId: PropTypes.string.isRequired,
+      locationId: PropTypes.string.isRequired
+    })
+  }),
 };
 
 export default ContactForm;

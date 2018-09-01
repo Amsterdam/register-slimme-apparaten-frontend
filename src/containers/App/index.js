@@ -26,7 +26,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
         <div className="content container">
           <Switch>
             <Route exact path="/" component={MapContainer} />
-            <Route path="/contact-owner" component={ContactForm} />
+            <Route path="/contact-owner/:thingId/:locationId" component={ContactForm} />
             <Route path="/types" component={ThingTypes} />
             <Route path="/about" component={About} />
             <Route path="" component={NotFoundPage} />

@@ -22,7 +22,7 @@ class ThingDetails extends React.Component {
 
     const ContactButton = (<Route
       render={({ history }) => (
-        <button className="thing-details__contact-button action secundary-blue" onClick={() => { history.push('/contact-owner'); }}>
+        <button className="thing-details__contact-button action secundary-blue" onClick={() => { history.push(`/contact-owner/${this.props.thing.id}/${this.props.location.id}`); }}>
           <MailIcon />Contact met eigenaar
         </button>
       )}
