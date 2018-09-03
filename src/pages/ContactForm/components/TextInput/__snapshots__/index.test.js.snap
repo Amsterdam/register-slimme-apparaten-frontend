@@ -1,31 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TextInput /> should render correctly 1`] = `
-<div>
+<div
+  className="rij mode_input text rij_verplicht"
+>
   <div
-    className="mode_input text rij_verplicht"
+    className="label"
   >
-    <div
-      className="label"
+    <label
+      htmlFor="formname"
     >
-      <label
-        htmlFor="formname"
-      >
-        display
-      </label>
-    </div>
-    <div
-      className="invoer"
-    >
-      <input
-        className="input"
-        id="formname"
-        name=""
-        placeholder="placeholder"
-        type="text"
-        value=""
-      />
-    </div>
+      display
+    </label>
+  </div>
+  <div
+    className="invoer"
+  >
+    <input
+      className="input"
+      id="formname"
+      name=""
+      placeholder="placeholder"
+      type="text"
+      value=""
+    />
   </div>
 </div>
 `;
