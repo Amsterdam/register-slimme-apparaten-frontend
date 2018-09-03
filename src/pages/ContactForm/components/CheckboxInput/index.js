@@ -8,7 +8,7 @@ export const CheckboxInput = (props) => {
   const { name, display, value } = props;
   const render = ({ handler }) => (
     <div className="rij antwoord">
-      <input type="checkbox" name="" id={`form${name}`} value={value} className="kenmerkcheckbox" />
+      <input type="checkbox" name="" id={`form${name}`} value={value} {...handler()} className="kenmerkcheckbox" />
       <label htmlFor={`form${name}`}>{display}</label>
     </div>
   );
