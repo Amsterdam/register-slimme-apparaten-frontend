@@ -80,9 +80,10 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
                 <FieldControlWrapper render={TextAreaInput} name="question4" display="Andere vraag of opmerking (maximaal 250 tekens):" maxLength={MAX_INPUT_LENGTH} control={this.contactForm.get('questionOther')} />
 
                 <ul>
-                  <li>Uw vraag wordt door deze website doorgestuurd naar de eigenaar.</li>
-                  <li>Uw gegevens worden niet opgeslagen in dit register.</li>
-                  <li>De eigenaar van het apparaat ontvangt uw mailadres om contact met u op te nemen.</li>
+                  <li>De &quot;slimme apparaten&quot; in het register zijn van diverse organisaties.</li>
+                  <li>De gegevens van de eigenaar van het slimme apparaat worden niet getoond ivm privacy.</li>
+                  <li>De eigenaar bepaalt of hij reageert; hij is dat niet verplicht.</li>
+                  <li>De mail wordt niet gearchiveerd in het register. Ook uw gegevens worden niet geregistreerd in het register.</li>
                 </ul>
 
                 <button className="action secundary-blue" type="submit">
