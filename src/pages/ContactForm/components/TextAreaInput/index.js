@@ -5,7 +5,7 @@ import './style.scss';
 
 const TextAreaInput = (props) => {
   const { name, display, placeholder, rows } = props;
-  const render = ({ handler, invalid, getError, hasError }) => (
+  const render = ({ handler, value, invalid, getError, hasError }) => (
     <div className="text-area-input">
       <div className={`rij mode_input text rij_verplicht ${invalid ? 'row_ongeldig' : ''}`}>
         <div className="label">
@@ -16,6 +16,7 @@ const TextAreaInput = (props) => {
           {
             (hasError('maxLength') && `Maximaal ${getError('maxLength').requiredLength} tekens`)
           }
+          <span className="text-area-input__counter">{ props.maxLength && `${value.length}/${props.maxLength} tekens`}</span>
         </div>
 
         <div className="text-area-input__control invoer">
@@ -40,9 +41,11 @@ const TextAreaInput = (props) => {
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
+    value: PropTypes.string,
     invalid: PropTypes.bool,
     getError: PropTypes.func,
-    hasError: PropTypes.func
+    hasError: PropTypes.func,
+    maxLength: PropTypes.number
   };
   return render;
 };
