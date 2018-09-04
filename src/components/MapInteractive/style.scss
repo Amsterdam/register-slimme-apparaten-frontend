@@ -1,0 +1,94 @@
+.map-component {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
+  #mapdiv {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+  }
+
+  .embed-search {
+    // pull the search input outside of the map
+    // top: -50px;
+    // left: 0;
+    max-width: 328px;
+    // width: 100%;
+
+    input[type="text"] {
+      height: inherit;
+    }
+
+    button {
+      display: none;
+    }
+
+    &__auto-suggest {
+      width: 100%;
+    }
+
+    .invoer {
+      box-shadow: none;
+    }
+  }
+
+  &__loading {
+    background-color: rgba(0, 0, 0, .2);
+    display: block;
+    width: calc(100% - 30px); // padding left and right of grid
+    height: 100%;
+    position: absolute;
+    z-index: 1001;
+  }
+}
+
+.about-button {
+  padding: 8px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  box-shadow: 2px 2px 0 0 #999999;
+  background-color: #f6f6f6;
+  border: solid 1px #cccccc;
+  z-index: 500;
+
+  font-family: Avenir-Roman;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: #000000;
+
+  &:hover, &:focus {
+    background-color: #ccc;
+    border-color: #000 !important;
+    color: #000 !important;
+    fill: #000;
+  }
+}
+
+// Override cluster design from leaflet
+.marker-cluster {
+  color: white;
+  background-color: white !important;
+  box-shadow: 1px 1px 1px #666666;
+
+  div {
+    width: 32px !important;
+    height: 32px !important;
+    margin-top: 4px !important;
+    margin-left: 4px !important;
+    background-color: #004699 !important;
+  }
+
+  span {
+    line-height: 34px !important;
+  }
+}

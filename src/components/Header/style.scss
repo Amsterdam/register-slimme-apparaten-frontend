@@ -1,0 +1,15 @@
+@import '~stijl/dist/scss/ams-colorpalette';
+@import '~stijl/dist/scss/ams-breakpoints';
+
+.header-component {
+  height: 50px;
+  padding-left: 86px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 0 0 #999999;
+
+  .header-title {
+    color: $ams-zwart;
+    text-decoration: none;
+  }
+}

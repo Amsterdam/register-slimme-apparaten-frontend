@@ -1,0 +1,22 @@
+.table-borderless {
+    td {
+        padding-left: 0;
+        border: none;
+        box-shadow: none;
+    }
+    td + td {
+        padding-left: 50px;
+    }
+}
+
+label {
+    font-weight: 900;
+}
+
+.rij {
+    margin-top: 16px;
+
+    & .label {
+        margin-bottom: 8px;
+    }
+}

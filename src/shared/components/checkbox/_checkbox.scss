@@ -1,0 +1,59 @@
+$primary-light: #fff;
+$primary-dark: #000;
+
+.checkbox {
+  background-color: $primary-light;
+  border: 1px solid $primary-dark;
+  box-sizing: content-box;
+  cursor: pointer;
+  display: block;
+  height: 24px;
+  margin-right: 10px;
+  position: relative;
+  width: 24px;
+
+  // NB: Fix width for IE11
+  @media screen and (-ms-high-contrast: active), // sass-lint:disable-line no-vendor-prefixes
+  screen and (-ms-high-contrast: none) {  // sass-lint:disable-line no-vendor-prefixes
+    width: 32px;
+  }
+
+  input {
+    appearance: none;
+    height: inherit;
+    opacity: 0;
+    outline: none;
+    width: inherit;
+
+    &:checked + svg {
+      display: block;
+    }
+
+    &:focus,
+    &:hover {
+      &:not(:checked) + svg {
+        display: block;
+        fill: transparent;
+      }
+
+      & + svg {
+        border: 1px solid $primary-dark;
+      }
+    }
+  }
+
+  svg {
+    display: none;
+    fill: $primary-dark;
+    height: 24px;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 24px;
+  }
+
+  * {
+    cursor: pointer;
+  }
+}

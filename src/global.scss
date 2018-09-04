@@ -1,0 +1,83 @@
+@import "node_modules/stijl/dist/scss/_ams-breakpoints.scss";
+@import "node_modules/stijl/dist/scss/_ams-colorpalette.scss";
+@import "node_modules/stijl/dist/scss/_ams-extends.scss";
+@import "node_modules/stijl/dist/scss/_ams-font.scss";
+@import "node_modules/stijl/dist/scss/_ams-mixins.scss";
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'AvenirNextLTW01-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+ul li {
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  color: $ams-donkerantraciet;
+}
+
+ul {
+  padding-left: 18px;
+
+  & li {
+    margin-top: 15px;
+  }
+}
+
+dd {
+  margin: 0;
+}
+
+#app {
+  min-height: 100%;
+  min-width: 100%;
+  background-color: $ams-background-sidebars;
+
+  .content.container {
+    padding-bottom: 20px;
+    min-height: 60vh;
+    margin-top: 20px;
+    margin-left: 86px;
+  }
+
+  .app-container {
+    padding: 0;
+    background-color: $ams-wit;
+  }
+
+  .container {
+    width: auto;
+    padding-left: 0;
+  }
+}
+
+
+@media print {
+  html, body {height: 100%;}
+
+  @page {
+    size: A4;
+    margin-left: 1cm;
+    margin-right: 1cm;
+  }
+
+  // Reset the flex model to allow printig on more than one page
+  .row {
+    display: block;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break {
+    page-break-after: always;
+  }
+
+}
+

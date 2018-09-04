@@ -1,0 +1,15 @@
+{
+  "name": "react-boilerplate-amsterdam",
+  "theme_color": "#b1624d",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}
