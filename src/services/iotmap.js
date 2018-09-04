@@ -22,7 +22,7 @@ const markerOptions = {
   popupAnchor: [-3, -76]
 };
 
-const markerTypes = {
+const markerCategories = {
   'Camera': { // eslint-disable-line quote-props
     id: 'Camera',
     iconUrl: `${ICON_PATH}icon-camera@3x.png`,
@@ -59,12 +59,12 @@ let clicker;
 
 let markerGroup;
 
-export function getMarkerType(thing) {
-  return markerTypes[Object.keys(markerTypes).find((mt) => mt === thing.device_type)];
+export function getMarkerCategory(thing) {
+  return markerCategories[Object.keys(markerCategories).find((mt) => mt === thing.device_type)];
 }
 
 function getMarkerIcon(marker) {
-  const iconUrl = markerTypes[marker.device_type].iconUrl;
+  const iconUrl = markerCategories[marker.device_type].iconUrl;
   return L.icon({
     ...markerOptions,
     iconUrl
@@ -77,17 +77,17 @@ export function cancelHighlight(map) {
   }
 }
 
-export function getMarkerTypes() {
-  return markerTypes;
+export function getMarkerCategories() {
+  return markerCategories;
 }
 
-export function toggleMarkers(markerType) {
-  markerTypes[markerType].enabled = !markerTypes[markerType].enabled;
-  if (markerTypes[markerType].layer) {
-    if (markerTypes[markerType].enabled) {
-      markerGroup.addLayer(markerTypes[markerType].layer);
+export function toggleMarkers(markerCategory) {
+  markerCategories[markerCategory].enabled = !markerCategories[markerCategory].enabled;
+  if (markerCategories[markerCategory].layer) {
+    if (markerCategories[markerCategory].enabled) {
+      markerGroup.addLayer(markerCategories[markerCategory].layer);
     } else {
-      markerGroup.removeLayer(markerTypes[markerType].layer);
+      markerGroup.removeLayer(markerCategories[markerCategory].layer);
     }
   }
 }
@@ -195,9 +195,9 @@ export function showLocations(map, markers, onClick) {
 
   const showPopup = async (marker) => {
     const [lat, lon] = marker.wgs84_geometry.coordinates;
-    const markerType = getMarkerType(marker);
+    const markerCategory = getMarkerCategory(marker);
     L.popup({ offset: new L.Point(0, -20), autoPan: false })
-      .setContent(`<div class="font-weight-bold">${markerType.name}</div>${marker.name}`)
+      .setContent(`<div class="font-weight-bold">${markerCategory.name}</div>${marker.name}`)
       .setLatLng([lat, lon])
       .openOn(map);
   };
@@ -210,18 +210,18 @@ export function showLocations(map, markers, onClick) {
     spiderfyOnMaxZoom: false
   });
 
-  Object.keys(markerTypes).forEach((markerType) => {
+  Object.keys(markerCategories).forEach((markerCategory) => {
     const layer = L.featureGroup();
     markers
-      .filter((marker) => marker.device_type === markerType)
+      .filter((marker) => marker.device_type === markerCategory)
       .forEach((marker) =>
         L.marker(marker.wgs84_geometry.coordinates, { icon: getMarkerIcon(marker) })
           .addTo(layer)
           .on('click', () => showInfo(marker))
           .on('mouseover', () => showPopup(marker))
           .on('mouseout', () => hidePopup(marker)));
-    markerTypes[markerType].layer = layer;
-    markerTypes[markerType].enabled = true;
+    markerCategories[markerCategory].layer = layer;
+    markerCategories[markerCategory].enabled = true;
     markerGroup.addLayer(layer);
   });
 

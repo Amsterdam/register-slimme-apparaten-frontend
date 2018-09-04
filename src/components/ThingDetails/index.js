@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
-import { getMarkerType } from '../../services/iotmap';
+import { getMarkerCategory } from '../../services/iotmap';
 
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
@@ -54,8 +54,8 @@ class ThingDetails extends React.Component {
               <div className="thing-details__row-element">{this.props.thing.name}</div>
             </div>
             <div className="thing-details__row">
-              <div className="thing-details__row-label">Type</div>
-              <div className="thing-details__row-element">{getMarkerType(this.props.thing).name}</div>
+              <div className="thing-details__row-label">Categorie</div>
+              <div className="thing-details__row-element">{getMarkerCategory(this.props.thing).name}</div>
               { TypesButton }
             </div>
             <div className="thing-details__row">

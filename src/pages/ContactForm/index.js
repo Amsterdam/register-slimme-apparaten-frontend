@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
 import { getThing, getLocation } from '../../services/api/iot';
-import { getMarkerType } from '../../services/iotmap';
+import { getMarkerCategory } from '../../services/iotmap';
 
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
@@ -57,7 +57,7 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
             </tr>
             <tr>
               <td><strong>Type</strong></td>
-              <td>{getMarkerType(this.state.thing).name}</td>
+              <td>{getMarkerCategory(this.state.thing).name}</td>
             </tr>
             <tr>
               <td><strong>Plaats</strong></td>
