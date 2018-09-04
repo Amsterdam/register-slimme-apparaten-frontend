@@ -34,7 +34,6 @@ const TextAreaInput = (props) => {
   );
 
   render.defaultProps = {
-    touched: false,
     placeholder: '',
     rows: 4
   };

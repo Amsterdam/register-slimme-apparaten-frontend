@@ -42,7 +42,7 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.contactForm);
+    this.contactForm.markAsSubmitted();
   }
 
   render() {

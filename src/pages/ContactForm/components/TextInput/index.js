@@ -5,14 +5,14 @@ import './style.scss';
 
 export const TextInput = (props) => {
   const { name, display, placeholder } = props;
-  const render = ({ handler, touched, invalid, getError, hasError }) => (
-    <div className={`rij mode_input text rij_verplicht ${touched && invalid ? 'row_ongeldig' : ''}`}>
+  const render = ({ handler, touched, submitted, invalid, getError, hasError }) => (
+    <div className={`rij mode_input text rij_verplicht ${(touched || submitted) && invalid ? 'row_ongeldig' : ''}`}>
       <div className="label">
         <label htmlFor={`form${name}`}>{display}</label>
       </div>
 
       <div className="input-help">
-        {touched &&
+        { (touched || submitted) &&
           ((hasError('required') && 'Verplicht') ||
           (hasError('minLength') && `Minimaal ${getError('minLength').requiredLength} tekens`) ||
           (hasError('email') && 'Ongeldig e-mailadres'))
@@ -33,6 +33,7 @@ export const TextInput = (props) => {
   render.propTypes = {
     handler: PropTypes.func.isRequired,
     touched: PropTypes.bool,
+    submitted: PropTypes.bool,
     invalid: PropTypes.bool,
     getError: PropTypes.func,
     hasError: PropTypes.func
