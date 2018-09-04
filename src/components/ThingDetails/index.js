@@ -59,16 +59,8 @@ class ThingDetails extends React.Component {
               { TypesButton }
             </div>
             <div className="thing-details__row">
-              <div className="thing-details__row-label">Beschrijving</div>
-              <div className="thing-details__row-element">{this.props.thing.description}</div>
-            </div>
-            <div className="thing-details__row">
-              <div className="thing-details__row-label">Doel</div>
-              <div className="thing-details__row-element">{this.props.thing.purpose}</div>
-            </div>
-            <div className="thing-details__row">
-              <div className="thing-details__row-label">Referentie</div>
-              <div className="thing-details__row-element">{this.props.thing.ref}</div>
+              <div className="thing-details__row-label">Type</div>
+              <div className="thing-details__row-element">{this.props.thing.subtype || 'Onbekend'}</div>
             </div>
             <div className="thing-details__row">
               <div className="thing-details__row-label">Plaats</div>
