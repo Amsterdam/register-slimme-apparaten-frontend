@@ -22,7 +22,7 @@ node {
     }
 
     stage("Unit and Integration") {
-      String  PROJECT = "sia-unittests"
+      String  PROJECT = "iot-unittests"
 
       tryStep "unittests start", {
         sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
