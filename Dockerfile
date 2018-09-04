@@ -52,8 +52,6 @@ RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
 # Deploy
 FROM nginx:stable-alpine
 ARG BUILD_ENV=prod
-# COPY .nginx-${BUILD_ENV}.conf /etc/nginx/nginx.conf
-# COPY default.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
