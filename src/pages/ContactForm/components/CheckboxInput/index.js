@@ -5,21 +5,21 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 export const CheckboxInput = (props) => {
-  const { name, display, value } = props;
-  const render = ({ handler }) => (
+  const { name, display } = props;
+  const render = ({ handler, value }) => (
     <div className="rij antwoord">
-      <input type="checkbox" name="" id={`form${name}`} value={value} {...handler()} className="kenmerkcheckbox" />
+      <input type="checkbox" name="" id={`form${name}`} checked={value} {...handler()} className="kenmerkcheckbox" />
       <label htmlFor={`form${name}`}>{display}</label>
     </div>
   );
 
   render.defaultProps = {
-    touched: false,
-    value: false
+    touched: false
   };
 
   render.propTypes = {
     handler: PropTypes.func.isRequired,
+    value: PropTypes.bool
   };
   return render;
 };
