@@ -5,7 +5,7 @@ import { isEqual } from 'lodash';
 
 import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
 import { showLocations, getMarkerCategories, toggleMarkers } from '../../services/iotmap';
-import amaps from '../../static/pointquery.iife';
+import amaps from '../../static/amaps.iife';
 
 import MapLegend from '../MapLegend';
 import ThingDetails from '../ThingDetails';
@@ -43,9 +43,7 @@ class Map extends React.Component {
         };
       }
 
-      amaps.createMap(options).then((result) => {
-        this.map = result;
-      });
+      this.map = amaps.createMap(options);
     }
     if (!isEqual(this.props.location, this.props.location)) {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
