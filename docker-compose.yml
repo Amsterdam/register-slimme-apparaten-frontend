@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  signals-web: # NGINX
+  iot-frontend: # NGINX
     build:
       args:
         - BUILD_ENV=acc

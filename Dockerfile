@@ -17,6 +17,7 @@ RUN rm -rf /var/lib/apt/lists/*
 # COPY . /app/
 
 COPY src /app/src
+COPY public /app/public
 COPY internals /app/internals
 COPY server /app/server
 # COPY test /app/test
@@ -40,20 +41,15 @@ RUN npm --production=false \
 RUN npm cache clean --force
 
 # Build
-ENV NODE_ENV=production
 RUN echo "run build"
 # RUN npm rebuild node-sass
-RUN npm run build:${BUILD_ENV}
-RUN echo "build ${BUILD_NUMBER} - `date`" > /app/build/version.txt
+RUN npm run build
 
 # Test
 
 
 # Deploy
 FROM nginx:stable-alpine
-ARG BUILD_ENV=prod
-# COPY .nginx-${BUILD_ENV}.conf /etc/nginx/nginx.conf
-# COPY default.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
