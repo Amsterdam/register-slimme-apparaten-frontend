@@ -1,22 +1,38 @@
-.table-borderless {
+.contact-form {
+  &__thing-details {
+    width: 50%;
+    background-color: #eee;
+  }
+
+  .table-borderless {
     td {
-        padding-left: 0;
-        border: none;
-        box-shadow: none;
+      // padding-left: 0;
+      border: none;
+      box-shadow: none;
     }
     td + td {
-        padding-left: 50px;
+      padding-left: 50px;
     }
-}
-
-label {
+  }
+  
+  label {
     font-weight: 900;
-}
-
-.rij {
+  }
+  
+  .rij {
     margin-top: 16px;
 
     & .label {
-        margin-bottom: 8px;
+      margin-bottom: 8px;
     }
+  }
+
+  tr {
+    padding: 5px;
+
+    &:hover {
+      background-color: #eee;
+    }
+  }
 }
+

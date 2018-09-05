@@ -49,14 +49,14 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     return (
       <div className="contact-form">
         <h1>Contact met eigenaar</h1>
-        { this.state.thing && <table className="table table-borderless">
+        { this.state.thing && <table className="contact-form__thing-details table table-borderless">
           <tbody>
             <tr>
               <td><strong>Naam</strong></td>
               <td>{ this.state.thing.name }</td>
             </tr>
             <tr>
-              <td><strong>Type</strong></td>
+              <td><strong>Categorie</strong></td>
               <td>{getMarkerCategory(this.state.thing).name}</td>
             </tr>
             <tr>
