@@ -16,7 +16,7 @@ const TextAreaInput = (props) => {
           {
             (hasError('maxLength') && `Maximaal ${getError('maxLength').requiredLength} tekens`)
           }
-          <span className="text-area-input__counter">{ props.maxLength && `${value.length}/${props.maxLength} tekens`}</span>
+          <span className="text-area-input__counter">{ props.maxLength && `${value ? value.length : '0'}/${props.maxLength} tekens`}</span>
         </div>
 
         <div className="text-area-input__control invoer">
