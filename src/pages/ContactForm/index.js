@@ -37,12 +37,28 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     questionInfo: [false],
     questionUse: [false],
     questionPersonalData: [false],
-    questionOther: ['', Validators.maxLength(MAX_INPUT_LENGTH)],
+    questionOther: ['', Validators.maxLength(MAX_INPUT_LENGTH)]
   });
 
   handleSubmit = (event) => {
     event.preventDefault();
     this.contactForm.markAsSubmitted();
+    if (this.contactForm.valid) {
+      window.alert('Uw verzoek is verstuurd naar de eigenaar');
+      this.resetForm();
+    }
+  }
+
+  resetForm = () => {
+    this.contactForm.reset({
+      name: '',
+      emailAddress: '',
+      questionAccess: false,
+      questionInfo: false,
+      questionUse: false,
+      questionPersonalData: false,
+      questionOther: ''
+    });
   }
 
   render() {
@@ -74,10 +90,10 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
                 <FieldControlWrapper render={TextInput} name="name" display="Uw naam" control={this.contactForm.get('name')} />
                 <FieldControlWrapper render={TextInput} name="emailAddress" display="Uw e-mailadres" control={this.contactForm.get('emailAddress')} />
                 <FieldControlWrapper render={CheckboxInput} name="wantsAccess" display="Ik wil toegang tot de data uit dit apparaat" control={this.contactForm.get('questionAccess')} />
-                <FieldControlWrapper render={CheckboxInput} name="question1" display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor ed) verzamelt?" control={this.contactForm.get('questionInfo')} />
-                <FieldControlWrapper render={CheckboxInput} name="question2" display="Mag ik de verzamelde data evt gebruiken?" control={this.contactForm.get('questionUse')} />
-                <FieldControlWrapper render={CheckboxInput} name="question3" display="Registreert uw slimme apparaat ook gegevens over personen?" control={this.contactForm.get('questionPersonalData')} />
-                <FieldControlWrapper render={TextAreaInput} name="question4" display="Andere vraag of opmerking (maximaal 250 tekens):" maxLength={MAX_INPUT_LENGTH} control={this.contactForm.get('questionOther')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionInfo" display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor ed) verzamelt?" control={this.contactForm.get('questionInfo')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionUse" display="Mag ik de verzamelde data evt gebruiken?" control={this.contactForm.get('questionUse')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionPersonalData" display="Registreert uw slimme apparaat ook gegevens over personen?" control={this.contactForm.get('questionPersonalData')} />
+                <FieldControlWrapper render={TextAreaInput} name="questionOther" display="Andere vraag of opmerking (maximaal 250 tekens):" maxLength={MAX_INPUT_LENGTH} control={this.contactForm.get('questionOther')} />
 
                 <ul>
                   <li>De &quot;slimme apparaten&quot; in het register zijn van diverse organisaties.</li>
