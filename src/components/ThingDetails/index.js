@@ -30,7 +30,7 @@ class ThingDetails extends React.Component {
 
     const TypesButton = (<Route
       render={({ history }) => (
-        <button className="thing-details__question-mark-button" onClick={() => { history.push('/types'); }}>
+        <button className="thing-details__question-mark-button" onClick={() => { history.push('/categories'); }}>
           <QuestionMarkIcon></QuestionMarkIcon>
         </button>
       )}

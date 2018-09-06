@@ -9,9 +9,10 @@ import { mapHome, mapGo } from './map';
 // Import marker icons so Webpack adds them as separate files instead of inlining them
 import Camera from '../../public/images/icon-camera@3x.png';
 import Beacon from '../../public/images/icon-beacon@3x.png';
-import Sensor from '../../public/images/icon-3d-sensor@3x.png';
-import Wifi from '../../public/images/icon-wifi@3x.png';
-import Tel from '../../public/images/icon-tel@3x.png';
+import Sensor from '../../public/images/icon-sensor@3x.png';
+import Laadpaal from '../../public/images/icon-laadpaal@3x.png';
+import Verkeer from '../../public/images/icon-verkeer@3x.png';
+import Lantaarnpaal from '../../public/images/icon-lantaarn@3x.png';
 /* eslint-enable no-unused-vars */
 
 const ICON_PATH = 'assets/';
@@ -27,31 +28,58 @@ const markerCategories = {
     id: 'Camera',
     iconUrl: `${ICON_PATH}icon-camera@3x.png`,
     name: 'Camera',
-    enabled: true
+    enabled: true,
+    description: `Uitleg over camera's.`,
+    subtypes: [
+      'Telcamera',
+      'Kentekenherkenning',
+      'Beeld' 
+    ]
+  },
+  'Sensor': { // eslint-disable-line quote-props
+    id: 'Sensor',
+    iconUrl: `${ICON_PATH}icon-sensor@3x.png`,
+    name: 'Sensor',
+    enabled: true,
+    description: 'Uitleg over sensoren.',
+    subtypes: [
+      'Luchtkwaliteit',
+      'Vervoerstromen (aantal vervoermiddelen)',
+      'Geluid',
+      'Connectiviteitmeting (Wifi Tracking)'
+    ]
   },
   'Beacon': { // eslint-disable-line quote-props
     id: 'Beacon',
     iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
     name: 'Baken',
-    enabled: true
+    enabled: true,
+    description: 'Uitleg over bakens.',
+    subtypes: []
   },
-  '3D sensor': {
-    id: '3D sensor',
-    iconUrl: `${ICON_PATH}icon-3d-sensor@3x.png`,
-    name: '3D Sensor',
-    enabled: true
+  'Slimme laadpaal': {
+    id: 'Slimme laadpaal',
+    iconUrl: `${ICON_PATH}icon-laadpaal@3x.png`,
+    name: 'Slimme laadpaal',
+    enabled: true,
+    description: 'Uitleg over slimme laadpalen.',
+    subtypes: []
   },
-  'WiFi sensor': {
-    id: 'WiFi sensor',
-    iconUrl: `${ICON_PATH}icon-wifi@3x.png`,
-    name: 'WiFi Sensor',
-    enabled: true
+  'Slimme verkeersinformatie': {
+    id: 'Slimme verkeersinformatie',
+    iconUrl: `${ICON_PATH}icon-verkeer@3x.png`,
+    name: 'Slimme verkeersinformatie',
+    enabled: true,
+    description: 'Uitleg over slimme verkeersinformatie.',
+    subtypes: ['Slimme verkeerslichten', 'DRIPS']
   },
-  'Telcamera': { // eslint-disable-line quote-props
-    id: 'Telcamera',
-    iconUrl: `${ICON_PATH}icon-tel@3x.png`,
-    name: 'Telcamera',
-    enabled: true
+  'Slimme lantaarnpaal': { // eslint-disable-line quote-props
+    id: 'Slimme lantaarnpaal',
+    iconUrl: `${ICON_PATH}icon-lantaarn@3x.png`,
+    name: 'Slimme lantaarnpaal',
+    enabled: true,
+    description: 'Uitleg over slimme lantaarnpalen.',
+    subtypes: []
   }
 };
 
