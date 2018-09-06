@@ -22,6 +22,7 @@ COPY internals /app/internals
 COPY server /app/server
 # COPY test /app/test
 COPY package.json \
+     package-lock.json \
      .gitignore \
      .gitattributes \
       /app/
