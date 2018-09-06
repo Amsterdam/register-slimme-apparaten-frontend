@@ -11,6 +11,8 @@ import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
 
+const MAX_INPUT_LENGTH = 250;
+
 class ContactForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -29,23 +31,37 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
   }
 
   contactForm = FormBuilder.group({
-    name: [''],
-    emailAddress: ['', Validators.required],
-    wantsAccess: [false],
-    questionTitle: [''],
-    questionBody: [''],
-    motivation: [''],
-    acceptTermsAndConditions: [false, Validators.required]
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    emailAddress: ['', [Validators.required, Validators.email]],
+    questionAccess: [false],
+    questionInfo: [false],
+    questionUse: [false],
+    questionPersonalData: [false],
+    questionOther: ['', Validators.maxLength(MAX_INPUT_LENGTH)]
   });
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.contactForm);
+    this.contactForm.markAsSubmitted();
+    if (this.contactForm.valid) {
+      window.alert('Uw verzoek is verstuurd naar de eigenaar');
+      this.resetForm();
+    }
   }
 
+  resetForm = () => {
+    this.contactForm.reset({
+      name: '',
+      emailAddress: '',
+      questionAccess: false,
+      questionInfo: false,
+      questionUse: false,
+      questionPersonalData: false,
+      questionOther: ''
+    });
+  }
 
   render() {
-    const termsAndConditionsLink = <span>Ik ga akkoord met de <a href="" target="_blank" rel="noopener noreferrer">algemene voorwaarden</a></span>;
     return (
       <div className="contact-form">
         <h1>Contact met eigenaar</h1>
@@ -68,24 +84,25 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
 
         <FieldGroup
           control={this.contactForm}
-          render={({ invalid }) => (
+          render={() => (
             <form onSubmit={this.handleSubmit}>
               <div>
                 <FieldControlWrapper render={TextInput} name="name" display="Uw naam" control={this.contactForm.get('name')} />
                 <FieldControlWrapper render={TextInput} name="emailAddress" display="Uw e-mailadres" control={this.contactForm.get('emailAddress')} />
-                <FieldControlWrapper render={CheckboxInput} name="wantsAccess" display="Ik wil toegang tot de data uit dit apparaat" control={this.contactForm.get('wantsAccess')} />
-                <FieldControlWrapper render={TextInput} name="questionTitle" display="Titel van uw vraag" control={this.contactForm.get('questionTitle')} />
-                <FieldControlWrapper render={TextAreaInput} name="questionBody" display="Uw vraag" control={this.contactForm.get('questionBody')} rows={3} />
-                <FieldControlWrapper render={TextInput} name="motivation" display="Motivatie" control={this.contactForm.get('motivation')} />
-                <FieldControlWrapper render={CheckboxInput} name="acceptTermAndConditions" display={termsAndConditionsLink} control={this.contactForm.get('acceptTermsAndConditions')} />
+                <FieldControlWrapper render={CheckboxInput} name="wantsAccess" display="Ik wil toegang tot de data uit dit apparaat" control={this.contactForm.get('questionAccess')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionInfo" display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor ed) verzamelt?" control={this.contactForm.get('questionInfo')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionUse" display="Mag ik de verzamelde data evt gebruiken?" control={this.contactForm.get('questionUse')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionPersonalData" display="Registreert uw slimme apparaat ook gegevens over personen?" control={this.contactForm.get('questionPersonalData')} />
+                <FieldControlWrapper render={TextAreaInput} name="questionOther" display="Andere vraag of opmerking (maximaal 250 tekens):" maxLength={MAX_INPUT_LENGTH} control={this.contactForm.get('questionOther')} />
 
                 <ul>
-                  <li>Uw vraag wordt door deze website doorgestuurd naar de eigenaar.</li>
-                  <li>Uw gegevens worden niet opgeslagen in dit register.</li>
-                  <li>De eigenaar van het apparaat ontvangt uw mailadres om contact met u op te nemen.</li>
+                  <li>De &quot;slimme apparaten&quot; in het register zijn van diverse organisaties.</li>
+                  <li>De gegevens van de eigenaar van het slimme apparaat worden niet getoond ivm privacy.</li>
+                  <li>De eigenaar bepaalt of hij reageert; hij is dat niet verplicht.</li>
+                  <li>De mail wordt niet gearchiveerd in het register. Ook uw gegevens worden niet geregistreerd in het register.</li>
                 </ul>
 
-                <button className="action secundary-blue" type="submit" disabled={invalid}>
+                <button className="action secundary-blue" type="submit">
                   <span className="value">Versturen</span>
                 </button>
               </div>
