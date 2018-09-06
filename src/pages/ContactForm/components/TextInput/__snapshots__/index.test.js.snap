@@ -2,7 +2,7 @@
 
 exports[`<TextInput /> should render correctly 1`] = `
 <div
-  className="rij mode_input text rij_verplicht"
+  className="rij mode_input text rij_verplicht "
 >
   <div
     className="label"

@@ -46,7 +46,6 @@ exports[`FieldControlWrapper should render correctly 1`] = `
       },
     }
   }
-  name="name"
   strict={true}
 />
 `;
