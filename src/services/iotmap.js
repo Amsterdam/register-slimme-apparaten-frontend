@@ -245,9 +245,10 @@ export function showLocations(map, markers, onClick) {
       .forEach((marker) =>
         L.marker(marker.wgs84_geometry.coordinates, { icon: getMarkerIcon(marker) })
           .addTo(layer)
-          .on('click', () => showInfo(marker))
-          .on('mouseover', () => showPopup(marker))
-          .on('mouseout', () => hidePopup(marker)));
+          .on('click', () => showInfo(marker)));
+          // Don't show a hover Popup (for now)
+          // .on('mouseover', () => showPopup(marker))
+          // .on('mouseout', () => hidePopup(marker)));
     markerCategories[markerCategory].layer = layer;
     markerCategories[markerCategory].enabled = true;
     markerGroup.addLayer(layer);
