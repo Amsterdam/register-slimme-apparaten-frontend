@@ -93,3 +93,16 @@
     line-height: 34px !important;
   }
 }
+
+// Override circlemarker design for selected marker
+.leaflet-overlay-pane {
+  z-index: 1000 !important;
+
+  .leaflet-zoom-animated {
+    path {
+      transform: translateY(-7px);
+      stroke: #000;
+      fill: transparent;
+    }
+  }
+}
