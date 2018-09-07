@@ -76,6 +76,10 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
               <td>{getMarkerCategory(this.state.thing).name}</td>
             </tr>
             <tr>
+              <td><strong>Type</strong></td>
+              <td>{this.state.thing.subtype ? this.state.thing.subtype : 'Onbekend'}</td>
+            </tr>
+            <tr>
               <td><strong>Plaats</strong></td>
               <td>{this.state.location.name}</td>
             </tr>
