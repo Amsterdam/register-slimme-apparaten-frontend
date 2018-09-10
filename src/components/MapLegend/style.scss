@@ -10,18 +10,33 @@ $secondary-gray4: #f6f6f6;
   bottom: 10px;
   width: 28vw;
   max-height: 100%;
+  min-width: 256px;
   max-width: $map-legend-max-width;
   display: flex;
   flex-direction: column;
-  z-index: 500;
+  z-index: 1010;
   background-color: #fff;
   border: solid 1px $secondary-gray20;
   box-shadow: 2px 2px 0 0 $secondary-gray40;
   font-family: "AvenirNextLTW01-Regular";
 
+  @media screen and (max-width:576px) {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
   &--collapsed {
     width: 58px;
     min-width: 58px;
+
+    @media screen and (max-width:576px) {
+      left: auto;
+      right: 10px;
+      bottom: 10px;
+    }
   }
 
   &__header {
