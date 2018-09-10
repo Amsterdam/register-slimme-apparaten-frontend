@@ -2,6 +2,14 @@
   &__thing-details {
     width: 50%;
     background-color: #eee;
+
+    @media screen and (max-width:992px) {
+      width: 75%;
+    }
+
+    @media screen and (max-width:576px) {
+      width: 100%;
+    }
   }
 
   .table-borderless {
