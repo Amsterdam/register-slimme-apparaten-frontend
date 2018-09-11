@@ -55,6 +55,7 @@
   box-shadow: 2px 2px 0 0 #999999;
   background-color: #f6f6f6;
   border: solid 1px #cccccc;
+  cursor: pointer;
   z-index: 500;
 
   font-family: Avenir-Roman;
@@ -90,5 +91,18 @@
 
   span {
     line-height: 34px !important;
+  }
+}
+
+// Override circlemarker design for selected marker
+.leaflet-overlay-pane {
+  z-index: 1000 !important;
+
+  .leaflet-zoom-animated {
+    path {
+      transform: translateY(-7px);
+      stroke: #000;
+      fill: transparent;
+    }
   }
 }

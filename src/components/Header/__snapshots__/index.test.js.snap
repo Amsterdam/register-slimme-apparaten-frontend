@@ -6,10 +6,19 @@ exports[`<Header /> should render correctly 1`] = `
 >
   <NavLink
     activeClassName="active"
-    className="header-title"
+    className="header-link"
     to="/"
   >
-    Register slimme apparaten
+    <img
+      alt=""
+      className="map-thumbnail"
+      src="/assets/map-thumbnail.png"
+    />
+    <span
+      className="header-title"
+    >
+      Register slimme apparaten
+    </span>
   </NavLink>
 </div>
 `;

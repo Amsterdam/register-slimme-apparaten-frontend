@@ -33,7 +33,8 @@ $secondary-gray4: #f6f6f6;
     background-color: $secondary-gray4;
     border: none;
     border-bottom: solid 1px $secondary-gray20;
-
+    cursor: pointer;
+    
     &:hover, &:focus {
       background-color: $secondary-gray20;
       border-color: #000 !important;

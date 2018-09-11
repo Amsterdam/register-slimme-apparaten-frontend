@@ -4,8 +4,8 @@ import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
 import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
-import { showLocations, getMarkerTypes, toggleMarkers } from '../../services/iotmap';
-import amaps from '../../static/pointquery.iife';
+import { showLocations, getMarkerCategories, toggleMarkers } from '../../services/iotmap';
+import amaps from '../../static/amaps.iife';
 
 import MapLegend from '../MapLegend';
 import ThingDetails from '../ThingDetails';
@@ -43,9 +43,7 @@ class Map extends React.Component {
         };
       }
 
-      amaps.createMap(options).then((result) => {
-        this.map = result;
-      });
+      this.map = amaps.createMap(options);
     }
     if (!isEqual(this.props.location, this.props.location)) {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
@@ -87,8 +85,8 @@ class Map extends React.Component {
       )}
     />);
 
-    const markerTypes = Object.keys(getMarkerTypes()).map((key) =>
-      getMarkerTypes()[key]
+    const markerCategories = Object.keys(getMarkerCategories()).map((key) =>
+      getMarkerCategories()[key]
     );
 
     return (
@@ -98,7 +96,7 @@ class Map extends React.Component {
             <div id="about-iot">
               { AboutButton }
             </div>
-            <MapLegend markers={markerTypes} onMarkerToggle={toggleMarkers}></MapLegend>
+            <MapLegend markers={markerCategories} onMarkerToggle={toggleMarkers}></MapLegend>
             <ThingDetails thing={this.state.thing} location={this.state.location} onThingDetailsClose={this.closeThing}></ThingDetails>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
-import { getMarkerType } from '../../services/iotmap';
+import { getMarkerCategory } from '../../services/iotmap';
 
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
@@ -30,7 +30,7 @@ class ThingDetails extends React.Component {
 
     const TypesButton = (<Route
       render={({ history }) => (
-        <button className="thing-details__question-mark-button" onClick={() => { history.push('/types'); }}>
+        <button className="thing-details__question-mark-button" onClick={() => { history.push('/categories'); }}>
           <QuestionMarkIcon></QuestionMarkIcon>
         </button>
       )}
@@ -54,21 +54,13 @@ class ThingDetails extends React.Component {
               <div className="thing-details__row-element">{this.props.thing.name}</div>
             </div>
             <div className="thing-details__row">
-              <div className="thing-details__row-label">Type</div>
-              <div className="thing-details__row-element">{getMarkerType(this.props.thing).name}</div>
+              <div className="thing-details__row-label">Categorie</div>
+              <div className="thing-details__row-element">{getMarkerCategory(this.props.thing).name}</div>
               { TypesButton }
             </div>
             <div className="thing-details__row">
-              <div className="thing-details__row-label">Beschrijving</div>
-              <div className="thing-details__row-element">{this.props.thing.description}</div>
-            </div>
-            <div className="thing-details__row">
-              <div className="thing-details__row-label">Doel</div>
-              <div className="thing-details__row-element">{this.props.thing.purpose}</div>
-            </div>
-            <div className="thing-details__row">
-              <div className="thing-details__row-label">Referentie</div>
-              <div className="thing-details__row-element">{this.props.thing.ref}</div>
+              <div className="thing-details__row-label">Type</div>
+              <div className="thing-details__row-element">{this.props.thing.subtype || 'Onbekend'}</div>
             </div>
             <div className="thing-details__row">
               <div className="thing-details__row-label">Plaats</div>
