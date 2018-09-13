@@ -3,13 +3,25 @@
 
 .header-component {
   height: 50px;
-  padding-left: 86px;
   display: flex;
   align-items: center;
   box-shadow: 0 2px 0 0 #999999;
+  
+  .header-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .map-thumbnail {
+    width: 62px;
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 14px;
+  }
 
   .header-title {
     color: $ams-zwart;
-    text-decoration: none;
   }
+
 }

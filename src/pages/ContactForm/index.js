@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 
 import { getThing, getLocation } from '../../services/api/iot';
-import { getMarkerType } from '../../services/iotmap';
+import { getMarkerCategory } from '../../services/iotmap';
 
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
@@ -65,15 +65,19 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     return (
       <div className="contact-form">
         <h1>Contact met eigenaar</h1>
-        { this.state.thing && <table className="table table-borderless">
+        { this.state.thing && <table className="contact-form__thing-details table table-borderless">
           <tbody>
             <tr>
               <td><strong>Naam</strong></td>
               <td>{ this.state.thing.name }</td>
             </tr>
             <tr>
+              <td><strong>Categorie</strong></td>
+              <td>{getMarkerCategory(this.state.thing).name}</td>
+            </tr>
+            <tr>
               <td><strong>Type</strong></td>
-              <td>{getMarkerType(this.state.thing).name}</td>
+              <td>{this.state.thing.subtype ? this.state.thing.subtype : 'Onbekend'}</td>
             </tr>
             <tr>
               <td><strong>Plaats</strong></td>
