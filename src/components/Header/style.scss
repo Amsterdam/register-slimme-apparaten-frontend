@@ -11,6 +11,10 @@
     display: flex;
     align-items: center;
     text-decoration: none;
+
+    @media (min-width: 576px) {
+      margin-left: calc(8.33333% - 72px);
+    }
   }
   
   .map-thumbnail {

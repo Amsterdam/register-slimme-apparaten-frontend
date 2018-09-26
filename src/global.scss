@@ -42,7 +42,10 @@ dd {
     padding-bottom: 20px;
     min-height: 60vh;
     margin-top: 20px;
-    margin-left: 86px;
+
+    @media screen and (max-width:576px) {
+      margin-top: 0;
+    }
   }
 
   .app-container {
@@ -52,7 +55,6 @@ dd {
 
   .container {
     width: auto;
-    padding-left: 0;
   }
 }
 
