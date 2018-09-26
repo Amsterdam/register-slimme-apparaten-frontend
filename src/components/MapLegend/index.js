@@ -13,7 +13,7 @@ class MapLegend extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isLegendVisible: true };
+    this.state = { isLegendVisible: window.innerWidth > 576 };
   }
 
   render() {

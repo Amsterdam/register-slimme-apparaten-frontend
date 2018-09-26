@@ -22,10 +22,18 @@ $thing-details-bottom: 10px;
   max-height: calc(100% - #{$thing-details-top + $thing-details-bottom});
   max-width: $thing-details-max-width;
   min-width: 285px;
-  position: absolute;
+  position: fixed;
   top: $thing-details-top;
   right: $thing-details-right;
-  z-index: 500;
+  z-index: 1020;
+
+  @media screen and (max-width:576px) {
+    max-width: 100%;
+    left: 0;
+    top: auto;
+    right: 0;
+    bottom: 0;
+  }
 
   &__heading {
     padding: 4px;
@@ -159,7 +167,7 @@ $thing-details-bottom: 10px;
 
   button.action {
     padding: 8px;
-    margin: 16px 39px 24px 39px;
+    margin: 16px auto 24px auto;
     display: flex;
     align-items: center;
     font-size: 16px;

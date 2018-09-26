@@ -20,21 +20,21 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
   render() {
     return (
       <div className="container app-container">
-        <div>
-          <HeaderContainer />
+        <HeaderContainer />
+        <div className="content container-fluid">
+          <div className="row">
+            <div className="col-12 col-sm-10 offset-sm-1 col-md-8">
+              <Switch>
+                <Route exact path="/" component={MapInteractive} />
+                <Route path="/contact-owner/:thingId/:locationId" component={ContactForm} />
+                <Route path="/categories" component={Categories} />
+                <Route path="/about" component={About} />
+                <Route path="" component={NotFoundPage} />
+              </Switch>
+            </div>
+          </div>
         </div>
-        <div className="content container">
-          <Switch>
-            <Route exact path="/" component={MapInteractive} />
-            <Route path="/contact-owner/:thingId/:locationId" component={ContactForm} />
-            <Route path="/categories" component={Categories} />
-            <Route path="/about" component={About} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        </div>
-        <div className="container-fluid">
-          <Footer />
-        </div>
+        <Footer />
       </div>
     );
   }

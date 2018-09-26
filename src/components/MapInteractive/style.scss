@@ -1,12 +1,13 @@
 .map-component {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100vh;
   top: 0;
   left: 0;
+  z-index: 100;
 
   #mapdiv {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100vh;
     top: 0;
@@ -14,26 +15,44 @@
   }
 
   .embed-search {
-    // pull the search input outside of the map
-    // top: -50px;
-    // left: 0;
     max-width: 328px;
-    // width: 100%;
 
-    input[type="text"] {
-      height: inherit;
+    @media screen and (max-width:576px) {
+      max-width: 100%;
     }
 
-    button {
-      display: none;
+    input[type="text"] {
+      border: solid 1px #ccc;
+      box-shadow: none;
+    }
+
+    &__button {
+      background-color: #f6f6f6 !important;
+      border: solid 1px #ccc;
+      border-left: none;
+
+      &:hover, &:focus {
+        background-color: #ccc !important;
+        border: solid 1px #000;
+        color: #000 !important;
+        fill: #000;
+      }
+
+      &.primary.action:before {
+        content: url(../../images/icon-search-black.svg);
+        display: block;
+        height: 24px;
+        left: 50%;
+        position: absolute;
+        top: 55%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 24px;
+      }
     }
 
     &__auto-suggest {
       width: 100%;
-    }
-
-    .invoer {
-      box-shadow: none;
     }
   }
 
@@ -56,7 +75,7 @@
   background-color: #f6f6f6;
   border: solid 1px #cccccc;
   cursor: pointer;
-  z-index: 500;
+  z-index: 1010;
 
   font-family: Avenir-Roman;
   font-size: 16px;
@@ -72,6 +91,13 @@
     border-color: #000 !important;
     color: #000 !important;
     fill: #000;
+  }
+
+  @media screen and (max-width:540px) {
+    left: 10px;
+    top: auto;
+    right: auto;
+    bottom: 20px;
   }
 }
 
@@ -104,5 +130,11 @@
       stroke: #000;
       fill: transparent;
     }
+  }
+}
+
+@media screen and (max-width:540px) {
+  .leaflet-control-zoom {
+    display: none;
   }
 }
