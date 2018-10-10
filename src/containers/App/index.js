@@ -9,6 +9,7 @@ import MapInteractive from 'components/MapInteractive';
 import ContactForm from 'pages/ContactForm';
 import Categories from 'pages/ThingCategories';
 import About from 'pages/About';
+import FAQ from 'pages/FAQ';
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
 import HeaderContainer from 'containers/HeaderContainer';
@@ -28,6 +29,7 @@ export class App extends React.Component { // eslint-disable-line react/prefer-s
                 <Route exact path="/" component={MapInteractive} />
                 <Route path="/contact-owner/:thingId/:locationId" component={ContactForm} />
                 <Route path="/categories" component={Categories} />
+                <Route path="/about/faq" component={FAQ} />
                 <Route path="/about" component={About} />
                 <Route path="" component={NotFoundPage} />
               </Switch>
