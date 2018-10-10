@@ -1,0 +1,112 @@
+$white: #ffffff;
+$gray-light: #e6e6e6;
+$gray-light-focus: #b7b7b7; // = 20% darker e5e5e5, missing color name in design
+$whitespace-half: 7.5px;
+$whitespace-base: 15px;
+
+.c-accordion {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.c-accordion__content {
+  display: block;
+}
+
+.c-accordion__toggle-title {
+	display: inline-block;
+	margin: 0;
+}
+
+.c-accordion__toggle-icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.c-accordion--closed {
+  .c-accordion__content {
+    display: none;
+  }
+}
+
+.c-accordion--dark {
+  color: $white;
+
+  .c-accordion__toggle-title {
+    font-size: 20px;
+  }
+
+  .c-accordion__content {
+    margin-top: $whitespace-half;
+    margin-left: $whitespace-base;
+  }
+
+  .c-accordion__toggle-icon {
+    margin-right: 6px;
+    margin-bottom: 2px;
+    transform: rotate(90deg);
+    fill: $white;
+  }
+
+  &.c-accordion--closed {
+    .c-accordion__toggle-icon {
+      transform: rotate(-90deg);
+    }
+  }
+}
+
+.c-accordion--light {
+  border: 2px solid $gray-light;
+
+  &:hover,
+  &:focus {
+    border-color: $gray-light-focus;
+
+    .c-accordion__toggle {
+      background-color: $gray-light-focus;
+    }
+  }
+
+  // Start webkit border hack: Removes white space between border and background when zooming in webkit browsers
+  .c-accordion__toggle {
+    &:not(:focus) {
+      outline: 1px solid $gray-light;
+    }
+  }
+
+  &:hover {
+    .c-accordion__toggle {
+      outline: 1px solid $gray-light-focus;
+    };
+  }
+  // End webkit border hack
+
+  .c-accordion__content {
+		padding: 15px 20px;
+		font-size: 18px;
+		line-height: 24px;
+
+		ul li, ol li {
+			color: black;
+		}
+  }
+
+  .c-accordion__toggle {
+    padding: 12px 1.5 * $whitespace-half;
+    background-color: $gray-light;
+    font-size: 18px;
+  }
+
+  .c-accordion__toggle-icon {
+    margin-top: 8px;
+    float: right;
+    transform: rotate(-90deg);
+  }
+
+  &.c-accordion--closed {
+    .c-accordion__toggle-icon {
+      transform: rotate(90deg);
+    }
+  }
+}
