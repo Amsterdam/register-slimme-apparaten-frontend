@@ -1,10 +1,13 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 import './style.scss';
 
 function About() {
   return (
     <div>
+      <NavLink to="/about/faq" className="link-faq">Veelgestelde vragen (FAQ)</NavLink>
+
       <h2>Wat is het &#39;Register slimme apparaten&#39;?</h2>
       <p>Met de digitalisering van de samenleving zien we meer en meer slimme apparaten in de openbare ruimte verschijnen die allerlei informatie verzamelen. Met deze informatie kunnen we het leven in de stad verbeteren. Als inwoners maken we dagelijks gebruik van de openbare ruimte en maken we dus onderdeel uit van het digitale ecosysteem wat deze slimme apparaten in de openbare ruimte vormen. Gemeente Amsterdam vindt het belangrijk dat we inzicht verschaffen in dit ecosysteem. Zodoende is het &#39;Register slimme apparaten&#39; tot stand gekomen.</p>
       <p>Het &#39;Register slimme apparaten&#39; is een geografische weergave van slimme apparaten in de openbare ruimte. Het register heeft als doel bewoners en ondernemers in de stad te informeren over waar slimme apparaten zich bevinden in de openbare ruimte en voor welk doel deze apparaten worden gebruikt.</p>
