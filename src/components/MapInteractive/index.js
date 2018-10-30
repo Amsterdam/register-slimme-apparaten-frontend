@@ -4,7 +4,8 @@ import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
 import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
-import { showLocations, getMarkerCategories, toggleMarkers } from '../../services/iotmap';
+import { showLocations, toggleMarkers } from '../../services/iotmap';
+import categories from '../../static/categories';
 import amaps from '../../static/amaps.iife';
 
 import MapLegend from '../MapLegend';
@@ -85,8 +86,8 @@ class Map extends React.Component {
       )}
     />);
 
-    const markerCategories = Object.keys(getMarkerCategories()).map((key) =>
-      getMarkerCategories()[key]
+    const markerCategories = Object.keys(categories).map((key) =>
+      categories[key]
     );
 
     return (

@@ -93,18 +93,11 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
               <div>
                 <FieldControlWrapper render={TextInput} name="name" display="Uw naam" control={this.contactForm.get('name')} />
                 <FieldControlWrapper render={TextInput} name="emailAddress" display="Uw e-mailadres" control={this.contactForm.get('emailAddress')} />
-                <FieldControlWrapper render={CheckboxInput} name="wantsAccess" display="Ik wil toegang tot de data uit dit apparaat" control={this.contactForm.get('questionAccess')} />
-                <FieldControlWrapper render={CheckboxInput} name="questionInfo" display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor ed) verzamelt?" control={this.contactForm.get('questionInfo')} />
-                <FieldControlWrapper render={CheckboxInput} name="questionUse" display="Mag ik de verzamelde data evt gebruiken?" control={this.contactForm.get('questionUse')} />
+                <FieldControlWrapper render={CheckboxInput} name="wantsAccess" display="Kan ik toegang krijgen tot de data uit dit apparaat?" control={this.contactForm.get('questionAccess')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionInfo" display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor e.d.) verzamelt?" control={this.contactForm.get('questionInfo')} />
+                <FieldControlWrapper render={CheckboxInput} name="questionUse" display="Mag ik de verzamelde data eventueel gebruiken?" control={this.contactForm.get('questionUse')} />
                 <FieldControlWrapper render={CheckboxInput} name="questionPersonalData" display="Registreert uw slimme apparaat ook gegevens over personen?" control={this.contactForm.get('questionPersonalData')} />
                 <FieldControlWrapper render={TextAreaInput} name="questionOther" display="Andere vraag of opmerking (maximaal 250 tekens):" maxLength={MAX_INPUT_LENGTH} control={this.contactForm.get('questionOther')} />
-
-                <ul>
-                  <li>De &quot;slimme apparaten&quot; in het register zijn van diverse organisaties.</li>
-                  <li>De gegevens van de eigenaar van het slimme apparaat worden niet getoond ivm privacy.</li>
-                  <li>De eigenaar bepaalt of hij reageert; hij is dat niet verplicht.</li>
-                  <li>De mail wordt niet gearchiveerd in het register. Ook uw gegevens worden niet geregistreerd in het register.</li>
-                </ul>
 
                 <button className="action secundary-blue" type="submit">
                   <span className="value">Versturen</span>
