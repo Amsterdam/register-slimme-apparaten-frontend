@@ -4,6 +4,7 @@ import L from 'leaflet';
 import 'leaflet.markercluster';
 
 import { mapHome, mapGo } from './map';
+import categories from '../static/categories';
 
 /* eslint-disable no-unused-vars */
 // Import marker icons so Webpack adds them as separate files instead of inlining them
@@ -23,76 +24,16 @@ const markerOptions = {
   popupAnchor: [-3, -76]
 };
 
-const markerCategories = {
-  'Camera': { // eslint-disable-line quote-props
-    id: 'Camera',
-    iconUrl: `${ICON_PATH}icon-camera@3x.png`,
-    name: 'Camera',
-    enabled: true,
-    description: `Uitleg over camera's.`,
-    subtypes: [
-      'Telcamera',
-      'Kentekenherkenning',
-      'Beeld' 
-    ]
-  },
-  'Sensor': { // eslint-disable-line quote-props
-    id: 'Sensor',
-    iconUrl: `${ICON_PATH}icon-sensor@3x.png`,
-    name: 'Sensor',
-    enabled: true,
-    description: 'Uitleg over sensoren.',
-    subtypes: [
-      'Luchtkwaliteit',
-      'Vervoerstromen (aantal vervoermiddelen)',
-      'Geluid',
-      'Connectiviteitmeting (Wifi Tracking)'
-    ]
-  },
-  'Beacon': { // eslint-disable-line quote-props
-    id: 'Beacon',
-    iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
-    name: 'Baken',
-    enabled: true,
-    description: 'Uitleg over bakens.',
-    subtypes: []
-  },
-  'Slimme laadpaal': {
-    id: 'Slimme laadpaal',
-    iconUrl: `${ICON_PATH}icon-laadpaal@3x.png`,
-    name: 'Slimme laadpaal',
-    enabled: true,
-    description: 'Uitleg over slimme laadpalen.',
-    subtypes: []
-  },
-  'Slimme verkeersinformatie': {
-    id: 'Slimme verkeersinformatie',
-    iconUrl: `${ICON_PATH}icon-verkeer@3x.png`,
-    name: 'Slimme verkeersinformatie',
-    enabled: true,
-    description: 'Uitleg over slimme verkeersinformatie.',
-    subtypes: ['Slimme verkeerslichten', 'DRIPS']
-  },
-  'Slimme lantaarnpaal': { // eslint-disable-line quote-props
-    id: 'Slimme lantaarnpaal',
-    iconUrl: `${ICON_PATH}icon-lantaarn@3x.png`,
-    name: 'Slimme lantaarnpaal',
-    enabled: true,
-    description: 'Uitleg over slimme lantaarnpalen.',
-    subtypes: []
-  }
-};
-
 let clicker;
 
 let markerGroup;
 
 export function getMarkerCategory(thing) {
-  return markerCategories[Object.keys(markerCategories).find((mt) => mt === thing.device_type)];
+  return categories[Object.keys(categories).find((mt) => mt === thing.device_type)];
 }
 
 function getMarkerIcon(marker) {
-  const iconUrl = markerCategories[marker.device_type].iconUrl;
+  const iconUrl = categories[marker.device_type].iconUrl;
   return L.icon({
     ...markerOptions,
     iconUrl
@@ -105,17 +46,13 @@ export function cancelHighlight(map) {
   }
 }
 
-export function getMarkerCategories() {
-  return markerCategories;
-}
-
 export function toggleMarkers(markerCategory) {
-  markerCategories[markerCategory].enabled = !markerCategories[markerCategory].enabled;
-  if (markerCategories[markerCategory].layer) {
-    if (markerCategories[markerCategory].enabled) {
-      markerGroup.addLayer(markerCategories[markerCategory].layer);
+  categories[markerCategory].enabled = !categories[markerCategory].enabled;
+  if (categories[markerCategory].layer) {
+    if (categories[markerCategory].enabled) {
+      markerGroup.addLayer(categories[markerCategory].layer);
     } else {
-      markerGroup.removeLayer(markerCategories[markerCategory].layer);
+      markerGroup.removeLayer(categories[markerCategory].layer);
     }
   }
 }
@@ -238,7 +175,7 @@ export function showLocations(map, markers, onClick) {
     spiderfyOnMaxZoom: false
   });
 
-  Object.keys(markerCategories).forEach((markerCategory) => {
+  Object.keys(categories).forEach((markerCategory) => {
     const layer = L.featureGroup();
     markers
       .filter((marker) => marker.device_type === markerCategory)
@@ -249,8 +186,8 @@ export function showLocations(map, markers, onClick) {
           // Don't show a hover Popup (for now)
           // .on('mouseover', () => showPopup(marker))
           // .on('mouseout', () => hidePopup(marker)));
-    markerCategories[markerCategory].layer = layer;
-    markerCategories[markerCategory].enabled = true;
+    categories[markerCategory].layer = layer;
+    categories[markerCategory].enabled = true;
     markerGroup.addLayer(layer);
   });
 
