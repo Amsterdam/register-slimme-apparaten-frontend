@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
-import { getMarkers, getThing, getLocation, initIoT } from '../../services/api/iot';
-import { showLocations, toggleMarkers } from '../../services/iotmap';
+import { getDevices, getDevice, initIoT } from '../../services/api/iot';
+import { showMarkers, toggleMarkers } from '../../services/iotmap';
 import categories from '../../static/categories';
 import amaps from '../../static/amaps.iife';
 
 import MapLegend from '../MapLegend';
-import ThingDetails from '../ThingDetails';
+import DeviceDetails from '../DeviceDetails';
 
 import './style.scss';
 
@@ -22,7 +22,7 @@ class Map extends React.Component {
     initIoT();
     this.map = null;
     this.state = { isLegendVisible: true };
-    this.closeThing = this.closeThing.bind(this);
+    this.closeDevice = this.closeDevice.bind(this);
   }
 
   componentDidMount() {
@@ -60,23 +60,21 @@ class Map extends React.Component {
   }
 
   async addMarkers() {
-    this.markers = await getMarkers();
-    showLocations(this.map, this.markers, this.showThing.bind(this));
+    this.devices = await getDevices();
+    showMarkers(this.map, this.devices, this.showDevice.bind(this));
   }
 
-  async showThing(marker) {
-    if (marker) {
-      const thing = await getThing(marker.id);
-      const location = await getLocation(marker.location_id);
-      this.setState({ thing, location });
+  async showDevice(d) {
+    if (d) {
+      const device = await getDevice(d.id);
+      this.setState({ device });
     } else {
-      this.thing = null;
-      this.location = null;
+      this.device = null;
     }
   }
 
-  closeThing() {
-    this.setState({ thing: null, location: null });
+  closeDevice() {
+    this.setState({ device: null });
   }
 
   render() {
@@ -98,7 +96,7 @@ class Map extends React.Component {
               { AboutButton }
             </div>
             <MapLegend markers={markerCategories} onMarkerToggle={toggleMarkers}></MapLegend>
-            <ThingDetails thing={this.state.thing} location={this.state.location} onThingDetailsClose={this.closeThing}></ThingDetails>
+            <DeviceDetails device={this.state.device} location={this.state.location} onDeviceDetailsClose={this.closeDevice}></DeviceDetails>
           </div>
         </div>
       </div>

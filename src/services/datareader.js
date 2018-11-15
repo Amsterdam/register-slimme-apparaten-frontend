@@ -34,7 +34,7 @@ async function get(url, nTries = 5) {
   do {
     try {
       HTTPStatus.pending++; // Track pending requests
-      result = await axios.get(url);
+      result = await axios({ method: 'get', url: url, withCredentials: true });
     } catch (error) {
       console.error('Retry...', url);
       nTry++;

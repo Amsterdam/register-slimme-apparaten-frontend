@@ -29,7 +29,7 @@ const categories = {
       'Geluid'
     ]
   },
-  'Beacon': { // eslint-disable-line quote-props
+  'Baken': { // eslint-disable-line quote-props
     id: 'Beacon',
     iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
     name: 'Baken',

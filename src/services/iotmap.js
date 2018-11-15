@@ -28,12 +28,13 @@ let clicker;
 
 let markerGroup;
 
-export function getMarkerCategory(thing) {
-  return categories[Object.keys(categories).find((mt) => mt === thing.device_type)];
+export function getMarkerCategory(device) {
+  return categories[Object.keys(categories).find((mt) => mt === device.categories[0])];
 }
 
 function getMarkerIcon(marker) {
-  const iconUrl = categories[marker.device_type].iconUrl;
+  console.log(marker.categories[0]);
+  const iconUrl = categories[marker.categories[0]].iconUrl;
   return L.icon({
     ...markerOptions,
     iconUrl
@@ -148,12 +149,12 @@ function homeButton(map, onClick) {
   map.addControl(new PositionControl());
 }
 
-export function showLocations(map, markers, onClick) {
+export function showMarkers(map, markers, onClick) {
   const showInfo = (loc) => {
     if (clicker) {
       map.removeLayer(clicker);
     }
-    clicker = L.circleMarker(loc.wgs84_geometry.coordinates);
+    clicker = L.circleMarker([loc.latitude, loc.longitude]);
     clicker.addTo(map);
     onClick(loc);
   };
@@ -178,9 +179,9 @@ export function showLocations(map, markers, onClick) {
   Object.keys(categories).forEach((markerCategory) => {
     const layer = L.featureGroup();
     markers
-      .filter((marker) => marker.device_type === markerCategory)
+      .filter((marker) => marker.categories[0] === markerCategory)
       .forEach((marker) =>
-        L.marker(marker.wgs84_geometry.coordinates, { icon: getMarkerIcon(marker) })
+        L.marker([marker.latitude, marker.longitude], { icon: getMarkerIcon(marker) })
           .addTo(layer)
           .on('click', () => showInfo(marker)));
           // Don't show a hover Popup (for now)

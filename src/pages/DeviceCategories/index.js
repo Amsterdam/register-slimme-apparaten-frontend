@@ -5,7 +5,7 @@ import categories from '../../static/categories';
 import './style.scss';
 
 function Categories() {
-  const thingCategories = Object.keys(categories).map((key) =>
+  const deviceCategories = Object.keys(categories).map((key) =>
     categories[key]
   );
 
@@ -17,7 +17,7 @@ function Categories() {
     </div>
   );
 
-  const renderCategories = thingCategories.map((category) =>
+  const renderCategories = deviceCategories.map((category) =>
     (<div key={category.name}>
       <h4>{category.name}</h4>
       <p

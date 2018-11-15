@@ -1,43 +1,20 @@
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { readPaginatedData } from '../datareader';
 
-const API = 'https://api.data.amsterdam.nl';
+let devices = null;
 
-let things = null;
-let locations = null;
-
-export async function getMarkers() {
-  return readPaginatedData(`${API}/vsd/iot_markers/`);
+export async function getDevices() {
+  return readPaginatedData(`${CONFIGURATION.API_ROOT}iothings/devices/`);
 }
 
-export async function getLocations() {
-  const data = await readPaginatedData(`${API}/vsd/iot_locations/`);
-  const result = data.reduce((obj, item) => ({ ...obj, [item.id]: item }), {});
-  return result;
-}
-
-export async function getThings() {
-  const data = await readPaginatedData(`${API}/vsd/iot_things/`);
-  const result = data.reduce((obj, item) => ({ ...obj, [item.id]: item }), {});
-  return result;
-}
-
-export async function getThing(id) {
-  if (!things) {
-    things = getThings();
+export async function getDevice(id) {
+  if (!devices) {
+    devices = getDevices();
   }
-  const all = await things;
-  return all[id];
-}
-
-export async function getLocation(id) {
-  if (!locations) {
-    locations = getLocations();
-  }
-  const all = await locations;
-  return all[id];
+  const all = await devices;
+  return all.find((element) => element.id === id);
 }
 
 export function initIoT() {
-  locations = getLocations();
-  things = getThings();
+  devices = getDevices();
 }

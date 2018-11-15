@@ -20,7 +20,7 @@ function FAQ() {
       </Accordion>
 
       <Accordion title="Wat zijn slimme apparaten?">
-        <div>‘Slimme apparaten’ is de verzameling apparaten waarmee data wordt verzameld en gegeven in de openbare ruimte. Onder meer: slimme laadpalen, sensoren, slimme camera’s voor o.a. het tellen van aantallen voetgangers of vervoermiddelen; voor kenteken- of voor gezichtsherkenning. De slimme apparaten vallen niet altijd op.</div>
+        <div>‘Slimme apparaten’ is de verzameling apparaten waarmee data wordt verzameld en gegevens in de openbare ruimte. Onder meer: slimme laadpalen, sensoren, slimme camera’s voor o.a. het tellen van aantallen voetgangers of vervoermiddelen; voor kenteken- of voor gezichtsherkenning. De slimme apparaten vallen niet altijd op.</div>
       </Accordion>
 
       <Accordion title="Wat voor data wordt verzameld door slimme apparaten?">

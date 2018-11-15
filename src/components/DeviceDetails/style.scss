@@ -7,24 +7,24 @@ $secondary-gray20: #ccc;
 $secondary-gray4: #f6f6f6;
 $secondary-gray5: #fafafa;
 
-$thing-details-max-width: 285px;
-$thing-details-top: 62px;
-$thing-details-right: 10px;
-$thing-details-bottom: 10px;
+$device-details-max-width: 285px;
+$device-details-top: 62px;
+$device-details-right: 10px;
+$device-details-bottom: 10px;
 
-.thing-details {
+.device-details {
   background-color: $secondary-gray5;
   border: solid 1px $secondary-gray20;
   box-shadow: 2px 2px 0 0 $secondary-gray40;
   display: flex;
   flex-direction: column;
   font-family: "AvenirNextLTW01-Regular";
-  max-height: calc(100% - #{$thing-details-top + $thing-details-bottom});
-  max-width: $thing-details-max-width;
+  max-height: calc(100% - #{$device-details-top + $device-details-bottom});
+  max-width: $device-details-max-width;
   min-width: 285px;
   position: fixed;
-  top: $thing-details-top;
-  right: $thing-details-right;
+  top: $device-details-top;
+  right: $device-details-right;
   z-index: 1020;
 
   @media screen and (max-width:576px) {
@@ -46,7 +46,7 @@ $thing-details-bottom: 10px;
   }
   
   &__table {
-    .thing-details__header-row {
+    .device-details__header-row {
       background-color: $secondary-gray60;
       box-shadow: none;
     }
@@ -74,7 +74,7 @@ $thing-details-bottom: 10px;
       box-shadow: none;
     }
 
-    .thing-details__header-row & {
+    .device-details__header-row & {
       color: $primary-light;
       background-color: inherit;
     }
@@ -93,7 +93,7 @@ $thing-details-bottom: 10px;
       box-shadow: none;
     }
 
-    .thing-details__header-row & {
+    .device-details__header-row & {
       font-family: 'Avenir LT W01 85 Heavy';
       color: $primary-light;
       background-color: inherit;
