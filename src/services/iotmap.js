@@ -154,7 +154,7 @@ export function showMarkers(map, markers, onClick) {
     if (clicker) {
       map.removeLayer(clicker);
     }
-    clicker = L.circleMarker([loc.longitude, loc.latitude]);
+    clicker = L.circleMarker([loc.latitude, loc.longitude]);
     clicker.addTo(map);
     onClick(loc);
   };
