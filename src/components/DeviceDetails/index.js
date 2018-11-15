@@ -60,7 +60,7 @@ class DeviceDetails extends React.Component {
             </div>
             <div className="device-details__row">
               <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{this.props.device.subtype || 'Onbekend'}</div>
+              <div className="device-details__row-element">{this.props.device.types[0].description || 'Onbekend'}</div>
             </div>
             <div className="device-details__row">
               <div className="device-details__row-label">Plaats</div>
