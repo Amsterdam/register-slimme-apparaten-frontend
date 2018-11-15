@@ -181,7 +181,7 @@ export function showMarkers(map, markers, onClick) {
     markers
       .filter((marker) => marker.categories[0] === markerCategory)
       .forEach((marker) =>
-        L.marker([marker.longitude, marker.latitude], { icon: getMarkerIcon(marker) })
+        L.marker([marker.latitude, marker.longitude], { icon: getMarkerIcon(marker) })
           .addTo(layer)
           .on('click', () => showInfo(marker)));
           // Don't show a hover Popup (for now)
