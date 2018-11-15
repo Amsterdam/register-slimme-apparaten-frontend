@@ -33,7 +33,6 @@ export function getMarkerCategory(device) {
 }
 
 function getMarkerIcon(marker) {
-  console.log(marker.categories[0]);
   const iconUrl = categories[marker.categories[0]].iconUrl;
   return L.icon({
     ...markerOptions,
