@@ -14,6 +14,23 @@ import './style.scss';
 
 const MAX_INPUT_LENGTH = 250;
 
+const oneOrMoreQuestionsValidator = (formControl) => {
+  const controls = [
+    formControl.controls.can_i_have_access,
+    formControl.controls.can_i_get_more_information,
+    formControl.controls.can_i_use_collected_data,
+    formControl.controls.does_the_device_register_personal_data,
+    formControl.controls.comment
+  ];
+  let valid = false;
+  controls.forEach((control) => {
+    if (control.value) {
+      valid = true;
+    }
+  });
+  return valid ? null : { noneSelected: true };
+};
+
 class ContactForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
@@ -39,7 +56,7 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     can_i_use_collected_data: [false],
     does_the_device_register_personal_data: [false],
     comment: ['', Validators.maxLength(MAX_INPUT_LENGTH)]
-  });
+  }, { validators: oneOrMoreQuestionsValidator });
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -99,6 +116,7 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
                 <div>
                   <FieldControlWrapper render={TextInput} name="name" display="Uw naam" control={this.contactForm.get('name')} />
                   <FieldControlWrapper render={TextInput} name="email" display="Uw e-mailadres" control={this.contactForm.get('email')} />
+                  { this.contactForm.submitted && this.contactForm.getError('noneSelected') ? <div className="group-error">Selecteer minimaal één van onderstaande vragen</div> : null }
                   <FieldControlWrapper render={CheckboxInput} name="can_i_have_access" display="Kan ik toegang krijgen tot de data uit dit apparaat?" control={this.contactForm.get('can_i_have_access')} />
                   <FieldControlWrapper render={CheckboxInput} name="questionInfo" display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor e.d.) verzamelt?" control={this.contactForm.get('can_i_get_more_information')} />
                   <FieldControlWrapper render={CheckboxInput} name="questionUse" display="Mag ik de verzamelde data eventueel gebruiken?" control={this.contactForm.get('can_i_use_collected_data')} />
