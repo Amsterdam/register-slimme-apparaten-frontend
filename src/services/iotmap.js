@@ -19,7 +19,7 @@ import Lantaarnpaal from '../../public/images/icon-lantaarn@3x.png';
 const ICON_PATH = 'assets/';
 
 const markerOptions = {
-  iconSize: [16, 16],
+  iconSize: [23, 23],
   iconAnchor: [8, 15],
   popupAnchor: [-3, -76]
 };
@@ -153,7 +153,7 @@ export function showMarkers(map, markers, onClick) {
     if (clicker) {
       map.removeLayer(clicker);
     }
-    clicker = L.circleMarker([loc.latitude, loc.longitude]);
+    clicker = L.circleMarker([loc.latitude, loc.longitude], { radius: 13 });
     clicker.addTo(map);
     onClick(loc);
   };
