@@ -91,10 +91,6 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
           { this.state.device && <table className="contact-form__device-details table table-borderless">
             <tbody>
               <tr>
-                <td><strong>Naam</strong></td>
-                <td>{ this.state.device.reference }</td>
-              </tr>
-              <tr>
                 <td><strong>Categorie</strong></td>
                 <td>{getMarkerCategory(this.state.device).name}</td>
               </tr>
