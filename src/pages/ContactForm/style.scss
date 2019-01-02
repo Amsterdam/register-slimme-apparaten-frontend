@@ -56,6 +56,10 @@
 }
 
 .form-success {
+  a.action {
+    padding-left: 0;
+  }
+
   .email {
     font-family: 'Avenir LT W01 85 Heavy';
   }
