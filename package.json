@@ -232,6 +232,7 @@
     ]
   },
   "dependencies": {
+    "amsterdam-stijl": "^3.0.2",
     "axios": "^0.18.0",
     "babel-plugin-inline-react-svg": "^0.5.4",
     "babel-polyfill": "^6.26.0",
@@ -336,7 +337,6 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.2",
     "shelljs": "^0.8.2",
-    "stijl": "Amsterdam/stijl.git#8f4408ea0faf2d3b00568ec7d855d2c576e6c277",
     "style-loader": "^0.21.0",
     "url-loader": "0.5.8",
     "webpack": "3.5.5",
