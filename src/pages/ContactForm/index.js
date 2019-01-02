@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import axios from 'axios';
@@ -82,10 +83,19 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
     });
   }
 
+  renderSuccess = () => (
+    <div className="form-success">
+      <NavLink className="startagain action" to="/">Terug naar de kaart</NavLink>
+      <h4>Bedankt voor uw verzoek</h4>
+      <p>Uw verzoek is doorgestuurd naar de eigenaar. Deze bepaalt of en wanneer hij of zij reageert.</p>
+      <p>Een kopie van uw verzoek is verstuurd naar <span className="email">{this.contactForm.value.email}</span>. Uw verzoek is niet vastgelegd in het register.</p>
+    </div>
+  );
+
   render() {
     return (
       <div>
-        { this.state.submitSuccess ? <h1>Uw verzoek is verstuurd naar de eigenaar</h1> :
+        { this.state.submitSuccess ? this.renderSuccess() :
         <div className="contact-form">
           <h1>Contact met eigenaar</h1>
           { this.state.device && <table className="contact-form__device-details table table-borderless">
