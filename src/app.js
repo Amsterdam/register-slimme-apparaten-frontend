@@ -40,7 +40,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'static/nlmaps.css';
-import 'stijl/dist/css/ams-stijl.css';
+import 'amsterdam-stijl/dist/css/ams-stijl.css';
 import './global.scss';
 
 import configureStore from './configureStore';

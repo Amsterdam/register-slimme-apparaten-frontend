@@ -41,5 +41,26 @@
       background-color: #eee;
     }
   }
+
+  .row_ongeldig {
+    border-left: 3px solid #ec0000;
+    padding-left: 13px;
+  }
+
+  .group-error {
+    margin-top: 5px;
+    margin-bottom: -15px;
+    font-size: 0.875rem;
+    color: #ec0000;
+  }
 }
 
+.form-success {
+  a.action {
+    padding-left: 0;
+  }
+
+  .email {
+    font-family: 'Avenir LT W01 85 Heavy';
+  }
+}

@@ -31,6 +31,10 @@ function FAQ() {
         <div>Het register is van ons allemaal. De gemeente Amsterdam zorgt er voor dat het register er is. De eigenaren van de slimme apparaten zijn er voor verantwoordelijk dat de informatie over hun slimme apparaten in het register aanwezig is.</div>
       </Accordion>
 
+      <Accordion title="Hoe wordt mijn privacy gewaarborgd in het register?">
+        <div>Ook voor het register geldt <a href="https://www.amsterdam.nl/privacy/" target="_blank">het privacybeleid van Amsterdam</a>.</div>
+      </Accordion>
+
       <Accordion title="Hoe kan het dat ik een slim apparaat niet kan vinden in het register?">
         <div>Het kan zo zijn dat een slim apparaat niet in het register staat. Dit kan zijn omdat:
           <ol>
@@ -44,9 +48,10 @@ function FAQ() {
         <div>Die kunt u melden via het mailformulier aan de eigenaar van het slimme apparaat. Die is verantwoordelijk voor de juistheid en de volledigheid van de informatie.</div>
       </Accordion>
 
+      {/* Commented out for now, as the answer is not known yet
       <Accordion title="Hoe moet ik een slim apparaat invoeren?">
         <div></div>
-      </Accordion>
+      </Accordion> */}
 
       <Accordion title="Wat zie ik op de kaart van het register?">
         <div>Op de kaart ziet u blauwe stippen. Zoek de blauwe stippen die het dichtst bij de buurt zijn waarvoor u wilt weten welke slimme apparaten er zijn. Klik dan op een blauwe stip. U krijgt een meer gedetailleerde kaart te zien, waarop is aangegeven welke slimme apparaten er zijn. De kleur van de stip geeft aan welke categorie slim apparaat het is: camera, sensor ed. Wilt u er meer weten? Klik dan op die stip.</div>

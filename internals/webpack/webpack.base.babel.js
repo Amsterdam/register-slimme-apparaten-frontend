@@ -54,7 +54,7 @@ module.exports = (options) => ({
         }
       },
       {
-        test: /\.(png|svg|cur)$/,
+        test: /\.(png|cur)$/,
         exclude: /src/,
         use: [{
           loader: 'file-loader',

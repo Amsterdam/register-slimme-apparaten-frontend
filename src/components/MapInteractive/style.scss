@@ -21,19 +21,25 @@
       max-width: 100%;
     }
 
+    .invoer {
+      display: flex;
+      box-shadow: 2px 2px 0 0 #999;
+    }
+
     input[type="text"] {
+      height: 32px;
       border: solid 1px #ccc;
       box-shadow: none;
     }
 
     &__button {
       background-color: #f6f6f6 !important;
-      border: solid 1px #ccc;
+      border: solid 1px #ccc !important;
       border-left: none;
 
       &:hover, &:focus {
         background-color: #ccc !important;
-        border: solid 1px #000;
+        border: solid 1px #000 !important;
         color: #000 !important;
         fill: #000;
       }
@@ -126,7 +132,7 @@
 
   .leaflet-zoom-animated {
     path {
-      transform: translateY(-7px);
+      transform: translate(3px, -4px);
       stroke: #000;
       fill: transparent;
     }
