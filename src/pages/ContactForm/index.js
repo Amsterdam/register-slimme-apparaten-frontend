@@ -106,7 +106,7 @@ class ContactForm extends React.Component { // eslint-disable-line react/prefer-
               </tr>
               <tr>
                 <td><strong>Type</strong></td>
-                <td>{this.state.device.types.length && (this.state.device.types[0].description || 'Onbekend')}</td>
+                <td>{this.state.device.types.length && (this.state.device.types[0].name || 'Onbekend')}</td>
               </tr>
             </tbody>
           </table> }
