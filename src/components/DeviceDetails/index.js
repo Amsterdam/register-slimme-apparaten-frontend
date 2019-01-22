@@ -60,7 +60,7 @@ class DeviceDetails extends React.Component {
             </div>
             { this.props.device.types && <div className="device-details__row">
               <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{this.state.device.types.length && (this.state.device.types[0].description || 'Onbekend')}</div>
+              <div className="device-details__row-element">{(this.props.device.types.length && this.props.device.types[0].name) || 'Onbekend'}</div>
             </div> }
           </div>
           {ContactButton}
