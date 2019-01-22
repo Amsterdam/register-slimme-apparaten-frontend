@@ -6,9 +6,9 @@ import './style.scss';
 function About() {
   return (
     <div>
-      <NavLink to="/about/faq" className="link-faq">Veelgestelde vragen (FAQ)</NavLink>
-
       <h2>Over dit register</h2>
+
+      <NavLink to="/about/faq" className="link-faq">Veelgestelde vragen (FAQ)</NavLink>
 
       <h4>Puntsgewijs wordt toegelicht:</h4>
       <ul>
