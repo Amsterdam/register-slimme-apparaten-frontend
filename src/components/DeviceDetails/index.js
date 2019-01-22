@@ -58,14 +58,10 @@ class DeviceDetails extends React.Component {
               <div className="device-details__row-element">{getMarkerCategory(this.props.device).name}</div>
               { TypesButton }
             </div>
-            <div className="device-details__row">
+            { this.props.device.types && <div className="device-details__row">
               <div className="device-details__row-label">Type</div>
               <div className="device-details__row-element">{this.props.device.types[0].description || 'Onbekend'}</div>
-            </div>
-            <div className="device-details__row">
-              <div className="device-details__row-label">Plaats</div>
-              <div className="device-details__row-element">{this.props.device.address.street}</div>
-            </div>
+            </div> }
           </div>
           {ContactButton}
         </div>
