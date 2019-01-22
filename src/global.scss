@@ -18,18 +18,23 @@ p {
   line-height: 26px;
 }
 
+a, a:hover {
+  color: #004699 !important;
+}
+
+a:hover::before {
+  background-image: url("~amsterdam-stijl/dist/images/svg/caret-left-blue.svg") !important;
+}
+
 ul li {
   margin: 0;
   padding: 0;
+  line-height: 26px;
   text-indent: 0;
 }
 
 ul {
   padding-left: 18px;
-
-  & li {
-    margin-top: 15px;
-  }
 }
 
 dd {
