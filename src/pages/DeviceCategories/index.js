@@ -39,7 +39,7 @@ function Categories() {
       <ul>
         <li>Camera</li>
         <li>Sensor</li>
-        <li>Baken</li>
+        <li>Beacon</li>
         <li>Slimme weggebonden systemen voor verkeersinformatie</li>
         <li>Slimme laadpaal</li>
         <li>Slimme lantaarnpaal</li>
