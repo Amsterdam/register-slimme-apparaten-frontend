@@ -30,7 +30,7 @@ const categories = {
     ]
   },
   'Baken': { // eslint-disable-line quote-props
-    id: 'Beacon',
+    id: 'Baken',
     iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
     name: 'Baken',
     enabled: true,
