@@ -1,8 +1,16 @@
 const ICON_PATH = 'assets/';
 
+export const CAMERA_TOEZICHTSGEBIED = 'Camera-toezichtsgebied';
+
+
 const categories = {
+  [CAMERA_TOEZICHTSGEBIED]: {
+    iconUrl: `${ICON_PATH}icon-camera-gebied@3x.png`,
+    name: 'Camera toezichtsgebied',
+    enabled: true
+  },
   'Camera': { // eslint-disable-line quote-props
-    id: 'Camera',
+    isClustered: true,
     iconUrl: `${ICON_PATH}icon-camera@3x.png`,
     name: 'Camera',
     enabled: true,
@@ -16,7 +24,7 @@ const categories = {
     ]
   },
   'Sensor': { // eslint-disable-line quote-props
-    id: 'Sensor',
+    isClustered: true,
     iconUrl: `${ICON_PATH}icon-sensor@3x.png`,
     name: 'Sensor',
     enabled: true,
@@ -30,7 +38,7 @@ const categories = {
     ]
   },
   'Baken': { // eslint-disable-line quote-props
-    id: 'Baken',
+    isClustered: true,
     iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
     name: 'Beacon',
     enabled: true,
@@ -40,7 +48,7 @@ const categories = {
     subtypes: []
   },
   'Slimme verkeersinformatie': {
-    id: 'Slimme verkeersinformatie',
+    isClustered: true,
     iconUrl: `${ICON_PATH}icon-verkeer@3x.png`,
     name: 'Slimme verkeersinformatie',
     enabled: true,
@@ -53,7 +61,7 @@ const categories = {
     ]
   },
   'Slimme laadpaal': {
-    id: 'Slimme laadpaal',
+    isClustered: true,
     iconUrl: `${ICON_PATH}icon-laadpaal@3x.png`,
     name: 'Slimme laadpaal',
     enabled: true,
@@ -63,7 +71,7 @@ const categories = {
     subtypes: []
   },
   'Slimme lantaarnpaal': {
-    id: 'Slimme lantaarnpaal',
+    isClustered: true,
     iconUrl: `${ICON_PATH}icon-lantaarn@3x.png`,
     name: 'Slimme lantaarnpaal',
     enabled: true,

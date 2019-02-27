@@ -17,14 +17,14 @@ class MapLegend extends React.Component {
   }
 
   render() {
-    const markers = this.props.markers.map((marker) => (
-      <div key={marker.name} className="map-legend__row mb-1">
-        <Checkbox name="check" checked={marker.enabled} onChange={() => this.props.onMarkerToggle(marker.id)}></Checkbox>
+    const checkboxList = Object.entries(this.props.categories).map(([id, category]) => (
+      <div key={category.name} className="map-legend__row mb-1">
+        <Checkbox name="check" checked={category.enabled} onChange={() => this.props.onCategorieToggle(id)}></Checkbox>
         <span className="map-legend__icon">
-          <img className="map-legend__icon" src={marker.iconUrl} alt="" />
+          <img className="map-legend__icon" src={category.iconUrl} alt="" />
         </span>
         <span className="map-legend__row-title">
-          {marker.name}
+          {category.name}
         </span>
       </div>
     ));
@@ -50,7 +50,7 @@ class MapLegend extends React.Component {
           <ExpandIcon className="map-legend__header-icon map-legend__header-icon--collapsed" />
         </button>
         <div className="map-legend__body">
-          {markers}
+          {checkboxList}
         </div>
       </section>
     );
@@ -58,8 +58,8 @@ class MapLegend extends React.Component {
 }
 
 MapLegend.propTypes = {
-  markers: PropTypes.array,
-  onMarkerToggle: PropTypes.func
+  categories: PropTypes.object,
+  onCategorieToggle: PropTypes.func
 };
 
 export default MapLegend;
