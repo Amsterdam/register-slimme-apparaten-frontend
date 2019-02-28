@@ -18,8 +18,6 @@ class DeviceDetails extends React.Component {
   }
 
   render() {
-    if (!this.props.device) return null;
-
     const ContactButton = (<Route
       render={({ history }) => (
         <button className="device-details__contact-button action secundary-blue" onClick={() => { history.push(`/contact-owner/${this.props.device.id}`); }}>
@@ -71,7 +69,11 @@ class DeviceDetails extends React.Component {
 }
 
 DeviceDetails.propTypes = {
-  device: PropTypes.object,
+  device: PropTypes.shape({
+    id: PropTypes.number,
+    types: PropTypes.array.isRequired,
+    name: PropTypes.string, // Back-end does not provide value at this time
+  }).isRequired,
   onDeviceDetailsClose: PropTypes.func
 };
 
