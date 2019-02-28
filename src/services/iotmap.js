@@ -2,7 +2,7 @@
 
 import L from 'leaflet';
 import 'leaflet.markercluster';
-import '../services/geojson'; // Loads extra coordinate conversion into proj4
+
 import categories, {CAMERA_TOEZICHTSGEBIED} from '../static/categories';
 
 /* eslint-disable no-unused-vars */

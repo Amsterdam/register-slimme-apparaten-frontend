@@ -7,6 +7,7 @@ import { getDevices, getDevice, initIoT, getCameraAreas } from '../../services/a
 import { showAreas, showMarkers, toggleElement } from '../../services/iotmap';
 import categories from '../../static/categories';
 import amaps from '../../static/amaps.iife';
+import '../../services/map'; // loads L.Proj (Proj binding leaflet)
 
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';

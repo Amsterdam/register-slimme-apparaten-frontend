@@ -1,7 +1,6 @@
-jest.mock('leaflet');
-jest.mock('../services/geojson');
+import { HIGHLIGHT_CLASS, removeCurrentHighlight, showAreas } from './iotmap';
 
-import { HIGHLIGHT_CLASS, removeCurrentHighlight, showAreas } from './iotmap'; // eslint-disable-line import/first
+jest.mock('leaflet');
 import L from 'leaflet'; // eslint-disable-line import/first
 
 describe('iotmap', () => {
