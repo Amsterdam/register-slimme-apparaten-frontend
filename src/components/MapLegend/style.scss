@@ -19,7 +19,7 @@ $secondary-gray4: #f6f6f6;
   box-shadow: 2px 2px 0 0 $secondary-gray40;
   font-family: "AvenirNextLTW01-Regular";
 
-  @media screen and (max-width:576px) {
+  @media screen and (max-width: 576px) {
     width: 100%;
     max-width: 100%;
     left: 0;
@@ -31,7 +31,7 @@ $secondary-gray4: #f6f6f6;
     width: 58px;
     min-width: 58px;
 
-    @media screen and (max-width:576px) {
+    @media screen and (max-width: 576px) {
       left: auto;
       right: 10px;
       bottom: 20px;
@@ -48,8 +48,9 @@ $secondary-gray4: #f6f6f6;
     border: solid 1px $secondary-gray20;
     box-shadow: 0 1px 0 0 $secondary-gray40;
     cursor: pointer;
-    
-    &:hover, &:focus {
+
+    &:hover,
+    &:focus {
       background-color: $secondary-gray20;
       border-color: #000 !important;
       color: #000 !important;
@@ -76,7 +77,7 @@ $secondary-gray4: #f6f6f6;
     flex-grow: 1;
     font-size: 16px;
     line-height: 16px;
-    font-weight: bold;
+    font-weight: normal;
     font-family: "Avenir LT W01 85 Heavy";
     text-align: left;
 
