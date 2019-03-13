@@ -1,6 +1,7 @@
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { readPaginatedData } from '../datareader';
 
+
 let devices = null;
 
 export async function getDevices() {
@@ -13,10 +14,6 @@ export async function getDevice(id) {
   }
   const all = await devices;
   return all.find((element) => element.id === id);
-}
-
-export function initIoT() {
-  devices = getDevices();
 }
 
 export async function getCameraAreas() {

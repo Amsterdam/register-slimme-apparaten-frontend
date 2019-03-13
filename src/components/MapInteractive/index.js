@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
-import { getDevices, getDevice, initIoT, getCameraAreas } from '../../services/api/iot';
+import { getDevices, getDevice, getCameraAreas } from '../../services/api/iot';
 import { showAreas, showMarkers, toggleElement } from '../../services/iotmap';
 import categories from '../../static/categories';
 import amaps from '../../static/amaps.iife';
@@ -27,7 +27,6 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
 
-    initIoT();
     this.map = null;
     this.state = {
       selection: {
