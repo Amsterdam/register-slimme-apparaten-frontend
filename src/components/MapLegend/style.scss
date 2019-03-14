@@ -8,7 +8,7 @@ $secondary-gray4: #f6f6f6;
   position: absolute;
   left: 10px;
   bottom: 10px;
-  width: 28vw;
+  width: 100%;
   max-height: 100%;
   min-width: 256px;
   max-width: $map-legend-max-width;
@@ -25,6 +25,7 @@ $secondary-gray4: #f6f6f6;
     left: 0;
     right: 0;
     bottom: 0;
+    position: fixed;
   }
 
   &--collapsed {
