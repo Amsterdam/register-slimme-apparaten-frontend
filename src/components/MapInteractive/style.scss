@@ -17,7 +17,7 @@
   .embed-search {
     max-width: 328px;
 
-    @media screen and (max-width:576px) {
+    @media screen and (max-width: 576px) {
       max-width: 100%;
     }
 
@@ -40,7 +40,8 @@
       border: solid 1px #ccc !important;
       border-left: none;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         background-color: #ccc !important;
         border: solid 1px #000 !important;
         color: #000 !important;
@@ -66,7 +67,7 @@
   }
 
   &__loading {
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 0, 0.2);
     display: block;
     width: calc(100% - 30px); // padding left and right of grid
     height: 100%;
@@ -86,7 +87,7 @@
   cursor: pointer;
   z-index: 1010;
 
-  font-family: Avenir-Roman;
+  font-family: "AvenirNextLTW01-Regular";
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
@@ -95,14 +96,15 @@
   letter-spacing: normal;
   color: #000000;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: #ccc;
     border-color: #000 !important;
     color: #000 !important;
     fill: #000;
   }
 
-  @media screen and (max-width:540px) {
+  @media screen and (max-width: 540px) {
     left: 10px;
     top: auto;
     right: auto;
@@ -149,7 +151,7 @@ path.camera-area {
   }
 }
 
-@media screen and (max-width:540px) {
+@media screen and (max-width: 540px) {
   .leaflet-control-zoom {
     display: none;
   }
