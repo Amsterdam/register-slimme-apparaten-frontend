@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectUserName } from 'containers/App/selectors';
-import Header from 'components/Header';
+import { makeSelectUserName } from '../App/selectors';
+import Header from '../../components/Header';
 
 import { doLogin, doLogout } from '../App/actions';
 
