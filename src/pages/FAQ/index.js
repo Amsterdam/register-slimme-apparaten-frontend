@@ -44,7 +44,7 @@ function FAQ() {
       </Accordion>
 
       <Accordion title="Hoe wordt mijn privacy gewaarborgd in het register?">
-        Ook voor het register geldt <a href="https://www.amsterdam.nl/privacy/" target="_blank">het privacybeleid van Amsterdam</a>.
+        Ook voor het register geldt <a href="https://www.amsterdam.nl/privacy/" target="_blank" rel="noopener noreferrer">het privacybeleid van Amsterdam</a>.
       </Accordion>
 
       <Accordion title="Hoe kan het dat ik een slim apparaat niet kan vinden in het register?">
