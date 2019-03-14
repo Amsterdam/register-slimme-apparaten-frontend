@@ -49,11 +49,6 @@ dd {
   .content.container, .content.container-fluid {
     padding-bottom: 20px;
     min-height: 60vh;
-    margin-top: 20px;
-
-    @media screen and (max-width:576px) {
-      margin-top: 0;
-    }
   }
 
   .app-container {
@@ -76,6 +71,13 @@ h4 {
   line-height: 1.55556em;
 }
 
+main {
+  margin-top: 20px;
+
+  @media screen and (max-width: 576px) {
+    margin-top: 0;
+  }
+}
 
 @media print {
   html, body {height: 100%;}
