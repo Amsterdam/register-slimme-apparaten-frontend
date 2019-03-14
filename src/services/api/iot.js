@@ -1,7 +1,6 @@
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { readPaginatedData } from '../datareader';
 
-
 let devices = null;
 
 export async function getDevices() {
