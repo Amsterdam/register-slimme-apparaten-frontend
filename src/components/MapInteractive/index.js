@@ -107,6 +107,10 @@ class Map extends React.Component {
       )}
     />);
 
+    const visibleCategories = Object.keys(categories)
+      .map((cat) => categories[cat].visible && categories[cat].enabled && categories[cat])
+      .filter(Boolean);
+
     return (
       <div className="map-component">
         <div className="map">
@@ -114,7 +118,9 @@ class Map extends React.Component {
             <div id="about-iot">
               { AboutButton }
             </div>
-            <MapLegend categories={categories} onCategorieToggle={(key) => toggleElement(this.map, key)}></MapLegend>
+
+            <MapLegend categories={visibleCategories} onCategorieToggle={(key) => toggleElement(this.map, key)} />
+
             { this.state.selection.type === SELECTION_STATE.DEVICE
               && <DeviceDetails device={this.state.selection.element} location={this.state.location} onDeviceDetailsClose={this.clearSelection}></DeviceDetails>
             }
