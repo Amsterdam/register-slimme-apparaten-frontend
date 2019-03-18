@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormattedMessage } from 'react-intl';
+import { intlShape, injectIntl, FormattedMessage } from 'react-intl';
 import { Checkbox } from '../../shared/components/checkbox';
 
 import CollapseIcon from '../../images/icon-arrow-down.svg';
@@ -16,6 +16,7 @@ class MapLegend extends React.Component {
     super(props);
 
     this.state = { isLegendVisible: window.innerWidth > 576 };
+    this.intl = props.intl;
   }
 
   render() {
@@ -34,7 +35,7 @@ class MapLegend extends React.Component {
     return (
       <section
         id="map-legend"
-        aria-label={this.state.isLegendVisible ? 'Kaartlagen legenda, Kaartlagen verbergen' : 'Kaartlagen legenda, Kaartlagen tonen'}
+        aria-label={this.state.isLegendVisible ? this.intl.formatMessage({ ...messages.legendHide }) : this.intl.formatMessage({ ...messages.legendShow })}
         aria-expanded={this.state.isLegendVisible}
         className={`
           map-legend
@@ -44,7 +45,7 @@ class MapLegend extends React.Component {
         <button
           className="map-legend__header"
           onClick={() => this.setState({ isLegendVisible: !this.state.isLegendVisible })}
-          title={this.state.isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
+          title={this.state.isLegendVisible ? this.intl.formatMessage({ ...messages.hide }) : this.intl.formatMessage({ ...messages.show })}
         >
           <MapLayersIcon className="map-legend__header-icon" />
           <h4 className="map-legend__header-title" aria-hidden="true">
@@ -63,7 +64,8 @@ class MapLegend extends React.Component {
 
 MapLegend.propTypes = {
   categories: PropTypes.object,
-  onCategorieToggle: PropTypes.func
+  onCategorieToggle: PropTypes.func,
+  intl: intlShape.isRequired
 };
 
-export default MapLegend;
+export default injectIntl(MapLegend);

@@ -1,5 +1,9 @@
 {
-  "boilerplate.components.Header.home": "Hjem",
-  "boilerplate.components.MapLegend.header": "Enheder",
-  "boilerplate.containers.NotFoundPage.header": "Siden ikke fundet."
+  "IoTRegister.components.Header.home": "Hjem",
+  "IoTRegister.components.MapLegend.header": "IoT Enheder",
+  "IoTRegister.components.MapLegend.hide": "Gem Tegnforklaring",
+  "IoTRegister.components.MapLegend.legend.hide": "Tegnforklaring, Gem Tegnforklaring",
+  "IoTRegister.components.MapLegend.legend.show": "Tegnforklaring, Vis Tegnforklaring",
+  "IoTRegister.components.MapLegend.show": "Vis Tegnforklaring",
+  "IoTRegister.containers.NotFoundPage.header": "Siden ikke fundet."
 }

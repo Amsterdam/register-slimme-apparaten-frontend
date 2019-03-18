@@ -7,7 +7,7 @@ import { defineMessages } from 'react-intl';
 
 export default defineMessages({
   home: {
-    id: 'boilerplate.components.Header.home',
+    id: 'IoTRegister.components.Header.home',
     defaultMessage: 'Home',
   }
 });

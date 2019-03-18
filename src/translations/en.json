@@ -1,5 +1,9 @@
 {
-  "boilerplate.components.Header.home": "Home",
-  "boilerplate.components.MapLegend.header": "Devices",
-  "boilerplate.containers.NotFoundPage.header": "Page not found."
+  "IoTRegister.components.Header.home": "Home",
+  "IoTRegister.components.MapLegend.header": "Devices",
+  "IoTRegister.components.MapLegend.hide": "Hide Legend",
+  "IoTRegister.components.MapLegend.legend.hide": "Map Legend, Hide Legend",
+  "IoTRegister.components.MapLegend.legend.show": "Map Legend, Show Legend",
+  "IoTRegister.components.MapLegend.show": "Show Legend",
+  "IoTRegister.containers.NotFoundPage.header": "Page not found."
 }

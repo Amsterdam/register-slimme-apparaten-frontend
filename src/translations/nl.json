@@ -1,5 +1,9 @@
 {
-  "boilerplate.components.Header.home": "",
-  "boilerplate.components.MapLegend.header": "Apparaten",
-  "boilerplate.containers.NotFoundPage.header": "Pagina niet gevonden."
+  "IoTRegister.components.Header.home": "",
+  "IoTRegister.components.MapLegend.header": "Apparaten",
+  "IoTRegister.components.MapLegend.hide": "Kaartlagen verbergen",
+  "IoTRegister.components.MapLegend.legend.hide": "Kaartlagen legenda, Kaartlagen verbergen",
+  "IoTRegister.components.MapLegend.legend.show": "Kaartlagen legenda, Kaartlagen tonen",
+  "IoTRegister.components.MapLegend.show": "Kaartlagen tonen",
+  "IoTRegister.containers.NotFoundPage.header": "Pagina niet gevonden."
 }
