@@ -1,0 +1,58 @@
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss';
+
+.modal-underlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1010;
+}
+
+.modal-inner {
+  background-color: white;
+  overflow: auto;
+  max-height: 75vh;
+  position: relative;
+
+  @media (min-width: 300px) and (max-width: 619px) {
+    width: 300px;
+    min-height: 200px;
+  }
+
+  @media (min-width: 620px) and (max-width: 799px) {
+    width: 620px;
+    min-height: 300px;
+  }
+
+  @media (min-width: 800px) {
+    width: 800px;
+    min-height: 300px;
+  }
+}
+
+.modal-header {
+  & > * {
+    margin: 0 30px 0 0;
+  }
+}
+
+.modal-close {
+  background: url(../../images/close-icon-black.svg) center no-repeat;
+  background-size: 16px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+
+  & > * {
+    @include visuallyhidden;
+  }
+}

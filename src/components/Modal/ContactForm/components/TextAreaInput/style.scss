@@ -1,4 +1,8 @@
 .text-area-input {
+  textarea {
+    resize: vertical;
+  }
+
   &__counter {
     float: right;
   }
