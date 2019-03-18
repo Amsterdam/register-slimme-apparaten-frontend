@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { FormattedMessage } from 'react-intl';
 import { Checkbox } from '../../shared/components/checkbox';
 
 import CollapseIcon from '../../images/icon-arrow-down.svg';
 import ExpandIcon from '../../images/icon-arrow-up.svg';
 import MapLayersIcon from '../../images/icon-map-layers.svg';
 
+import messages from './messages';
 import './style.scss';
 
 class MapLegend extends React.Component {
@@ -45,7 +47,9 @@ class MapLegend extends React.Component {
           title={this.state.isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
         >
           <MapLayersIcon className="map-legend__header-icon" />
-          <h4 className="map-legend__header-title" aria-hidden="true">Apparaten</h4>
+          <h4 className="map-legend__header-title" aria-hidden="true">
+            <FormattedMessage {...messages.header} />
+          </h4>
           <CollapseIcon className="map-legend__header-icon map-legend__header-icon--expanded" />
           <ExpandIcon className="map-legend__header-icon map-legend__header-icon--collapsed" />
         </button>
