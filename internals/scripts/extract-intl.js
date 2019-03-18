@@ -15,7 +15,7 @@ const presets = pkg.babel.presets;
 const plugins = pkg.babel.plugins || [];
 
 const i18n = require('../../src/i18n');
-import { DEFAULT_LOCALE } from '../../src/containers/src/constants';
+import { DEFAULT_LOCALE } from '../../src/containers/App/constants';
 
 require('shelljs/global');
 
