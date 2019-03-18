@@ -114,6 +114,7 @@
   color: white;
   background-color: white !important;
   box-shadow: 1px 1px 1px #666666;
+  border-radius: 50% !important;
 
   div {
     width: 32px !important;
@@ -121,10 +122,12 @@
     margin-top: 4px !important;
     margin-left: 4px !important;
     background-color: #004699 !important;
+    border-radius: 50% !important;
   }
 
   span {
-    line-height: 34px !important;
+    line-height: 32px !important;
+    display: block;
   }
 }
 
