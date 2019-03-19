@@ -43,7 +43,7 @@ const categories = {
     name: 'Beacon',
     enabled: true,
     description: 'Beacons of bakens zijn kleine zenders die een verbinding maken via Bluetooth met smartphones. Zij worden meestal gebruikt om informatie te verschaffen over bijvoorbeeld rijtijden Openbaar Vervoer (hoe lang tot de volgende tram of bus), over routes e.d. Ook worden ze gebruikt voor marketing doeleinden. Er worden boodschappen verstuurd naar de smartphone om je naar een winkel te lokken die in de buurt is.',
-    wikipediaUrl: 'https://en.wikipedia.org/wiki/Beacon',
+    wikipediaUrl: 'https://en.wikipedia.org/wiki/Bluetooth_low_energy_beacon',
     wikipediaDescription: 'A beacon is an intentionally conspicuous device designed to attract attention to a specific location.',
     subtypes: []
   },
