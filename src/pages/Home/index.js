@@ -25,7 +25,6 @@ const SELECTION_STATE = {
   NOTHING: 0,
   DEVICE: 1,
   AREA: 2,
-  ABOUT: 3,
 };
 
 class Home extends Component {
