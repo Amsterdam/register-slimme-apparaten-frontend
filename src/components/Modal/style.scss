@@ -7,7 +7,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: $ams-backdrop;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +43,7 @@
 }
 
 .modal-close {
-  background: url(../../images/close-icon-black.svg) center no-repeat;
+  background: url("~amsterdam-stijl/dist/images/svg/close-icon-black.svg") center no-repeat;
   background-size: 16px;
   position: absolute;
   top: 15px;
@@ -51,6 +51,12 @@
   width: 30px;
   height: 30px;
   border: 0;
+
+  &:hover,
+  &:focus {
+    background-color: $buttonbg-tertiair-hover;
+    cursor: pointer;
+  }
 
   & > * {
     @include visuallyhidden;

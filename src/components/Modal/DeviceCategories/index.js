@@ -17,17 +17,21 @@ function Categories() {
     </div>
   );
 
-  const renderCategories = deviceCategories.filter((category) => category.description).map((category) =>
-    (<div key={category.name}>
-      <h4>{category.name}</h4>
+  const renderCategories = deviceCategories.filter((category) => category.description).map((category) => (
+    <section key={category.name}>
+      <h4 id={category.name}>{category.name}</h4>
       <p
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: category.description }}
       />
+
       {renderSubtypes(category.subtypes)}
-      {category.wikipediaDescription && <p><a href={category.wikipediaUrl} target="_blank">Wikipedia:</a> &quot;{category.wikipediaDescription}&quot;</p>}
-    </div>)
-  );
+
+      {category.wikipediaDescription && (
+        <p><a href={category.wikipediaUrl} target="_blank">Wikipedia:</a> &quot;{category.wikipediaDescription}&quot;</p>
+      )}
+    </section>
+  ));
 
   return (
     <Fragment>
@@ -35,23 +39,23 @@ function Categories() {
         <h3>Categoriën apparaten</h3>
       </header>
 
-      <section className="modal-body">
+      <div className="modal-body">
         <p>In het volgende een toelichting van de typen apparaten die we onderscheiden. Deze zullen op basis van ervaringen aangepast en aangevuld worden. Om een zo breed mogelijk perspectief te bieden, geven we een korte omschrijving in het Nederlands, gevolgd door een beschrijving van de internationale Wikipedia (Engelstalig).</p>
         <p>
           Onderscheid wordt gemaakt tussen de volgende categorieën:
         </p>
         <ul>
-          <li>Camera toezichtsgebieden</li>
-          <li>Camera</li>
-          <li>Sensor</li>
-          <li>Beacon</li>
-          <li>Slimme weggebonden systemen voor verkeersinformatie</li>
-          <li>Slimme laadpaal</li>
-          <li>Slimme lantaarnpaal</li>
+          <li><a href="#Camera toezichtsgebieden">Camera toezichtsgebieden</a></li>
+          <li><a href="#Camera">Camera</a></li>
+          <li><a href="#Sensor">Sensor</a></li>
+          <li><a href="#Beacon">Beacon</a></li>
+          <li><a href="#Slimme verkeersinformatie">Slimme weggebonden systemen voor verkeersinformatie</a></li>
+          <li><a href="#Slimme laadpaal">Slimme laadpaal</a></li>
+          <li><a href="#Slimme lantaarnpaal">Slimme lantaarnpaal</a></li>
         </ul>
 
-        <div>
-          <h4>Camera toezichtsgebieden</h4>
+        <section>
+          <h4 id="Camera toezichtsgebieden">Camera toezichtsgebieden</h4>
           <p>
             Om de veiligheid te vergroten en de overlast in de openbare ruimte te bestrijden kan de gemeente een aantal maatregelen nemen, waaronder het inzetten van cameratoezicht (Artikel 151c Gemeentewet).
             De camera’s geven politie en handhaving ‘extra ogen’ in de stad. Het cameratoezicht heeft de volgende functies:
@@ -64,10 +68,10 @@ function Categories() {
           <p>
             De met dit doel gemaakte camerabeelden worden in toenemende mate voor opsporing gebruikt.
           </p>
-        </div>
+        </section>
 
         { renderCategories }
-      </section>
+      </div>
     </Fragment>
   );
 }
