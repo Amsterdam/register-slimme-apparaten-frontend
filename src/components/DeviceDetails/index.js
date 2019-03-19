@@ -19,7 +19,6 @@ class DeviceDetails extends React.Component {
 
     this.state = {
       contactModalActive: false,
-      isMapPreviewPanelVisible: true,
       typesModalActive: false,
     };
   }
