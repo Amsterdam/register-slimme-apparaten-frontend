@@ -15,7 +15,8 @@ body {
 }
 
 p {
-  line-height: 26px;
+  font-size: 1rem;
+  line-height: 1.4em;
 }
 
 a, a:hover {
@@ -39,6 +40,16 @@ ul {
 
 dd {
   margin: 0;
+}
+
+h3 {
+  font-size: 1.25rem;
+  line-height: 1.75em;
+}
+
+h4 {
+  font-size: 1.125rem;
+  line-height: 1.566em;
 }
 
 #app {
@@ -90,4 +101,3 @@ dd {
   }
 
 }
-
