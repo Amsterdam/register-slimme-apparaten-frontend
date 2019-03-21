@@ -110,7 +110,7 @@ class Map extends React.Component {
     const visibleCategories = { ...categories };
 
     Object.keys(visibleCategories)
-      .filter((cat) => !(visibleCategories[cat].visible && visibleCategories[cat].enabled && visibleCategories[cat]))
+      .filter((cat) => !(visibleCategories[cat].visible && visibleCategories[cat].enabled))
       .forEach((cat) => {
         delete visibleCategories[cat];
       });
