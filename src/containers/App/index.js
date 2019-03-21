@@ -11,8 +11,8 @@ import Categories from '../../pages/DeviceCategories';
 import About from '../../pages/About';
 import FAQ from '../../pages/FAQ';
 import NotFoundPage from '../NotFoundPage';
-import Footer from 'components/Footer';
-import HeaderContainer from 'containers/HeaderContainer';
+import Footer from '../../components/Footer';
+import HeaderContainer from '../../containers/HeaderContainer';
 import reducer from './reducer';
 import saga from './saga';
 
