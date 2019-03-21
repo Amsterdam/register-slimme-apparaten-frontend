@@ -107,9 +107,13 @@ class Map extends React.Component {
       )}
     />);
 
-    const visibleCategories = Object.keys(categories)
-      .map((cat) => categories[cat].visible && categories[cat].enabled && categories[cat])
-      .filter(Boolean);
+    const visibleCategories = { ...categories };
+
+    Object.keys(visibleCategories)
+      .filter((cat) => !(visibleCategories[cat].visible && visibleCategories[cat].enabled && visibleCategories[cat]))
+      .forEach((cat) => {
+        delete visibleCategories[cat];
+      });
 
     return (
       <div className="map-component">
