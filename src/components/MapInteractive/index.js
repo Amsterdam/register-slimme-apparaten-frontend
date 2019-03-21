@@ -79,7 +79,7 @@ class Map extends React.Component {
 
   async addMarkers() {
     this.devices = await getDevices();
-    showMarkers(this.map, this.devices, this.showDevice.bind(this), this.clearSelection.bind(this));
+    showMarkers(this.map, this.devices, this.showDevice.bind(this));
   }
 
   showCameraArea(areaDetails) { // eslint-disable-line no-unused-vars

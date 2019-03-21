@@ -77,7 +77,7 @@ export const removeCurrentHighlight = (map) => {
   }
 };
 
-export function showMarkers(map, markers, onClick, onRemove) {
+export function showMarkers(map, markers, onClick) {
   const showInfo = (event, loc) => {
     if (activeMarker) {
       activeMarker._icon.classList.remove('highlight');
@@ -106,7 +106,7 @@ export function showMarkers(map, markers, onClick, onRemove) {
           icon: getMarkerIcon(marker),
         })
           .addTo(layer)
-          .on('add', (event) => {
+          .once('add', (event) => {
             const { sourceTarget } = event;
 
             if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
@@ -114,12 +114,11 @@ export function showMarkers(map, markers, onClick, onRemove) {
             }
             return this;
           })
-          .on('remove', (event) => {
+          .once('remove', (event) => {
             const { sourceTarget } = event;
 
             if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
               activeMarker = undefined;
-              onRemove();
             }
             return this;
           })
