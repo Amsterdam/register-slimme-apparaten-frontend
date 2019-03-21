@@ -153,3 +153,8 @@ path.camera-area {
     display: none;
   }
 }
+
+.leaflet-marker-icon.highlight {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.8);
+  border-radius: 50%;
+}
