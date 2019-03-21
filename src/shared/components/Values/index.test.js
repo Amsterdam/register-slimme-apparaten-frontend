@@ -5,7 +5,7 @@ import Values from './';
 
 describe('<Values />', () => {
   it('should render an <div> tag', () => {
-    const renderedComponent = mount(<Values />);
+    const renderedComponent = shallow(<Values />);
     expect(renderedComponent.find('div').length).toEqual(1);
   });
 
