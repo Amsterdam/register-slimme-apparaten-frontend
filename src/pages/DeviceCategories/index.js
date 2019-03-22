@@ -19,7 +19,7 @@ function Categories() {
 
   const renderCategories = deviceCategories.filter((category) => category.description).map((category) =>
     (<div key={category.name}>
-      <h4>{category.name}</h4>
+      <h3>{category.name}</h3>
       <p
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: category.description }}
@@ -31,7 +31,8 @@ function Categories() {
 
   return (
     <div className="categories">
-      <h2>Categoriën apparaten</h2>
+      <h2>Categorieën apparaten</h2>
+
       <p>In het volgende een toelichting van de typen apparaten die we onderscheiden. Deze zullen op basis van ervaringen aangepast en aangevuld worden. Om een zo breed mogelijk perspectief te bieden, geven we een korte omschrijving in het Nederlands, gevolgd door een beschrijving van de internationale Wikipedia (Engelstalig).</p>
       <p>
         Onderscheid wordt gemaakt tussen de volgende categorieën:
@@ -47,7 +48,7 @@ function Categories() {
       </ul>
 
       <div>
-        <h4>Camera toezichtsgebieden</h4>
+        <h3>Camera toezichtsgebieden</h3>
         <p>
           Om de veiligheid te vergroten en de overlast in de openbare ruimte te bestrijden kan de gemeente een aantal maatregelen nemen, waaronder het inzetten van cameratoezicht (Artikel 151c Gemeentewet).
           De camera’s geven politie en handhaving ‘extra ogen’ in de stad. Het cameratoezicht heeft de volgende functies:

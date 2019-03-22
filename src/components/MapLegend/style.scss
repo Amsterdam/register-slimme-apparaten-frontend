@@ -1,5 +1,5 @@
 $map-legend-header-height: 33px;
-$map-legend-max-width: 285px;
+$map-legend-max-width: 295px;
 $secondary-gray40: #999;
 $secondary-gray20: #ccc;
 $secondary-gray4: #f6f6f6;
@@ -8,7 +8,7 @@ $secondary-gray4: #f6f6f6;
   position: absolute;
   left: 10px;
   bottom: 10px;
-  width: 28vw;
+  width: 100%;
   max-height: 100%;
   min-width: 256px;
   max-width: $map-legend-max-width;
@@ -25,11 +25,12 @@ $secondary-gray4: #f6f6f6;
     left: 0;
     right: 0;
     bottom: 0;
+    position: fixed;
   }
 
   &--collapsed {
-    width: 58px;
-    min-width: 58px;
+    width: 64px;
+    min-width: 64px;
 
     @media screen and (max-width: 576px) {
       left: auto;
@@ -42,8 +43,6 @@ $secondary-gray4: #f6f6f6;
     height: $map-legend-header-height;
     padding: 4px;
     margin: 0;
-    display: flex;
-    align-items: center;
     background-color: $secondary-gray4;
     border: solid 1px $secondary-gray20;
     box-shadow: 0 1px 0 0 $secondary-gray40;
@@ -62,6 +61,7 @@ $secondary-gray4: #f6f6f6;
     fill: #000;
     height: 24px;
     width: 24px;
+    display: inline-block;
 
     .map-legend--collapsed &--expanded {
       display: none;
@@ -76,10 +76,13 @@ $secondary-gray4: #f6f6f6;
     margin: 0px 4px;
     flex-grow: 1;
     font-size: 16px;
-    line-height: 16px;
+    line-height: 24px;
     font-weight: normal;
     font-family: "Avenir LT W01 85 Heavy";
     text-align: left;
+    display: inline-block;
+    width: calc(100% - 56px);
+    vertical-align: top;
 
     .map-legend--collapsed & {
       display: none;
