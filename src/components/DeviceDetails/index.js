@@ -29,7 +29,7 @@ class DeviceDetails extends React.Component {
     const TypesButton = (<Route
       render={({ history }) => (
         <button className="device-details__question-mark-button" onClick={() => { history.push('/categories'); }}>
-          <QuestionMarkIcon></QuestionMarkIcon>
+          <QuestionMarkIcon />
         </button>
       )}
     />);

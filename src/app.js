@@ -19,15 +19,6 @@ import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 import 'leaflet/dist/leaflet';
 
-
-// Import root app
-import App from 'containers/App';
-import { authenticateUser } from 'containers/App/actions';
-import { authenticate } from 'shared/services/auth/auth';
-
-// Import Language Provider
-import LanguageProvider from 'containers/LanguageProvider';
-
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
@@ -41,6 +32,15 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'static/nlmaps.css';
 import 'amsterdam-stijl/dist/css/ams-stijl.css';
+
+// Import root app
+import App from './containers/App';
+import { authenticateUser } from './containers/App/actions';
+import { authenticate } from './shared/services/auth/auth';
+
+// Import Language Provider
+import LanguageProvider from './containers/LanguageProvider';
+
 import './global.scss';
 
 import configureStore from './configureStore';
@@ -107,4 +107,3 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-

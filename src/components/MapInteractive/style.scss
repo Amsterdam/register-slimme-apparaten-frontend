@@ -30,6 +30,9 @@
       height: 32px;
       border: solid 1px #ccc;
       box-shadow: none;
+      padding-top: 0;
+      padding-bottom: 0;
+      line-height: 32px;
     }
 
     &__button {
@@ -151,5 +154,19 @@ path.camera-area {
 @media screen and (max-width: 540px) {
   .leaflet-control-zoom {
     display: none;
+  }
+}
+
+.leaflet-control-zoom a:hover::before {
+  background-image: none !important;
+}
+
+@media screen and (max-width: 576px) {
+  #about-iot {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1010;
   }
 }

@@ -114,13 +114,15 @@ class Map extends React.Component {
             <div id="about-iot">
               { AboutButton }
             </div>
-            <MapLegend categories={categories} onCategorieToggle={(key) => toggleElement(this.map, key)}></MapLegend>
-            { this.state.selection.type === SELECTION_STATE.DEVICE
-              && <DeviceDetails device={this.state.selection.element} location={this.state.location} onDeviceDetailsClose={this.clearSelection}></DeviceDetails>
-            }
-            { this.state.selection.type === SELECTION_STATE.AREA
-              && <CameraAreaDetails onDeviceDetailsClose={this.clearSelection}></CameraAreaDetails>
-            }
+
+            <MapLegend categories={categories} onCategorieToggle={(key) => toggleElement(this.map, key)} />
+            { this.state.selection.type === SELECTION_STATE.DEVICE && (
+              <DeviceDetails device={this.state.selection.element} location={this.state.location} onDeviceDetailsClose={this.clearSelection} />
+            )}
+
+            { this.state.selection.type === SELECTION_STATE.AREA && (
+              <CameraAreaDetails onDeviceDetailsClose={this.clearSelection} />
+            )}
           </div>
         </div>
       </div>
