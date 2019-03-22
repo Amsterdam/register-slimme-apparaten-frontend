@@ -125,12 +125,13 @@ class Map extends React.Component {
 
             <MapLegend categories={visibleCategories} onCategorieToggle={(key) => toggleElement(this.map, key)} />
 
-            { this.state.selection.type === SELECTION_STATE.DEVICE
-              && <DeviceDetails device={this.state.selection.element} location={this.state.location} onDeviceDetailsClose={this.clearSelection}></DeviceDetails>
-            }
-            { this.state.selection.type === SELECTION_STATE.AREA
-              && <CameraAreaDetails onDeviceDetailsClose={this.clearSelection}></CameraAreaDetails>
-            }
+            { this.state.selection.type === SELECTION_STATE.DEVICE && (
+              <DeviceDetails device={this.state.selection.element} location={this.state.location} onDeviceDetailsClose={this.clearSelection} />
+            )}
+
+            { this.state.selection.type === SELECTION_STATE.AREA && (
+              <CameraAreaDetails onDeviceDetailsClose={this.clearSelection} />
+            )}
           </div>
         </div>
       </div>

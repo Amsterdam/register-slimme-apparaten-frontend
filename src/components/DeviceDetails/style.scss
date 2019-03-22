@@ -44,7 +44,7 @@ $device-details-bottom: 10px;
     background-color: $primary-light;
     border-bottom: 1px solid $secondary-gray20;
   }
-  
+
   &__table {
     .device-details__header-row {
       background-color: $secondary-gray60;
@@ -168,13 +168,12 @@ $device-details-bottom: 10px;
   button.action {
     padding: 8px;
     margin: 16px auto 24px auto;
-    display: flex;
-    align-items: center;
     font-size: 16px;
     font-weight: 900;
 
     svg {
       margin-right: 8px;
+      vertical-align: middle;
     }
   }
 }
