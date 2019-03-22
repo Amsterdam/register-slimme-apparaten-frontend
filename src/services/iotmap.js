@@ -24,6 +24,7 @@ const markerOptions = {
 
 export const HIGHLIGHT_CLASS = 'active-element';
 
+let activeMarker;
 let markerHighlight;
 let areaHighlightLayer;
 
@@ -78,16 +79,13 @@ export const removeCurrentHighlight = (map) => {
 
 export function showMarkers(map, markers, onClick) {
   const showInfo = (event, loc) => {
-    removeCurrentHighlight(map);
+    if (activeMarker) {
+      activeMarker._icon.classList.remove('highlight');
+    }
 
-    markerHighlight = L.circleMarker([loc.latitude, loc.longitude], {
-      className: 'marker-highlight',
-      radius: 13,
-
-      // tooltip-pane is on top of marker-pane, so will not be hidden by other markers close to the selected marker
-      pane: 'tooltipPane',
-    });
-    markerHighlight.addTo(map);
+    const { sourceTarget } = event;
+    activeMarker = sourceTarget;
+    activeMarker._icon.classList.add('highlight');
 
     onClick(loc);
   };
@@ -108,6 +106,22 @@ export function showMarkers(map, markers, onClick) {
           icon: getMarkerIcon(marker),
         })
           .addTo(layer)
+          .once('add', (event) => {
+            const { sourceTarget } = event;
+
+            if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
+              activeMarker._icon.classList.add('highlight');
+            }
+            return this;
+          })
+          .once('remove', (event) => {
+            const { sourceTarget } = event;
+
+            if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
+              activeMarker = undefined;
+            }
+            return this;
+          })
           .on('click', (event) => showInfo(event, marker)));
     categories[id].layer = layer;
     categories[id].enabled = true;

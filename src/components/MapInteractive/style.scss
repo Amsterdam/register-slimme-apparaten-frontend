@@ -157,6 +157,11 @@ path.camera-area {
   }
 }
 
+.leaflet-marker-icon.highlight {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.8);
+  border-radius: 50%;
+}
+
 .leaflet-control-zoom a:hover::before {
   background-image: none !important;
 }
