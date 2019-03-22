@@ -107,6 +107,14 @@ class Map extends React.Component {
       )}
     />);
 
+    const visibleCategories = { ...categories };
+
+    Object.keys(visibleCategories)
+      .filter((cat) => !(visibleCategories[cat].visible && visibleCategories[cat].enabled))
+      .forEach((cat) => {
+        delete visibleCategories[cat];
+      });
+
     return (
       <div className="map-component">
         <div className="map">
@@ -115,7 +123,8 @@ class Map extends React.Component {
               { AboutButton }
             </div>
 
-            <MapLegend categories={categories} onCategorieToggle={(key) => toggleElement(this.map, key)} />
+            <MapLegend categories={visibleCategories} onCategorieToggle={(key) => toggleElement(this.map, key)} />
+
             { this.state.selection.type === SELECTION_STATE.DEVICE && (
               <DeviceDetails device={this.state.selection.element} location={this.state.location} onDeviceDetailsClose={this.clearSelection} />
             )}

@@ -20,7 +20,6 @@ class MapLegend extends React.Component {
     const checkboxList = Object.entries(this.props.categories).map(([id, category]) => (
       <div key={category.name} className="map-legend__row mb-1">
         <Checkbox name="check" checked={category.enabled} onChange={() => this.props.onCategorieToggle(id)} />
-
         <span className="map-legend__icon">
           <img className="map-legend__icon" src={category.iconUrl} alt="" />
         </span>
