@@ -8,6 +8,17 @@ const FAQ = () => (
   <div className="faq-content">
     <h2>Veelgestelde vragen (FAQ)</h2>
 
+    <Accordion title="Wie is verantwoordelijk voor het register?">
+      Het register is gemaakt in opdracht van het programma Digitale Infrastructuur openbare ruimte Amsterdam (DI020), een
+      samenwerkverband van Alliander, de gemeente Amsterdam, Johan Cruijff Arena, de politie, vervoerregio en Waternet. De openbare
+      ruimte, immers, is van ons allemaal.<br />
+      Het samenwerkverband DI020 heeft de gemeente Amsterdam gevraagd het register te beheren.<br /><br />
+      De gegevens over slimme apparaten in het register worden aangeleverd door de eigenaar(s) van deze slimme apparaten. Deze zijn
+      verantwoordelijk voor de volledigheid en juistheid van de gegevens.U kunt een vraag stellen via het contactformulier aan de
+      eigenaar van de gegevens. Het is aan de eigenaar of deze reageert. Dat is niet de verantwoordelijkheid van het samenwerkverband
+      of de gemeente Amsterdam.
+    </Accordion>
+
     <Accordion title="Waarom een register voor slimme apparaten?">
       Het ‘register slimme apparaten’ is een online register (kaart) welk laat zien waar data en andere gegevens worden verzamelen
       in de openbare ruimte. Denk aan onder meer laadpalen, sensoren, camera’s voor het tellen van aantallen voetgangers of
