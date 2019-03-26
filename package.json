@@ -181,7 +181,8 @@
       "cross-env",
       "express",
       "ip",
-      "minimist"
+      "minimist",
+      "amsterdam-stijl"
     ],
     "include": [
       "core-js",
