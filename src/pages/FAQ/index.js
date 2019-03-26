@@ -20,7 +20,7 @@ const FAQ = () => (
     </Accordion>
 
     <Accordion title="Waarom een register voor slimme apparaten?">
-      Het ‘register slimme apparaten’ is een online register (kaart) welk laat zien waar data en andere gegevens worden verzamelen
+      Het ‘register slimme apparaten’ is een online register (kaart) welke laat zien waar data en andere gegevens worden verzamelen
       in de openbare ruimte. Denk aan onder meer laadpalen, sensoren, camera’s voor het tellen van aantallen voetgangers of
       vervoermiddelen; voor kenteken- of gezichtsherkenning. Deze slimme apparaten vallen lang niet altijd op. Omdat ze data
       verzamelen over onze omgeving, en soms over ‘ons’, vindt de gemeente Amsterdam het belangrijk op hier transparantie in te
