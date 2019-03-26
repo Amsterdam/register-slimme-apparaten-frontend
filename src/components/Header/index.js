@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import '../../../public/images/map-thumbnail.png';
 import './style.scss';
 
 const Header = () => (
