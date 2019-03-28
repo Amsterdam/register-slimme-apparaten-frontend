@@ -15,6 +15,14 @@ import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
 
+const visibleCategories = { ...categories };
+
+Object.keys(visibleCategories)
+  .filter((cat) => !(visibleCategories[cat].visible && visibleCategories[cat].enabled))
+  .forEach((cat) => {
+    delete visibleCategories[cat];
+  });
+
 const DEFAULT_ZOOM_LEVEL = 14;
 
 const SELECTION_STATE = {
@@ -106,14 +114,6 @@ class Map extends React.Component {
         <button className="about-button" onClick={() => { history.push('/about'); }}>Over dit register</button>
       )}
     />);
-
-    const visibleCategories = { ...categories };
-
-    Object.keys(visibleCategories)
-      .filter((cat) => !(visibleCategories[cat].visible && visibleCategories[cat].enabled))
-      .forEach((cat) => {
-        delete visibleCategories[cat];
-      });
 
     return (
       <div className="map-component">

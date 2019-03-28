@@ -84,7 +84,7 @@ const categories = {
     wikipediaUrl: '',
     wikipediaDescription: '',
     subtypes: [],
-    visible: true,
+    visible: false,
   }
 };
 
