@@ -21,7 +21,7 @@ exports[`<MainMenu /> should render correctly 1`] = `
             >
               <FormattedMessage
                 defaultMessage="Home"
-                id="boilerplate.components.Header.home"
+                id="IoTRegister.components.Header.home"
                 values={Object {}}
               />
             </span>
