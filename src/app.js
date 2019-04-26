@@ -14,19 +14,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import moment from 'moment';
-import 'moment/src/locale/nl';
 import createHistory from 'history/createBrowserHistory';
 import 'leaflet/dist/leaflet';
-
-
-// Import root app
-import App from 'containers/App';
-import { authenticateUser } from 'containers/App/actions';
-import { authenticate } from 'shared/services/auth/auth';
-
-// Import Language Provider
-import LanguageProvider from 'containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
@@ -41,15 +30,21 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'static/nlmaps.css';
 import 'amsterdam-stijl/dist/css/ams-stijl.css';
+
+// Import root app
+import App from './containers/App';
+import { authenticateUser } from './containers/App/actions';
+import { authenticate } from './shared/services/auth/auth';
+
+// Import Language Provider
+import LanguageProvider from './containers/LanguageProvider';
+
 import './global.scss';
 
 import configureStore from './configureStore';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-
-// load locale for date formatting
-moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
@@ -108,4 +103,3 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-
