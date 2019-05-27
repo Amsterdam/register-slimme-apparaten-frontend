@@ -257,7 +257,7 @@
     "react-accessible-accordion": "^2.4.4",
     "react-albus": "^2.0.0",
     "react-datepicker": "1.5.0",
-    "react-dom": "16.2.0",
+    "react-dom": "16.2.1",
     "react-intl": "2.3.0",
     "react-loadable": "4.0.3",
     "react-reactive-form": "^1.0.26",
