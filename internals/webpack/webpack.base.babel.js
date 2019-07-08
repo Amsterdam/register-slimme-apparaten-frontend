@@ -5,6 +5,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -101,7 +102,8 @@ module.exports = (options) => ({
     new ExtractTextPlugin({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
-    })
+    }),
+    new Dotenv(),
   ]),
   resolve: {
     modules: ['src', 'node_modules'],
