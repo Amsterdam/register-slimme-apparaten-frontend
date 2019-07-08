@@ -11,7 +11,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // see https://github.com/webpack/loader-utils/issues/56 parseQuery() will be replaced with getOptions()
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
-
+console.log('using babel base webpack thingy');
 module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
@@ -95,6 +95,7 @@ module.exports = (options) => ({
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        REACT_APP_TEST: '"This is a test"'
       },
     }),
     new webpack.NamedModulesPlugin(),
@@ -120,6 +121,6 @@ module.exports = (options) => ({
   target: options.target || 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
+    globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
   },
 });
