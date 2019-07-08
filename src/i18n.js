@@ -5,35 +5,40 @@
  *
  */
 import { addLocaleData } from 'react-intl';
-import enLocaleData from 'react-intl/locale-data/en';
-import nlLocaleData from 'react-intl/locale-data/nl';
-
+import defaultMessages from './translations/en.json';
 import { DEFAULT_LOCALE } from '../src/containers/App/constants';
 
-import enTranslationMessages from './translations/en.json';
-import nlTranslationMessages from './translations/nl.json';
+const translationMessages = {};
+const appLocales = process.env.LANGUAGES.split(',').map((lang) => lang.trim());
 
-addLocaleData(enLocaleData);
-addLocaleData(nlLocaleData);
+appLocales.forEach((lang) => {
+  try {
+    /* eslint-disable global-require */
+    const langData = require(`react-intl/locale-data/${lang}`);
+    const messages = require(`./translations/${lang}.json`);
+    /* eslint-enable */
 
-export const appLocales = [
-  'en',
-  'nl',
-];
+    addLocaleData(langData);
+    translationMessages[lang] = formatTranslationMessages(lang, messages);
+  } catch (e) {
+    // probably a missing translation file
+  }
+});
 
-export const formatTranslationMessages = (locale, messages) => {
-  const defaultFormattedMessages = locale !== DEFAULT_LOCALE
-    ? formatTranslationMessages(DEFAULT_LOCALE, enTranslationMessages)
-    : {};
+const formatTranslationMessages = (locale, messages) => {
+  const defaultFormattedMessages =
+    locale !== DEFAULT_LOCALE
+      ? formatTranslationMessages(DEFAULT_LOCALE, defaultMessages)
+      : {};
+
   return Object.keys(messages).reduce((formattedMessages, key) => {
-    const formattedMessage = !messages[key] && locale !== DEFAULT_LOCALE
-      ? defaultFormattedMessages[key]
-      : messages[key];
+    const formattedMessage =
+      !messages[key] && locale !== DEFAULT_LOCALE
+        ? defaultFormattedMessages[key]
+        : messages[key];
+
     return Object.assign(formattedMessages, { [key]: formattedMessage });
   }, {});
 };
 
-export const translationMessages = {
-  en: formatTranslationMessages('en', enTranslationMessages),
-  nl: formatTranslationMessages('nl', nlTranslationMessages),
-};
+export { formatTranslationMessages, appLocales, translationMessages };

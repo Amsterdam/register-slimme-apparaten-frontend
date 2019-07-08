@@ -5,7 +5,6 @@
  * code.
  */
 
-
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
@@ -44,7 +43,7 @@ import './global.scss';
 import configureStore from './configureStore';
 
 // Import i18n messages
-import { translationMessages } from './i18n';
+import { translationMessages, appLocales } from './i18n';
 
 // Create redux store with history
 const initialState = {};
@@ -77,13 +76,17 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise((resolve) => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-      import('intl/locale-data/jsonp/nl.js'),
-    ]))
+  })
+    .then(() =>
+      Promise.all(
+        appLocales.map((locale) =>
+          // eslint-disable-next-line global-require
+          require(`intl/locale-data/jsonp/${locale}.js`)
+        )
+      )
+    )
     .then(() => render(translationMessages))
     .catch((err) => {
       throw err;
@@ -95,7 +98,10 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptance') {
+if (
+  process.env.NODE_ENV === 'production' ||
+  process.env.NODE_ENV === 'acceptance'
+) {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
 
