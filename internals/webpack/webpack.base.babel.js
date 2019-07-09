@@ -123,7 +123,7 @@ module.exports = (options) => ({
 });
 
 const getEnvVariables = () => {
-  const parsed = dotenv.config().parsed;
+  const parsed = dotenv.config().parsed || {};
   const citySpecificEnvs = Object.entries(parsed).reduce((p, [key, value]) => {
     // eslint-disable-next-line no-param-reassign
     p[key] = JSON.stringify(value);
