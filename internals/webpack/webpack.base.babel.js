@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const dotenv = require('dotenv');
+const envVars = dotenv.config().parsed || {};
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -117,14 +118,10 @@ module.exports = (options) => ({
   devtool: options.devtool,
   target: options.target || 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-  externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
-  },
 });
 
 const getEnvVariables = () => {
-  const parsed = dotenv.config().parsed;
-  const citySpecificEnvs = Object.entries(parsed).reduce((p, [key, value]) => {
+  const citySpecificEnvs = Object.entries(envVars).reduce((p, [key, value]) => {
     // eslint-disable-next-line no-param-reassign
     p[key] = JSON.stringify(value);
     return p;

@@ -5,7 +5,7 @@ export const ENVIRONMENTS = {
 };
 
 export const HOSTS = {
-  DEVELOPMENT: 'localhost:3001',
+  DEVELOPMENT: process.env.ROOT,
   ACCEPTANCE: process.env.ACC_URL,
   PRODUCTION: process.env.PROD_URL,
 };

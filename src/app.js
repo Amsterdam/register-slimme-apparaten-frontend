@@ -83,7 +83,7 @@ if (!window.Intl) {
       Promise.all(
         appLocales.map((locale) =>
           // eslint-disable-next-line global-require
-          require(`intl/locale-data/jsonp/${locale}.js`)
+          import(/* webpackChunkName: "locale-data" */`intl/locale-data/jsonp/${locale}.js`)
         )
       )
     )
