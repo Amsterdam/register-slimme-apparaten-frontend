@@ -5,13 +5,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const dotenv = require('dotenv');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
 // see https://github.com/webpack/loader-utils/issues/56 parseQuery() will be replaced with getOptions()
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
-console.log('using babel base webpack thingy');
 module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
@@ -93,10 +93,7 @@ module.exports = (options) => ({
     // inside your code for any environment checks; UglifyJS will automatically
     // drop any unreachable code.
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        REACT_APP_TEST: '"This is a test"'
-      },
+      'process.env': getEnvVariables()
     }),
     new webpack.NamedModulesPlugin(),
     new ExtractTextPlugin({
@@ -124,3 +121,14 @@ module.exports = (options) => ({
     globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
   },
 });
+
+const getEnvVariables = () => {
+  const parsed = dotenv.config().parsed;
+  const citySpecificEnvs = Object.entries(parsed).reduce((p, [key, value]) => {
+    // eslint-disable-next-line no-param-reassign
+    p[key] = JSON.stringify(value);
+    return p;
+  }, {});
+  const envs = { NODE_ENV: JSON.stringify(process.env.NODE_ENV), ...citySpecificEnvs, };
+  return envs;
+};
