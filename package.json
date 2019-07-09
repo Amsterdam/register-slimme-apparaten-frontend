@@ -294,7 +294,6 @@
     "coveralls": "2.13.1",
     "css-loader": "0.28.4",
     "dotenv": "^8.0.0",
-    "dotenv-webpack": "^1.7.0",
     "dyson": "^2.0.1",
     "dyson-generators": "^0.2.0",
     "dyson-image": "^0.2.0",
