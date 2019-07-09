@@ -6,8 +6,8 @@ export const ENVIRONMENTS = {
 
 export const HOSTS = {
   DEVELOPMENT: 'localhost:3001',
-  ACCEPTANCE: 'acc.meldingen.amsterdam.nl',
-  PRODUCTION: 'meldingen.amsterdam.nl'
+  ACCEPTANCE: process.env.ACC_URL,
+  PRODUCTION: process.env.PROD_URL,
 };
 
 export const getEnvironment = () => {
