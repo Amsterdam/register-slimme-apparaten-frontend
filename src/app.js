@@ -15,6 +15,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import MatomoTracker from '@datapunt/matomo-tracker-js';
 import 'leaflet/dist/leaflet';
 
 // Load the favicon, the manifest.json file and the .htaccess file
@@ -51,6 +52,15 @@ const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+
+// Setup Matomo
+const hostname = window && window.location && window.location.hostname;
+const MatomoInstance = new MatomoTracker({
+  urlBase: 'https://analytics.data.amsterdam.nl/',
+  siteId: (hostname === 'slimmeapparaten.amsterdam.nl') ? 17 : 18
+});
+
+MatomoInstance.trackPageView();
 
 const render = (messages) => {
   ReactDOM.render(
