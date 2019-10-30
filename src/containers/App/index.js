@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'redux';
+import { Header } from '@datapunt/asc-ui';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -12,35 +13,44 @@ import About from 'pages/About';
 import FAQ from 'pages/FAQ';
 import NotFoundPage from 'containers/NotFoundPage';
 import Footer from 'components/Footer';
-import HeaderContainer from 'containers/HeaderContainer';
 
 import reducer from './reducer';
 import saga from './saga';
 
-export class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    return (
-      <div className="container app-container">
-        <HeaderContainer />
-        <div className="content container-fluid">
-          <div className="row">
-            <div className="col-12 col-sm-10 offset-sm-1 col-md-8">
-              <Switch>
-                <Route exact path="/" component={MapInteractive} />
-                <Route path="/contact-owner/:deviceId/" component={ContactForm} />
-                <Route path="/categories" component={Categories} />
-                <Route path="/about/faq" component={FAQ} />
-                <Route path="/about" component={About} />
-                <Route path="" component={NotFoundPage} />
-              </Switch>
-            </div>
-          </div>
+const withContainer = Component => () => (
+  <div className="content container-fluid">
+    <div className="container app-container">
+      <div className="row">
+        <div className="col-12 col-sm-10 offset-sm-1 col-md-8">
+          <Component />
         </div>
-        <Footer />
       </div>
-    );
-  }
-}
+    </div>
+    <Footer />
+  </div>
+);
+
+const App = () => (
+  <Fragment>
+    <Header
+      tall={false}
+      title="Register slimme apparaten"
+      homeLink="/"
+      fullWidth
+    ></Header>
+    <Switch>
+      <Route exact path="/" component={MapInteractive} />
+      <Route
+        path="/contact-owner/:deviceId/"
+        component={withContainer(ContactForm)}
+      />
+      <Route path="/categories" component={() => withContainer(Categories)} />
+      <Route path="/about/faq" component={withContainer(FAQ)} />
+      <Route path="/about" component={withContainer(About)} />
+      <Route path="" component={withContainer(NotFoundPage)} />
+    </Switch>
+  </Fragment>
+);
 
 // const withConnect = connect(mapStateToProps, mapDispatchToProps);
 // changed key to global
@@ -49,6 +59,6 @@ const withSaga = injectSaga({ key: 'global', saga });
 
 export default compose(
   withReducer,
-  withSaga,
+  withSaga
   // withConnect,
 )(App);
