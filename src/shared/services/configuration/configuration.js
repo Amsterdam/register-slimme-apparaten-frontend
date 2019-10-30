@@ -44,9 +44,7 @@ const CONFIGURATION = {
   ...environmentConfig(),
 
   // the external configuration override form environment.conf.json
-  ...globalConfig
+  ...globalConfig,
 };
-
-// console.log('environment configuration', CONFIGURATION); // eslint-disable-line no-console
 
 export default CONFIGURATION;

@@ -13,7 +13,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 
 // Import root app
 import App from 'containers/App';
@@ -46,11 +46,11 @@ import './global-styles';
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
+const history = createBrowserHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
-const render = (messages) => {
+const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
@@ -75,14 +75,12 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise(resolve => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-    ]))
+  })
+    .then(() => Promise.all([import('intl/locale-data/jsonp/en.js')]))
     .then(() => render(translationMessages))
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 } else {

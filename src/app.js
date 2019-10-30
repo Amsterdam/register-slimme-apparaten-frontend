@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import moment from 'moment';
 import 'moment/src/locale/nl';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
 import { GlobalStyle, ThemeProvider } from '@datapunt/asc-ui';
 
@@ -52,7 +52,7 @@ moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
+const history = createBrowserHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
