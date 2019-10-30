@@ -1,74 +1,38 @@
-/**
- *
- * HeaderContainer
- *
- */
+import React, { Fragment } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from '@datapunt/asc-core';
+import { Header, Link, themeSpacing } from '@datapunt/asc-ui';
+import APP_ROUTES from '../../services/appRoutes';
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
-import { createStructuredSelector } from 'reselect';
-import { makeSelectUserName } from 'containers/App/selectors';
-import Header from 'components/Header';
+const HeaderLink = styled(Link)`
+  margin-right: ${themeSpacing(5)};
+`;
 
-import { doLogin, doLogout } from '../App/actions';
-
-import './style.scss';
-
-import { isAuthenticated } from '../../shared/services/auth/auth';
-
-export class HeaderContainer extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
-  constructor(props) {
-    super(props);
-    this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
-  }
-
-  onLoginLogoutButtonClick(event, domain) {
-    event.persist();
-    event.preventDefault();
-    event.stopPropagation();
-    if (!isAuthenticated()) {
-      this.props.onLogin(domain);
-    } else {
-      this.props.onLogout();
+const HeaderContainer = () => (
+  <Header
+    tall={false}
+    title="Register slimme apparaten"
+    homeLink="/"
+    fullWidth
+    navigation={
+      <Fragment>
+        <div>
+          <HeaderLink $as={NavLink} to={APP_ROUTES.HOME} variant="blank">
+            Kaart
+          </HeaderLink>
+          <HeaderLink $as={NavLink} to={APP_ROUTES.CATEGORIES} variant="blank">
+            Type apparaten
+          </HeaderLink>
+          <HeaderLink $as={NavLink} to={APP_ROUTES.ABOUT_FAQ} variant="blank">
+            Veelgevraagd
+          </HeaderLink>
+          <HeaderLink $as={NavLink} to={APP_ROUTES.ABOUT} variant="blank">
+            Over dit register
+          </HeaderLink>
+        </div>
+      </Fragment>
     }
-  }
-
-  render() {
-    return (
-      <Header
-        isAuthenticated={isAuthenticated()}
-        onLoginLogoutButtonClick={this.onLoginLogoutButtonClick}
-        userName={this.props.userName}
-      />
-    );
-  }
-}
-
-HeaderContainer.propTypes = {
-  userName: PropTypes.string,
-  onLogin: PropTypes.func,
-  onLogout: PropTypes.func,
-};
-
-const mapStateToProps = createStructuredSelector({
-  userName: makeSelectUserName(),
-});
-
-export const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      onLogin: doLogin,
-      onLogout: doLogout,
-    },
-    dispatch
-  );
-
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  ></Header>
 );
 
-export default compose(withConnect)(HeaderContainer);
+export default HeaderContainer;

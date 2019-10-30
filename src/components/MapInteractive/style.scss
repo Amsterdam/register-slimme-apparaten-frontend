@@ -1,6 +1,6 @@
 .map-component {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - 52px);
 
   #mapdiv {
     width: 100%;
