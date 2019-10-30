@@ -115,7 +115,7 @@
     },
     "rules": {
       "arrow-parens": [
-        "error",
+        "off",
         "as-needed"
       ],
       "arrow-body-style": [

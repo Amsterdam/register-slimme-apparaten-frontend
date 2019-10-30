@@ -18,7 +18,8 @@ import './style.scss';
 
 import { isAuthenticated } from '../../shared/services/auth/auth';
 
-export class HeaderContainer extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class HeaderContainer extends React.Component {
+  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.onLoginLogoutButtonClick = this.onLoginLogoutButtonClick.bind(this);
@@ -49,20 +50,25 @@ export class HeaderContainer extends React.Component { // eslint-disable-line re
 HeaderContainer.propTypes = {
   userName: PropTypes.string,
   onLogin: PropTypes.func,
-  onLogout: PropTypes.func
+  onLogout: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  userName: makeSelectUserName()
+  userName: makeSelectUserName(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onLogin: doLogin,
-  onLogout: doLogout
-}, dispatch);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onLogin: doLogin,
+      onLogout: doLogout,
+    },
+    dispatch
+  );
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
-export default compose(
-  withConnect,
-)(HeaderContainer);
+export default compose(withConnect)(HeaderContainer);
