@@ -2,8 +2,43 @@
 
 exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
 <Header
-  isAuthenticated={true}
-  onLoginLogoutButtonClick={[Function]}
-  userName="user"
+  fullWidth={true}
+  homeLink="/"
+  navigation={
+    <React.Fragment>
+      <div>
+        <ForwardRef(Styled(Link))
+          $as={[Function]}
+          to="/"
+          variant="blank"
+        >
+          Kaart
+        </ForwardRef(Styled(Link))>
+        <ForwardRef(Styled(Link))
+          $as={[Function]}
+          to="/categories"
+          variant="blank"
+        >
+          Type apparaten
+        </ForwardRef(Styled(Link))>
+        <ForwardRef(Styled(Link))
+          $as={[Function]}
+          to="/about/faq"
+          variant="blank"
+        >
+          Veelgevraagd
+        </ForwardRef(Styled(Link))>
+        <ForwardRef(Styled(Link))
+          $as={[Function]}
+          to="/about"
+          variant="blank"
+        >
+          Over dit register
+        </ForwardRef(Styled(Link))>
+      </div>
+    </React.Fragment>
+  }
+  tall={false}
+  title="Register slimme apparaten"
 />
 `;

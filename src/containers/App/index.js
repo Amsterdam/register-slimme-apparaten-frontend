@@ -17,7 +17,7 @@ import reducer from './reducer';
 import saga from './saga';
 import withContainer from '../../pages/withContainer';
 
-const App = () => (
+export const App = () => (
   <Fragment>
     <Switch>
       <Route exact path="/" component={Map} />

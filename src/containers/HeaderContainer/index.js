@@ -8,7 +8,7 @@ const HeaderLink = styled(Link)`
   margin-right: ${themeSpacing(5)};
 `;
 
-const HeaderContainer = () => (
+export const HeaderContainer = () => (
   <Header
     tall={false}
     title="Register slimme apparaten"
