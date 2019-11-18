@@ -18,14 +18,6 @@ p {
   line-height: 26px;
 }
 
-a, a:hover {
-  color: #004699 !important;
-}
-
-a:hover::before {
-  background-image: url("~amsterdam-stijl/dist/images/svg/caret-left-blue.svg") !important;
-}
-
 ul li {
   margin: 0;
   padding: 0;
@@ -46,10 +38,10 @@ dd {
   min-width: 100%;
   background-color: $ams-background-sidebars;
 
-  .content.container, .content.container-fluid {
+  .content.container,
+  .content.container-fluid {
     padding-bottom: 20px;
     min-height: 60vh;
-    margin-top: 20px;
 
     @media screen and (max-width:576px) {
       margin-top: 0;
@@ -68,7 +60,11 @@ dd {
 
 
 @media print {
-  html, body {height: 100%;}
+
+  html,
+  body {
+    height: 100%;
+  }
 
   @page {
     size: A4;
@@ -90,4 +86,3 @@ dd {
   }
 
 }
-

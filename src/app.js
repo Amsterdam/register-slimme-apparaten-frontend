@@ -5,7 +5,6 @@
  * code.
  */
 
-
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
 
@@ -16,9 +15,9 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import moment from 'moment';
 import 'moment/src/locale/nl';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import 'leaflet/dist/leaflet';
-
+import { GlobalStyle, ThemeProvider } from '@datapunt/asc-ui';
 
 // Import root app
 import App from 'containers/App';
@@ -53,16 +52,20 @@ moment.locale('nl');
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
+const history = createBrowserHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
-const render = (messages) => {
+// eslint-disable-next-line arrow-parens
+const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
         <ConnectedRouter history={history}>
-          <App />
+          <ThemeProvider>
+            <GlobalStyle />
+            <App />
+          </ThemeProvider>
         </ConnectedRouter>
       </LanguageProvider>
     </Provider>,
@@ -82,15 +85,17 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise(resolve => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-      import('intl/locale-data/jsonp/nl.js'),
-    ]))
+  })
+    .then(() =>
+      Promise.all([
+        import('intl/locale-data/jsonp/en.js'),
+        import('intl/locale-data/jsonp/nl.js'),
+      ])
+    )
     .then(() => render(translationMessages))
-    .catch((err) => {
+    .catch(err => {
       throw err;
     });
 } else {
@@ -100,11 +105,13 @@ if (!window.Intl) {
 // Install ServiceWorker and AppCache in the end since
 // it's not most important operation and if main code fails,
 // we do not want it installed
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptance') {
+if (
+  process.env.NODE_ENV === 'production' ||
+  process.env.NODE_ENV === 'acceptance'
+) {
   require('offline-plugin/runtime').install(); // eslint-disable-line global-require
 }
 
 // Authenticate and start the authorization process
 const credentials = authenticate();
 store.dispatch(authenticateUser(credentials));
-

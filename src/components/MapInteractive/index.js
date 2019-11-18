@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
 import { isEqual } from 'lodash';
 
 import { getDevices, getDevice, initIoT } from '../../services/api/iot';
@@ -33,14 +32,14 @@ class Map extends React.Component {
         marker: false,
         search: true,
         zoom: DEFAULT_ZOOM_LEVEL,
-        onQueryResult: this.props.onQueryResult
+        onQueryResult: this.props.onQueryResult,
       };
 
       if (this.props.location.geometrie) {
         options.marker = true;
         options.center = {
           longitude: this.props.location.geometrie.coordinates[1],
-          latitude: this.props.location.geometrie.coordinates[0]
+          latitude: this.props.location.geometrie.coordinates[0],
         };
       }
 
@@ -50,7 +49,9 @@ class Map extends React.Component {
       const input = document.querySelector('#nlmaps-geocoder-control-input');
       if (input && this.props.location.address) {
         const address = this.props.location.address;
-        const toevoeging = address.huisnummer_toevoeging ? `-${address.huisnummer_toevoeging}` : '';
+        const toevoeging = address.huisnummer_toevoeging
+          ? `-${address.huisnummer_toevoeging}`
+          : '';
         const display = `${address.openbare_ruimte} ${address.huisnummer}${address.huisletter}${toevoeging}, ${address.postcode} ${address.woonplaats}`;
         input.setAttribute('value', display);
       }
@@ -78,25 +79,23 @@ class Map extends React.Component {
   }
 
   render() {
-    const AboutButton = (<Route
-      render={({ history }) => (
-        <button className="about-button" onClick={() => { history.push('/about'); }}>Over dit register</button>
-      )}
-    />);
-
-    const markerCategories = Object.keys(categories).map((key) =>
-      categories[key]
+    const markerCategories = Object.keys(categories).map(
+      key => categories[key]
     );
 
     return (
       <div className="map-component">
         <div className="map">
           <div id="mapdiv">
-            <div id="about-iot">
-              { AboutButton }
-            </div>
-            <MapLegend markers={markerCategories} onMarkerToggle={toggleMarkers}></MapLegend>
-            <DeviceDetails device={this.state.device} location={this.state.location} onDeviceDetailsClose={this.closeDevice}></DeviceDetails>
+            <MapLegend
+              markers={markerCategories}
+              onMarkerToggle={toggleMarkers}
+            ></MapLegend>
+            <DeviceDetails
+              device={this.state.device}
+              location={this.state.location}
+              onDeviceDetailsClose={this.closeDevice}
+            ></DeviceDetails>
           </div>
         </div>
       </div>
@@ -106,12 +105,12 @@ class Map extends React.Component {
 
 Map.defaultProps = {
   location: {},
-  onQueryResult: () => {}
+  onQueryResult: () => {},
 };
 
 Map.propTypes = {
   location: PropTypes.object,
-  onQueryResult: PropTypes.func
+  onQueryResult: PropTypes.func,
 };
 
 export default Map;
