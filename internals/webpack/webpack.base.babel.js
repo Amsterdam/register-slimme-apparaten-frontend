@@ -14,9 +14,12 @@ process.noDeprecation = true;
 
 module.exports = options => ({
   entry: options.entry,
-  output: {// Compile into js/build.js
+  output: {
+    // Compile into js/build.js
     path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/', ...options.output}, // Merge with env dependent settings
+    publicPath: '/',
+    ...options.output,
+  }, // Merge with env dependent settings
   module: {
     rules: [
       {
@@ -55,13 +58,15 @@ module.exports = options => ({
       {
         test: /\.(png|cur)$/,
         exclude: /src/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'assets/',
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/',
+            },
           },
-        }],
+        ],
       },
       {
         test: /\.html$/,
@@ -104,21 +109,16 @@ module.exports = options => ({
   ]),
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: [
-      '.js',
-      '.jsx',
-      '.react.js',
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main',
-    ],
+    extensions: ['.js', '.jsx', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
+    globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
+  },
+  node: {
+    fs: 'empty',
   },
 });

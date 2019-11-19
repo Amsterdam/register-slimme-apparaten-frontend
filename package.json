@@ -122,7 +122,8 @@
       "cross-env",
       "express",
       "ip",
-      "minimist"
+      "minimist",
+      "fs"
     ],
     "include": [
       "core-js",
