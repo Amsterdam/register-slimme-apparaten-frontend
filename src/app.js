@@ -6,7 +6,8 @@
  */
 
 // Needed for redux-saga es6 generator support
-import 'babel-polyfill';
+import 'core-js/shim';
+import 'regenerator-runtime/runtime';
 
 // Import all the third party stuff
 import React from 'react';
