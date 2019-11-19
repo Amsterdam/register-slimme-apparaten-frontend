@@ -3,18 +3,13 @@
 const express = require('express');
 const open = require('open');
 const proxy = require('http-proxy-middleware');
-const ngrok =
-  (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
-    ? require('ngrok')
-    : false;
 const resolve = require('path').resolve;
+const argv = require('./argv');
 
 const port = require('./port');
 const proxyConfig = require('./proxy-config');
 const setup = require('./middlewares/frontendMiddleware');
-const isDev = process.env.NODE_ENV !== 'production';
 const logger = require('./logger');
-const argv = require('./argv');
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
@@ -40,18 +35,7 @@ app.listen(port, host, err => {
     return logger.error(err.message);
   }
 
-  // Connect to ngrok in dev mode
-  if (ngrok) {
-    ngrok.connect(port, (innerErr, url) => {
-      if (innerErr) {
-        return logger.error(innerErr);
-      }
-
-      logger.appStarted(port, prettyHost, url);
-    });
-  } else {
-    logger.appStarted(port, prettyHost);
-  }
+  logger.appStarted(port, prettyHost);
 
   open(`http://localhost:${port}`);
 });
