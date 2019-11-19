@@ -9,5 +9,5 @@ export default defineMessages({
   home: {
     id: 'boilerplate.components.Header.home',
     defaultMessage: 'Home',
-  }
+  },
 });

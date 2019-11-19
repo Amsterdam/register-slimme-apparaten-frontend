@@ -9,9 +9,9 @@ export const generateParams = data =>
     .map(pair =>
       Array.isArray(pair[1]) === true
         ? pair[1]
-            .filter(val => val)
-            .map(val => `${pair[0]}=${val}`)
-            .join('&')
+          .filter(val => val)
+          .map(val => `${pair[0]}=${val}`)
+          .join('&')
         : pair.map(encodeURIComponent).join('=')
     )
     .join('&');

@@ -7,8 +7,8 @@ const user = {
   cache: false,
   template: {
     id: g.id,
-    user: g.name
-  }
+    user: g.name,
+  },
 };
 
 const users = {
@@ -18,13 +18,13 @@ const users = {
   size() {
     return Math.floor(Math.random() * 6) + 5;
   },
-  template: user.template
+  template: user.template,
 };
 
 const usersList = {
   path: '/users-list',
   cache: false,
-  container: () => pickRandomSublist(db.users)
+  container: () => pickRandomSublist(db.users),
 };
 
 export default { user, users, usersList };

@@ -17,22 +17,28 @@ class MapLegend extends React.Component {
   }
 
   render() {
-    const markers = this.props.markers.map((marker) => (
+    const markers = this.props.markers.map(marker => (
       <div key={marker.name} className="map-legend__row mb-1">
-        <Checkbox name="check" checked={marker.enabled} onChange={() => this.props.onMarkerToggle(marker.id)}></Checkbox>
+        <Checkbox
+          name="check"
+          checked={marker.enabled}
+          onChange={() => this.props.onMarkerToggle(marker.id)}
+        ></Checkbox>
         <span className="map-legend__icon">
           <img className="map-legend__icon" src={marker.iconUrl} alt="" />
         </span>
-        <span className="map-legend__row-title">
-          {marker.name}
-        </span>
+        <span className="map-legend__row-title">{marker.name}</span>
       </div>
     ));
 
     return (
       <section
         id="map-legend"
-        aria-label={this.state.isLegendVisible ? 'Kaartlagen legenda, Kaartlagen verbergen' : 'Kaartlagen legenda, Kaartlagen tonen'}
+        aria-label={
+          this.state.isLegendVisible
+            ? 'Kaartlagen legenda, Kaartlagen verbergen'
+            : 'Kaartlagen legenda, Kaartlagen tonen'
+        }
         aria-expanded={this.state.isLegendVisible}
         className={`
           map-legend
@@ -40,18 +46,25 @@ class MapLegend extends React.Component {
         `}
       >
         <button
+          type="button"
           className="map-legend__header"
-          onClick={() => this.setState({ isLegendVisible: !this.state.isLegendVisible })}
-          title={this.state.isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
+          onClick={() =>
+            this.setState({ isLegendVisible: !this.state.isLegendVisible })
+          }
+          title={
+            this.state.isLegendVisible
+              ? 'Kaartlagen verbergen'
+              : 'Kaartlagen tonen'
+          }
         >
           <MapLayersIcon className="map-legend__header-icon" />
-          <h4 className="map-legend__header-title" aria-hidden="true">Apparaten</h4>
+          <h4 className="map-legend__header-title" aria-hidden="true">
+            Apparaten
+          </h4>
           <CollapseIcon className="map-legend__header-icon map-legend__header-icon--expanded" />
           <ExpandIcon className="map-legend__header-icon map-legend__header-icon--collapsed" />
         </button>
-        <div className="map-legend__body">
-          {markers}
-        </div>
+        <div className="map-legend__body">{markers}</div>
       </section>
     );
   }
@@ -59,7 +72,7 @@ class MapLegend extends React.Component {
 
 MapLegend.propTypes = {
   markers: PropTypes.array,
-  onMarkerToggle: PropTypes.func
+  onMarkerToggle: PropTypes.func,
 };
 
 export default MapLegend;

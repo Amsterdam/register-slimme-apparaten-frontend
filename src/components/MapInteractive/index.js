@@ -20,7 +20,7 @@ class Map extends React.Component {
 
     initIoT();
     this.map = null;
-    this.state = { isLegendVisible: true };
+    this.state = {};
     this.closeDevice = this.closeDevice.bind(this);
   }
 

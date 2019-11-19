@@ -12,7 +12,7 @@ export async function getDevice(id) {
     devices = getDevices();
   }
   const all = await devices;
-  return all.find((element) => element.id === id);
+  return all.find(element => element.id === id);
 }
 
 export function initIoT() {

@@ -12,13 +12,13 @@ class Map extends React.Component {
     amaps.createMap({
       center: {
         latitude: this.props.latlng.latitude,
-        longitude: this.props.latlng.longitude
+        longitude: this.props.latlng.longitude,
       },
       layer: 'standaard',
       target: 'mapdiv',
       marker: false,
       search: false,
-      zoom: PREVIEW_ZOOM_LEVEL
+      zoom: PREVIEW_ZOOM_LEVEL,
     });
   }
 
@@ -38,11 +38,11 @@ class Map extends React.Component {
 }
 
 Map.defaultProps = {
-  latlng: {}
+  latlng: {},
 };
 
 Map.propTypes = {
-  latlng: PropTypes.object
+  latlng: PropTypes.object,
 };
 
 export default Map;

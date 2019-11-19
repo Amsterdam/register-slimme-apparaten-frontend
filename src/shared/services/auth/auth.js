@@ -10,17 +10,23 @@ import CONFIGURATION from '../configuration/configuration';
 // A map of the error keys, that the OAuth2 authorization service can
 // return, to a full description
 const ERROR_MESSAGES = {
-  invalid_request: 'The request is missing a required parameter, includes an invalid parameter value, ' +
+  invalid_request:
+    'The request is missing a required parameter, includes an invalid parameter value, ' +
     'includes a parameter more than once, or is otherwise malformed.',
-  unauthorized_client: 'The client is not authorized to request an access token using this method.',
-  access_denied: 'The resource owner or authorization server denied the request.',
-  unsupported_response_type: 'The authorization server does not support obtaining an access token using ' +
+  unauthorized_client:
+    'The client is not authorized to request an access token using this method.',
+  access_denied:
+    'The resource owner or authorization server denied the request.',
+  unsupported_response_type:
+    'The authorization server does not support obtaining an access token using ' +
     'this method.',
   invalid_scope: 'The requested scope is invalid, unknown, or malformed.',
-  server_error: 'The authorization server encountered an unexpected condition that prevented it from ' +
+  server_error:
+    'The authorization server encountered an unexpected condition that prevented it from ' +
     'fulfilling the request.',
-  temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a ' +
-    'temporary overloading or maintenance of the server.'
+  temporarily_unavailable:
+    'The authorization server is currently unable to handle the request due to a ' +
+    'temporary overloading or maintenance of the server.',
 };
 
 // The parameters the OAuth2 authorization service will return on
@@ -31,13 +37,10 @@ const AUTH_PARAMS = ['access_token', 'token_type', 'expires_in', 'state'];
 // the backend APIs
 const scopes = [
   // Signals
-  'SIG/ALL'
+  'SIG/ALL',
 ];
 
-const domainList = [
-  'datapunt',
-  'grip'
-];
+const domainList = ['datapunt', 'grip'];
 
 function getDomain(domain) {
   // TODO
@@ -50,7 +53,10 @@ function getDomain(domain) {
 const encodedScopes = encodeURIComponent(scopes.join(' '));
 // The URI we need to redirect to for communication with the OAuth2
 // authorization service
-export const AUTH_PATH = (domain) => `oauth2/authorize?idp_id=${getDomain(domain)}&response_type=token&client_id=sia&scope=${encodedScopes}`;
+export const AUTH_PATH = domain =>
+  `oauth2/authorize?idp_id=${getDomain(
+    domain
+  )}&response_type=token&client_id=sia&scope=${encodedScopes}`;
 
 // The keys of values we need to store in the session storage
 //
@@ -83,8 +89,10 @@ function handleError(code, description) {
   // OAuth2 authorization service, to clean up the URL.
   location.assign(`${location.protocol}//${location.host}${location.pathname}`);
 
-  throw new Error('Authorization service responded with error ' +
-    `${code} [${description}] (${ERROR_MESSAGES[code]})`);
+  throw new Error(
+    'Authorization service responded with error ' +
+      `${code} [${description}] (${ERROR_MESSAGES[code]})`
+  );
 }
 
 /**
@@ -123,12 +131,14 @@ function getAccessTokenFromParams(params) {
   // in the params the fastest check is not to check if all
   // parameters are defined but to check that no undefined parameter
   // can be found
-  const paramsValid = !AUTH_PARAMS.some((param) => params[param] === undefined);
+  const paramsValid = !AUTH_PARAMS.some(param => params[param] === undefined);
 
   if (paramsValid && !stateTokenValid) {
     // This is a callback, but the state token does not equal the
     // one we have saved; report to Sentry
-    throw new Error(`Authenticator encountered an invalid state token (${params.state})`);
+    throw new Error(
+      `Authenticator encountered an invalid state token (${params.state})`
+    );
   }
 
   return stateTokenValid && paramsValid ? params.access_token : null;
@@ -195,8 +205,14 @@ export function login(domain) {
   sessionStorage.setItem(STATE_TOKEN, stateToken);
   sessionStorage.setItem(OAUTH_DOMAIN, domain);
 
-  const redirectUri = encodeURIComponent(`${location.protocol}//${location.host}/manage/incidents`);
-  location.assign(`${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(domain)}&state=${encodedStateToken}&redirect_uri=${redirectUri}`);
+  const redirectUri = encodeURIComponent(
+    `${location.protocol}//${location.host}/manage/incidents`
+  );
+  location.assign(
+    `${CONFIGURATION.AUTH_ROOT}${AUTH_PATH(
+      domain
+    )}&state=${encodedStateToken}&redirect_uri=${redirectUri}`
+  );
 }
 
 export function logout() {
@@ -253,7 +269,6 @@ export function getAuthHeaders() {
   return accessToken ? { Authorization: `Bearer ${getAccessToken()}` } : {};
 }
 
-
 export function authenticate() {
   try {
     initAuth();
@@ -273,10 +288,13 @@ export function authenticate() {
 
   const accessToken = getAccessToken();
   if (accessToken) {
-    const credentials = { userName: getName(), userScopes: getScopes(), accessToken: getAccessToken() };
+    const credentials = {
+      userName: getName(),
+      userScopes: getScopes(),
+      accessToken: getAccessToken(),
+    };
     return credentials;
   }
 
   return null;
 }
-

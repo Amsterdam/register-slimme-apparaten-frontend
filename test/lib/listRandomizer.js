@@ -1,6 +1,6 @@
 import { random } from 'lodash';
 
-export const pickRandomElement = (list) => list[random(list.length - 1)];
+export const pickRandomElement = list => list[random(list.length - 1)];
 
 export const pickRandomSublist = (list, resultLength) => {
   console.log(resultLength);// eslint-disable-line no-console
@@ -18,7 +18,7 @@ export const pickRandomDate = (start, end) => new Date(start.getTime() + (Math.r
 const listRandomizer = {
   pickRandomElement,
   pickRandomSublist,
-  pickRandomDate
+  pickRandomDate,
 };
 
 export default listRandomizer;

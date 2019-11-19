@@ -12,8 +12,8 @@ const categories = {
     subtypes: [
       'Telcamera',
       'Kentekenherkenning',
-      'Beeld'
-    ]
+      'Beeld',
+    ],
   },
   'Sensor': { // eslint-disable-line quote-props
     id: 'Sensor',
@@ -26,8 +26,8 @@ const categories = {
     subtypes: [
       'Luchtkwaliteit',
       'Vervoerstromen (aantal vervoermiddelen)',
-      'Geluid'
-    ]
+      'Geluid',
+    ],
   },
   'Baken': { // eslint-disable-line quote-props
     id: 'Baken',
@@ -37,7 +37,7 @@ const categories = {
     description: 'Beacons of bakens zijn kleine zenders die een verbinding maken via Bluetooth met smartphones. Zij worden meestal gebruikt om informatie te verschaffen over bijvoorbeeld rijtijden Openbaar Vervoer (hoe lang tot de volgende tram of bus), over routes e.d. Ook worden ze gebruikt voor marketing doeleinden. Er worden boodschappen verstuurd naar de smartphone om je naar een winkel te lokken die in de buurt is.',
     wikipediaUrl: 'https://en.wikipedia.org/wiki/Beacon',
     wikipediaDescription: 'A beacon is an intentionally conspicuous device designed to attract attention to a specific location.',
-    subtypes: []
+    subtypes: [],
   },
   'Slimme verkeersinformatie': {
     id: 'Slimme verkeersinformatie',
@@ -49,8 +49,8 @@ const categories = {
     wikipediaDescription: '',
     subtypes: [
       'Slimme verkeerslichten: reageert op de omgeving op basis van verzamelde data, bijvoorbeeld over het weer of het aantal vervoermiddelen.',
-      'DRIPs: één van de mogelijkheden om van borden informatie te geven aan verkeersdeelnemers. De informatie op de borden kan aangestuurd worden vanuit een centraal punt en op basis van sensoren en/of bakens. Als dat laatste gebeurt, wordt de DRIP opgenomen in het register.'
-    ]
+      'DRIPs: één van de mogelijkheden om van borden informatie te geven aan verkeersdeelnemers. De informatie op de borden kan aangestuurd worden vanuit een centraal punt en op basis van sensoren en/of bakens. Als dat laatste gebeurt, wordt de DRIP opgenomen in het register.',
+    ],
   },
   'Slimme laadpaal': {
     id: 'Slimme laadpaal',
@@ -60,7 +60,7 @@ const categories = {
     description: 'Met een slimme laadpaal is het mogelijk een goede administratie bij te houden en automatisch rekeningen te vereffenen. Dit is van belang als een elektrische auto niet alleen wordt gebruikt om mee te rijden, maar ook als een batterij wanneer die stil staat. Deze paal neemt geen data op uit de omgeving, met uitzondering van data over energiestromen naar en van de auto. Het is denkbaar dat slimme laadpalen in de toekomst ook gebruikt worden om metingen te verrichten. Zover bekend, is dat nu nog niet het geval.',
     wikipediaUrl: '',
     wikipediaDescription: '',
-    subtypes: []
+    subtypes: [],
   },
   'Slimme lantaarnpaal': {
     id: 'Slimme lantaarnpaal',
@@ -70,8 +70,8 @@ const categories = {
     description: 'We kennen allemaal de lantaarnpalen. Deze geven licht, ook als het niet nodig is. Slimme lantaarnpalen passen het lichtniveau aan, aan wat nodig is, omdat een vervoermiddel of persoon langskomt. Deze palen kunnen ook uitgerust worden met sensoren die de luchtkwaliteit of het geluidsniveau meten. Ook kan de lantaarnpaal dienen als oplaadpunt voor elektrische auto\'s, of dienst doen als opstelplek voor een stadsbreed Wi-Fi netwerk.',
     wikipediaUrl: '',
     wikipediaDescription: '',
-    subtypes: []
-  }
+    subtypes: [],
+  },
 };
 
 export default categories;

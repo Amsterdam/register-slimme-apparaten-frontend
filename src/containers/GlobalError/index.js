@@ -1,49 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { FormattedMessage } from 'react-intl';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectError, makeSelectErrorMessage } from 'containers/App/selectors';
+import {
+  makeSelectError,
+  makeSelectErrorMessage,
+} from 'containers/App/selectors';
 import { resetGlobalError } from '../App/actions';
 
-// import messages from './messages';
 import './style.scss';
 
 export const GlobalError = ({ error, errorMessage, onClose }) => (
   <div>
-    {error ?
+    {error ? (
       <div className="global-error">
         {errorMessage}
         <button
+          type="button"
           className="global-error__close-button"
           onClick={onClose}
-        >sluit</button>
+        >
+          sluit
+        </button>
       </div>
-    : ''}
+    ) : (
+      ''
+    )}
   </div>
 );
 
 GlobalError.defaultProps = {
-  error: false
+  error: false,
 };
 
 GlobalError.propTypes = {
   error: PropTypes.bool,
   errorMessage: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
-  errorMessage: makeSelectErrorMessage()
+  errorMessage: makeSelectErrorMessage(),
 });
 
-export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  onClose: resetGlobalError
-}, dispatch);
+export const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onClose: resetGlobalError,
+    },
+    dispatch
+  );
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(
-  withConnect,
-)(GlobalError);
+export default compose(withConnect)(GlobalError);

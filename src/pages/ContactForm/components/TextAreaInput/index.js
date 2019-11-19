@@ -3,27 +3,39 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const TextAreaInput = (props) => {
+const TextAreaInput = props => {
   const { name, display, placeholder, rows } = props;
-  const render = ({ handler, touched, submitted, value, invalid, getError, hasError }) => (
+  const render = ({
+    handler,
+    touched,
+    submitted,
+    value,
+    invalid,
+    getError,
+    hasError,
+  }) => (
     <div className="text-area-input">
-      <div className={`rij mode_input text rij_verplicht ${invalid ? 'row_ongeldig' : ''}`}>
+      <div
+        className={`rij mode_input text rij_verplicht ${
+          invalid ? 'row_ongeldig' : ''
+        }`}
+      >
         <div className="label">
           <label htmlFor={`form${name}`}>{display}</label>
         </div>
 
-        { (touched || submitted || props.maxLength) &&
+        {(touched || submitted || props.maxLength) && (
           <div className="input-help">
-            { (touched || submitted) &&
-              (hasError('maxLength') && `Maximaal ${getError('maxLength').requiredLength} tekens`)
-            }
-            { props.maxLength &&
+            {(touched || submitted) &&
+              hasError('maxLength') &&
+                `Maximaal ${getError('maxLength').requiredLength} tekens`}
+            {props.maxLength && (
               <span className="text-area-input__counter">
-                {`${value ? value.length : '0'}/${props.maxLength} tekens` }
+                {`${value ? value.length : '0'}/${props.maxLength} tekens`}
               </span>
-            }
+            )}
           </div>
-        }
+        )}
 
         <div className="text-area-input__control invoer">
           <textarea
@@ -41,7 +53,7 @@ const TextAreaInput = (props) => {
 
   render.defaultProps = {
     placeholder: '',
-    rows: 4
+    rows: 4,
   };
 
   render.propTypes = {
@@ -52,7 +64,9 @@ const TextAreaInput = (props) => {
     invalid: PropTypes.bool,
     getError: PropTypes.func,
     hasError: PropTypes.func,
-    maxLength: PropTypes.number
+    maxLength: PropTypes.number,
+    placeholder: PropTypes.string,
+    rows: PropTypes.bool,
   };
   return render;
 };

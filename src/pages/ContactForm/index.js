@@ -44,9 +44,7 @@ class ContactForm extends React.Component {
   }
 
   async getDeviceInfo() {
-    const device = await getDevice(
-      parseInt(this.props.match.params.deviceId, 10)
-    );
+    const device = await getDevice(parseInt(this.props.match.params.deviceId, 10));
     this.setState({ device });
   }
 
@@ -61,7 +59,7 @@ class ContactForm extends React.Component {
       does_the_device_register_personal_data: [false],
       comment: ['', Validators.maxLength(MAX_INPUT_LENGTH)],
     },
-    { validators: oneOrMoreQuestionsValidator }
+    { validators: oneOrMoreQuestionsValidator },
   );
 
   handleSubmit = event => {
@@ -98,13 +96,9 @@ class ContactForm extends React.Component {
         Terug naar de kaart
       </NavLink>
       <h4>Bedankt voor uw verzoek</h4>
+      <p>Uw verzoek is doorgestuurd naar de eigenaar. Deze bepaalt of en wanneer hij of zij reageert.</p>
       <p>
-        Uw verzoek is doorgestuurd naar de eigenaar. Deze bepaalt of en wanneer
-        hij of zij reageert.
-      </p>
-      <p>
-        Een kopie van uw verzoek is verstuurd naar{' '}
-        <span className="email">{this.contactForm.value.email}</span>. Uw
+        Een kopie van uw verzoek is verstuurd naar <span className="email">{this.contactForm.value.email}</span>. Uw
         verzoek is niet vastgelegd in het register.
       </p>
     </div>
@@ -131,10 +125,7 @@ class ContactForm extends React.Component {
                     <td>
                       <strong>Type</strong>
                     </td>
-                    <td>
-                      {this.state.device.types.length &&
-                        (this.state.device.types[0].name || 'Onbekend')}
-                    </td>
+                    <td>{this.state.device.types.length && (this.state.device.types[0].name || 'Onbekend')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -159,20 +150,12 @@ class ContactForm extends React.Component {
                     />
                     <div
                       className={`rij mode_input text rij_verplicht ${
-                        this.contactForm.submitted &&
-                        this.contactForm.hasError('noneSelected')
-                          ? 'row_ongeldig'
-                          : ''
+                        this.contactForm.submitted && this.contactForm.hasError('noneSelected') ? 'row_ongeldig' : ''
                       }`}
                     >
-                      <label htmlFor="questions">
-                        Wat wilt u aan de eigenaar vragen?
-                      </label>
-                      {this.contactForm.submitted &&
-                      this.contactForm.hasError('noneSelected') ? (
-                        <div className="group-error">
-                          Stel minimaal één van onderstaande vragen
-                        </div>
+                      <label htmlFor="questions">Wat wilt u aan de eigenaar vragen?</label>
+                      {this.contactForm.submitted && this.contactForm.hasError('noneSelected') ? (
+                        <div className="group-error">Stel minimaal één van onderstaande vragen</div>
                       ) : null}
                       <FieldControlWrapper
                         render={CheckboxInput}
@@ -186,27 +169,21 @@ class ContactForm extends React.Component {
                         aria-labelledby="questions"
                         name="questionInfo"
                         display="Kan ik meer informatie krijgen over de data die uw 'slimme apparaat' (baken, camera, sensor e.d.) verzamelt?"
-                        control={this.contactForm.get(
-                          'can_i_get_more_information'
-                        )}
+                        control={this.contactForm.get('can_i_get_more_information')}
                       />
                       <FieldControlWrapper
                         render={CheckboxInput}
                         aria-labelledby="questions"
                         name="questionUse"
                         display="Mag ik de verzamelde data eventueel gebruiken?"
-                        control={this.contactForm.get(
-                          'can_i_use_collected_data'
-                        )}
+                        control={this.contactForm.get('can_i_use_collected_data')}
                       />
                       <FieldControlWrapper
                         render={CheckboxInput}
                         aria-labelledby="questions"
                         name="questionPersonalData"
                         display="Registreert uw slimme apparaat ook gegevens over personen?"
-                        control={this.contactForm.get(
-                          'does_the_device_register_personal_data'
-                        )}
+                        control={this.contactForm.get('does_the_device_register_personal_data')}
                       />
                       <FieldControlWrapper
                         render={TextAreaInput}

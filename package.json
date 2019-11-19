@@ -114,91 +114,6 @@
       }
     }
   },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "env": {
-      "browser": true,
-      "node": true,
-      "jest": true,
-      "es6": true
-    },
-    "plugins": [
-      "redux-saga",
-      "react",
-      "jsx-a11y"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "globals": {
-      "jsdom": true
-    },
-    "rules": {
-      "arrow-parens": [
-        "off",
-        "as-needed"
-      ],
-      "arrow-body-style": [
-        2,
-        "as-needed"
-      ],
-      "class-methods-use-this": 0,
-      "comma-dangle": 0,
-      "import/imports-first": 0,
-      "import/newline-after-import": 0,
-      "import/no-dynamic-require": 0,
-      "import/no-extraneous-dependencies": 0,
-      "import/no-named-as-default": 0,
-      "import/no-unresolved": 2,
-      "import/no-webpack-loader-syntax": 0,
-      "import/prefer-default-export": 0,
-      "indent": [
-        2,
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "jsx-a11y/aria-props": 2,
-      "jsx-a11y/heading-has-content": 0,
-      "jsx-a11y/href-no-hash": 2,
-      "jsx-a11y/label-has-for": 2,
-      "jsx-a11y/mouse-events-have-key-events": 2,
-      "jsx-a11y/role-has-required-aria-props": 2,
-      "jsx-a11y/role-supports-aria-props": 2,
-      "max-len": 0,
-      "newline-per-chained-call": 0,
-      "no-confusing-arrow": 0,
-      "no-console": 1,
-      "no-use-before-define": 0,
-      "prefer-template": 2,
-      "react/forbid-prop-types": 0,
-      "react/jsx-first-prop-new-line": [
-        2,
-        "multiline"
-      ],
-      "react/jsx-filename-extension": 0,
-      "react/jsx-no-target-blank": 0,
-      "react/require-default-props": 0,
-      "react/require-extension": 0,
-      "react/self-closing-comp": 0,
-      "redux-saga/no-yield-in-race": 2,
-      "redux-saga/yield-effects": 2,
-      "require-yield": 0
-    },
-    "settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "./internals/webpack/webpack.prod.babel.js"
-        }
-      }
-    }
-  },
   "dllPlugin": {
     "path": "node_modules/react-boilerplate-dlls",
     "exclude": [
@@ -327,9 +242,9 @@
     "@babel/plugin-transform-react-inline-elements": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/types": "^7.7.2",
     "add-asset-html-webpack-plugin": "^2.1.3",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^9.0.0",
+    "babel-eslint": "7.2.3",
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "1.0.2",
@@ -346,14 +261,17 @@
     "enzyme": "^3.1.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.1.4",
-    "eslint": "3.19.0",
-    "eslint-config-airbnb": "15.0.1",
-    "eslint-config-airbnb-base": "11.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-import-resolver-webpack": "^0.11.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jsx-a11y": "5.0.3",
-    "eslint-plugin-react": "^7.10.0",
-    "eslint-plugin-redux-saga": "^0.9.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.1.2",
+    "eslint-plugin-redux-saga": "^1.1.1",
     "eventsource-polyfill": "0.9.6",
     "exports-loader": "^0.7.0",
     "extract-text-webpack-plugin": "^3.0.0",
@@ -378,6 +296,7 @@
     "open": "0.0.5",
     "plop": "1.8.0",
     "pre-commit": "1.2.2",
+    "prettier": "^1.19.1",
     "react-test-renderer": "15.6.1",
     "redux-mock-store": "^1.5.3",
     "rimraf": "^3.0.0",

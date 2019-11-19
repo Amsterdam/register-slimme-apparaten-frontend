@@ -20,7 +20,7 @@ describe('api service', () => {
   beforeEach(() => {
     params = {
       name1: 'value1',
-      name2: 'value2'
+      name2: 'value2',
     };
   });
 
@@ -43,8 +43,8 @@ describe('api service', () => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       };
       const gen = authCall(url, params);
       expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
@@ -59,9 +59,9 @@ describe('api service', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(params)
+        body: JSON.stringify(params),
       };
       const gen = authPostCall(url, params);
       expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects

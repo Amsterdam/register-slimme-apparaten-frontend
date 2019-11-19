@@ -20,6 +20,6 @@ export default function parseAccessToken(token) {
     notBefore: content.nbf,
     expiresAt: content.exp,
     jwtId: content.jti, // should be globally unique
-    scopes: content.scopes // list of scopes that this token provides access to
+    scopes: content.scopes, // list of scopes that this token provides access to
   };
 }

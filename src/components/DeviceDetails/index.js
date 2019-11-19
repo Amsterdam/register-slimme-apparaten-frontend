@@ -14,7 +14,7 @@ class DeviceDetails extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isMapPreviewPanelVisible: true };
+    this.state = {};
   }
 
   render() {
@@ -24,6 +24,7 @@ class DeviceDetails extends React.Component {
       <Route
         render={({ history }) => (
           <button
+            type="button"
             className="device-details__contact-button action secundary-blue"
             onClick={() => {
               history.push(`/contact-owner/${this.props.device.id}`);
@@ -40,6 +41,7 @@ class DeviceDetails extends React.Component {
       <Route
         render={({ history }) => (
           <button
+            type="button"
             className="device-details__question-mark-button"
             onClick={() => {
               history.push('/categories');
@@ -55,6 +57,7 @@ class DeviceDetails extends React.Component {
       <section id="device-details" className="device-details">
         <div className="device-details__heading">
           <button
+            type="button"
             className="device-details__button"
             onClick={this.props.onDeviceDetailsClose}
             title="Sluiten"

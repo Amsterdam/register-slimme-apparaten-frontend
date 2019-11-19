@@ -1,6 +1,6 @@
 import {
   getEnvironment,
-  ENVIRONMENTS
+  ENVIRONMENTS,
 } from './environment';
 
 let nodeEnv;

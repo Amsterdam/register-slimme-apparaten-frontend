@@ -12,7 +12,7 @@ function Img(props) {
   return (
     props.src ?
       <img className={props.className} src={props.src} alt={props.alt} /> :
-    'Geen foto'
+      'Geen foto'
   );
 }
 
