@@ -8,7 +8,7 @@ import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
 
-import './style.scss';
+import './style.scss'
 
 class DeviceDetails extends React.Component {
   constructor(props) {
