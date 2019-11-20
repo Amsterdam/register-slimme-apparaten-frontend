@@ -43,6 +43,8 @@ const Categories = () => {
     <div className="categories">
       <h2>Categorieën apparaten</h2>
 
+      <p>In het volgende een toelichting van de typen apparaten die we onderscheiden. Deze zullen op basis van ervaringen aangepast en aangevuld worden. Om een zo breed mogelijk perspectief te bieden, geven we een korte omschrijving in het Nederlands, gevolgd door een beschrijving van de internationale Wikipedia (Engelstalig).</p>
+
       <p>
         In het volgende een toelichting van de typen apparaten die we
         onderscheiden. Deze zullen op basis van ervaringen aangepast en
