@@ -1,8 +1,8 @@
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-font.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss";
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-font.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss';
 
 html,
 body {
@@ -11,7 +11,8 @@ body {
 }
 
 body {
-  font-family: 'AvenirNextLTW01-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'AvenirNextLTW01-Regular', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
 }
 
 p {
@@ -43,7 +44,7 @@ dd {
     padding-bottom: 20px;
     min-height: 60vh;
 
-    @media screen and (max-width:576px) {
+    @media screen and (max-width: 576px) {
       margin-top: 0;
     }
   }
@@ -58,9 +59,25 @@ dd {
   }
 }
 
+h3 {
+  font-size: 1.25rem;
+  line-height: 1.4em;
+}
+
+h4 {
+  font-size: 1.125rem;
+  line-height: 1.55556em;
+}
+
+main {
+  margin-top: 20px;
+
+  @media screen and (max-width: 576px) {
+    margin-top: 0;
+  }
+}
 
 @media print {
-
   html,
   body {
     height: 100%;
@@ -84,5 +101,4 @@ dd {
   .page-break {
     page-break-after: always;
   }
-
 }

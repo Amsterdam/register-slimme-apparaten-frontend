@@ -10,7 +10,7 @@
   .embed-search {
     max-width: 328px;
 
-    @media screen and (max-width:576px) {
+    @media screen and (max-width: 576px) {
       max-width: 100%;
     }
 
@@ -23,6 +23,9 @@
       height: 32px;
       border: solid 1px #ccc;
       box-shadow: none;
+      padding-top: 0;
+      padding-bottom: 0;
+      line-height: 32px;
     }
 
     &__button {
@@ -57,7 +60,7 @@
   }
 
   &__loading {
-    background-color: rgba(0, 0, 0, .2);
+    background-color: rgba(0, 0, 0, 0.2);
     display: block;
     width: calc(100% - 30px); // padding left and right of grid
     height: 100%;
@@ -77,7 +80,7 @@
   cursor: pointer;
   z-index: 1010;
 
-  font-family: Avenir-Roman;
+  font-family: "AvenirNextLTW01-Regular";
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
@@ -94,7 +97,7 @@
     fill: #000;
   }
 
-  @media screen and (max-width:540px) {
+  @media screen and (max-width: 540px) {
     left: 10px;
     top: auto;
     right: auto;
@@ -121,21 +124,47 @@
   }
 }
 
-// Override circlemarker design for selected marker
-.leaflet-overlay-pane {
-  z-index: 1000 !important;
+path.camera-area {
+  fill: #f14600;
+  fill-opacity: 0.2;
+  stroke: #f14600;
+  stroke-opacity: 1;
+  stroke-width: 1;
 
-  .leaflet-zoom-animated {
-    path {
-      transform: translate(3px, -4px);
-      stroke: #000;
-      fill: transparent;
-    }
+  &.active-element {
+    stroke-width: 3;
   }
 }
 
-@media screen and (max-width:540px) {
+.leaflet-tooltip-pane {
+  path.marker-highlight {
+    transform: translate(3px, -4px);
+    stroke: #000;
+    fill: transparent;
+  }
+}
+
+@media screen and (max-width: 540px) {
   .leaflet-control-zoom {
     display: none;
+  }
+}
+
+.leaflet-marker-icon.highlight {
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.8);
+  border-radius: 50%;
+}
+
+.leaflet-control-zoom a:hover::before {
+  background-image: none !important;
+}
+
+@media screen and (max-width: 576px) {
+  #about-iot {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 1010;
   }
 }

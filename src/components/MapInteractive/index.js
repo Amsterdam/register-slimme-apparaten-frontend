@@ -1,27 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
+import { Route } from 'react-router-dom';
 
-import { getDevices, getDevice, initIoT } from '../../services/api/iot';
-import { showMarkers, toggleMarkers } from '../../services/iotmap';
+import { getDevices, getDevice, getCameraAreas } from '../../services/api/iot';
+import { showAreas, showMarkers, toggleElement } from '../../services/iotmap';
 import categories from '../../static/categories';
 import amaps from '../../static/amaps.iife';
+import '../../services/map'; // loads L.Proj (Proj binding leaflet)
 
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
+import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
 
+const visibleCategories = { ...categories };
+
+Object.keys(visibleCategories)
+  .filter(
+    cat => !(visibleCategories[cat].visible && visibleCategories[cat].enabled)
+  )
+  .forEach(cat => {
+    delete visibleCategories[cat];
+  });
+
 const DEFAULT_ZOOM_LEVEL = 14;
+
+const SELECTION_STATE = {
+  NOTHING: 0,
+  DEVICE: 1,
+  AREA: 2,
+};
 
 class Map extends React.Component {
   constructor(props) {
     super(props);
 
-    initIoT();
     this.map = null;
-    this.state = { isLegendVisible: true };
-    this.closeDevice = this.closeDevice.bind(this);
+    this.state = {
+      selection: {
+        type: SELECTION_STATE.NOTHING,
+        element: undefined,
+      },
+    };
+    this.clearSelection = this.clearSelection.bind(this);
   }
 
   componentDidMount() {
@@ -58,6 +81,12 @@ class Map extends React.Component {
     }
 
     this.addMarkers();
+    this.addCameraAreas();
+  }
+
+  async addCameraAreas() {
+    const geojson = await getCameraAreas();
+    showAreas(this.map, geojson, this.showCameraArea.bind(this));
   }
 
   async addMarkers() {
@@ -65,37 +94,65 @@ class Map extends React.Component {
     showMarkers(this.map, this.devices, this.showDevice.bind(this));
   }
 
+  showCameraArea() {
+    // eslint-disable-line no-unused-vars
+    const area = {};
+    this.setState({ selection: { type: SELECTION_STATE.AREA, element: area } });
+  }
+
   async showDevice(d) {
     if (d) {
       const device = await getDevice(d.id);
-      this.setState({ device });
+      this.setState({
+        selection: { type: SELECTION_STATE.DEVICE, element: device },
+      });
     } else {
-      this.device = null;
+      this.setState({ selection: { type: SELECTION_STATE.NOTHING } });
     }
   }
 
-  closeDevice() {
-    this.setState({ device: null });
+  clearSelection() {
+    this.setState({ selection: { type: SELECTION_STATE.NOTHING } });
   }
 
   render() {
-    const markerCategories = Object.keys(categories).map(
-      key => categories[key]
+    const AboutButton = (
+      <Route
+        render={({ history }) => (
+          <button
+            className="about-button"
+            onClick={() => {
+              history.push('/about');
+            }}
+          >
+            Over dit register
+          </button>
+        )}
+      />
     );
 
     return (
       <div className="map-component">
         <div className="map">
           <div id="mapdiv">
+            <div id="about-iot">{AboutButton}</div>
+
             <MapLegend
-              markers={markerCategories}
-              onMarkerToggle={toggleMarkers}
-            ></MapLegend>
-            <DeviceDetails
-              device={this.state.device}
-              location={this.state.location}
-              onDeviceDetailsClose={this.closeDevice}
-            ></DeviceDetails>
+              categories={visibleCategories}
+              onCategorieToggle={key => toggleElement(this.map, key)}
+            />
+
+            {this.state.selection.type === SELECTION_STATE.DEVICE && (
+              <DeviceDetails
+                device={this.state.selection.element}
+                location={this.state.location}
+                onDeviceDetailsClose={this.clearSelection}
+              />
+            )}
+
+            {this.state.selection.type === SELECTION_STATE.AREA && (
+              <CameraAreaDetails onDeviceDetailsClose={this.clearSelection} />
+            )}
           </div>
         </div>
       </div>
