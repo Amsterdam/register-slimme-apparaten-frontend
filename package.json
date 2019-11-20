@@ -19,7 +19,6 @@
     "extract-intl": "babel-node --presets env,stage-0 -- ./internals/scripts/extract-intl.js",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
-    "postinstall": "npm run build:dll",
     "prebuild": "npm run build:clean",
     "build": "npm run build:prod",
     "build:acc": "cross-env NODE_ENV=acceptance webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress --hide-modules --display-optimization-bailout",
@@ -54,7 +53,6 @@
   "lint-staged": {
     "*.js": "lint:eslint"
   },
-  "pre-commit": "lint:staged",
   "babel": {
     "plugins": [
       "styled-components",
@@ -132,13 +130,6 @@
       "import/no-unresolved": 2,
       "import/no-webpack-loader-syntax": 0,
       "import/prefer-default-export": 0,
-      "indent": [
-        2,
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
       "jsx-a11y/aria-props": 2,
       "jsx-a11y/heading-has-content": 0,
       "jsx-a11y/href-no-hash": 2,
@@ -182,7 +173,13 @@
       "cross-env",
       "express",
       "ip",
-      "minimist"
+      "minimist",
+      "amsterdam-stijl",
+      "styled-components",
+      "@datapunt/asc-assets",
+      "@datapunt/asc-core",
+      "@datapunt/asc-ui",
+      "fs"
     ],
     "include": [
       "core-js",
@@ -235,6 +232,7 @@
     "@datapunt/asc-assets": "^0.17.0",
     "@datapunt/asc-core": "^0.17.0",
     "@datapunt/asc-ui": "^0.17.5",
+    "@datapunt/matomo-tracker-js": "0.0.13",
     "amsterdam-stijl": "^3.0.5",
     "axios": "^0.19.0",
     "babel-plugin-inline-react-svg": "^0.5.4",
@@ -253,14 +251,12 @@
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.15",
     "minimist": "1.2.0",
-    "moment": "^2.24.0",
     "proj4": "^2.5.0",
     "proj4leaflet": "^1.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-accessible-accordion": "^2.4.4",
     "react-albus": "^2.0.0",
-    "react-datepicker": "1.5.0",
     "react-dom": "^16.11.0",
     "react-intl": "2.3.0",
     "react-loadable": "4.0.3",
@@ -325,8 +321,7 @@
     "jest-environment-jsdom-global": "^1.1.0",
     "jsdom": "11.11.0",
     "lint-staged": "3.5.1",
-    "ngrok": "^3.2.5",
-    "node-plop": "^0.22.0",
+    "node-plop": "^0.15.0",
     "node-sass": "^4.9.2",
     "nodemon": "^1.18.3",
     "npm-run-all": "^4.1.5",
