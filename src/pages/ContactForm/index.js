@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import axios from 'axios';
 
+import CONFIGURATION from 'shared/services/configuration/configuration';
 import { getDevice } from '../../services/api/iot';
 import { getMarkerCategory } from '../../services/iotmap';
 
@@ -68,7 +69,7 @@ class ContactForm extends React.Component {
     if (this.contactForm.valid) {
       axios({
         method: 'post',
-        url: 'https://acc.api.data.amsterdam.nl/iothings/contact/',
+        url: `${CONFIGURATION.API_ROOT}iothings/contact/`,
         data: this.contactForm.value,
       }).then(() => {
         // eslint-disable-line no-unused-vars

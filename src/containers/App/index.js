@@ -36,7 +36,4 @@ export const App = () => (
 const withReducer = injectReducer({ key: 'global', reducer });
 const withSaga = injectSaga({ key: 'global', saga });
 
-export default compose(
-  withReducer,
-  withSaga
-)(App);
+export default compose(withReducer, withSaga)(App);

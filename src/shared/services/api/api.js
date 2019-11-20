@@ -12,7 +12,7 @@ export const generateParams = data =>
           .filter(val => val)
           .map(val => `${pair[0]}=${val}`)
           .join('&')
-        : pair.map(encodeURIComponent).join('=')
+        : pair.map(encodeURIComponent).join('='),
     )
     .join('&');
 

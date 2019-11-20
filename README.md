@@ -33,4 +33,10 @@ This application is build using React boilerplate, for more documentation:
 - [Styling](docs/css): How to work with the CSS tooling
 - [Your app](docs/js): Supercharging your app with Routing, Redux, simple
   asynchronicity helpers, etc.
-- [**Troubleshooting**](docs/general/gotchas.md): Solutions to common problems faced by developers.
+
+* [**Troubleshooting**](docs/general/gotchas.md): Solutions to common problems faced by developers.
+
+### Modifications on React boilerplate
+
+- The tunnel feature allowing access to your development setup from anywhere in the world no longer works.
+  The `ngrok` package is no longer in the list of dependencies because it would not build on the build server.

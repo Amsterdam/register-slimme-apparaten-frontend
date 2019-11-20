@@ -3,10 +3,16 @@ $gray-light: #e6e6e6;
 $gray-light-focus: #b7b7b7; // = 20% darker e5e5e5, missing color name in design
 $whitespace-half: 7.5px;
 $whitespace-base: 15px;
+$accordion-toggle-width: 14px;
+$accordion-toggle-margin: 6px;
 
 .c-accordion {
 	margin-top: 30px;
 	margin-bottom: 30px;
+}
+
+.c-accordion__toggle {
+  cursor: pointer;
 }
 
 .c-accordion__content {
@@ -15,12 +21,13 @@ $whitespace-base: 15px;
 
 .c-accordion__toggle-title {
 	display: inline-block;
-	margin: 0;
+  margin: 0;
+  max-width: calc(100% - #{$accordion-toggle-margin * 2 + $accordion-toggle-width});
 }
 
 .c-accordion__toggle-icon {
-  width: 14px;
-  height: 14px;
+  width: $accordion-toggle-width;
+  height: $accordion-toggle-width;
   vertical-align: middle;
 }
 
@@ -43,7 +50,7 @@ $whitespace-base: 15px;
   }
 
   .c-accordion__toggle-icon {
-    margin-right: 6px;
+    margin-right: $accordion-toggle-margin;
     margin-bottom: 2px;
     transform: rotate(90deg);
     fill: $white;

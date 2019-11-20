@@ -19,7 +19,6 @@
     "extract-intl": "babel-node --presets env,stage-0 -- ./internals/scripts/extract-intl.js",
     "npmcheckversion": "node ./internals/scripts/npmcheckversion.js",
     "preinstall": "npm run npmcheckversion",
-    "postinstall": "npm run build:dll",
     "prebuild": "npm run build:clean",
     "build": "npm run build:prod",
     "build:acc": "cross-env NODE_ENV=acceptance webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress --hide-modules --display-optimization-bailout",
@@ -54,7 +53,6 @@
   "lint-staged": {
     "*.js": "lint:eslint"
   },
-  "pre-commit": "lint:staged",
   "babel": {
     "plugins": [
       "styled-components",
@@ -123,6 +121,11 @@
       "express",
       "ip",
       "minimist",
+      "amsterdam-stijl",
+      "styled-components",
+      "@datapunt/asc-assets",
+      "@datapunt/asc-core",
+      "@datapunt/asc-ui",
       "fs"
     ],
     "include": [
@@ -177,6 +180,7 @@
     "@datapunt/asc-assets": "^0.17.7",
     "@datapunt/asc-core": "^0.17.7",
     "@datapunt/asc-ui": "^0.17.7",
+    "@datapunt/matomo-tracker-js": "0.0.13",
     "amsterdam-stijl": "^3.0.5",
     "axios": "^0.19.0",
     "babel-plugin-inline-react-svg": "^0.5.4",
@@ -194,14 +198,12 @@
     "leaflet.markercluster": "^1.4.1",
     "lodash": "^4.17.15",
     "minimist": "1.2.0",
-    "moment": "^2.24.0",
     "proj4": "^2.6.0",
     "proj4leaflet": "^1.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-accessible-accordion": "^2.4.4",
     "react-albus": "^2.0.0",
-    "react-datepicker": "1.5.0",
     "react-dom": "^16.12.0",
     "react-intl": "2.3.0",
     "react-loadable": "4.0.3",
@@ -296,7 +298,7 @@
     "npm-run-all": "^4.1.5",
     "null-loader": "0.1.1",
     "offline-plugin": "4.8.1",
-    "open": "0.0.5",
+    "open": "^7.0.0",
     "plop": "1.8.0",
     "pre-commit": "1.2.2",
     "prettier": "^1.19.1",
