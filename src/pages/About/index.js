@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './style.scss';
 
 const About = () => (
-  <Fragment>
+  <div>
     <h2>Over dit register</h2>
 
     <NavLink to="/about/faq" className="link-faq">Veelgestelde vragen (FAQ)</NavLink>
@@ -46,7 +46,7 @@ const About = () => (
 
     <h3>Aansprakelijkheid gemeente Amsterdam</h3>
     <p>De gemeente Amsterdam en haar partners sluiten iedere aansprakelijkheid uit voor welke schade (direct en/of indirecte schade) dan ook, op enige wijze ontstaan door en/of voortvloeiend uit elk gebruik van deze datasets, waaronder ook – maar niet alleen – handelingen van een gebruiker van de datasets die zouden zijn ingegeven door ter beschikking gestelde data.</p>
-  </Fragment>
+  </div>
 );
 
 export default About;

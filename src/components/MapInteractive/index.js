@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
-import { Route } from 'react-router-dom';
 
 import { getDevices, getDevice, getCameraAreas } from '../../services/api/iot';
 import { showAreas, showMarkers, toggleElement } from '../../services/iotmap';
@@ -116,27 +115,10 @@ class Map extends React.Component {
   }
 
   render() {
-    const AboutButton = (
-      <Route
-        render={({ history }) => (
-          <button
-            className="about-button"
-            onClick={() => {
-              history.push('/about');
-            }}
-          >
-            Over dit register
-          </button>
-        )}
-      />
-    );
-
     return (
       <div className="map-component">
         <div className="map">
           <div id="mapdiv">
-            <div id="about-iot">{AboutButton}</div>
-
             <MapLegend
               categories={visibleCategories}
               onCategorieToggle={key => toggleElement(this.map, key)}
