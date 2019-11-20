@@ -4,12 +4,13 @@ const express = require('express');
 const open = require('open');
 const proxy = require('http-proxy-middleware');
 const resolve = require('path').resolve;
+const logger = require('./logger');
+
 const argv = require('./argv');
 
 const port = require('./port');
 const proxyConfig = require('./proxy-config');
 const setup = require('./middlewares/frontendMiddleware');
-const logger = require('./logger');
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
@@ -27,15 +28,12 @@ setup(app, {
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
 const host = customHost || null; // Let http.Server use its default IPv6/4 host
-const prettyHost = customHost || 'localhost';
 
 // Start your app.
 app.listen(port, host, err => {
   if (err) {
     return logger.error(err.message);
   }
-
-  logger.appStarted(port, prettyHost);
 
   open(`http://localhost:${port}`);
 });

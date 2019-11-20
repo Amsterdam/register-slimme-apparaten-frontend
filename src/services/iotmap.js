@@ -3,18 +3,16 @@
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { mapHome, mapGo } from './map';
-import categories from '../static/categories';
+import { categories, CAMERA_TOEZICHTSGEBIED } from '../static/categories';
 
 // Import marker icons so Webpack adds them as separate files instead of inlining them
-import Camera from '../../public/images/icon-camera@3x.png';
-import Beacon from '../../public/images/icon-beacon@3x.png';
-import Sensor from '../../public/images/icon-sensor@3x.png';
-import Laadpaal from '../../public/images/icon-laadpaal@3x.png';
-import Verkeer from '../../public/images/icon-verkeer@3x.png';
-import Lantaarnpaal from '../../public/images/icon-lantaarn@3x.png';
-
-const ICON_PATH = 'assets/';
+import '../../public/images/icon-camera-gebied@3x.png';
+import '../../public/images/icon-camera@3x.png';
+import '../../public/images/icon-beacon@3x.png';
+import '../../public/images/icon-sensor@3x.png';
+import '../../public/images/icon-laadpaal@3x.png';
+import '../../public/images/icon-verkeer@3x.png';
+import '../../public/images/icon-lantaarn@3x.png';
 
 const markerOptions = {
   iconSize: [23, 23],
@@ -22,14 +20,16 @@ const markerOptions = {
   popupAnchor: [-3, -76],
 };
 
-let clicker;
+export const HIGHLIGHT_CLASS = 'active-element';
+
+let activeMarker;
+let markerHighlight;
+let areaHighlightLayer;
 
 let markerGroup;
 
 export function getMarkerCategory(device) {
-  return categories[
-    Object.keys(categories).find(mt => mt === device.categories[0])
-  ];
+  return categories[Object.keys(categories).find(mt => mt === device.categories[0])];
 }
 
 function getMarkerIcon(marker) {
@@ -40,139 +40,51 @@ function getMarkerIcon(marker) {
   });
 }
 
-export function cancelHighlight(map) {
-  if (clicker) {
-    map.removeLayer(clicker);
-  }
-}
-
-export function toggleMarkers(markerCategory) {
-  categories[markerCategory].enabled = !categories[markerCategory].enabled;
-  if (categories[markerCategory].layer) {
-    if (categories[markerCategory].enabled) {
-      markerGroup.addLayer(categories[markerCategory].layer);
+export function toggleElement(map, key) {
+  categories[key].enabled = !categories[key].enabled;
+  const layer = categories[key].layer;
+  if (layer) {
+    if (categories[key].isClustered) {
+      // markers are clustered in marker group
+      if (categories[key].enabled) {
+        markerGroup.addLayer(layer);
+      } else {
+        markerGroup.removeLayer(layer);
+      }
+    } else if (categories[key].enabled) {
+      map.addLayer(layer);
     } else {
-      markerGroup.removeLayer(categories[markerCategory].layer);
+      map.removeLayer(layer);
     }
   }
 }
 
-export function fitBounds(map, p1, p2) {
-  map.fitBounds([p1, p2]);
-}
-
-export function onMap(map, id, where) {
-  const HomeControl = L.Control.extend({
-    options: {
-      position: where,
-    },
-
-    onAdd() {
-      return L.DomUtil.get(id);
-    },
-  });
-  map.addControl(new HomeControl());
-}
-
-function geolocationError(error) {
-  switch (error.code) {
-    case error.PERMISSION_DENIED:
-      return 'Toegang tot locatie is afgeschermd.';
-    case error.POSITION_UNAVAILABLE:
-      return 'Locatie informatie is niet beschikbaar.';
-    case error.TIMEOUT:
-      return 'Locatie informatie kon niet tijdig worden gevonden.';
-    case error.UNKNOWN_ERROR:
-      return 'Locatie informatie kon niet worden gevonden.';
-    default:
-      return null;
+export const removeCurrentHighlight = map => {
+  if (markerHighlight) {
+    // Point highlight
+    map.removeLayer(markerHighlight);
   }
-}
 
-function homeButton(map, onClick) {
-  const HomeControl = L.Control.extend({
-    options: {
-      position: 'topright',
-    },
-
-    onAdd() {
-      const container = L.DomUtil.create(
-        'img',
-        'leaflet-bar leaflet-control leaflet-control-custom'
-      );
-      container.src = `${ICON_PATH}home-3x.png`;
-      container.style.backgroundColor = 'white';
-      container.style.width = '33px';
-      container.style.height = '33px';
-
-      container.onclick = () => {
-        cancelHighlight(map);
-        map.closePopup();
-        onClick(null);
-        mapHome(map);
-      };
-      return container;
-    },
-  });
-
-  const PositionControl = L.Control.extend({
-    options: {
-      position: 'topright',
-    },
-
-    onAdd() {
-      const container = L.DomUtil.create(
-        'img',
-        'leaflet-bar leaflet-control leaflet-control-custom'
-      );
-      container.src = `${ICON_PATH}location-24.png`;
-      container.style.backgroundColor = 'white';
-      container.style.width = '33px';
-      container.style.height = '33px';
-
-      container.onclick = () => {
-        cancelHighlight(map);
-        map.closePopup();
-        onClick(null);
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            pos => mapGo(map, pos.coords.latitude, pos.coords.longitude),
-            err => console.log(geolocationError(err))
-          );
-        } else {
-          mapHome(map);
-        }
-      };
-      return container;
-    },
-  });
-
-  map.addControl(new HomeControl());
-  map.addControl(new PositionControl());
-}
+  if (areaHighlightLayer) {
+    const classList = areaHighlightLayer.getElement().classList;
+    if (classList && classList.remove) {
+      classList.remove(HIGHLIGHT_CLASS);
+    }
+  }
+};
 
 export function showMarkers(map, markers, onClick) {
-  const showInfo = loc => {
-    if (clicker) {
-      map.removeLayer(clicker);
+  const showInfo = (event, loc) => {
+    if (activeMarker) {
+      activeMarker._icon.classList.remove('highlight');
     }
-    clicker = L.circleMarker([loc.latitude, loc.longitude], { radius: 13 });
-    clicker.addTo(map);
+
+    const { sourceTarget } = event;
+    activeMarker = sourceTarget;
+    activeMarker._icon.classList.add('highlight');
+
     onClick(loc);
   };
-
-  const showPopup = async marker => {
-    const [lat, lon] = marker.wgs84_geometry.coordinates;
-    const markerCategory = getMarkerCategory(marker);
-    L.popup({ offset: new L.Point(0, -20), autoPan: false })
-      .setContent(
-        `<div class="font-weight-bold">${markerCategory.name}</div>${marker.name}`
-      )
-      .setLatLng([lat, lon])
-      .openOn(map);
-  };
-
-  const hidePopup = loc => map.closePopup();
 
   markerGroup = L.markerClusterGroup({
     disableClusteringAtZoom: 16,
@@ -180,27 +92,59 @@ export function showMarkers(map, markers, onClick) {
     spiderfyOnMaxZoom: false,
   });
 
-  Object.keys(categories).forEach(markerCategory => {
+  const clusterCategories = Object.entries(categories).filter(([, value]) => value.isClustered);
+  for (const [id] of clusterCategories) {
     const layer = L.featureGroup();
     markers
-      .filter(marker => marker.categories[0] === markerCategory)
-      .forEach(marker =>
+      .filter(marker => marker.categories[0] === id)
+      .forEach(marker => // eslint-disable-line no-loop-func
         L.marker([marker.latitude, marker.longitude], {
           icon: getMarkerIcon(marker),
         })
           .addTo(layer)
-          .on('click', () => showInfo(marker))
+          .once('add', event => {
+            const { sourceTarget } = event;
+
+            if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
+              activeMarker._icon.classList.add('highlight');
+            }
+            return this;
+          })
+          .once('remove', event => {
+            const { sourceTarget } = event;
+
+            if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
+              activeMarker = undefined;
+            }
+            return this;
+          })
+          .on('click', event => showInfo(event, marker)),
       );
-    // Don't show a hover Popup (for now)
-    // .on('mouseover', () => showPopup(marker))
-    // .on('mouseout', () => hidePopup(marker)));
-    categories[markerCategory].layer = layer;
-    categories[markerCategory].enabled = true;
+    categories[id].layer = layer;
+    categories[id].enabled = true;
     markerGroup.addLayer(layer);
-  });
+  }
 
   map.addLayer(markerGroup);
-  // homeButton(map, onClick)
   return markerGroup;
 }
-/* eslint-enable no-unused-vars */
+
+export function showAreas(map, geojson, onClickCallback) {
+  const onClick = event => {
+    removeCurrentHighlight(map);
+    areaHighlightLayer = event.layer;
+
+    const classList = areaHighlightLayer.getElement().classList;
+    if (classList && classList.add) {
+      classList.add(HIGHLIGHT_CLASS);
+    }
+
+    onClickCallback(event.sourceTarget.feature);
+  };
+
+  const layer = L.Proj.geoJson(geojson, { className: 'camera-area' });
+  layer.on('click', onClick);
+  map.addLayer(layer);
+  categories[CAMERA_TOEZICHTSGEBIED].layer = layer;
+  return layer;
+}
