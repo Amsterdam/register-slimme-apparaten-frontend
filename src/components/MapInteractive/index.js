@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
-import { getDevices, getDevice, getCameraAreas } from '../../services/api/iot';
+import { getDevices, getDevice, getCameraAreas, getPrivacyLayers } from '../../services/api/iot';
 import { showAreas, showMarkers, toggleElement } from '../../services/iotmap';
 import { categories } from '../../static/categories';
 import '../../services/map'; // loads L.Proj (Proj binding leaflet)
@@ -26,6 +26,7 @@ const Map = () => {
   const [selection, setSelection] = useState(noSelection);
   const [devices, setDevices] = useState([]);
   const [cameras, setCameras] = useState([]);
+  const [geojsonLayers, setGeoJsonLayers] = useState([]);
 
   const clearSelection = () => {
     setSelection(noSelection);
@@ -36,9 +37,14 @@ const Map = () => {
     setCameras(results);
   };
 
-  const addMarkers = async () => {
+  const addDevices = async () => {
     const results = await getDevices();
     setDevices(results);
+  };
+
+  const addPrivacy = async () => {
+    const results = await getPrivacyLayers();
+    setGeoJsonLayers(results);
   };
 
   const showCameraArea = () => {
@@ -61,9 +67,15 @@ const Map = () => {
   }, [devices, cameras]);
 
   useEffect(() => {
+    console.log('geojsonLayers', geojsonLayers);
+    // showMarkers(mapRef.current, devices, showDevice);
+  }, [geojsonLayers]);
+
+  useEffect(() => {
     (async () => {
-      await addMarkers();
+      await addDevices();
       await addCameraAreas();
+      await addPrivacy();
     })();
   }, []);
 
