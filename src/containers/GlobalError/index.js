@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { FormattedMessage } from 'react-intl';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import {
@@ -10,7 +9,6 @@ import {
 } from 'containers/App/selectors';
 import { resetGlobalError } from '../App/actions';
 
-// import messages from './messages';
 import './style.scss';
 
 export const GlobalError = ({ error, errorMessage, onClose }) => (
@@ -18,7 +16,11 @@ export const GlobalError = ({ error, errorMessage, onClose }) => (
     {error ? (
       <div className="global-error">
         {errorMessage}
-        <button className="global-error__close-button" onClick={onClose}>
+        <button
+          type="button"
+          className="global-error__close-button"
+          onClick={onClose}
+        >
           sluit
         </button>
       </div>

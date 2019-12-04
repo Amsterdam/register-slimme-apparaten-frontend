@@ -8,9 +8,9 @@ const TYPE_AHEAD = `${BASE_URL}typeahead?q=`;
 export async function geoSearch(searchText) {
   let results = await readData(TYPE_AHEAD + searchText);
   results = results
-    .filter((r) => ['Straatnamen', 'Gebieden'].includes(r.label))
-    .map((r) => r.content);
-  return _.flatten(results).map((r) => ({ ...r, searchText }));
+    .filter(r => ['Straatnamen', 'Gebieden'].includes(r.label))
+    .map(r => r.content);
+  return _.flatten(results).map(r => ({ ...r, searchText }));
 }
 
 export async function getBounds(searchResult) {

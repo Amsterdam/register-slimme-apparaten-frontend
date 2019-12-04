@@ -1,13 +1,13 @@
 export const ENVIRONMENTS = {
   DEVELOPMENT: 'DEVELOPMENT',
   ACCEPTANCE: 'ACCEPTANCE',
-  PRODUCTION: 'PRODUCTION'
+  PRODUCTION: 'PRODUCTION',
 };
 
 export const HOSTS = {
   DEVELOPMENT: 'localhost:3001',
   ACCEPTANCE: 'acc.meldingen.amsterdam.nl',
-  PRODUCTION: 'meldingen.amsterdam.nl'
+  PRODUCTION: 'meldingen.amsterdam.nl',
 };
 
 export const getEnvironment = () => {

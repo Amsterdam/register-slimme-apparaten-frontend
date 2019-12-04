@@ -60,7 +60,7 @@ class ContactForm extends React.Component {
       does_the_device_register_personal_data: [false],
       comment: ['', Validators.maxLength(MAX_INPUT_LENGTH)],
     },
-    { validators: oneOrMoreQuestionsValidator }
+    { validators: oneOrMoreQuestionsValidator },
   );
 
   handleSubmit = event => {

@@ -11,7 +11,8 @@ import { createSelector } from 'reselect';
 import { changeLocale } from '../LanguageProvider/actions';
 import { makeSelectLocale } from '../LanguageProvider/selectors';
 
-export class LocaleToggle extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+export class LocaleToggle extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
   // TODO: the switching between locale and the displaylocalename can be prettier
   onToggle(locale) {
     let switchTo;
@@ -39,7 +40,6 @@ export class LocaleToggle extends React.PureComponent { // eslint-disable-line r
     }
   }
 
-  /* eslint-disable jsx-a11y/href-no-hash */
   render() {
     return (
       <a href="#" onClick={() => this.onToggle(this.props.locale)}>
@@ -49,7 +49,6 @@ export class LocaleToggle extends React.PureComponent { // eslint-disable-line r
       </a>
     );
   }
-  /* eslint-enable */
 }
 
 LocaleToggle.propTypes = {
@@ -57,14 +56,13 @@ LocaleToggle.propTypes = {
   locale: PropTypes.string,
 };
 
-const mapStateToProps = createSelector(
-  makeSelectLocale(),
-  (locale) => ({ locale })
-);
+const mapStateToProps = createSelector(makeSelectLocale(), locale => ({
+  locale,
+}));
 
 export function mapDispatchToProps(dispatch) {
   return {
-    onLocaleToggle: (locale) => dispatch(changeLocale(locale))
+    onLocaleToggle: locale => dispatch(changeLocale(locale)),
   };
 }
 

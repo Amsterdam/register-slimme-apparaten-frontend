@@ -11,6 +11,7 @@ import CarretRightIcon from '../../images/icon-carret-right.svg';
 
 import './style.scss';
 
+
 const Accordion = props => {
   const Tag = props.headingLevel;
   return (

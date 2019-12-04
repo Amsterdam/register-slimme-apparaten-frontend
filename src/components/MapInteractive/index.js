@@ -4,7 +4,7 @@ import { isEqual } from 'lodash';
 
 import { getDevices, getDevice, getCameraAreas } from '../../services/api/iot';
 import { showAreas, showMarkers, toggleElement } from '../../services/iotmap';
-import categories from '../../static/categories';
+import { categories } from '../../static/categories';
 import amaps from '../../static/amaps.iife';
 import '../../services/map'; // loads L.Proj (Proj binding leaflet)
 

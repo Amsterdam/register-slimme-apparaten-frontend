@@ -7,6 +7,7 @@ const resolve = require('path').resolve;
 const logger = require('./logger');
 
 const argv = require('./argv');
+
 const port = require('./port');
 const proxyConfig = require('./proxy-config');
 const setup = require('./middlewares/frontendMiddleware');
@@ -17,7 +18,6 @@ const app = express();
 Object.keys(proxyConfig).forEach(key => {
   app.use(key, proxy(proxyConfig[key]));
 });
-
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {

@@ -1,7 +1,7 @@
+import L from 'leaflet'; // eslint-disable-line import/first
 import { HIGHLIGHT_CLASS, removeCurrentHighlight, showAreas } from './iotmap';
 
 jest.mock('leaflet');
-import L from 'leaflet'; // eslint-disable-line import/first
 
 describe('iotmap', () => {
   describe('the map camera areas layer', () => {
@@ -32,7 +32,7 @@ describe('iotmap', () => {
       const classList = { add: jest.fn() };
       const clickEvent = {
         sourceTarget: { feature: 'foo' },
-        layer: { getElement: () => ({ classList }) }
+        layer: { getElement: () => ({ classList }) },
       };
 
       showAreas(map, geojson, onClick);
@@ -43,7 +43,6 @@ describe('iotmap', () => {
       expect(onClick).toHaveBeenCalledWith(clickEvent.sourceTarget.feature);
     });
 
-
     it('should remove the area highlight when requested', () => {
       const onClick = jest.fn();
       const geojson = { foo: 'bar' };
@@ -52,7 +51,7 @@ describe('iotmap', () => {
       const classList = { add: jest.fn(), remove: jest.fn() };
       const clickEvent = {
         sourceTarget: { feature: 'foo' },
-        layer: { getElement: () => ({ classList }) }
+        layer: { getElement: () => ({ classList }) },
       };
 
       showAreas(map, geojson, onClick);

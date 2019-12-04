@@ -16,7 +16,7 @@ class Checkbox extends React.Component {
     super(props);
 
     this.state = {
-      checked: Checkbox.evaluateChecked(this.props.checked)
+      checked: Checkbox.evaluateChecked(this.props.checked),
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,13 +24,13 @@ class Checkbox extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      checked: Checkbox.evaluateChecked(nextProps.checked)
+      checked: Checkbox.evaluateChecked(nextProps.checked),
     });
   }
 
   handleChange(event) {
     this.setState({
-      checked: !this.state.checked
+      checked: !this.state.checked,
     });
     this.props.onChange(event);
   }
@@ -53,13 +53,13 @@ class Checkbox extends React.Component {
 
 Checkbox.defaultProps = {
   checked: false,
-  onChange: () => {}
+  onChange: () => {},
 };
 
 Checkbox.propTypes = {
   checked: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Checkbox;

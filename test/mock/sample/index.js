@@ -3,6 +3,6 @@ import { bootstrap } from 'dyson';
 
 bootstrap({
   configDir: `${__dirname}/`,
-  port: 5101
+  port: 5101,
 });
 

@@ -7,11 +7,11 @@ import CONFIGURATION from 'shared/services/configuration/configuration';
 import {
   LOGOUT,
   LOGIN,
-  AUTHENTICATE_USER
+  AUTHENTICATE_USER,
 } from './constants';
 import {
   showGlobalError,
-  authorizeUser
+  authorizeUser,
 } from './actions';
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
@@ -59,6 +59,6 @@ export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
-    takeLatest(AUTHENTICATE_USER, callAuthorize)
+    takeLatest(AUTHENTICATE_USER, callAuthorize),
   ]);
 }

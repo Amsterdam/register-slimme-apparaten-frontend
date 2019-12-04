@@ -1,11 +1,10 @@
-/* eslint-disable */
+/* eslint-disable no-unused-vars */
 
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import categories, { CAMERA_TOEZICHTSGEBIED } from '../static/categories';
+import { categories, CAMERA_TOEZICHTSGEBIED } from '../static/categories';
 
-/* eslint-disable no-unused-vars */
 // Import marker icons so Webpack adds them as separate files instead of inlining them
 import '../../public/images/icon-camera-gebied@3x.png';
 import '../../public/images/icon-camera@3x.png';
@@ -14,7 +13,6 @@ import '../../public/images/icon-sensor@3x.png';
 import '../../public/images/icon-laadpaal@3x.png';
 import '../../public/images/icon-verkeer@3x.png';
 import '../../public/images/icon-lantaarn@3x.png';
-/* eslint-enable no-unused-vars */
 
 const markerOptions = {
   iconSize: [23, 23],
@@ -44,7 +42,7 @@ function getMarkerIcon(marker) {
 
 export function toggleElement(map, key) {
   categories[key].enabled = !categories[key].enabled;
-  let layer = categories[key].layer;
+  const layer = categories[key].layer;
   if (layer) {
     if (categories[key].isClustered) {
       // markers are clustered in marker group
@@ -53,12 +51,10 @@ export function toggleElement(map, key) {
       } else {
         markerGroup.removeLayer(layer);
       }
+    } else if (categories[key].enabled) {
+      map.addLayer(layer);
     } else {
-      if (categories[key].enabled) {
-        map.addLayer(layer);
-      } else {
-        map.removeLayer(layer);
-      }
+      map.removeLayer(layer);
     }
   }
 }
@@ -101,7 +97,7 @@ export function showMarkers(map, markers, onClick) {
     const layer = L.featureGroup();
     markers
       .filter(marker => marker.categories[0] === id)
-      .forEach(marker =>
+      .forEach(marker => // eslint-disable-line no-loop-func
         L.marker([marker.latitude, marker.longitude], {
           icon: getMarkerIcon(marker),
         })
@@ -122,7 +118,7 @@ export function showMarkers(map, markers, onClick) {
             }
             return this;
           })
-          .on('click', event => showInfo(event, marker))
+          .on('click', event => showInfo(event, marker)),
       );
     categories[id].layer = layer;
     categories[id].enabled = true;

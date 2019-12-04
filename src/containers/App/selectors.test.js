@@ -38,8 +38,8 @@ describe('makeSelectAccessToken', () => {
     const accessToken = 'thisistheaccesstoken';
     const mockedState = fromJS({
       global: {
-        accessToken
-      }
+        accessToken,
+      },
     });
     expect(selector(mockedState)).toEqual(accessToken);
   });

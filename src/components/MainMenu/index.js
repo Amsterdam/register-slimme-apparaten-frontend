@@ -34,12 +34,12 @@ export class MainMenu extends React.Component { // eslint-disable-line react/pre
 }
 
 MainMenu.propTypes = {
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
 
 export const mapStateToProps = createStructuredSelector({
-  isAuthenticated: makeSelectIsAuthenticated()
+  isAuthenticated: makeSelectIsAuthenticated(),
 });
 
 const withConnect = connect(mapStateToProps, null);
