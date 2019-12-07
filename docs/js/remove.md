@@ -47,7 +47,7 @@ const makeSelectLocationState = () => {
 
     if (!routingState.equals(prevRoutingState)) {
       prevRoutingState = routingState;
-      prevRoutingStateJS = routingState.toJS();
+      prevRoutingStateJS = routingState;
     }
 
     return prevRoutingStateJS;

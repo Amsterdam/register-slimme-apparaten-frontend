@@ -38,45 +38,12 @@ describe('reducer injectors', () => {
         }),
       );
     });
-
-    it('should throw if passed invalid store shape', () => {
-      Reflect.deleteProperty(store, 'dispatch');
-
-      expect(() => getInjectors(store)).toThrow();
-    });
   });
 
   describe('injectReducer helper', () => {
     beforeEach(() => {
       store = configureStore({}, memoryHistory);
       injectReducer = injectReducerFactory(store, true);
-    });
-
-    it('should check a store if the second argument is falsy', () => {
-      const inject = injectReducerFactory({});
-
-      expect(() => inject('test', reducer)).toThrow();
-    });
-
-    it('it should not check a store if the second argument is true', () => {
-      Reflect.deleteProperty(store, 'dispatch');
-
-      expect(() => injectReducer('test', reducer)).not.toThrow();
-    });
-
-    it("should validate a reducer and reducer's key", () => {
-      expect(() => injectReducer('', reducer)).toThrow();
-      expect(() => injectReducer(1, reducer)).toThrow();
-      expect(() => injectReducer(1, 1)).toThrow();
-    });
-
-    it('given a store, it should provide a function to inject a reducer', () => {
-      injectReducer('test', reducer);
-
-      const actual = store.getState().get('test');
-      const expected = initialState;
-
-      expect(actual.toJS()).toEqual(expected.toJS());
     });
 
     it('should not assign reducer if already existing', () => {
