@@ -3,23 +3,20 @@
  */
 
 import { memoryHistory } from 'react-router-dom';
-import { fromJS } from 'immutable';
 import identity from 'lodash/identity';
 
 import configureStore from '../configureStore';
 
-import getInjectors, {
-  injectReducerFactory,
-} from './reducerInjectors';
+import getInjectors, { injectReducerFactory } from './reducerInjectors';
 
 // Fixtures
 
-const initialState = fromJS({ reduced: 'soon' });
+const initialState = { reduced: 'soon' };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'TEST':
-      return state.set('reduced', action.payload);
+      return { ...state, reduced: action.payload };
     default:
       return state;
   }
@@ -35,9 +32,11 @@ describe('reducer injectors', () => {
     });
 
     it('should return injectors', () => {
-      expect(getInjectors(store)).toEqual(expect.objectContaining({
-        injectReducer: expect.any(Function),
-      }));
+      expect(getInjectors(store)).toEqual(
+        expect.objectContaining({
+          injectReducer: expect.any(Function),
+        }),
+      );
     });
 
     it('should throw if passed invalid store shape', () => {
@@ -65,7 +64,7 @@ describe('reducer injectors', () => {
       expect(() => injectReducer('test', reducer)).not.toThrow();
     });
 
-    it('should validate a reducer and reducer\'s key', () => {
+    it("should validate a reducer and reducer's key", () => {
       expect(() => injectReducer('', reducer)).toThrow();
       expect(() => injectReducer(1, reducer)).toThrow();
       expect(() => injectReducer(1, 1)).toThrow();

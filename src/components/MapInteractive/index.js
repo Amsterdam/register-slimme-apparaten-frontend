@@ -67,7 +67,7 @@ const Map = () => {
   }, [devices, cameras]);
 
   useEffect(() => {
-    console.log('geojsonLayers', geojsonLayers);
+    // console.log('geojsonLayers', geojsonLayers);
     // showMarkers(mapRef.current, devices, showDevice);
   }, [geojsonLayers]);
 

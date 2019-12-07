@@ -22,10 +22,7 @@ export const App = () => (
     <Switch>
       <Route exact path="/" component={Map} />
       <Route path={APP_ROUTES.CONTACT} component={withContainer(ContactForm)} />
-      <Route
-        path={APP_ROUTES.CATEGORIES}
-        component={withContainer(Categories)}
-      />
+      <Route path={APP_ROUTES.CATEGORIES} component={withContainer(Categories)} />
       <Route path={APP_ROUTES.ABOUT_FAQ} component={withContainer(FAQ)} />
       <Route path={APP_ROUTES.ABOUT} component={withContainer(About)} />
       <Route path="" component={withContainer(NotFoundPage)} />
