@@ -28,8 +28,12 @@ export const getPrivacyLayers = async () => {
       // 'https://service.vorin-amsterdam.nl/camera-geo_2/camera/geo',
       // 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
     ].map(async url => {
-      const data = await fetch(url, { mode: 'no-cors' }).then(response => response.json());
-      return data;
+      try {
+        const data = await fetch(url, { mode: 'no-cors' }).then(response => response.json());
+        return data;
+      } catch {
+        return {};
+      }
     }),
   );
   return layers;
