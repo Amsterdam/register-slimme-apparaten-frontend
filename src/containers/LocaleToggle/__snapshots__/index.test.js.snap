@@ -2,6 +2,7 @@
 
 exports[`<LocaleToggle /> should render the default language messages 1`] = `
 <a
+  as="button"
   href="#"
   onClick={[Function]}
 >
@@ -15,6 +16,7 @@ exports[`<LocaleToggle /> should render the default language messages 1`] = `
 
 exports[`<LocaleToggle /> should render the language messages 1`] = `
 <a
+  as="button"
   href="#"
   onClick={[Function]}
 >

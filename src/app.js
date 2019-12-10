@@ -12,18 +12,14 @@ import 'regenerator-runtime/runtime';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import { createBrowserHistory } from 'history';
+import { Provider, ReactReduxContext } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@datapunt/asc-ui';
 import 'leaflet/dist/leaflet';
 
-// Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-import '!file-loader?name=[name].[ext]!./manifest.json';
-import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line import/extensions
 /* eslint-enable import/no-webpack-loader-syntax */
 
 // Import CSS and Global Styles
@@ -32,6 +28,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'static/nlmaps.css';
 import 'amsterdam-stijl/dist/css/ams-stijl.css';
+import history from 'utils/history';
 
 // Import root app
 import App from './containers/App';
@@ -50,7 +47,6 @@ import { translationMessages } from './i18n';
 
 // Create redux store with history
 const initialState = {};
-const history = createBrowserHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
@@ -65,17 +61,17 @@ MatomoInstance.trackPageView();
 
 const render = messages => {
   ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
+    <Provider store={store} context={ReactReduxContext}>
+      <ConnectedRouter history={history} context={ReactReduxContext}>
+        <LanguageProvider messages={messages}>
           <ThemeProvider>
             <GlobalStyle />
             <App />
           </ThemeProvider>
-        </ConnectedRouter>
-      </LanguageProvider>
+        </LanguageProvider>
+      </ConnectedRouter>
     </Provider>,
-    MOUNT_NODE
+    MOUNT_NODE,
   );
 };
 
@@ -91,6 +87,14 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
+  if (!Intl.PluralRules) {
+    /* eslint-disable global-require */
+    require('@formatjs/intl-pluralrules/polyfill');
+    require('@formatjs/intl-pluralrules/dist/locale-data/en'); // Add locale data for de
+    require('@formatjs/intl-pluralrules/dist/locale-data/nl'); // Add locale data for de
+    /* eslint-enable global-require */
+  }
+
   new Promise(resolve => {
     resolve(import('intl'));
   })

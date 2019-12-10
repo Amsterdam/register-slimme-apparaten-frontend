@@ -1,5 +1,5 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 import { authCall } from 'shared/services/api/api';
 import watchAppSaga, { callLogin, callLogout, callAuthorize } from './saga';

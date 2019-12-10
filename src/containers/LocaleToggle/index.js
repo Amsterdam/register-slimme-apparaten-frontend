@@ -41,11 +41,10 @@ export class LocaleToggle extends React.PureComponent {
   }
 
   render() {
+    // eslint-disable-next jsx-a11y/anchor-is-valid
     return (
-      <a href="#" onClick={() => this.onToggle(this.props.locale)}>
-        <span className="linklabel">
-          {this.getSwitchToLocaleName(this.props.locale)}
-        </span>
+      <a as="button" href="#" onClick={() => this.onToggle(this.props.locale)}>
+        <span className="linklabel">{this.getSwitchToLocaleName(this.props.locale)}</span>
       </a>
     );
   }
