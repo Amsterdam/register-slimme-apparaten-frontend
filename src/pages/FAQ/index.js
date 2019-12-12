@@ -69,11 +69,6 @@ const FAQ = () => (
       Die kunt u melden via het mailformulier aan de eigenaar van het slimme apparaat. Die is verantwoordelijk voor de juistheid en de volledigheid van de informatie.
     </Accordion>
 
-    {/* Commented out for now, as the answer is not known yet
-    <Accordion title="Hoe moet ik een slim apparaat invoeren?">
-      <div></div>
-    </Accordion> */}
-
     <Accordion title="Wat zie ik op de kaart van het register?">
       Op de kaart ziet u blauwe stippen. Zoek de blauwe stippen die het dichtst bij de buurt zijn waarvoor u wilt weten welke slimme
       apparaten er zijn. Klik dan op een blauwe stip. U krijgt een meer gedetailleerde kaart te zien, waarop is aangegeven welke
@@ -93,6 +88,21 @@ const FAQ = () => (
       en klik op de dichtstbijzijnde blauwe stip. Dan kijkt u op de straat waar het slimme apparaat dat u zoekt is. Door op de
       aanwezige stippen te klikken ziet u informatie (rechts) verschijnen. Daarmee kunt u nagaan of dit het apparaat is wat u zocht.
       Het kan ook zo zijn dat het apparaat niet geregistreerd is. In dat geval kan het register u niet helpen.
+    </Accordion>
+
+    <Accordion title="Wat betekenen de categorieën?">
+      <h4>Camera toezichtsgebied</h4>
+      Als u wilt weten welke slimme apparaten aanwezig zijn in een straat: ga naar het deel van de kaart waar de straat zich bevindt
+      <h4>Camera</h4>
+      Apparaten waarmee beeld en geluid vastgelegd kunnen worden. Het kan gaan om kentekenherkennende camera’s; telcamera’s om het aantal; vervoermiddelen of personen te tellen; observatiecamera’s; 3Dcamera’s.
+      <h4>Sensor</h4>
+      Apparaten waarmee gegevens vermeld worden in en over de openbare ruimte, meestal zonder daarbij persoonsgegevens te registreren, bijvoorbeeld als het gaat om luchtkwaliteit.
+      <h4>Beacon</h4>
+      Apparaten die gegevens beschikbaar stellen, uitzenden, bijvoorbeeld over tijden openbaar vervoer.
+      <h4>Slimme verkeersinformatie</h4>
+      Apparaten, excl camera’waarmee informatie wordt verzameld over het verkeer. Bijvoorbeeld verkeerslussen.
+      <h4>Slimme meetpunten</h4>
+      Apparaten waarop andere slimme apparaten gemonteerd kunnen worden, zoals bv sensoren of camera’s en die zelf ook kunnen meten. Denk aan slimme lantaarnpalen of slimme laadpalen.
     </Accordion>
   </div>
 );
