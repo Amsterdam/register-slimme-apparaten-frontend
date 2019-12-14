@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import { getDevices, getDevice, getCameraAreas, getPrivacyLayers } from '../../services/api/iot';
+import 'services/map'; // loads L.Proj (Proj binding leaflet)
+import { getDevices, getDevice, getCameraAreas } from 'services/api/iot';
+import getGeojsonLayers from 'services/api/GeojsonLayers';
 import { useMarkers } from '../../services/iotmap';
 import { categories, CAMERA_TOEZICHTSGEBIED } from '../../static/categories';
-import '../../services/map'; // loads L.Proj (Proj binding leaflet)
-
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
 import CameraAreaDetails from '../CameraAreaDetails';
@@ -46,7 +46,7 @@ const Map = () => {
   };
 
   const addPrivacy = async () => {
-    const results = await getPrivacyLayers();
+    const results = await getGeojsonLayers();
     setGeoJsonLayers(results);
   };
 
