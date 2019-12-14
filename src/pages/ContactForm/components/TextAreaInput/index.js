@@ -66,7 +66,7 @@ const TextAreaInput = props => {
     hasError: PropTypes.func,
     maxLength: PropTypes.number,
     placeholder: PropTypes.string,
-    rows: PropTypes.bool,
+    rows: PropTypes.number,
   };
   return render;
 };

@@ -32,7 +32,7 @@ const getGeojsonLayers = async layersConfig => {
       }
     }),
   );
-  return results.reduce((acc, item) => [...acc, item], []);
+  return results.reduce((acc, item) => [...acc, ...item], []);
 };
 
 export default getGeojsonLayers;
