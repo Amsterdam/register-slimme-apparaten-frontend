@@ -5,7 +5,7 @@ import { getDevices, getDevice, getCameraAreas } from 'services/api/iot';
 import { useMarkers } from 'services/iotmap';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/GeojsonLayers';
-import { categories, CAMERA_TOEZICHTSGEBIED } from '../../static/categories';
+import { categories, CATEGORY_NAMES } from '../../static/categories';
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
 import CameraAreaDetails from '../CameraAreaDetails';
@@ -67,7 +67,7 @@ const Map = () => {
 
   const { addMarkers, addAreas, toggleLayer, addPrivacyLayers } = useMarkers(mapRef.current);
   useEffect(() => {
-    addAreas(CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
+    addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
 
   useEffect(() => {

@@ -31,6 +31,7 @@ const PRIVACY_LAYERS_CONFIG = [
         filter: item => item.properties.Soort === 'WiFi sensor' && item.properties.Actief === 'Ja',
         className: 'cmsa',
         style: getCircleStyle('#112233'),
+        category: 'Sensor',
       },
     ],
   },
