@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
 import { getDevices, getDevice, getCameraAreas } from 'services/api/iot';
+import { useMarkers } from 'services/iotmap';
+import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/GeojsonLayers';
-import { useMarkers } from '../../services/iotmap';
 import { categories, CAMERA_TOEZICHTSGEBIED } from '../../static/categories';
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
@@ -46,7 +47,7 @@ const Map = () => {
   };
 
   const addPrivacy = async () => {
-    const results = await getGeojsonLayers();
+    const results = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
     setGeoJsonLayers(results);
   };
 
@@ -64,7 +65,7 @@ const Map = () => {
     }
   };
 
-  const { addMarkers, addAreas, toggleLayer } = useMarkers(mapRef.current);
+  const { addMarkers, addAreas, toggleLayer, addPrivacyLayers } = useMarkers(mapRef.current);
   useEffect(() => {
     addAreas(CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
@@ -74,8 +75,7 @@ const Map = () => {
   }, [devices]);
 
   useEffect(() => {
-    // console.log('geojsonLayers', geojsonLayers);
-    // showMarkers(mapRef.current, devices, showDevice);
+    addPrivacyLayers(geojsonLayers, showCameraArea);
   }, [geojsonLayers]);
 
   useEffect(() => {

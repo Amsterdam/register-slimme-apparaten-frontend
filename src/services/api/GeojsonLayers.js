@@ -1,14 +1,14 @@
 export const formatLayers = (layer, result) => {
-  if (!layer.layers) return [{ name: layer.name, layer: result }];
-  return layer.layers.map(l => 
-    ({
-      name: l.name,
-      layer: {
-        ...result,
-        features: l.filter ? result.features.filter(item => l.filter(item)) : result.features,
-      },
-    })
-  );
+  if (!layer.layers) return [{ name: layer.name, layer: result, style: layer.style }];
+  return layer.layers.map(l => ({
+    name: l.name,
+    layer: {
+      ...result,
+      features: l.filter ? result.features.filter(item => l.filter(item)) : result.features,
+    },
+    className: l.className,
+    style: l.style,
+  }));
 };
 
 /**

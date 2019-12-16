@@ -1,4 +1,4 @@
-import getGeojsonLayers from './GeojsonLayers';
+import getGeojsonLayers from './geojsonLayers';
 
 describe('getGeojsonLayers', () => {
   const layersConfig = [

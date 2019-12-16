@@ -30,8 +30,8 @@ export function getMarkerCategory(device) {
   return categories[Object.keys(categories).find(mt => mt === device.categories[0])];
 }
 
-function getMarkerIcon(marker) {
-  const iconUrl = categories[marker.categories[0]].iconUrl;
+function getMarkerIcon(categoryName) {
+  const iconUrl = categories[categoryName].iconUrl;
   return L.icon({
     ...markerOptions,
     iconUrl,
@@ -96,7 +96,7 @@ export const useMarkers = map => {
 
   useEffect(() => {
     markerGroupRef.current = L.markerClusterGroup({
-      disableClusteringAtZoom: 16,
+      disableClusteringAtZoom: 8,
       showCoverageOnHover: false,
       spiderfyOnMaxZoom: false,
     });
@@ -110,7 +110,7 @@ export const useMarkers = map => {
       const filteredMarkers = markers.filter(marker => marker.categories[0] === name);
       filteredMarkers.forEach(marker =>
         L.marker([marker.latitude, marker.longitude], {
-          icon: getMarkerIcon(marker),
+          icon: getMarkerIcon(marker.categories[0]),
         })
           .addTo(layer)
           .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight)),
@@ -149,5 +149,28 @@ export const useMarkers = map => {
     }
   };
 
-  return { addMarkers, addAreas, toggleLayer };
+  const addPrivacyLayers = (layers, onClickCallback) => {
+    layers.forEach(layerData => {
+      const { name, layer, style } = layerData;
+
+      if (!layerListRef.current[name]) {
+        console.log('style', style);
+        // layerListRef.current[name] = L.featureGroup();
+        layerListRef.current[name] = L.Proj.geoJson(layer, {
+          pointToLayer: (feature, latlng) => L.circleMarker(latlng, style),
+          // style,
+        });
+        if (map) map.addLayer(layerListRef.current[name]);
+      }
+
+      const mapLayer = layerListRef.current[name];
+
+      console.log('adding', name);
+      // layerData.layer.features.forEach(feature => mapLayer.a)
+      mapLayer.addData(layer, { className: name });
+      mapLayer.on('click', event => showAreaInfo(event, map, onClickCallback));
+    });
+  };
+
+  return { addMarkers, addAreas, toggleLayer, addPrivacyLayers };
 };
