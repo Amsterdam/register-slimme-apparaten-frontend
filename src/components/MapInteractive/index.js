@@ -12,6 +12,7 @@ import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
 import useMap from './hooks/useMap';
+import { MapContainerStyle } from './MapInteractiveStyle';
 
 const SELECTION_STATE = {
   NOTHING: 0,
@@ -87,7 +88,7 @@ const Map = () => {
   }, []);
 
   return (
-    <div className="map-component">
+    <MapContainerStyle className="map-component">
       <div className="map">
         <div id="mapdiv">
           <MapLegend categories={legend} onCategorieToggle={name => toggleLayer(name)} />
@@ -99,7 +100,7 @@ const Map = () => {
           {selection.type === SELECTION_STATE.AREA && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
         </div>
       </div>
-    </div>
+    </MapContainerStyle>
   );
 };
 

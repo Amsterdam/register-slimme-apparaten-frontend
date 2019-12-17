@@ -1,15 +1,21 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from '@datapunt/asc-core';
-import { Header, Link, themeSpacing } from '@datapunt/asc-ui';
+import { Header, Link, themeSpacing, breakpoint } from '@datapunt/asc-ui';
 import APP_ROUTES from '../../services/appRoutes';
 
 const HeaderLink = styled(Link)`
   margin-right: ${themeSpacing(5)};
 `;
 
+const StyeldHeader = styled(Header)`
+  @media screen and ${breakpoint('max-width', 'tabletS')} {
+    display: none;
+  }
+`
+
 export const HeaderContainer = () => (
-  <Header
+  <StyeldHeader
     tall={false}
     title="Register slimme apparaten"
     homeLink="/"
@@ -32,7 +38,7 @@ export const HeaderContainer = () => (
         </div>
       </Fragment>
     }
-  ></Header>
+  ></StyeldHeader>
 );
 
 export default HeaderContainer;
