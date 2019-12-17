@@ -1,10 +1,19 @@
+// // Import marker icons so Webpack adds them as separate files instead of inlining them
+// import '../../public/images/icon-camera-gebied@3x.png';
+// import '../../public/images/icon-camera@3x.png';
+// import '../../public/images/icon-beacon@3x.png';
+// import '../../public/images/icon-sensor@3x.png';
+// import '../../public/images/icon-laadpaal@3x.png';
+// import '../../public/images/icon-verkeer@3x.png';
+// import '../../public/images/icon-lantaarn@3x.png';
+
 const ICON_PATH = 'assets/';
 
 export const CATEGORY_NAMES = {
   CAMERA_TOEZICHTSGEBIED: 'Camera toezichtsgebied',
   CAMERA: 'Camera',
   SENSOR: 'Sensor',
-  BEACONS: 'Beacon',
+  BEACONS: 'Baken',
   SLIMME_VERKEERSINFORMATIE: 'Slimme verkeersinformatie',
   SLIMME_LAADPAAL: 'Slimme laadpaal',
   SLIMME_LANTAARNPAAL: 'Slimme lantaarnpaal',
@@ -46,7 +55,7 @@ export const categories = {
   [CATEGORY_NAMES.BEACONS]: {
     isClustered: true,
     iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
-    name: CATEGORY_NAMES.BEACONS,
+    name: 'Beacons',
     enabled: true,
     description:
       'Beacons of bakens zijn kleine zenders die een verbinding maken via Bluetooth met smartphones. Zij worden meestal gebruikt om informatie te verschaffen over bijvoorbeeld rijtijden Openbaar Vervoer (hoe lang tot de volgende tram of bus), over routes e.d. Ook worden ze gebruikt voor marketing doeleinden. Er worden boodschappen verstuurd naar de smartphone om je naar een winkel te lokken die in de buurt is.',

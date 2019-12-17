@@ -4,16 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories } from '../static/categories';
-
-// Import marker icons so Webpack adds them as separate files instead of inlining them
-import '../../public/images/icon-camera-gebied@3x.png';
-import '../../public/images/icon-camera@3x.png';
-import '../../public/images/icon-beacon@3x.png';
-import '../../public/images/icon-sensor@3x.png';
-import '../../public/images/icon-laadpaal@3x.png';
-import '../../public/images/icon-verkeer@3x.png';
-import '../../public/images/icon-lantaarn@3x.png';
+import { categories, CATEGORY_NAMES } from '../static/categories';
 
 const markerOptions = {
   iconSize: [23, 23],
@@ -37,6 +28,12 @@ function getMarkerIcon(categoryName) {
     iconUrl,
   });
 }
+
+export const createFeatureMarker = (latlng, category) =>
+  // Create a marker with the correct icon and onClick method
+  L.marker(latlng, {
+    icon: getMarkerIcon(category),
+  });
 
 export const removeCurrentHighlight = map => {
   if (markerHighlight) {
@@ -92,6 +89,7 @@ const useHighlight = () => {
 export const useMarkers = map => {
   const markerGroupRef = useRef(null);
   const layerListRef = useRef({});
+  const layerGroupRef = useRef({});
   const highlight = useHighlight();
 
   useEffect(() => {
@@ -130,45 +128,53 @@ export const useMarkers = map => {
     categories[name].enabled = true;
   };
 
-  const toggleLayer = name => {
-    categories[name].enabled = !categories[name].enabled;
-    const layer = layerListRef.current[name];
+  const toggleLayer = category => {
+    categories[category].enabled = !categories[category].enabled;
+    const layer = layerListRef.current[category];
 
     if (layer) {
-      if (categories[name].isClustered) {
-        if (categories[name].enabled) {
+      if (categories[category].isClustered) {
+        if (categories[category].enabled) {
           markerGroupRef.current.addLayer(layer);
         } else {
           markerGroupRef.current.removeLayer(layer);
         }
-      } else if (categories[name].enabled) {
+      } else if (categories[category].enabled) {
         map.addLayer(layer);
       } else {
         map.removeLayer(layer);
       }
     }
+
+    if (layerGroupRef.current[category])
+      layerGroupRef.current[category].forEach(name => {
+        const privacyLayer = layerListRef.current[name];
+        if (privacyLayer) {
+          if (categories[category].enabled) {
+            map.addLayer(privacyLayer);
+          } else {
+            map.removeLayer(privacyLayer);
+          }
+        }
+      });
   };
 
   const addPrivacyLayers = (layers, onClickCallback) => {
     layers.forEach(layerData => {
-      const { name, layer, style } = layerData;
+      const { name, layer, category } = layerData;
 
       if (!layerListRef.current[name]) {
-        console.log('style', style);
-        // layerListRef.current[name] = L.featureGroup();
         layerListRef.current[name] = L.Proj.geoJson(layer, {
-          pointToLayer: (feature, latlng) => L.circleMarker(latlng, style),
-          // style,
+          pointToLayer: (feature, latlng) => createFeatureMarker(latlng, category),
         });
         if (map) map.addLayer(layerListRef.current[name]);
       }
 
       const mapLayer = layerListRef.current[name];
-
-      console.log('adding', name);
-      // layerData.layer.features.forEach(feature => mapLayer.a)
-      mapLayer.addData(layer, { className: name });
+      mapLayer.addData(layer);
       mapLayer.on('click', event => showAreaInfo(event, map, onClickCallback));
+      layerGroupRef.current[category] = layerGroupRef.current[category] || [];
+      layerGroupRef.current[category].push(name);
     });
   };
 
