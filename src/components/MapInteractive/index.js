@@ -4,7 +4,7 @@ import 'services/map'; // loads L.Proj (Proj binding leaflet)
 import { getDevices, getDevice, getCameraAreas } from 'services/api/iot';
 import { useMarkers } from 'services/iotmap';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
-import getGeojsonLayers from 'services/api/GeojsonLayers';
+import getGeojsonLayers from 'services/api/geojsonLayers';
 import { categories, CATEGORY_NAMES } from '../../static/categories';
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
