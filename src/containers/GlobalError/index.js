@@ -20,7 +20,7 @@ export const GlobalError = ({ error, errorMessage, onClose }) => (
           onClick={onClose}
         >sluit</button>
       </div>
-    : ''}
+      : ''}
   </div>
 );
 

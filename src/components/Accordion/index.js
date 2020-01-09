@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-    Accordion as AccesibleAccordion,
-    AccordionItem,
-    AccordionItemTitle,
-    AccordionItemBody
+  Accordion as AccesibleAccordion,
+  AccordionItem,
+  AccordionItemTitle,
+  AccordionItemBody
 } from 'react-accessible-accordion';
 
 import CarretRightIcon from '../../images/icon-carret-right.svg';

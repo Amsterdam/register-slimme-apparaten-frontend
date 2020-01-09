@@ -40,10 +40,10 @@ describe('App saga', () => {
 
     // @TODO fix this test
     // it.only('should error', () => {
-      // const gen = callLogin({ payload });
-      // gen.next();
-      // expect(gen.throw().value).toEqual(put(showGlobalError('LOGIN_FAILED'))); // eslint-disable-line redux-saga/yield-effects
-      // expect(1).toBe(1);
+    // const gen = callLogin({ payload });
+    // gen.next();
+    // expect(gen.throw().value).toEqual(put(showGlobalError('LOGIN_FAILED'))); // eslint-disable-line redux-saga/yield-effects
+    // expect(1).toBe(1);
     // });
   });
 

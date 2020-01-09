@@ -96,7 +96,7 @@ export function showMarkers(map, markers, onClick) {
     spiderfyOnMaxZoom: false
   });
 
-  const clusterCategories = Object.entries(categories).filter(([_, value]) => value.isClustered);
+  const clusterCategories = Object.entries(categories).filter(([, value]) => value.isClustered);
   for (const [id, ] of clusterCategories) {
     const layer = L.featureGroup();
     markers
