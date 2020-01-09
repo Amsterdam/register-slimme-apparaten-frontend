@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
-import { getDevices, getDevice, getCameraAreas } from 'services/api/iot';
+import { getDevices, getCameraAreas } from 'services/api/iot';
 import { useMarkers } from 'services/iotmap';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/geojsonLayers';
@@ -12,7 +12,7 @@ import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
 import useMap from './hooks/useMap';
-import { MapContainerStyle } from './MapInteractiveStyle';
+import { MapContainerStyle } from './MapStyle';
 
 const SELECTION_STATE = {
   NOTHING: 0,
@@ -26,10 +26,9 @@ const legend = Object.entries(categories).reduce(
   {},
 );
 
-const Map = () => {
+const Map = ({devices, setDevices, selectDevice}) => {
   const mapRef = useMap();
   const [selection, setSelection] = useState(noSelection);
-  const [devices, setDevices] = useState([]);
   const [cameras, setCameras] = useState([]);
   const [geojsonLayers, setGeoJsonLayers] = useState([]);
 
@@ -57,9 +56,9 @@ const Map = () => {
     setSelection({ type: SELECTION_STATE.AREA, element: area });
   };
 
-  const showDevice = async d => {
-    if (d) {
-      const device = await getDevice(d.id);
+  const showDevice = device => {
+    if (device) {
+      selectDevice(device.id);
       setSelection({ type: SELECTION_STATE.DEVICE, element: device });
     } else {
       setSelection(noSelection);
