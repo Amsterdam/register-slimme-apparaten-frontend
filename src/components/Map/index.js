@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
 import { getDevices, getCameraAreas } from 'services/api/iot';
-import { useMarkers } from 'services/iotmap';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/geojsonLayers';
 import { categories, CATEGORY_NAMES } from '../../static/categories';
@@ -14,6 +13,7 @@ import CameraAreaDetails from '../CameraAreaDetails';
 import './style.scss';
 import useMap from './hooks/useMap';
 import { MapContainerStyle } from './MapStyle';
+import useMarkers from './hooks/useMarkers';
 
 const SELECTION_STATE = {
   NOTHING: 0,
@@ -31,7 +31,7 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   const mapRef = useMap();
   const [selection, setSelection] = useState(noSelection);
   const [cameras, setCameras] = useState([]);
-  const [geojsonLayers, setGeoJsonLayers] = useState([]);
+  const { addMarkers, addAreas, toggleLayer } = useMarkers(mapRef.current);
 
   const clearSelection = () => {
     setSelection(noSelection);
@@ -43,17 +43,13 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   };
 
   const addDevices = async () => {
-    const results = await getDevices();
-    console.log(results);
-    setDevices(results);
-  };
-
-  const addPrivacy = async () => {
-    const results = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
-    setGeoJsonLayers(results);
-    results.forEach(result => {
-      console.log(result);
+    // const results = await getDevices();
+    // setDevices(results);
+    // console.log('loaded devices. length: ', results.length);
+    const geoJsonResults = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
+    geoJsonResults.forEach(result => {
       setDevices(result.layer.features)
+      console.log(`loaded ${result.name}. length: ${result.layer.features.length} `);
     });
   };
 
@@ -72,25 +68,19 @@ const Map = ({ devices, setDevices, selectDevice }) => {
     }
   };
 
-  const { addMarkers, addAreas, toggleLayer, addPrivacyLayers } = useMarkers(mapRef.current);
-
   useEffect(() => {
     addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
 
   useEffect(() => {
+    console.log('addMarkers', devices.length);
     addMarkers(devices, showDevice);
   }, [devices]);
-
-  useEffect(() => {
-    addPrivacyLayers(geojsonLayers, showDevice);
-  }, [geojsonLayers]);
 
   useEffect(() => {
     (async () => {
       await addDevices();
       await addCameraAreas();
-      await addPrivacy();
     })();
   }, []);
 

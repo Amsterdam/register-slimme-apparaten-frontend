@@ -33,7 +33,6 @@ const getGeojsonLayers = async layersConfig => {
         const result = await fetch(layer.url);
         const data = await result.json();
         const layers = formatLayers(layer, data);
-        console.log(layers);
         return layers;
       } catch (ex) {
         // eslint-disable-next-line no-console

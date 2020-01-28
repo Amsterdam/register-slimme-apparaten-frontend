@@ -1,9 +1,9 @@
 // import L from 'leaflet';
-import { showDeviceInfo } from './iotmap';
+import { showDeviceInfo } from './useMarkers';
 
 // jest.mock('leaflet');
 
-describe('iotmap', () => {
+describe('useMarkers', () => {
   describe('showDeviceInfo', () => {
     it('should highlight the active item', () => {
       const highlight = jest.fn();

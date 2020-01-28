@@ -8,7 +8,6 @@ import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { getMarkerCategory } from '../../services/iotmap';
 
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
@@ -16,6 +15,7 @@ import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
 import { makeSelectedDevice, setDevicesActionCreator } from '../../containers/MapContainer/ducks';
+import { getMarkerCategory } from '../../services/marker';
 
 const MAX_INPUT_LENGTH = 250;
 

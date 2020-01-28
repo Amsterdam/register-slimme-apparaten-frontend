@@ -26,7 +26,7 @@ export const makeSelectDevices = () => createSelector(selectMap, map => map.devi
 
 export const makeSelectedDevice = () =>
   createSelector(selectMap, map => {
-    console.log(map.devices.length);
+    console.log('length devices array', map.devices.length);
     return (
       map.devices.find(
         device => device.id === map.selectedDevice.id && device.contact === map.selectedDevice.contact,

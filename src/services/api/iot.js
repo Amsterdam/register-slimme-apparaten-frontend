@@ -1,6 +1,6 @@
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { readPaginatedData } from '../datareader';
-import { getMarkerCategory } from '../iotmap';
+import { getMarkerCategory } from '../marker';
 
 export async function getDevices() {
   const devices = await readPaginatedData(`${CONFIGURATION.API_ROOT}iothings/devices/`);
