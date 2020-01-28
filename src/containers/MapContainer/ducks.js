@@ -12,10 +12,10 @@ export function setDevicesActionCreator(devices) {
   };
 }
 
-export function selectDeviceActionCreator(id) {
+export function selectDeviceActionCreator(device) {
   return {
     type: SELECT_DEVICE,
-    payload: id,
+    payload: device,
   };
 }
 
@@ -25,12 +25,19 @@ const selectMap = state => state.map;
 export const makeSelectDevices = () => createSelector(selectMap, map => map.devices);
 
 export const makeSelectedDevice = () =>
-  createSelector(selectMap, map => map.devices.find(device => device.id === map.selectedDeviceId) || null);
+  createSelector(selectMap, map => {
+    console.log(map.devices.length);
+    return (
+      map.devices.find(
+        device => device.id === map.selectedDevice.id && device.contact === map.selectedDevice.contact,
+      ) || null
+    );
+  });
 
 // reducer
 export const initialState = {
   devices: [],
-  selectedDeviceId: 0,
+  selectedDevice: null,
 };
 
 function mapReducer(state = initialState, action) {
@@ -38,7 +45,7 @@ function mapReducer(state = initialState, action) {
     case SET_DEVICES:
       return { ...state, devices: [...state.devices, ...action.payload] };
     case SELECT_DEVICE:
-      return { ...state, selectedDeviceId: action.payload };
+      return { ...state, selectedDevice: action.payload };
     default:
       return state;
   }

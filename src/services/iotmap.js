@@ -22,7 +22,8 @@ export function getMarkerCategory(device) {
 }
 
 function getMarkerIcon(categoryName) {
-  const iconUrl = categories[categoryName].iconUrl;
+  const name = categoryName === 'Beacons' ? 'Baken' : categoryName;
+  const iconUrl = categories[name].iconUrl;
   return L.icon({
     ...markerOptions,
     iconUrl,
@@ -105,13 +106,12 @@ export const useMarkers = map => {
     if (!markers) return;
     for (const [name] of clusterCategories) {
       const layer = L.featureGroup();
-      const filteredMarkers = markers.filter(marker => marker.categories[0] === name);
-      filteredMarkers.forEach(marker =>
-        L.marker([marker.latitude, marker.longitude], {
-          icon: getMarkerIcon(marker.categories[0]),
-        })
-          .addTo(layer)
-          .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight)),
+      const filteredMarkers = markers.filter(marker => marker.category);
+      filteredMarkers.forEach(marker => L.marker([marker.latitude, marker.longitude], {
+        icon: getMarkerIcon(marker.category),
+      })
+        .addTo(layer)
+        .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight))
       );
 
       layerListRef.current[name] = layer;

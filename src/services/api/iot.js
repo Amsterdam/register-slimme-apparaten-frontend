@@ -1,8 +1,16 @@
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { readPaginatedData } from '../datareader';
+import { getMarkerCategory } from '../iotmap';
 
 export async function getDevices() {
-  return readPaginatedData(`${CONFIGURATION.API_ROOT}iothings/devices/`);
+  const devices = await readPaginatedData(`${CONFIGURATION.API_ROOT}iothings/devices/`);
+  return devices.map(device => ({
+    ...device,
+    category: getMarkerCategory(device).name,
+    soort: (device.types.length && device.types[0].name) || 'Onbekend',
+    privacy: '',
+    contact: 'iothings',
+  }));
 }
 
 export async function getCameraAreas() {

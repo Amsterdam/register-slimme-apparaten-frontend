@@ -43,12 +43,12 @@ class ContactForm extends React.Component {
     this.state = { device: props.device, submitSuccess: false };
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   contactForm = FormBuilder.group(
     {
-      device: this.props.match.params.deviceId,
+      device: this.props.match.params.id,
+      contactType: this.props.match.params.contact,
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       can_i_have_access: [false],
@@ -209,9 +209,11 @@ class ContactForm extends React.Component {
 ContactForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      deviceId: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      contact: PropTypes.string.isRequired,
     }),
   }),
+  device: PropTypes.shape({}).isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

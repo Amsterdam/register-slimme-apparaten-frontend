@@ -4,15 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectDevices, setDevicesActionCreator, selectDeviceActionCreator } from './ducks';
-
 import injectReducer from 'utils/injectReducer';
-import reducer from './ducks';
+import reducer, { makeSelectDevices, setDevicesActionCreator, selectDeviceActionCreator } from './ducks';
 
-const MapContainer = ({...props}) => {
-
-  return <Map {...props} />
-}
+const MapContainer = ({...props}) => <Map {...props} />
 
 MapContainer.propTypes = {
   devices: PropTypes.array,

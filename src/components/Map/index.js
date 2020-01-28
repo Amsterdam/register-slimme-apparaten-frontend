@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
 import { getDevices, getCameraAreas } from 'services/api/iot';
@@ -26,7 +27,7 @@ const legend = Object.entries(categories).reduce(
   {},
 );
 
-const Map = ({devices, setDevices, selectDevice}) => {
+const Map = ({ devices, setDevices, selectDevice }) => {
   const mapRef = useMap();
   const [selection, setSelection] = useState(noSelection);
   const [cameras, setCameras] = useState([]);
@@ -43,12 +44,17 @@ const Map = ({devices, setDevices, selectDevice}) => {
 
   const addDevices = async () => {
     const results = await getDevices();
+    console.log(results);
     setDevices(results);
   };
 
   const addPrivacy = async () => {
     const results = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
     setGeoJsonLayers(results);
+    results.forEach(result => {
+      console.log(result);
+      setDevices(result.layer.features)
+    });
   };
 
   const showCameraArea = () => {
@@ -57,8 +63,9 @@ const Map = ({devices, setDevices, selectDevice}) => {
   };
 
   const showDevice = device => {
+    console.log('selected device:', device);
     if (device) {
-      selectDevice(device.id);
+      selectDevice(device);
       setSelection({ type: SELECTION_STATE.DEVICE, element: device });
     } else {
       setSelection(noSelection);
@@ -66,6 +73,7 @@ const Map = ({devices, setDevices, selectDevice}) => {
   };
 
   const { addMarkers, addAreas, toggleLayer, addPrivacyLayers } = useMarkers(mapRef.current);
+
   useEffect(() => {
     addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
@@ -75,7 +83,7 @@ const Map = ({devices, setDevices, selectDevice}) => {
   }, [devices]);
 
   useEffect(() => {
-    addPrivacyLayers(geojsonLayers, showCameraArea);
+    addPrivacyLayers(geojsonLayers, showDevice);
   }, [geojsonLayers]);
 
   useEffect(() => {
@@ -101,6 +109,12 @@ const Map = ({devices, setDevices, selectDevice}) => {
       </div>
     </MapContainerStyle>
   );
+};
+
+Map.propTypes = {
+  devices: PropTypes.array.isRequired,
+  setDevices: PropTypes.func.isRequired,
+  selectDevice: PropTypes.func.isRequired,
 };
 
 export default Map;
