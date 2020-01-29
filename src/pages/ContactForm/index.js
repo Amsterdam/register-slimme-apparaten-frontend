@@ -15,7 +15,6 @@ import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
 import { makeSelectedDevice } from '../../containers/MapContainer/ducks';
-import { categories } from '../../static/categories';
 
 const MAX_INPUT_LENGTH = 250;
 
@@ -48,7 +47,7 @@ class ContactForm extends React.Component {
   contactForm = FormBuilder.group(
     {
       device: this.props.match.params.id,
-      contactType: this.props.match.params.contact,
+      owner: this.props.match.params.contact,
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       can_i_have_access: [false],
@@ -117,13 +116,13 @@ class ContactForm extends React.Component {
                     <td>
                       <strong>Categorie</strong>
                     </td>
-                    <td>{categories[this.state.device.categories[0]].name}</td>
+                    <td>{this.state.device.category}</td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Type</strong>
                     </td>
-                    <td>{this.state.device.types.length && (this.state.device.types[0].name || 'Onbekend')}</td>
+                    <td>{this.state.device.soort || 'Onbekend'}</td>
                   </tr>
                 </tbody>
               </table>
