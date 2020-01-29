@@ -1,18 +1,10 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable no-unused-vars */
-
+import { useRef, useEffect, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories, CAMERA_TOEZICHTSGEBIED } from '../static/categories';
-
-// Import marker icons so Webpack adds them as separate files instead of inlining them
-import '../../public/images/icon-camera-gebied@3x.png';
-import '../../public/images/icon-camera@3x.png';
-import '../../public/images/icon-beacon@3x.png';
-import '../../public/images/icon-sensor@3x.png';
-import '../../public/images/icon-laadpaal@3x.png';
-import '../../public/images/icon-verkeer@3x.png';
-import '../../public/images/icon-lantaarn@3x.png';
+import { categories, CATEGORY_NAMES } from '../static/categories';
 
 const markerOptions = {
   iconSize: [23, 23],
@@ -22,42 +14,26 @@ const markerOptions = {
 
 export const HIGHLIGHT_CLASS = 'active-element';
 
-let activeMarker;
 let markerHighlight;
 let areaHighlightLayer;
-
-let markerGroup;
 
 export function getMarkerCategory(device) {
   return categories[Object.keys(categories).find(mt => mt === device.categories[0])];
 }
 
-function getMarkerIcon(marker) {
-  const iconUrl = categories[marker.categories[0]].iconUrl;
+function getMarkerIcon(categoryName) {
+  const iconUrl = categories[categoryName].iconUrl;
   return L.icon({
     ...markerOptions,
     iconUrl,
   });
 }
 
-export function toggleElement(map, key) {
-  categories[key].enabled = !categories[key].enabled;
-  const layer = categories[key].layer;
-  if (layer) {
-    if (categories[key].isClustered) {
-      // markers are clustered in marker group
-      if (categories[key].enabled) {
-        markerGroup.addLayer(layer);
-      } else {
-        markerGroup.removeLayer(layer);
-      }
-    } else if (categories[key].enabled) {
-      map.addLayer(layer);
-    } else {
-      map.removeLayer(layer);
-    }
-  }
-}
+export const createFeatureMarker = (latlng, category) =>
+  // Create a marker with the correct icon and onClick method
+  L.marker(latlng, {
+    icon: getMarkerIcon(category),
+  });
 
 export const removeCurrentHighlight = map => {
   if (markerHighlight) {
@@ -73,78 +49,134 @@ export const removeCurrentHighlight = map => {
   }
 };
 
-export function showMarkers(map, markers, onClick) {
-  const showInfo = (event, loc) => {
+export const showDeviceInfo = (event, marker, onClick, highlight) => {
+  highlight(event);
+  onClick(marker);
+};
+
+export const showAreaInfo = (event, map, onClick) => {
+  removeCurrentHighlight(map);
+  areaHighlightLayer = event.layer;
+
+  const classList = areaHighlightLayer.getElement().classList;
+  if (classList && classList.add) {
+    classList.add(HIGHLIGHT_CLASS);
+  }
+
+  onClick(event.sourceTarget.feature);
+};
+
+const clusterCategories = Object.entries(categories).filter(([, value]) => value.isClustered);
+
+const useHighlight = () => {
+  const [activeMarker, setActiveMarker] = useState();
+
+  const highlight = ({ sourceTarget }) => {
     if (activeMarker) {
       activeMarker._icon.classList.remove('highlight');
     }
 
-    const { sourceTarget } = event;
-    activeMarker = sourceTarget;
-    activeMarker._icon.classList.add('highlight');
-
-    onClick(loc);
+    setActiveMarker(sourceTarget);
   };
 
-  markerGroup = L.markerClusterGroup({
-    disableClusteringAtZoom: 16,
-    showCoverageOnHover: false,
-    spiderfyOnMaxZoom: false,
-  });
+  useEffect(() => {
+    if (activeMarker) activeMarker._icon.classList.add('highlight');
+  }, [activeMarker]);
 
-  const clusterCategories = Object.entries(categories).filter(([, value]) => value.isClustered);
-  for (const [id] of clusterCategories) {
-    const layer = L.featureGroup();
-    markers
-      .filter(marker => marker.categories[0] === id)
-      .forEach(marker => // eslint-disable-line no-loop-func
+  return highlight;
+};
+
+export const useMarkers = map => {
+  const markerGroupRef = useRef(null);
+  const layerListRef = useRef({});
+  const layerGroupRef = useRef({});
+  const highlight = useHighlight();
+
+  useEffect(() => {
+    markerGroupRef.current = L.markerClusterGroup({
+      disableClusteringAtZoom: 8,
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: false,
+    });
+    if (map) map.addLayer(markerGroupRef.current);
+  }, [map]);
+
+  const addMarkers = (markers, showInfoClick) => {
+    if (!markers) return;
+    for (const [name] of clusterCategories) {
+      const layer = L.featureGroup();
+      const filteredMarkers = markers.filter(marker => marker.categories[0] === name);
+      filteredMarkers.forEach(marker =>
         L.marker([marker.latitude, marker.longitude], {
-          icon: getMarkerIcon(marker),
+          icon: getMarkerIcon(marker.categories[0]),
         })
           .addTo(layer)
-          .once('add', event => {
-            const { sourceTarget } = event;
-
-            if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
-              activeMarker._icon.classList.add('highlight');
-            }
-            return this;
-          })
-          .once('remove', event => {
-            const { sourceTarget } = event;
-
-            if (activeMarker && sourceTarget._latlng === activeMarker._latlng) {
-              activeMarker = undefined;
-            }
-            return this;
-          })
-          .on('click', event => showInfo(event, marker)),
+          .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight)),
       );
-    categories[id].layer = layer;
-    categories[id].enabled = true;
-    markerGroup.addLayer(layer);
-  }
 
-  map.addLayer(markerGroup);
-  return markerGroup;
-}
-
-export function showAreas(map, geojson, onClickCallback) {
-  const onClick = event => {
-    removeCurrentHighlight(map);
-    areaHighlightLayer = event.layer;
-
-    const classList = areaHighlightLayer.getElement().classList;
-    if (classList && classList.add) {
-      classList.add(HIGHLIGHT_CLASS);
+      layerListRef.current[name] = layer;
+      categories[name].enabled = true;
+      markerGroupRef.current.addLayer(layer);
     }
-
-    onClickCallback(event.sourceTarget.feature);
   };
 
-  const layer = L.Proj.geoJson(geojson, { className: 'camera-area' });
-  layer.on('click', onClick);
-  map.addLayer(layer);
-  categories[CAMERA_TOEZICHTSGEBIED].layer = layer;
-  return layer;
-}
+  const addAreas = (name, areas, onClickCallback) => {
+    const layer = L.Proj.geoJson(areas, { className: 'camera-area' });
+    layer.on('click', event => showAreaInfo(event, map, onClickCallback));
+    if (map) map.addLayer(layer);
+    layerListRef.current[name] = layer;
+    categories[name].enabled = true;
+  };
+
+  const toggleLayer = category => {
+    categories[category].enabled = !categories[category].enabled;
+    const layer = layerListRef.current[category];
+
+    if (layer) {
+      if (categories[category].isClustered) {
+        if (categories[category].enabled) {
+          markerGroupRef.current.addLayer(layer);
+        } else {
+          markerGroupRef.current.removeLayer(layer);
+        }
+      } else if (categories[category].enabled) {
+        map.addLayer(layer);
+      } else {
+        map.removeLayer(layer);
+      }
+    }
+
+    if (layerGroupRef.current[category])
+      layerGroupRef.current[category].forEach(name => {
+        const privacyLayer = layerListRef.current[name];
+        if (privacyLayer) {
+          if (categories[category].enabled) {
+            map.addLayer(privacyLayer);
+          } else {
+            map.removeLayer(privacyLayer);
+          }
+        }
+      });
+  };
+
+  const addPrivacyLayers = (layers, onClickCallback) => {
+    layers.forEach(layerData => {
+      const { name, layer, category } = layerData;
+
+      if (!layerListRef.current[name]) {
+        layerListRef.current[name] = L.Proj.geoJson(layer, {
+          pointToLayer: (feature, latlng) => createFeatureMarker(latlng, category),
+        });
+        if (map) map.addLayer(layerListRef.current[name]);
+      }
+
+      const mapLayer = layerListRef.current[name];
+      mapLayer.addData(layer);
+      mapLayer.on('click', event => showAreaInfo(event, map, onClickCallback));
+      layerGroupRef.current[category] = layerGroupRef.current[category] || [];
+      layerGroupRef.current[category].push(name);
+    });
+  };
+
+  return { addMarkers, addAreas, toggleLayer, addPrivacyLayers };
+};

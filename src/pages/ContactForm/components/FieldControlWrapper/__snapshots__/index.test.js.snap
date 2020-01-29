@@ -9,6 +9,7 @@ exports[`FieldControlWrapper should render correctly 1`] = `
       "_pendingDirty": false,
       "_pendingTouched": false,
       "_pendingValue": undefined,
+      "active": false,
       "asyncValidator": null,
       "errors": null,
       "formState": undefined,
@@ -22,6 +23,7 @@ exports[`FieldControlWrapper should render correctly 1`] = `
         "observers": Array [],
       },
       "onChange": [Function],
+      "onFocus": [Function],
       "onValueChanges": Observable {
         "observers": Array [],
       },

@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import 'leaflet.markercluster';
 import amaps from 'amsterdam-amaps/dist/amaps';
 
 const DEFAULT_ZOOM_LEVEL = 14;

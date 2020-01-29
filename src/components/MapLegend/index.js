@@ -1,31 +1,32 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { Checkbox } from '../../shared/components/checkbox'
+import { Checkbox } from '../../shared/components/checkbox';
 
-import CollapseIcon from '../../images/icon-arrow-down.svg'
-import ExpandIcon from '../../images/icon-arrow-up.svg'
-import MapLayersIcon from '../../images/icon-map-layers.svg'
+import CollapseIcon from '../../images/icon-arrow-down.svg';
+import ExpandIcon from '../../images/icon-arrow-up.svg';
+import MapLayersIcon from '../../images/icon-map-layers.svg';
 
-import './style.scss'
+import './style.scss';
 
 class MapLegend extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.state = { isLegendVisible: window.innerWidth > 576 }
+    this.state = { isLegendVisible: window.innerWidth > 576 };
   }
 
   render() {
-    const checkboxList = Object.entries(this.props.categories).map(([id, category]) => (
+    const { categories, onCategorieToggle } = this.props;
+    const checkboxList = Object.entries(categories).map(([id, category]) => (
       <div key={category.name} className="map-legend__row mb-1">
-        <Checkbox name="check" checked={category.enabled} onChange={() => this.props.onCategorieToggle(id)} />
+        <Checkbox name="check" checked={category.enabled} onChange={() => onCategorieToggle(id)} />
         <span className="map-legend__icon">
           <img className="map-legend__icon" src={category.iconUrl} alt="" />
         </span>
         <span className="map-legend__row-title">{category.name}</span>
       </div>
-    ))
+    ));
 
     return (
       <section
@@ -56,13 +57,13 @@ class MapLegend extends React.Component {
         </button>
         <div className="map-legend__body">{checkboxList}</div>
       </section>
-    )
+    );
   }
 }
 
 MapLegend.propTypes = {
   categories: PropTypes.object,
   onCategorieToggle: PropTypes.func,
-}
+};
 
-export default MapLegend
+export default MapLegend;
