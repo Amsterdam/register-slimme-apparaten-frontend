@@ -43,14 +43,14 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   };
 
   const addDevices = async () => {
+    let markers = [];
     const results = await getDevices();
-    setDevices(results);
-    // console.log('loaded devices. length: ', results.length);
+    markers = [...results];
     const geoJsonResults = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
     geoJsonResults.forEach(result => {
-      setDevices(result.layer.features)
-      console.log(`loaded ${result.name}. length: ${result.layer.features.length} `);
+      markers = [...markers, ...result.layer.features];
     });
+    setDevices(markers);
   };
 
   const showCameraArea = () => {
@@ -59,7 +59,6 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   };
 
   const showDevice = device => {
-    console.log('selected device:', device);
     if (device) {
       selectDevice(device);
       setSelection({ type: SELECTION_STATE.DEVICE, element: device });
@@ -72,17 +71,21 @@ const Map = ({ devices, setDevices, selectDevice }) => {
     addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
 
-  useEffect(() => {
-    console.log('addMarkers', devices.length);
-    addMarkers(devices, showDevice);
-  }, [devices]);
+  // useEffect(() => {
+  //   console.log('addMarkers', devices.length);
+  //   addMarkers(devices, showDevice);
+  // }, [devices]);
 
   useEffect(() => {
+    if (mapRef.current === null) return;
     (async () => {
-      await addDevices();
-      await addCameraAreas();
+      if (devices.length === 0) {
+        await addDevices();
+      }
+      addMarkers(devices, showDevice);
+      if (cameras.length === 0) await addCameraAreas();
     })();
-  }, []);
+  }, [devices, mapRef.current]);
 
   return (
     <MapContainerStyle className="map-component">

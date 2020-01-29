@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
@@ -14,7 +14,7 @@ import CheckboxInput from './components/CheckboxInput';
 import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
-import { makeSelectedDevice, setDevicesActionCreator } from '../../containers/MapContainer/ducks';
+import { makeSelectedDevice } from '../../containers/MapContainer/ducks';
 import { getMarkerCategory } from '../../services/marker';
 
 const MAX_INPUT_LENGTH = 250;
@@ -220,13 +220,6 @@ const mapStateToProps = createStructuredSelector({
   device: makeSelectedDevice(),
 });
 
-export const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      setDevices: setDevicesActionCreator,
-    },
-    dispatch,
-  );
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+const withConnect = connect(mapStateToProps);
 
 export default compose(withConnect)(ContactForm);

@@ -1,6 +1,6 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable no-unused-vars */
-import { useRef, useEffect, useState, useMemo } from 'react';
+import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
@@ -41,22 +41,32 @@ const useMarkers = map => {
       showCoverageOnHover: false,
       spiderfyOnMaxZoom: false,
     });
-    if (map) map.addLayer(markerGroupRef.current);
+    if (map) {
+      map.addLayer(markerGroupRef.current);
+    }
+
+    return () => {
+      if (map) {
+        map.removeLayer(markerGroupRef.current);
+      }
+    };
   }, [map]);
 
   const addMarkers = (markers, showInfoClick) => {
+    if (!map) return;
     if (!markers) return;
     for (const [name] of clusterCategories) {
+      if (layerListRef.current[name]) {
+        markerGroupRef.current.removeLayers([layerListRef.current[name]]);
+      }
+
       const layer = L.featureGroup();
       const filteredMarkers = markers.filter(marker => marker.category === name);
       if (filteredMarkers.length > 0) {
-        console.log('adding', markers.length, filteredMarkers.length);
         const icon = getMarkerIcon(filteredMarkers[0].category);
         filteredMarkers.forEach(marker =>
           L.marker([marker.latitude, marker.longitude], {
             icon,
-            // filteredMarkers.forEach(marker => L.circleMarker([marker.latitude, marker.longitude], {
-            //   renderer: L.canvas({ padding: 0.5 }),
           })
             .addTo(layer)
             .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight)),
@@ -86,7 +96,7 @@ const useMarkers = map => {
         if (categories[category].enabled) {
           markerGroupRef.current.addLayer(layer);
         } else {
-          markerGroupRef.current.removeLayer(layer);
+          markerGroupRef.current.removeLayers([layer]);
         }
       } else if (categories[category].enabled) {
         map.addLayer(layer);

@@ -43,6 +43,7 @@ export const initialState = {
 function mapReducer(state = initialState, action) {
   switch (action.type) {
     case SET_DEVICES:
+      console.log('set devices', state.devices.length, action.payload.length);
       return { ...state, devices: [...state.devices, ...action.payload] };
     case SELECT_DEVICE:
       return { ...state, selectedDevice: action.payload };
