@@ -11,8 +11,6 @@ const markerOptions = {
   popupAnchor: [-3, -76],
 };
 
-export const getMarkerCategory = device => categories[Object.keys(categories).find(mt => mt === device.categories[0])];
-
 export const getMarkerIcon = categoryName => {
   const name = categoryName === 'Beacons' ? 'Baken' : categoryName;
   const iconUrl = categories[name].iconUrl;

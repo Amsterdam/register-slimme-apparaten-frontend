@@ -25,14 +25,11 @@ const selectMap = state => state.map;
 export const makeSelectDevices = () => createSelector(selectMap, map => map.devices);
 
 export const makeSelectedDevice = () =>
-  createSelector(selectMap, map => {
-    console.log('length devices array', map.devices.length);
-    return (
-      map.devices.find(
-        device => device.id === map.selectedDevice.id && device.contact === map.selectedDevice.contact,
-      ) || null
-    );
-  });
+  createSelector(selectMap, map => (
+    map.devices.find(
+      device => device.id === map.selectedDevice.id && device.contact === map.selectedDevice.contact,
+    ) || null
+  ));
 
 // reducer
 export const initialState = {
@@ -43,7 +40,6 @@ export const initialState = {
 function mapReducer(state = initialState, action) {
   switch (action.type) {
     case SET_DEVICES:
-      console.log('set devices', state.devices.length, action.payload.length);
       return { ...state, devices: [...state.devices, ...action.payload] };
     case SELECT_DEVICE:
       return { ...state, selectedDevice: action.payload };

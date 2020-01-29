@@ -36,7 +36,7 @@ const getGeojsonLayers = async layersConfig => {
         return layers;
       } catch (ex) {
         // eslint-disable-next-line no-console
-        console.log(`error in layer ${layer.name}`, ex);
+        console.error(`error in layer ${layer.name}`, ex);
         throw ex;
       }
     }),

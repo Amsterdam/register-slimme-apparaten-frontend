@@ -9,7 +9,6 @@ import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
 
 export const showDeviceInfo = (event, marker, onClick, highlight) => {
-  console.log('click', event.sourceTarget);
   highlight(event.sourceTarget);
   onClick(marker);
 };

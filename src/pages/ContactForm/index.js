@@ -15,7 +15,7 @@ import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
 import { makeSelectedDevice } from '../../containers/MapContainer/ducks';
-import { getMarkerCategory } from '../../services/marker';
+import { categories } from '../../static/categories';
 
 const MAX_INPUT_LENGTH = 250;
 
@@ -117,7 +117,7 @@ class ContactForm extends React.Component {
                     <td>
                       <strong>Categorie</strong>
                     </td>
-                    <td>{getMarkerCategory(this.state.device).name}</td>
+                    <td>{categories[this.state.device.categories[0]].name}</td>
                   </tr>
                   <tr>
                     <td>

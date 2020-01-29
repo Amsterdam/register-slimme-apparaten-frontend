@@ -1,12 +1,12 @@
 import CONFIGURATION from 'shared/services/configuration/configuration';
 import { readPaginatedData } from '../datareader';
-import { getMarkerCategory } from '../marker';
+import { categories } from '../../static/categories';
 
 export async function getDevices() {
   const devices = await readPaginatedData(`${CONFIGURATION.API_ROOT}iothings/devices/`);
   return devices.map(device => ({
     ...device,
-    category: getMarkerCategory(device).name,
+    category: categories[device.categories[0]].name,
     soort: (device.types.length && device.types[0].name) || 'Onbekend',
     privacy: '',
     contact: 'iothings',
