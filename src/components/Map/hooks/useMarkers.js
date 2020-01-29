@@ -4,10 +4,9 @@ import { useRef, useEffect, useState, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories} from 'static/categories';
-import { removeCurrentHighlight, HIGHLIGHT_CLASS , getMarkerIcon } from 'services/marker';
+import { categories } from 'static/categories';
+import { removeCurrentHighlight, HIGHLIGHT_CLASS, getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
-
 
 let areaHighlightLayer;
 
@@ -28,7 +27,6 @@ export const showAreaInfo = (event, map, onClick) => {
   onClick(event.sourceTarget.feature);
 };
 
-
 const useMarkers = map => {
   const markerGroupRef = useRef(null);
   const layerListRef = useRef({});
@@ -36,7 +34,6 @@ const useMarkers = map => {
   const highlight = useHighlight();
 
   const clusterCategories = useMemo(() => Object.entries(categories).filter(([, value]) => value.isClustered), []);
-
 
   useEffect(() => {
     markerGroupRef.current = L.markerClusterGroup({
@@ -51,17 +48,24 @@ const useMarkers = map => {
     if (!markers) return;
     for (const [name] of clusterCategories) {
       const layer = L.featureGroup();
-      const filteredMarkers = markers.filter(marker => marker.category);
-      filteredMarkers.forEach(marker => L.marker([marker.latitude, marker.longitude], {
-        icon: getMarkerIcon(marker.category),
-      })
-        .addTo(layer)
-        .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight))
-      );
+      const filteredMarkers = markers.filter(marker => marker.category === name);
+      if (filteredMarkers.length > 0) {
+        console.log('adding', markers.length, filteredMarkers.length);
+        const icon = getMarkerIcon(filteredMarkers[0].category);
+        filteredMarkers.forEach(marker =>
+          L.marker([marker.latitude, marker.longitude], {
+            icon,
+            // filteredMarkers.forEach(marker => L.circleMarker([marker.latitude, marker.longitude], {
+            //   renderer: L.canvas({ padding: 0.5 }),
+          })
+            .addTo(layer)
+            .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight)),
+        );
 
-      layerListRef.current[name] = layer;
-      categories[name].enabled = true;
-      markerGroupRef.current.addLayer(layer);
+        layerListRef.current[name] = layer;
+        categories[name].enabled = true;
+        markerGroupRef.current.addLayer(layer);
+      }
     }
   };
 
@@ -104,7 +108,7 @@ const useMarkers = map => {
       });
   };
 
-  return { addMarkers, addAreas, toggleLayer};
+  return { addMarkers, addAreas, toggleLayer };
 };
 
 export default useMarkers;

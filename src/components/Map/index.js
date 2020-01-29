@@ -43,8 +43,8 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   };
 
   const addDevices = async () => {
-    // const results = await getDevices();
-    // setDevices(results);
+    const results = await getDevices();
+    setDevices(results);
     // console.log('loaded devices. length: ', results.length);
     const geoJsonResults = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
     geoJsonResults.forEach(result => {
