@@ -5,25 +5,17 @@ import L from 'leaflet';
 import 'leaflet.markercluster';
 
 import { categories } from 'static/categories';
-import { removeCurrentHighlight, HIGHLIGHT_CLASS, getMarkerIcon } from 'services/marker';
+import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
 
-let areaHighlightLayer;
-
 export const showDeviceInfo = (event, marker, onClick, highlight) => {
-  highlight(event);
+  console.log('click', event.sourceTarget);
+  highlight(event.sourceTarget);
   onClick(marker);
 };
 
-export const showAreaInfo = (event, map, onClick) => {
-  removeCurrentHighlight(map);
-  areaHighlightLayer = event.layer;
-
-  const classList = areaHighlightLayer.getElement().classList;
-  if (classList && classList.add) {
-    classList.add(HIGHLIGHT_CLASS);
-  }
-
+export const showAreaInfo = (event, onClick, highlight) => {
+  highlight(event.layer)
   onClick(event.sourceTarget.feature);
 };
 
@@ -31,7 +23,7 @@ const useMarkers = map => {
   const markerGroupRef = useRef(null);
   const layerListRef = useRef({});
   const layerGroupRef = useRef({});
-  const highlight = useHighlight();
+  const { highlightMarker, highlightPolygon } = useHighlight();
 
   const clusterCategories = useMemo(() => Object.entries(categories).filter(([, value]) => value.isClustered), []);
 
@@ -68,7 +60,7 @@ const useMarkers = map => {
             icon,
           })
             .addTo(layer)
-            .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlight)),
+            .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlightMarker)),
         );
 
         layerListRef.current[name] = layer;
@@ -79,7 +71,7 @@ const useMarkers = map => {
 
   const addAreas = (name, areas, onClickCallback) => {
     const layer = L.Proj.geoJson(areas, { className: 'camera-area' });
-    layer.on('click', event => showAreaInfo(event, map, onClickCallback));
+    layer.on('click', event => showAreaInfo(event, onClickCallback, highlightPolygon));
     if (map && categories[name].enabled)
       map.addLayer(layer);
     layerListRef.current[name] = layer;
