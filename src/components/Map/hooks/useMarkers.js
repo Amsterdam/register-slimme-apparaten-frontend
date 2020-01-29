@@ -53,7 +53,6 @@ const useMarkers = map => {
   }, [map]);
 
   const addMarkers = (markers, showInfoClick) => {
-    if (!map) return;
     if (!markers) return;
     for (const [name] of clusterCategories) {
       if (layerListRef.current[name]) {
@@ -73,8 +72,7 @@ const useMarkers = map => {
         );
 
         layerListRef.current[name] = layer;
-        categories[name].enabled = true;
-        markerGroupRef.current.addLayer(layer);
+        if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
       }
     }
   };
@@ -82,9 +80,9 @@ const useMarkers = map => {
   const addAreas = (name, areas, onClickCallback) => {
     const layer = L.Proj.geoJson(areas, { className: 'camera-area' });
     layer.on('click', event => showAreaInfo(event, map, onClickCallback));
-    if (map) map.addLayer(layer);
+    if (map && categories[name].enabled)
+      map.addLayer(layer);
     layerListRef.current[name] = layer;
-    categories[name].enabled = true;
   };
 
   const toggleLayer = category => {

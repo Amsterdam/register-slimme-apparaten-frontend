@@ -3,7 +3,7 @@
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories, CATEGORY_NAMES } from '../static/categories';
+import { categories } from '../static/categories';
 
 const markerOptions = {
   iconSize: [23, 23],
@@ -26,12 +26,6 @@ export const getMarkerIcon = categoryName => {
     iconUrl,
   });
 };
-
-export const createFeatureMarker = (latlng, category) =>
-  // Create a marker with the correct icon and onClick method
-  L.marker(latlng, {
-    icon: getMarkerIcon(category),
-  });
 
 export const removeCurrentHighlight = map => {
   if (markerHighlight) {

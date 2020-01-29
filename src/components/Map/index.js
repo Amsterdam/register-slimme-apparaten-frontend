@@ -71,11 +71,6 @@ const Map = ({ devices, setDevices, selectDevice }) => {
     addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
 
-  // useEffect(() => {
-  //   console.log('addMarkers', devices.length);
-  //   addMarkers(devices, showDevice);
-  // }, [devices]);
-
   useEffect(() => {
     if (mapRef.current === null) return;
     (async () => {
