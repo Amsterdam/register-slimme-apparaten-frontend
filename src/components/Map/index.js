@@ -5,12 +5,13 @@ import 'services/map'; // loads L.Proj (Proj binding leaflet)
 import { getCameraAreas } from 'services/api/iot';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/geojsonLayers';
-import { categories, CATEGORY_NAMES } from '../../static/categories';
+import { categories, CATEGORY_NAMES } from 'shared/configuration/categories';
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
 import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
+import './amaps-style.scss';
 import useMap from './hooks/useMap';
 import { MapContainerStyle } from './MapStyle';
 import useMarkers from './hooks/useMarkers';

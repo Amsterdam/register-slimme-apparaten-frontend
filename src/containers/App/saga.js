@@ -2,7 +2,7 @@ import { all, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 
 import { authCall } from 'shared/services/api/api';
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import CONFIGURATION from 'shared/configuration/environment';
 
 import { LOGOUT, LOGIN, AUTHENTICATE_USER } from './constants';
 import { showGlobalError, authorizeUser } from './actions';

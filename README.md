@@ -15,7 +15,7 @@ This application shows all registered smart devices on a map of Amsterdam. If zo
 - To run the frontend: `npm start`
 - Your standard browser will then open a new tab at [http://localhost:3001/](http://localhost:3001/)
 - By default the frontend uses the API hosted at [https://acc.api.data.amsterdam.nl/iothings/](https://acc.api.data.amsterdam.nl/iothings/)
-- To change it, modify the apiDomainName and/or API_ROOT in shared/services/configuration/configuration
+- To change it, modify the apiDomainName and/or API_ROOT in shared/configuration/environment
 
 ## Testing
 

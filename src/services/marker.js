@@ -3,7 +3,7 @@
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories } from '../static/categories';
+import { categories } from 'shared/configuration/categories';
 
 const markerOptions = {
   iconSize: [23, 23],

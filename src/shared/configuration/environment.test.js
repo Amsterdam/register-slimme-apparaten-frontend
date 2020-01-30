@@ -3,9 +3,8 @@
 
 // jest.mock('../../environment');
 
-describe('The sharedConfig service', () => {
+describe('The environment configuration', () => {
   it('should have a test', () => {
-    expect(true).toEqual(true);
     expect(true).toEqual(true);
   });
 
