@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
-import MapInteractive from 'components/MapInteractive';
+import MapContainer from 'containers/MapContainer';
 import HeaderContainer from 'containers/HeaderContainer';
 
-const Map = () => (
+const MapPage = () => (
   <Fragment>
     <HeaderContainer />
-    <MapInteractive />
+    <MapContainer />
   </Fragment>
 );
 
-export default Map;
+export default MapPage;

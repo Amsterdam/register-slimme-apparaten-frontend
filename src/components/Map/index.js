@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
-import { getDevices, getDevice, getCameraAreas } from 'services/api/iot';
-import { useMarkers } from 'services/iotmap';
+import { getCameraAreas } from 'services/api/iot';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/geojsonLayers';
 import { categories, CATEGORY_NAMES } from '../../static/categories';
@@ -12,7 +12,8 @@ import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
 import useMap from './hooks/useMap';
-import { MapContainerStyle } from './MapInteractiveStyle';
+import { MapContainerStyle } from './MapStyle';
+import useMarkers from './hooks/useMarkers';
 
 const SELECTION_STATE = {
   NOTHING: 0,
@@ -26,12 +27,11 @@ const legend = Object.entries(categories).reduce(
   {},
 );
 
-const Map = () => {
+const Map = ({ devices, setDevices, selectDevice }) => {
   const mapRef = useMap();
   const [selection, setSelection] = useState(noSelection);
-  const [devices, setDevices] = useState([]);
   const [cameras, setCameras] = useState([]);
-  const [geojsonLayers, setGeoJsonLayers] = useState([]);
+  const { addMarkers, addAreas, toggleLayer } = useMarkers(mapRef.current);
 
   const clearSelection = () => {
     setSelection(noSelection);
@@ -43,13 +43,9 @@ const Map = () => {
   };
 
   const addDevices = async () => {
-    const results = await getDevices();
-    setDevices(results);
-  };
-
-  const addPrivacy = async () => {
-    const results = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
-    setGeoJsonLayers(results);
+    const geoJsonResults = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
+    const markers = geoJsonResults.reduce((acc, {layer}) => [...acc, ...layer.features],[]);
+    setDevices(markers);
   };
 
   const showCameraArea = () => {
@@ -57,35 +53,29 @@ const Map = () => {
     setSelection({ type: SELECTION_STATE.AREA, element: area });
   };
 
-  const showDevice = async d => {
-    if (d) {
-      const device = await getDevice(d.id);
+  const showDevice = device => {
+    if (device) {
+      selectDevice(device);
       setSelection({ type: SELECTION_STATE.DEVICE, element: device });
     } else {
       setSelection(noSelection);
     }
   };
 
-  const { addMarkers, addAreas, toggleLayer, addPrivacyLayers } = useMarkers(mapRef.current);
   useEffect(() => {
     addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
   }, [cameras]);
 
   useEffect(() => {
-    addMarkers(devices, showDevice);
-  }, [devices]);
-
-  useEffect(() => {
-    addPrivacyLayers(geojsonLayers, showCameraArea);
-  }, [geojsonLayers]);
-
-  useEffect(() => {
+    if (mapRef.current === null) return;
     (async () => {
-      await addDevices();
-      await addCameraAreas();
-      await addPrivacy();
+      if (devices.length === 0) {
+        await addDevices();
+      }
+      addMarkers(devices, showDevice);
+      if (cameras.length === 0) await addCameraAreas();
     })();
-  }, []);
+  }, [devices, mapRef.current]);
 
   return (
     <MapContainerStyle className="map-component">
@@ -102,6 +92,12 @@ const Map = () => {
       </div>
     </MapContainerStyle>
   );
+};
+
+Map.propTypes = {
+  devices: PropTypes.array.isRequired,
+  setDevices: PropTypes.func.isRequired,
+  selectDevice: PropTypes.func.isRequired,
 };
 
 export default Map;

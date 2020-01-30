@@ -7,7 +7,7 @@ import injectReducer from 'utils/injectReducer';
 
 import APP_ROUTES from 'services/appRoutes';
 import ContactForm from 'pages/ContactForm';
-import Map from 'pages/Map';
+import MapPage from 'pages/MapPage';
 import Categories from 'pages/DeviceCategories';
 import About from 'pages/About';
 import FAQ from 'pages/FAQ';
@@ -20,7 +20,7 @@ import withContainer from '../../pages/withContainer';
 export const App = () => (
   <Fragment>
     <Switch>
-      <Route exact path="/" component={Map} />
+      <Route exact path="/" component={MapPage} />
       <Route path={APP_ROUTES.CONTACT} component={withContainer(ContactForm)} />
       <Route path={APP_ROUTES.CATEGORIES} component={withContainer(Categories)} />
       <Route path={APP_ROUTES.ABOUT_FAQ} component={withContainer(FAQ)} />

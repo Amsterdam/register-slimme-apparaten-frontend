@@ -3,16 +3,18 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { createStructuredSelector } from 'reselect';
 
 import CONFIGURATION from 'shared/services/configuration/configuration';
-import { getDevice } from '../../services/api/iot';
-import { getMarkerCategory } from '../../services/iotmap';
 
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
 import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
+import { makeSelectedDevice } from '../../containers/MapContainer/ducks';
 
 const MAX_INPUT_LENGTH = 250;
 
@@ -37,21 +39,16 @@ class ContactForm extends React.Component {
   // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
-    this.state = { device: null, submitSuccess: false };
+    this.state = { device: props.device, submitSuccess: false };
   }
 
-  componentDidMount() {
-    this.getDeviceInfo();
-  }
-
-  async getDeviceInfo() {
-    const device = await getDevice(parseInt(this.props.match.params.deviceId, 10));
-    this.setState({ device });
-  }
+  componentDidMount() {}
 
   contactForm = FormBuilder.group(
     {
-      device: this.props.match.params.deviceId,
+      device: this.props.match.params.id,
+      contact_owner: this.props.match.params.contact === 'iothings' ? '': this.props.match.params.contact,
+      device_data: this.props.match.params.contact === 'iothings' ? {} : this.props.device.properties,
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       can_i_have_access: [false],
@@ -120,13 +117,13 @@ class ContactForm extends React.Component {
                     <td>
                       <strong>Categorie</strong>
                     </td>
-                    <td>{getMarkerCategory(this.state.device).name}</td>
+                    <td>{this.state.device.category}</td>
                   </tr>
                   <tr>
                     <td>
                       <strong>Type</strong>
                     </td>
-                    <td>{this.state.device.types.length && (this.state.device.types[0].name || 'Onbekend')}</td>
+                    <td>{this.state.device.soort || 'Onbekend'}</td>
                   </tr>
                 </tbody>
               </table>
@@ -212,9 +209,17 @@ class ContactForm extends React.Component {
 ContactForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      deviceId: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      contact: PropTypes.string.isRequired,
     }),
   }),
+  device: PropTypes.shape({ properties: PropTypes.shape({}) }).isRequired,
 };
 
-export default ContactForm;
+const mapStateToProps = createStructuredSelector({
+  device: makeSelectedDevice(),
+});
+
+const withConnect = connect(mapStateToProps);
+
+export default compose(withConnect)(ContactForm);

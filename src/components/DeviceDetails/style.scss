@@ -18,7 +18,7 @@ $device-details-bottom: 10px;
   box-shadow: 2px 2px 0 0 $secondary-gray40;
   display: flex;
   flex-direction: column;
-  font-family: "AvenirNextLTW01-Regular";
+  font-family: 'AvenirNextLTW01-Regular';
   max-height: calc(100% - #{$device-details-top + $device-details-bottom});
   max-width: $device-details-max-width;
   min-width: 285px;
@@ -27,7 +27,7 @@ $device-details-bottom: 10px;
   right: $device-details-right;
   z-index: 1020;
 
-  @media screen and (max-width:576px) {
+  @media screen and (max-width: 576px) {
     max-width: 100%;
     left: 0;
     top: auto;
@@ -87,6 +87,9 @@ $device-details-bottom: 10px;
     color: $secondary-gray80;
     border: none;
     box-shadow: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:hover {
       background-color: inherit;
@@ -114,7 +117,8 @@ $device-details-bottom: 10px;
       height: 24px;
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: #ccc;
       border-color: #000 !important;
       color: #000 !important;
@@ -140,12 +144,14 @@ $device-details-bottom: 10px;
       height: inherit;
       width: inherit;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         fill: #000;
       }
     }
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: #ccc;
       border-color: #000 !important;
       color: #000 !important;
@@ -159,7 +165,7 @@ $device-details-bottom: 10px;
     min-height: 0; // NB: firefox fix https://stackoverflow.com/a/28639686
 
     // IE FIX
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { //sass-lint:disable-line no-vendor-prefixes
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
       -ms-flex: 0 0 auto; //sass-lint:disable-line no-vendor-prefixes
       -ms-flex-negative: 0; //sass-lint:disable-line no-vendor-prefixes
     }
