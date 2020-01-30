@@ -30,8 +30,7 @@ const getGeojsonLayers = async layersConfig => {
   const results = await Promise.all(
     layersConfig.map(async layer => {
       try {
-        const result = await fetch(layer.url);
-        const data = await result.json();
+        const data = await layer.fetchService(layer.url);
         const layers = formatLayers(layer, data);
         return layers;
       } catch (ex) {

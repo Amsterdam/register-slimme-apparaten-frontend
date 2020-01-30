@@ -1,15 +1,18 @@
 import getGeojsonLayers from './geojsonLayers';
+import { getGeojson } from './iot';
 
 describe('getGeojsonLayers', () => {
   const layersConfig = [
     {
       name: 'url-without-filter',
       url: `https://just-url/geojson`,
+      fetchService: getGeojson,
       transformer: item => (item),
     },
     {
       name: 'url-with-many-filters',
       url: 'https://url-with-many-filters',
+      fetchService: getGeojson,
       layers: [
         {
           name: 'url-with-filter-1',
@@ -26,6 +29,7 @@ describe('getGeojsonLayers', () => {
     {
       name: 'url-with-one-filter',
       url: 'https://url-with-one-filter',
+      fetchService: getGeojson,
       layers: [
         {
           name: 'url-with-one-filter-1',

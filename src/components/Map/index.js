@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
-import { getDevices, getCameraAreas } from 'services/api/iot';
+import { getCameraAreas } from 'services/api/iot';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/geojsonLayers';
 import { categories, CATEGORY_NAMES } from '../../static/categories';
@@ -43,13 +43,8 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   };
 
   const addDevices = async () => {
-    let markers = [];
-    const results = await getDevices();
-    markers = [...results];
     const geoJsonResults = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
-    geoJsonResults.forEach(result => {
-      markers = [...markers, ...result.layer.features];
-    });
+    const markers = geoJsonResults.reduce((acc, {layer}) => [...acc, ...layer.features],[]);
     setDevices(markers);
   };
 
