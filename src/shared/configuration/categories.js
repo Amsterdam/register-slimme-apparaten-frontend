@@ -12,7 +12,7 @@ export const CATEGORY_NAMES = {
 
 export const DISPLAY_NAMES = Object.keys(CATEGORY_NAMES).reduce((acc, item) => ({
   ...acc,
-  [item]: item === CATEGORY_NAMES.BEACONS ? 'Beacons' : CATEGORY_NAMES[item],
+  [item]: item === 'BEACONS' ? 'Beacons' : CATEGORY_NAMES[item],
 }), {});
 
 export const categories = {

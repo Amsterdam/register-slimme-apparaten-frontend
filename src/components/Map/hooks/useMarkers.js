@@ -14,7 +14,7 @@ export const showDeviceInfo = (event, marker, onClick, highlight) => {
 };
 
 export const showAreaInfo = (event, onClick, highlight) => {
-  highlight(event.layer)
+  highlight(event.layer);
   onClick(event.sourceTarget.feature);
 };
 
@@ -24,27 +24,27 @@ const useMarkers = map => {
   const layerGroupRef = useRef({});
   const { highlightMarker, highlightPolygon } = useHighlight();
 
-  const clusterCategories = useMemo(() => Object.entries(categories).filter(([, value]) => value.isClustered), []);
+  const clusterCategories = useMemo(() => Object.entries(categories).filter(([, value]) => value.isClustered), [
+    categories,
+  ]);
 
   useEffect(() => {
+    if (!map) return () => {};
     markerGroupRef.current = L.markerClusterGroup({
       disableClusteringAtZoom: 16,
       showCoverageOnHover: false,
       spiderfyOnMaxZoom: false,
     });
-    if (map) {
-      map.addLayer(markerGroupRef.current);
-    }
+
+    map.addLayer(markerGroupRef.current);
 
     return () => {
-      if (map) {
-        map.removeLayer(markerGroupRef.current);
-      }
+      map.removeLayer(markerGroupRef.current);
     };
   }, [map]);
 
   const addMarkers = (markers, showInfoClick) => {
-    if (!markers) return;
+    if (!markers || !markerGroupRef.current) return;
     for (const [name] of clusterCategories) {
       if (layerListRef.current[name]) {
         markerGroupRef.current.removeLayers([layerListRef.current[name]]);
@@ -71,8 +71,7 @@ const useMarkers = map => {
   const addAreas = (name, areas, onClickCallback) => {
     const layer = L.Proj.geoJson(areas, { className: 'camera-area' });
     layer.on('click', event => showAreaInfo(event, onClickCallback, highlightPolygon));
-    if (map && categories[name].enabled)
-      map.addLayer(layer);
+    if (map && categories[name].enabled) map.addLayer(layer);
     layerListRef.current[name] = layer;
   };
 
@@ -94,7 +93,7 @@ const useMarkers = map => {
       }
     }
 
-    if (layerGroupRef.current[category])
+    if (layerGroupRef.current[category]) {
       layerGroupRef.current[category].forEach(name => {
         const privacyLayer = layerListRef.current[name];
         if (privacyLayer) {
@@ -105,6 +104,7 @@ const useMarkers = map => {
           }
         }
       });
+    }
   };
 
   return { addMarkers, addAreas, toggleLayer };

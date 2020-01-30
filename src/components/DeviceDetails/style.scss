@@ -87,6 +87,9 @@ $device-details-bottom: 10px;
     color: $secondary-gray80;
     border: none;
     box-shadow: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &:hover {
       background-color: inherit;
@@ -98,10 +101,6 @@ $device-details-bottom: 10px;
       color: $primary-light;
       background-color: inherit;
     }
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &__question-mark-button {
@@ -167,7 +166,6 @@ $device-details-bottom: 10px;
 
     // IE FIX
     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-      //sass-lint:disable-line no-vendor-prefixes
       -ms-flex: 0 0 auto; //sass-lint:disable-line no-vendor-prefixes
       -ms-flex-negative: 0; //sass-lint:disable-line no-vendor-prefixes
     }

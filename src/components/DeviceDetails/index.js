@@ -75,13 +75,13 @@ class DeviceDetails extends React.Component {
             {this.props.device.soort && (
               <div className="device-details__row">
                 <div className="device-details__row-label">Type</div>
-                <div className="device-details__row-element">{this.props.device.soort || 'Onbekend'}</div>
+                <div className="device-details__row-element">{this.props.device.soort}</div>
               </div>
             )}
             {this.props.device.privacy && (
               <div className="device-details__row">
                 <div className="device-details__row-label">Privacyverklaring</div>
-                <div className="device-details__row-element"><a href={this.props.device.privacy} target="_blank">
+                <div className="device-details__row-element"><a href={this.props.device.privacy} target="_blank" rel="noopener noreferrer">
                   {this.props.device.privacy}
                 </a>
                 </div>

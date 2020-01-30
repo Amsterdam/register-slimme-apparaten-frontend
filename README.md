@@ -2,8 +2,11 @@
 
 This application shows all registered smart devices on a map of Amsterdam. If zoomed out, they are clustered together. To see the individual smart devices, zoom in or click on a cluster. The smart devices are divided in several categories and types, depending on the kind of data that they collect. Users can also fill out a form to contact the owner of a smart device to ask questions about the data.
 
+This application reads from this backend: https://github.com/amsterdam/iot-api
+
 ## Requirements
 
+- node v10 (doesn't work on node v12 yet)
 - npm
 
 ## Installations
@@ -16,6 +19,15 @@ This application shows all registered smart devices on a map of Amsterdam. If zo
 - Your standard browser will then open a new tab at [http://localhost:3001/](http://localhost:3001/)
 - By default the frontend uses the API hosted at [https://acc.api.data.amsterdam.nl/iothings/](https://acc.api.data.amsterdam.nl/iothings/)
 - To change it, modify the apiDomainName and/or API_ROOT in shared/configuration/environment
+
+## Testing with the iot-api backend running on localhost
+
+Change the `API_ROOT` and `ROOT` in `environment.conf.json` to:
+
+  "API_ROOT": "http://localhost:8080/",
+  "ROOT": "http://localhost:3001/",
+
+Make sure to run the iot-api backend on port 8080
 
 ## Testing
 
