@@ -13,7 +13,7 @@ const useHighlight = () => {
     }
 
     if (activePolygon.current) {
-      const classList = activePolygon.current.getElement().classList;
+      const { classList } = activePolygon.current.getElement();
       if (classList && classList.remove) {
         classList.remove(HIGHLIGHT_CLASS);
       }
@@ -29,7 +29,7 @@ const useHighlight = () => {
   const highlightPolygon = polygon => {
     clearSelection();
     activePolygon.current = polygon;
-    const classList = activePolygon.current.getElement().classList;
+    const { classList } = activePolygon.current.getElement();
     if (classList && classList.add) {
       classList.add(HIGHLIGHT_CLASS);
     }
