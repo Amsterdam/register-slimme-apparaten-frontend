@@ -3,17 +3,6 @@ import 'leaflet.markercluster';
 
 export const HIGHLIGHT_CLASS = 'active-element';
 
-let areaHighlightLayer;
-
-export const removeCurrentHighlight = () => {
-  if (areaHighlightLayer) {
-    const classList = areaHighlightLayer.getElement().classList;
-    if (classList && classList.remove) {
-      classList.remove(HIGHLIGHT_CLASS);
-    }
-  }
-};
-
 const useHighlight = () => {
   const activeMarker = useRef(null);
   const activePolygon = useRef(null);

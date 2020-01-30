@@ -8,7 +8,7 @@ export async function getDevices() {
     ...device,
     category: categories[device.categories[0]].name,
     soort: (device.types.length && device.types[0].name) || 'Onbekend',
-    privacy: '',
+    privacy: device.privacy || '',
     contact: 'iothings',
   }));
 }
