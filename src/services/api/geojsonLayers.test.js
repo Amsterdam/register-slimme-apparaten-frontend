@@ -1,40 +1,40 @@
 import getGeojsonLayers from './geojsonLayers';
-import { getGeojson } from './iot';
 
 describe('getGeojsonLayers', () => {
+  const featchServiceMock = async () => geojsonMock;
   const layersConfig = [
     {
       name: 'url-without-filter',
       url: `https://just-url/geojson`,
-      fetchService: getGeojson,
-      transformer: item => (item),
+      fetchService: featchServiceMock,
+      transformer: item => item,
     },
     {
       name: 'url-with-many-filters',
       url: 'https://url-with-many-filters',
-      fetchService: getGeojson,
+      fetchService: featchServiceMock,
       layers: [
         {
           name: 'url-with-filter-1',
           filter: item => item.properties.doel.find(d => d.startsWith('1')),
-          transformer: item => (item),
+          transformer: item => item,
         },
         {
           name: 'url-with-filter-2',
           filter: item => item.properties.doel.find(d => d.startsWith('2')),
-          transformer: item => (item),
+          transformer: item => item,
         },
       ],
     },
     {
       name: 'url-with-one-filter',
       url: 'https://url-with-one-filter',
-      fetchService: getGeojson,
+      fetchService: featchServiceMock,
       layers: [
         {
           name: 'url-with-one-filter-1',
           filter: item => item.properties.prop1 === 'prop1-match' && item.properties.prop2 === 'prop2-match',
-          transformer: item => (item),
+          transformer: item => item,
         },
       ],
     },
@@ -64,13 +64,8 @@ describe('getGeojsonLayers', () => {
     ],
   };
 
-  beforeEach(() => {
-    fetch.mockResponse(JSON.stringify(geojsonMock));
-  });
-
   afterEach(() => {
     jest.resetAllMocks();
-    fetch.resetMocks();
   });
 
   it('should call all services from the configuration once', async () => {

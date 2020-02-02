@@ -22,9 +22,9 @@ export const formatLayers = (layer, result) => {
 
 /**
  *
- * @param {*} layersConfig - the layers configuration
  * Retrieves geojson data from different sources and filters the results
  * Returns a flatten layer array
+ * @param {*} layersConfig - the layers configuration
  */
 const getGeojsonLayers = async layersConfig => {
   const results = await Promise.all(

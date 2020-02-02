@@ -1,6 +1,7 @@
 import CONFIGURATION from 'shared/configuration/environment';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
-import { getDevices, getGeojson } from './iot';
+import { getDevices } from './iot';
+import { readData } from '../datareader';
 
 const PRIVACY_LAYERS_CONFIG = [
   // {
@@ -21,7 +22,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'cmsa',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
-    fetchService: getGeojson,
+    fetchService: readData,
     layers: [
       {
         name: 'WiFi sensor Crowd Management',
@@ -43,7 +44,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'AIS masten',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_AISMASTEN&THEMA=privacy',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'ais-masten',
     category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
     transformer: item => ({
@@ -59,7 +60,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'Wagenparkscan',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_WAGENPARKSCAN&THEMA=privacy',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'wagenparkscan',
     category: CATEGORY_NAMES.CAMERA,
     transformer: item => ({
@@ -75,7 +76,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'Verkeersonderzoek en Overig',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_OVERIG&THEMA=privacy',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'overig',
     category: CATEGORY_NAMES.CAMERA,
     transformer: item => ({
@@ -91,7 +92,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'Beweegbare Fysieke Afsluiting (BFA)',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=VIS_BFA&THEMA=vis',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'bfa',
     category: CATEGORY_NAMES.CAMERA,
     transformer: item => ({
