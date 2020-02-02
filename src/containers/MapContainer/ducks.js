@@ -1,48 +1,75 @@
 import { createSelector } from 'reselect';
 
 // actions
-export const SET_DEVICES = 'src/containers/MapContainer/SET_DEVICES';
-export const SELECT_DEVICE = 'src/containers/MapContainer/SELECT_DEVICE';
+export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
+export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM';
 
 // action creators
-export function setDevicesActionCreator(devices) {
+export function addLayerDataActionCreator(name, layer) {
   return {
-    type: SET_DEVICES,
-    payload: devices,
+    type: ADD_LAYER_DATA,
+    payload: { name, layer },
   };
 }
 
-export function selectDeviceActionCreator(device) {
+export function selectLayerItemActionCreator(name, item) {
   return {
-    type: SELECT_DEVICE,
-    payload: device,
+    type: SELECT_LAYER_ITEM,
+    payload: { name, item },
   };
 }
 
 // selectors
 const selectMap = state => state.map;
 
-export const makeSelectDevices = () => createSelector(selectMap, map => map.devices);
+export const makeSelectLayers = () => createSelector(selectMap, map => map.layers);
 
-export const makeSelectedDevice = () =>
-  createSelector(selectMap, map => (
-    map.devices.find(
-      device => device.id === map.selectedDevice.id && device.contact === map.selectedDevice.contact,
-    ) || null
-  ));
+export const makeSelectedLayer = () => createSelector(selectMap, map => map.selectedLayer);
+
+export const makeSelectedItem = () =>
+  createSelector(
+    selectMap,
+    ({ layers, selectedLayer, selectedItem }) =>
+      (selectedLayer &&
+        selectedItem &&
+        layers[selectedLayer].features.find(item => item.id === selectedItem.id && item.contact === selectedItem.contact)) ||
+      null,
+  );
 
 // reducer
 export const initialState = {
-  devices: [],
-  selectedDevice: null,
+  layers: {},
+  selectedLayer: null,
+  selectedItem: null,
 };
 
 function mapReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_DEVICES:
-      return { ...state, devices: [...state.devices, ...action.payload] };
-    case SELECT_DEVICE:
-      return { ...state, selectedDevice: action.payload };
+    case ADD_LAYER_DATA: {
+      const {
+        name,
+        layer: { features },
+        layer,
+      } = action.payload;
+      const newfeatures =
+        state.layers[name] && state.layers[name].features
+          ? [...state.layers[name].features, ...features]
+          : [...features];
+      return {
+        ...state,
+        layers: {
+          ...state.layers,
+          [name]: {
+            ...layer,
+            features: [...newfeatures],
+          },
+        },
+      };
+    }
+    case SELECT_LAYER_ITEM: {
+      const { name, item } = action.payload;
+      return { ...state, selectedLayer: name, selectedItem: item };
+    }
     default:
       return state;
   }

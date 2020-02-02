@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
@@ -16,64 +16,62 @@ import useMap from './hooks/useMap';
 import { MapContainerStyle } from './MapStyle';
 import useLayerManager from './hooks/useLayerManager';
 
-const SELECTION_STATE = {
-  NOTHING: 0,
-  DEVICE: 1,
-  AREA: 2,
-};
-
-const noSelection = { selection: { type: SELECTION_STATE.NOTHING, element: undefined } };
-
-const Map = ({ devices, setDevices, selectDevice }) => {
+const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerItem }) => {
   const mapRef = useMap();
-  const [selection, setSelection] = useState(noSelection);
-  const [cameras, setCameras] = useState([]);
   const { addPointClusterLayer, addPolygonLayer, toggleLayer } = useLayerManager(mapRef.current);
 
   const clearSelection = () => {
-    setSelection(noSelection);
+    selectLayerItem();
   };
 
   const fetchCameraAreaLayer = async () => {
     const results = await fetchCameraAreas();
-    setCameras(results);
+    addLayerData('cameras', results);
   };
 
   const fetchDevicesLayer = async () => {
     const results = await layersReader(LAYERS_CONFIG);
-    const markers = results.reduce((acc, {layer}) => [...acc, ...layer.features],[]);
-    setDevices(markers);
+    const items = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
+    addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features: items });
   };
 
-  const showCameraAreaDetail = () => {
-    const area = {};
-    setSelection({ type: SELECTION_STATE.AREA, element: area });
+  const showCameraAreaDetail = item => {
+    selectLayerItem('cameras', item);
   };
 
   const showDeviceDetail = device => {
     if (device) {
-      selectDevice(device);
-      setSelection({ type: SELECTION_STATE.DEVICE, element: device });
+      selectLayerItem('devices', device);
     } else {
-      setSelection(noSelection);
+      selectLayerItem();
     }
   };
 
   useEffect(() => {
-    addPolygonLayer(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraAreaDetail);
-  }, [cameras]);
+    if (layers.cameras != null) {
+      addPolygonLayer(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, layers.cameras, showCameraAreaDetail);
+    }
+  }, [layers.cameras]);
+
+  useEffect(() => {
+    if (layers.devices != null) {
+      addPointClusterLayer(layers.devices.features, showDeviceDetail);
+    }
+  }, [layers.devices]);
 
   useEffect(() => {
     if (mapRef.current === null) return;
     (async () => {
-      if (devices.length === 0) {
+      const { devices, cameras } = layers;
+      if (!devices || devices.features.length === 0) {
         await fetchDevicesLayer();
       }
-      addPointClusterLayer(devices, showDeviceDetail);
 
-      if (cameras.length === 0) await fetchCameraAreaLayer();
+      if (!cameras || cameras.features.length === 0) {
+        await fetchCameraAreaLayer();
+      }
     })();
-  }, [devices, mapRef.current]);
+  }, [mapRef.current]);
 
   return (
     <MapContainerStyle className="map-component">
@@ -81,11 +79,11 @@ const Map = ({ devices, setDevices, selectDevice }) => {
         <div id="mapdiv">
           <MapLegend onToggleCategory={name => toggleLayer(name)} />
 
-          {selection.type === SELECTION_STATE.DEVICE && (
-            <DeviceDetails device={selection.element} onDeviceDetailsClose={clearSelection} />
+          {selectedLayer === 'devices' && (
+            <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />
           )}
 
-          {selection.type === SELECTION_STATE.AREA && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
+          {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
         </div>
       </div>
     </MapContainerStyle>
@@ -93,9 +91,14 @@ const Map = ({ devices, setDevices, selectDevice }) => {
 };
 
 Map.propTypes = {
-  devices: PropTypes.array.isRequired,
-  setDevices: PropTypes.func.isRequired,
-  selectDevice: PropTypes.func.isRequired,
+  layers: PropTypes.shape({
+    devices: PropTypes.shape({ features: PropTypes.array }),
+    cameras: PropTypes.shape({ features: PropTypes.array }),
+  }).isRequired,
+  selectedLayer: PropTypes.string,
+  selectedItem: PropTypes.shape({}),
+  addLayerData: PropTypes.func.isRequired,
+  selectLayerItem: PropTypes.func.isRequired,
 };
 
 export default Map;
