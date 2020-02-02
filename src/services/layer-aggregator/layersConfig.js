@@ -1,9 +1,9 @@
 import CONFIGURATION from 'shared/configuration/environment';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
 import { readData } from '../datareader';
-import { fetchDevices } from './iotApi';
+import { fetchDevices, fetchCameraAreas } from './layersFetcher';
 
-const PRIVACY_LAYERS_CONFIG = [
+const LAYERS_CONFIG = [
   // {
   //   name: '',
   //   url: 'https://service.vorin-amsterdam.nl/camera-geo_2/camera/geo',
@@ -119,4 +119,15 @@ const PRIVACY_LAYERS_CONFIG = [
   },
 ];
 
-export default PRIVACY_LAYERS_CONFIG;
+export const POLYGON_LAYERS_CONFIG = [
+  {
+    name: 'Cameras',
+    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=ms:cameratoezichtgebied&version=1.1.0`,
+    fetchService: fetchCameraAreas,
+    className: 'cameras',
+    category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
+    transformer: item => item,
+  },
+];
+
+export default LAYERS_CONFIG;

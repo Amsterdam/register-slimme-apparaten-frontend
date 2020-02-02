@@ -18,7 +18,7 @@ export const showAreaInfo = (event, onClick, highlight) => {
   onClick(event.sourceTarget.feature);
 };
 
-const useMarkers = map => {
+const useLayerManager = map => {
   const markerGroupRef = useRef(null);
   const layerListRef = useRef({});
   const layerGroupRef = useRef({});
@@ -43,7 +43,7 @@ const useMarkers = map => {
     };
   }, [map]);
 
-  const addMarkers = (markers, showInfoClick) => {
+  const addPointClusterLayer = (markers, showInfoClick) => {
     if (!markers || !markerGroupRef.current) return;
     for (const [name] of clusterCategories) {
       if (layerListRef.current[name]) {
@@ -68,8 +68,8 @@ const useMarkers = map => {
     }
   };
 
-  const addAreas = (name, areas, onClickCallback) => {
-    const layer = L.Proj.geoJson(areas, { className: 'camera-area' });
+  const addPolygonLayer = (name, polygons, onClickCallback) => {
+    const layer = L.Proj.geoJson(polygons, { className: 'camera-area' });
     layer.on('click', event => showAreaInfo(event, onClickCallback, highlightPolygon));
     if (map && categories[name].enabled) map.addLayer(layer);
     layerListRef.current[name] = layer;
@@ -107,7 +107,7 @@ const useMarkers = map => {
     }
   };
 
-  return { addMarkers, addAreas, toggleLayer };
+  return { addPointClusterLayer, addPolygonLayer, toggleLayer };
 };
 
-export default useMarkers;
+export default useLayerManager;
