@@ -59,8 +59,8 @@ const useLayerManager = map => {
     }
   };
 
-  const addPolygonLayer = (name, featureLayer, onClickCallback) => {
-    const layer = L.Proj.geoJson(featureLayer, { className: 'camera-area' });
+  const addPolygonLayer = (name, layerData, onClickCallback) => {
+    const layer = L.Proj.geoJson(layerData, { className: 'camera-area' });
     layer.on('click', event => showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon));
     if (map && categories[name].enabled) map.addLayer(layer);
     layerListRef.current[name] = layer;

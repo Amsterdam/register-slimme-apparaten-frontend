@@ -55,7 +55,7 @@ function mapReducer(state = initialState, action) {
         state.layers[name] && state.layers[name].features
           ? [...state.layers[name].features, ...features]
           : [...features];
-      return {
+      const result =  {
         ...state,
         layers: {
           ...state.layers,
@@ -64,7 +64,8 @@ function mapReducer(state = initialState, action) {
             features: [...newfeatures],
           },
         },
-      };
+      }
+      return result;
     }
     case SELECT_LAYER_ITEM: {
       const { name, item } = action.payload;

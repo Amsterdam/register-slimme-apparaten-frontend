@@ -24,17 +24,6 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
     selectLayerItem();
   };
 
-  const fetchCameraAreaLayer = async () => {
-    const results = await fetchCameraAreas();
-    addLayerData('cameras', results);
-  };
-
-  const fetchDevicesLayer = async () => {
-    const results = await layersReader(LAYERS_CONFIG);
-    const items = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
-    addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features: items });
-  };
-
   const showCameraAreaDetail = item => {
     selectLayerItem('cameras', item);
   };
@@ -61,17 +50,17 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
 
   useEffect(() => {
     if (mapRef.current === null) return;
+    if (layers.devices) return;
     (async () => {
-      const { devices, cameras } = layers;
-      if (!devices || devices.features.length === 0) {
-        await fetchDevicesLayer();
-      }
+      const results = await layersReader(LAYERS_CONFIG);
 
-      if (!cameras || cameras.features.length === 0) {
-        await fetchCameraAreaLayer();
-      }
+      const devices = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
+      const cameras = await fetchCameraAreas();
+
+      addLayerData('cameras', cameras);
+      addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features: devices });
     })();
-  }, [mapRef.current]);
+  }, []);
 
   return (
     <MapContainerStyle className="map-component">
@@ -79,9 +68,7 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
         <div id="mapdiv">
           <MapLegend onToggleCategory={name => toggleLayer(name)} />
 
-          {selectedLayer === 'devices' && (
-            <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />
-          )}
+          {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
           {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
         </div>
