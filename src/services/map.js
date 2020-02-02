@@ -1,6 +1,6 @@
 import L from 'leaflet';
 
-import { rd } from "./geojson";
+import { rd } from "./rdutil";
 
 /**
  * Returns a Leaflet map for Amsterdam

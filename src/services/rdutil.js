@@ -124,26 +124,6 @@ export function rdMultiPolygonToWgs84(geometry) {
     return null;
   }
 
-  // {
-  //   'type': 'MultiPolygon',
-  //   'coordinates': [
-  //     [
-  //       [
-  //         [-99.028, 46.985], [-99.028, 50.979],
-  //         [-82.062, 50.979], [-82.062, 47.002],
-  //         [-99.028, 46.985]
-  //       ]
-  //     ],
-  //     [
-  //       [
-  //         [-109.028, 36.985], [-109.028, 40.979],
-  //         [-102.062, 40.979], [-102.062, 37.002],
-  //         [-109.028, 36.985]
-  //       ]
-  //     ]
-  //   ]
-  // }
-
   const rdMultiPolygonCoordinates = geometry.coordinates;
   const polygons = [];
 

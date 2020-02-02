@@ -1,7 +1,7 @@
 import CONFIGURATION from 'shared/configuration/environment';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
-import { getDevices } from './iot';
 import { readData } from '../datareader';
+import { fetchDevices } from './iotApi';
 
 const PRIVACY_LAYERS_CONFIG = [
   // {
@@ -108,7 +108,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'iothings',
     url: `${CONFIGURATION.API_ROOT}iothings/devices/`,
-    fetchService: getDevices,
+    fetchService: fetchDevices,
     layers: Object.entries(categories).map(([key, value]) => ({
       name: `IoT ${key}`,
       filter: item => item.properties.application === value.name,

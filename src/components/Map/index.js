@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
-import { getCameraAreas } from 'services/api/iot';
+import { fetchCameraAreas } from 'services/api/iotApi';
 import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
 import getGeojsonLayers from 'services/api/geojsonLayers';
 import { categories, CATEGORY_NAMES } from 'shared/configuration/categories';
@@ -39,7 +39,7 @@ const Map = ({ devices, setDevices, selectDevice }) => {
   };
 
   const addCameraAreas = async () => {
-    const results = await getCameraAreas();
+    const results = await fetchCameraAreas();
     setCameras(results);
   };
 
