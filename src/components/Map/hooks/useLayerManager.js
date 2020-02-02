@@ -4,18 +4,13 @@ import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories } from 'shared/configuration/categories';
+import { categories , clusterCategories } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
 
-export const showDeviceInfo = (event, marker, onClick, highlight) => {
-  highlight(event.sourceTarget);
-  onClick(marker);
-};
-
-export const showAreaInfo = (event, onClick, highlight) => {
-  highlight(event.layer);
-  onClick(event.sourceTarget.feature);
+export const showInfo = (element, item, onClick, highlight) => {
+  highlight(element);
+  onClick(item);
 };
 
 const useLayerManager = map => {
@@ -23,10 +18,6 @@ const useLayerManager = map => {
   const layerListRef = useRef({});
   const layerGroupRef = useRef({});
   const { highlightMarker, highlightPolygon } = useHighlight();
-
-  const clusterCategories = useMemo(() => Object.entries(categories).filter(([, value]) => value.isClustered), [
-    categories,
-  ]);
 
   useEffect(() => {
     if (!map) return () => {};
@@ -54,12 +45,12 @@ const useLayerManager = map => {
       const filteredMarkers = markers.filter(marker => marker.category === name);
       if (filteredMarkers.length > 0) {
         const icon = getMarkerIcon(filteredMarkers[0].category);
-        filteredMarkers.forEach(marker =>
-          L.marker([marker.latitude, marker.longitude], {
+        filteredMarkers.forEach(item =>
+          L.marker([item.latitude, item.longitude], {
             icon,
           })
             .addTo(layer)
-            .on('click', event => showDeviceInfo(event, marker, showInfoClick, highlightMarker)),
+            .on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker)),
         );
 
         layerListRef.current[name] = layer;
@@ -70,7 +61,7 @@ const useLayerManager = map => {
 
   const addPolygonLayer = (name, polygons, onClickCallback) => {
     const layer = L.Proj.geoJson(polygons, { className: 'camera-area' });
-    layer.on('click', event => showAreaInfo(event, onClickCallback, highlightPolygon));
+    layer.on('click', event => showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon));
     if (map && categories[name].enabled) map.addLayer(layer);
     layerListRef.current[name] = layer;
   };

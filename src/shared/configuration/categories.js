@@ -101,3 +101,16 @@ export const categories = {
     visible: false,
   },
 };
+
+/**
+ * Global legend definition based on the categories that are enabled and visible
+ */
+export const legend = Object.entries(categories).reduce(
+  (acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: category } : { ...acc }),
+  {},
+);
+
+/**
+ * Global group of categories that should be clustered
+ */
+export const clusterCategories = Object.entries(categories).filter(([, value]) => value.isClustered);

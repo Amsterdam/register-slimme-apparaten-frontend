@@ -1,19 +1,16 @@
-// import L from 'leaflet';
-import { showDeviceInfo } from './useLayerManager';
-
-// jest.mock('leaflet');
+import { showInfo } from './useLayerManager';
 
 describe('useLayerManager', () => {
-  describe('showDeviceInfo', () => {
+  describe('showInfo', () => {
     it('should highlight the active item', () => {
       const highlight = jest.fn();
       const onClick = jest.fn();
-      const event = { target: 'test', sourceTarget:'sourceTarget' };
-      const marker = { id: 'marker-id' };
+      const element = { id: 'leaflet-id' };
+      const item = { id: 'marker-id' };
 
-      showDeviceInfo(event, marker, onClick, highlight);
-      expect(highlight).toHaveBeenCalledWith(event.sourceTarget);
-      expect(onClick).toHaveBeenCalledWith(marker);
+      showInfo(element, item, onClick, highlight);
+      expect(highlight).toHaveBeenCalledWith(element);
+      expect(onClick).toHaveBeenCalledWith(item);
     });
   });
 });

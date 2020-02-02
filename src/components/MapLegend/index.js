@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { categories, CATEGORY_NAMES } from 'shared/configuration/categories';
+import { legend } from 'shared/configuration/categories';
 import { Checkbox } from '../../shared/components/checkbox';
 
 import CollapseIcon from '../../images/icon-arrow-down.svg';
@@ -9,11 +9,6 @@ import ExpandIcon from '../../images/icon-arrow-up.svg';
 import MapLayersIcon from '../../images/icon-map-layers.svg';
 
 import './style.scss';
-
-const legend = Object.entries(categories).reduce(
-  (acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: category } : { ...acc }),
-  {},
-);
 
 class MapLegend extends React.Component {
   constructor(props) {
