@@ -109,9 +109,9 @@ const LAYERS_CONFIG = [
     name: 'iothings',
     url: `${CONFIGURATION.API_ROOT}iothings/devices/`,
     fetchService: fetchDevices,
-    layers: Object.entries(categories).map(([key, value]) => ({
+    layers: Object.entries(categories).map(([key]) => ({
       name: `IoT ${key}`,
-      filter: item => item.properties.application === value.name,
+      filter: item => item.properties.application === key,
       className: `iot${key}`,
       category: key,
       transformer: item => item,

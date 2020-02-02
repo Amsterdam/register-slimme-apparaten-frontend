@@ -4,9 +4,10 @@ import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories , clusterCategories } from 'shared/configuration/categories';
+import { categories , clusterCategories , DISPLAY_NAMES } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
+
 
 export const showInfo = (element, item, onClick, highlight) => {
   highlight(element);

@@ -7,6 +7,7 @@ const layersFormatter = (layer, result) => {
         category: layer.category,
       },
     ];
+
   return layer.layers.map(l => ({
     name: l.name,
     layer: {

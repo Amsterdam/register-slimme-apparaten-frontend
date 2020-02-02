@@ -53,7 +53,6 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
     if (layers.devices) return;
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
-
       const devices = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
       const cameras = await fetchCameraAreas();
 
