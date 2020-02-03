@@ -4,10 +4,9 @@ import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories , clusterCategories , DISPLAY_NAMES } from 'shared/configuration/categories';
+import { categories, clusterCategories, DISPLAY_NAMES } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
-
 
 export const showInfo = (element, item, onClick, highlight) => {
   highlight(element);
@@ -15,8 +14,8 @@ export const showInfo = (element, item, onClick, highlight) => {
 };
 
 const useLayerManager = map => {
+  const [layerList, setLayerList] = useState({});
   const markerGroupRef = useRef(null);
-  const layerListRef = useRef({});
   const layerGroupRef = useRef({});
   const { highlightMarker, highlightPolygon } = useHighlight();
 
@@ -37,39 +36,50 @@ const useLayerManager = map => {
 
   const addPointClusterLayer = (markers, showInfoClick) => {
     if (!markers || !markerGroupRef.current) return;
-    for (const [name] of clusterCategories) {
-      if (layerListRef.current[name]) {
-        markerGroupRef.current.removeLayers([layerListRef.current[name]]);
-      }
+    const clusterLayers = clusterCategories
+      .map(([name]) => {
+        if (layerList[name]) {
+          markerGroupRef.current.removeLayers([layerList[name]]);
+        }
 
-      const layer = L.featureGroup();
-      const filteredMarkers = markers.filter(marker => marker.category === name);
-      if (filteredMarkers.length > 0) {
-        const icon = getMarkerIcon(filteredMarkers[0].category);
-        filteredMarkers.forEach(item =>
-          L.marker([item.latitude, item.longitude], {
-            icon,
-          })
-            .addTo(layer)
-            .on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker)),
-        );
+        const layer = L.featureGroup();
+        const filteredMarkers = markers.filter(marker => marker.category === name);
+        if (filteredMarkers.length > 0) {
+          const icon = getMarkerIcon(filteredMarkers[0].category);
+          filteredMarkers.forEach(item =>
+            L.marker([item.latitude, item.longitude], {
+              icon,
+            })
+              .addTo(layer)
+              .on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker)),
+          );
 
-        layerListRef.current[name] = layer;
-        if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
-      }
-    }
+          if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
+        }
+        return { name, layer };
+      })
+      .reduce((acc, { name, layer }) => ({ ...acc, [name]: layer }), {});
+    setLayerList({...layerList, ...clusterLayers})
   };
 
   const addPolygonLayer = (name, layerData, onClickCallback) => {
     const layer = L.Proj.geoJson(layerData, { className: 'camera-area' });
-    layer.on('click', event => showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon));
+    layer.on('click', event =>
+      showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon),
+    );
     if (map && categories[name].enabled) map.addLayer(layer);
-    layerListRef.current[name] = layer;
+
+    setLayerList({ ...layerList, [name]: layer})
+
+    return () => {
+      map.removeLayer(layer);
+      setLayerList({ ...layerList, [name]: null });
+    };
   };
 
   const toggleLayer = category => {
     categories[category].enabled = !categories[category].enabled;
-    const layer = layerListRef.current[category];
+    const layer = layerList[category];
 
     if (layer) {
       if (categories[category].isClustered) {
@@ -87,7 +97,7 @@ const useLayerManager = map => {
 
     if (layerGroupRef.current[category]) {
       layerGroupRef.current[category].forEach(name => {
-        const privacyLayer = layerListRef.current[name];
+        const privacyLayer = layerList[name];
         if (privacyLayer) {
           if (categories[category].enabled) {
             map.addLayer(privacyLayer);

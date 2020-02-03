@@ -20,6 +20,7 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
   const mapRef = useMap();
   const { addPointClusterLayer, addPolygonLayer, toggleLayer } = useLayerManager(mapRef.current);
 
+
   const clearSelection = () => {
     selectLayerItem();
   };
@@ -49,15 +50,17 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
   }, [layers.devices]);
 
   useEffect(() => {
-    if (mapRef.current === null) return;
-    if (layers.devices) return;
+    if (mapRef.current === null) {
+      addLayerData('devices', null);
+      addLayerData('cameras', null);
+    };
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
       const devices = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
       const cameras = await fetchCameraAreas();
 
-      addLayerData('cameras', cameras);
       addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features: devices });
+      addLayerData('cameras', cameras);
     })();
   }, []);
 
