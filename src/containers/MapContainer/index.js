@@ -1,12 +1,19 @@
-import React from "react"
+import React from 'react';
 import Map from 'components/Map';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
-import reducer, { addLayerDataActionCreator, selectLayerItemActionCreator, makeSelectLayers, makeSelectedItem, makeSelectedLayer } from './ducks';
+import reducer, {
+  addLayerDataActionCreator,
+  selectLayerItemActionCreator,
+  makeSelectLayers,
+  makeSelectedItem,
+  makeSelectedLayer,
+  removeLayerDataActionCreator,
+} from './ducks';
 
-const MapContainer = ({...props}) => <Map {...props} />
+const MapContainer = ({ ...props }) => <Map {...props} />;
 
 const mapStateToProps = createStructuredSelector({
   layers: makeSelectLayers(),
@@ -18,9 +25,10 @@ export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       addLayerData: addLayerDataActionCreator,
+      removeLayerData: removeLayerDataActionCreator,
       selectLayerItem: selectLayerItemActionCreator,
     },
-    dispatch
+    dispatch,
   );
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

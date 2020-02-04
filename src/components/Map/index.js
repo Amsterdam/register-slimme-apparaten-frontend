@@ -16,18 +16,42 @@ import useMap from './hooks/useMap';
 import { MapContainerStyle } from './MapStyle';
 import useLayerManager from './hooks/useLayerManager';
 
-const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerItem }) => {
-  const mapRef = useMap();
-  const { addPointClusterLayer, addPolygonLayer, toggleLayer } = useLayerManager(mapRef.current);
-
-
-  const clearSelection = () => {
-    selectLayerItem();
-  };
+const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, removeLayerData }) => {
+  // const mapRef = useMap();
+  const { addPolygonLayer, removePolygonLayer } = useLayerManager(map);
 
   const showCameraAreaDetail = item => {
     selectLayerItem('cameras', item);
   };
+
+  useEffect(() => {
+    if (cameras != null) {
+      console.log('draw cameras');
+      addPolygonLayer(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraAreaDetail);
+    }
+    // return () => removePolygonLayer();
+  }, [cameras]);
+
+  useEffect(() => {
+    (async () => {
+      const features = await fetchCameraAreas();
+
+      addLayerData('cameras', features);
+    })();
+
+    return () => {
+      console.log('remove cameras');
+      removeLayerData('cameras')
+    };
+
+  }, []);
+
+  return null;
+};
+
+const ClusterLayer = ({ map, data: devices, selectLayerItem, addLayerData, removeLayerData }) => {
+  // const mapRef = useMap();
+  const { addPointClusterLayer, removeClusterPointLayer } = useLayerManager(map);
 
   const showDeviceDetail = device => {
     if (device) {
@@ -38,38 +62,45 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, selectLayerIte
   };
 
   useEffect(() => {
-    if (layers.cameras != null) {
-      addPolygonLayer(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, layers.cameras, showCameraAreaDetail);
+    if (devices != null) {
+      console.log('add devices');
+      addPointClusterLayer(devices.features, showDeviceDetail);
     }
-  }, [layers.cameras]);
+    // return () => removeClusterPointLayer();
+  }, [devices]);
 
   useEffect(() => {
-    if (layers.devices != null) {
-      addPointClusterLayer(layers.devices.features, showDeviceDetail);
-    }
-  }, [layers.devices]);
-
-  useEffect(() => {
-    if (mapRef.current === null) {
-      addLayerData('devices', null);
-      addLayerData('cameras', null);
-    };
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
-      const devices = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
-      const cameras = await fetchCameraAreas();
+      const features = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
 
-      addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features: devices });
-      addLayerData('cameras', cameras);
+      addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features });
     })();
+    return () => {
+      console.log('remove devices');
+      removeLayerData('devices')
+    };
   }, []);
+
+  return null;
+};
+
+const Map = ({ layers, selectedLayer, selectedItem, addLayerData, removeLayerData, selectLayerItem }) => {
+  const mapRef = useMap();
+  const { toggleLayer } = useLayerManager(mapRef.current);
+
+  const clearSelection = () => {
+    selectLayerItem();
+  };
+
 
   return (
     <MapContainerStyle className="map-component">
       <div className="map">
         <div id="mapdiv">
           <MapLegend onToggleCategory={name => toggleLayer(name)} />
-
+          <ClusterLayer map={mapRef.current} data={layers.devices} addLayerData={addLayerData} removeLayerData={removeLayerData} selectLayerItem={selectLayerItem} />
+          <CamerasLayer map={mapRef.current} data={layers.cameras} addLayerData={addLayerData} removeLayerData={removeLayerData} selectLayerItem={selectLayerItem} />
           {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
           {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
@@ -87,6 +118,7 @@ Map.propTypes = {
   selectedLayer: PropTypes.string,
   selectedItem: PropTypes.shape({}),
   addLayerData: PropTypes.func.isRequired,
+  removeLayerData: PropTypes.func.isRequired,
   selectLayerItem: PropTypes.func.isRequired,
 };
 

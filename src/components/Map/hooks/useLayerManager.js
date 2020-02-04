@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories, clusterCategories, DISPLAY_NAMES } from 'shared/configuration/categories';
+import { categories, clusterCategories, CATEGORY_NAMES } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
 
@@ -59,22 +59,40 @@ const useLayerManager = map => {
         return { name, layer };
       })
       .reduce((acc, { name, layer }) => ({ ...acc, [name]: layer }), {});
-    setLayerList({...layerList, ...clusterLayers})
+    setLayerList({ ...layerList, ...clusterLayers });
   };
 
   const addPolygonLayer = (name, layerData, onClickCallback) => {
+    console.log('addPolygonLayer', map, layerData);
     const layer = L.Proj.geoJson(layerData, { className: 'camera-area' });
     layer.on('click', event =>
       showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon),
     );
     if (map && categories[name].enabled) map.addLayer(layer);
 
-    setLayerList({ ...layerList, [name]: layer})
+    setLayerList({ ...layerList, [name]: layer });
+  };
 
-    return () => {
-      map.removeLayer(layer);
-      setLayerList({ ...layerList, [name]: null });
-    };
+  const removeClusterPointLayer = () => {
+    const removedLayers = Object.entries(layerList)
+      .filter(([name, layer]) => name !== CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED)
+      .reduce((acc, [name, layer]) => {
+        map.removeLayer(layer);
+        return {
+          ...acc,
+          [name]: null,
+        };
+      }, {});
+    console.log( 'remove clusterPointerLayer', removedLayers);
+    setLayerList({ ...layerList, ...removedLayers });
+  };
+
+  const removePolygonLayer = () => {
+    const name = CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED;
+    const layer = layerList[name];
+    if (layer) map.removeLayer(layerList[name]);
+    console.log( 'remove polygonLayer',layer, layerList);
+    setLayerList({ ...layerList, [name]: null });
   };
 
   const toggleLayer = category => {
@@ -109,7 +127,7 @@ const useLayerManager = map => {
     }
   };
 
-  return { addPointClusterLayer, addPolygonLayer, toggleLayer };
+  return { addPointClusterLayer, addPolygonLayer, toggleLayer, removeClusterPointLayer, removePolygonLayer };
 };
 
 export default useLayerManager;

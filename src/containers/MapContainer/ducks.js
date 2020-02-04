@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
+export const REMOVE_LAYER_DATA = 'src/containers/MapContainer/REMOVE_LAYER_DATA';
 export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM';
 
 // action creators
@@ -9,6 +10,13 @@ export function addLayerDataActionCreator(name, layer) {
   return {
     type: ADD_LAYER_DATA,
     payload: { name, layer },
+  };
+}
+
+export function removeLayerDataActionCreator(name) {
+  return {
+    type: REMOVE_LAYER_DATA,
+    payload: name,
   };
 }
 
@@ -32,7 +40,9 @@ export const makeSelectedItem = () =>
     ({ layers, selectedLayer, selectedItem }) =>
       (selectedLayer &&
         selectedItem &&
-        layers[selectedLayer].features.find(item => item.id === selectedItem.id && item.contact === selectedItem.contact)) ||
+        layers[selectedLayer].features.find(
+          item => item.id === selectedItem.id && item.contact === selectedItem.contact,
+        )) ||
       null,
   );
 
@@ -44,6 +54,7 @@ export const initialState = {
 };
 
 function mapReducer(state = initialState, action) {
+  console.log(action.type, action.payload);
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const {
@@ -55,7 +66,7 @@ function mapReducer(state = initialState, action) {
         state.layers[name] && state.layers[name].features
           ? [...state.layers[name].features, ...features]
           : [...features];
-      const result =  {
+      const result = {
         ...state,
         layers: {
           ...state.layers,
@@ -64,7 +75,28 @@ function mapReducer(state = initialState, action) {
             features: [...newfeatures],
           },
         },
-      }
+      };
+      console.log('add', result.layers.cameras && result.layers.cameras.features.length);
+      console.log('add', result.layers.devices && result.layers.devices.features.length);
+      return result;
+    }
+    case REMOVE_LAYER_DATA: {
+      const name = action.payload;
+      const result = {
+        ...state,
+        layers: {
+          ...state.layers,
+          [name]: {
+            ...state.layers[name],
+            features: [],
+          },
+        },
+        selectedLayer: null,
+        selectedItem: null,
+      };
+      console.log('remove', result.layers.cameras && result.layers.cameras.features.length);
+      console.log('remove', result.layers.devices && result.layers.devices.features.length);
+
       return result;
     }
     case SELECT_LAYER_ITEM: {
