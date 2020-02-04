@@ -11,7 +11,9 @@ import reducer, {
   makeSelectedItem,
   makeSelectedLayer,
   removeLayerDataActionCreator,
-} from './ducks';
+  removeMapLayerActionCreator,
+  addMapLayerActionCreator,
+} from './MapContainerDucks';
 
 const MapContainer = ({ ...props }) => <Map {...props} />;
 
@@ -27,6 +29,8 @@ export const mapDispatchToProps = dispatch =>
       addLayerData: addLayerDataActionCreator,
       removeLayerData: removeLayerDataActionCreator,
       selectLayerItem: selectLayerItemActionCreator,
+      addMapLayer: addMapLayerActionCreator,
+      removeMapLayer: removeMapLayerActionCreator,
     },
     dispatch,
   );

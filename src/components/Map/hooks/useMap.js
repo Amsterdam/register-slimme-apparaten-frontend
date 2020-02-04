@@ -17,7 +17,6 @@ const useMap = () => {
   useEffect(() => {
 
     mapRef.current = amaps.createMap(mapOptions);
-    console.log('useMap', mapRef.current&& mapRef.current._leaflet_id);
     mapRef.current.eachLayer(l => {
       if (l.options.sa_id === 'standaard') {
         l.options.subdomains = ['t1', 't2', 't3', 't4']; // eslint-disable-line no-param-reassign

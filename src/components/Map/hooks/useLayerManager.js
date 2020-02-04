@@ -56,9 +56,11 @@ const useLayerManager = map => {
 
           if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
         }
+        console.log(name, layer);
         return { name, layer };
       })
       .reduce((acc, { name, layer }) => ({ ...acc, [name]: layer }), {});
+    console.log('bla', clusterLayers);
     setLayerList({ ...layerList, ...clusterLayers });
   };
 
@@ -70,6 +72,7 @@ const useLayerManager = map => {
     );
     if (map && categories[name].enabled) map.addLayer(layer);
 
+    console.log('---', layer);
     setLayerList({ ...layerList, [name]: layer });
   };
 
@@ -83,7 +86,7 @@ const useLayerManager = map => {
           [name]: null,
         };
       }, {});
-    console.log( 'remove clusterPointerLayer', removedLayers);
+    console.log('remove clusterPointerLayer', removedLayers);
     setLayerList({ ...layerList, ...removedLayers });
   };
 
@@ -91,14 +94,14 @@ const useLayerManager = map => {
     const name = CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED;
     const layer = layerList[name];
     if (layer) map.removeLayer(layerList[name]);
-    console.log( 'remove polygonLayer',layer, layerList);
+    console.log('remove polygonLayer', layer, layerList);
     setLayerList({ ...layerList, [name]: null });
   };
 
-  const toggleLayer = category => {
+  const toggleLayer = (category, layerList1) => {
+    console.log('toggle', category, layerList1);
     categories[category].enabled = !categories[category].enabled;
-    const layer = layerList[category];
-
+    const layer = layerList1[category];
     if (layer) {
       if (categories[category].isClustered) {
         if (categories[category].enabled) {
@@ -115,7 +118,7 @@ const useLayerManager = map => {
 
     if (layerGroupRef.current[category]) {
       layerGroupRef.current[category].forEach(name => {
-        const privacyLayer = layerList[name];
+        const privacyLayer = layerList1[name];
         if (privacyLayer) {
           if (categories[category].enabled) {
             map.addLayer(privacyLayer);
@@ -127,7 +130,7 @@ const useLayerManager = map => {
     }
   };
 
-  return { addPointClusterLayer, addPolygonLayer, toggleLayer, removeClusterPointLayer, removePolygonLayer };
+  return { layerList, addPointClusterLayer, addPolygonLayer, toggleLayer, removeClusterPointLayer, removePolygonLayer };
 };
 
 export default useLayerManager;

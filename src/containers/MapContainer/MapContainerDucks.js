@@ -4,6 +4,8 @@ import { createSelector } from 'reselect';
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
 export const REMOVE_LAYER_DATA = 'src/containers/MapContainer/REMOVE_LAYER_DATA';
 export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM';
+export const ADD_MAP_LAYER = 'src/containers/MapContainer/ADD_MAP_LAYER';
+export const REMOVE_MAP_LAYER = 'src/containers/MapContainer/REMOVE_MAP_LAYER';
 
 // action creators
 export function addLayerDataActionCreator(name, layer) {
@@ -24,6 +26,20 @@ export function selectLayerItemActionCreator(name, item) {
   return {
     type: SELECT_LAYER_ITEM,
     payload: { name, item },
+  };
+}
+
+export function addMapLayerActionCreator(name, layer) {
+  return {
+    type: ADD_MAP_LAYER,
+    payload: { name, layer },
+  };
+}
+
+export function removeMapLayerActionCreator(name) {
+  return {
+    type: REMOVE_MAP_LAYER,
+    payload: name,
   };
 }
 
@@ -51,10 +67,10 @@ export const initialState = {
   layers: {},
   selectedLayer: null,
   selectedItem: null,
+  mapLayers: {},
 };
 
 function mapReducer(state = initialState, action) {
-  console.log(action.type, action.payload);
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const {
@@ -76,8 +92,6 @@ function mapReducer(state = initialState, action) {
           },
         },
       };
-      console.log('add', result.layers.cameras && result.layers.cameras.features.length);
-      console.log('add', result.layers.devices && result.layers.devices.features.length);
       return result;
     }
     case REMOVE_LAYER_DATA: {
@@ -94,15 +108,36 @@ function mapReducer(state = initialState, action) {
         selectedLayer: null,
         selectedItem: null,
       };
-      console.log('remove', result.layers.cameras && result.layers.cameras.features.length);
-      console.log('remove', result.layers.devices && result.layers.devices.features.length);
-
       return result;
     }
+
     case SELECT_LAYER_ITEM: {
       const { name, item } = action.payload;
       return { ...state, selectedLayer: name, selectedItem: item };
     }
+
+    case ADD_MAP_LAYER: {
+      const { name, layer } = action.payload;
+      return {
+        ...state,
+        mapLayers: {
+          ...state.mapLayers,
+          [name]: layer,
+        },
+      };
+    }
+
+    case REMOVE_MAP_LAYER: {
+      const { name } = action.payload;
+      return {
+        ...state,
+        mapLayers: {
+          ...state.mapLayers,
+          [name]: null,
+        },
+      };
+    }
+
     default:
       return state;
   }
