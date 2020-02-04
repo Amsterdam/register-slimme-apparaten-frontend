@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import CONFIGURATION from 'shared/configuration/environment';
 
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';

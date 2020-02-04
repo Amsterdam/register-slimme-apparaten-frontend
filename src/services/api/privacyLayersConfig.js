@@ -1,5 +1,5 @@
-import CONFIGURATION from 'shared/services/configuration/configuration';
-import { CATEGORY_NAMES, categories } from '../../static/categories';
+import CONFIGURATION from 'shared/configuration/environment';
+import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
 import { getDevices, getGeojson } from './iot';
 
 const PRIVACY_LAYERS_CONFIG = [

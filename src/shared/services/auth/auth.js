@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 
+import CONFIGURATION from 'shared/configuration/environment';
 import queryStringParser from './services/query-string-parser/query-string-parser';
 import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
-import CONFIGURATION from '../configuration/configuration';
 
 // A map of the error keys, that the OAuth2 authorization service can
 // return, to a full description

@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
-import { categories } from 'static/categories';
+import { categories } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
 

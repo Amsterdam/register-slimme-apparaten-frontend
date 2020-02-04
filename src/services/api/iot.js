@@ -1,4 +1,4 @@
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import CONFIGURATION from 'shared/configuration/environment';
 import { readPaginatedData } from '../datareader';
 
 export const getDevices = async url => {
