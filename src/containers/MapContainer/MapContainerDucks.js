@@ -51,16 +51,14 @@ export const makeSelectLayers = () => createSelector(selectMap, map => map.layer
 export const makeSelectedLayer = () => createSelector(selectMap, map => map.selectedLayer);
 
 export const makeSelectedItem = () =>
-  createSelector(
-    selectMap,
-    ({ layers, selectedLayer, selectedItem }) =>
-      (selectedLayer &&
+  createSelector(selectMap, ({ layers, selectedLayer, selectedItem }) => (
+    (selectedLayer &&
         selectedItem &&
         layers[selectedLayer].features.find(
           item => item.id === selectedItem.id && item.contact === selectedItem.contact,
         )) ||
-      null,
-  );
+      null
+  ));
 
 // reducer
 export const initialState = {

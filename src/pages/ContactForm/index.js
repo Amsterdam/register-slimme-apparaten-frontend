@@ -213,7 +213,7 @@ ContactForm.propTypes = {
       contact: PropTypes.string.isRequired,
     }),
   }),
-  device: PropTypes.shape({ properties: PropTypes.shape({}) }).isRequired,
+  device: PropTypes.shape({ properties: PropTypes.shape({}) }),
 };
 
 const mapStateToProps = createStructuredSelector({
