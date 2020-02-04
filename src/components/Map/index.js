@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import 'services/map'; // loads L.Proj (Proj binding leaflet)
-import { getCameraAreas } from 'services/api/iot';
-import PRIVACY_LAYERS_CONFIG from 'services/api/privacyLayersConfig';
-import getGeojsonLayers from 'services/api/geojsonLayers';
-import { categories, CATEGORY_NAMES } from 'shared/configuration/categories';
 import MapLegend from '../MapLegend';
 import DeviceDetails from '../DeviceDetails';
 import CameraAreaDetails from '../CameraAreaDetails';
@@ -14,81 +10,42 @@ import './style.scss';
 import './amaps-style.scss';
 import useMap from './hooks/useMap';
 import { MapContainerStyle } from './MapStyle';
-import useMarkers from './hooks/useMarkers';
+import useLayerManager from './hooks/useLayerManager';
+import DevicesLayer from './components/DevicesLayer';
+import CamerasLayer from './components/CamerasLayer';
 
-const SELECTION_STATE = {
-  NOTHING: 0,
-  DEVICE: 1,
-  AREA: 2,
-};
-
-const noSelection = { selection: { type: SELECTION_STATE.NOTHING, element: undefined } };
-const legend = Object.entries(categories).reduce(
-  (acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: category } : { ...acc }),
-  {},
-);
-
-const Map = ({ devices, setDevices, selectDevice }) => {
+const Map = ({ layers, selectedLayer, selectedItem, addLayerData, removeLayerData, selectLayerItem }) => {
   const mapRef = useMap();
-  const [selection, setSelection] = useState(noSelection);
-  const [cameras, setCameras] = useState([]);
-  const { addMarkers, addAreas, toggleLayer } = useMarkers(mapRef.current);
+  const layerManager = useLayerManager(mapRef.current);
 
   const clearSelection = () => {
-    setSelection(noSelection);
+    selectLayerItem();
   };
-
-  const addCameraAreas = async () => {
-    const results = await getCameraAreas();
-    setCameras(results);
-  };
-
-  const addDevices = async () => {
-    const geoJsonResults = await getGeojsonLayers(PRIVACY_LAYERS_CONFIG);
-    const markers = geoJsonResults.reduce((acc, {layer}) => [...acc, ...layer.features],[]);
-    setDevices(markers);
-  };
-
-  const showCameraArea = () => {
-    const area = {};
-    setSelection({ type: SELECTION_STATE.AREA, element: area });
-  };
-
-  const showDevice = device => {
-    if (device) {
-      selectDevice(device);
-      setSelection({ type: SELECTION_STATE.DEVICE, element: device });
-    } else {
-      setSelection(noSelection);
-    }
-  };
-
-  useEffect(() => {
-    addAreas(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraArea);
-  }, [cameras]);
-
-  useEffect(() => {
-    if (mapRef.current === null) return;
-    (async () => {
-      if (devices.length === 0) {
-        await addDevices();
-      }
-      addMarkers(devices, showDevice);
-      if (cameras.length === 0) await addCameraAreas();
-    })();
-  }, [devices, mapRef.current]);
 
   return (
     <MapContainerStyle className="map-component">
       <div className="map">
         <div id="mapdiv">
-          <MapLegend categories={legend} onCategorieToggle={name => toggleLayer(name)} />
+          <MapLegend onToggleCategory={name => layerManager.toggleLayer(name)} />
+          <DevicesLayer
+            map={mapRef.current}
+            data={layers.devices}
+            addLayerData={addLayerData}
+            removeLayerData={removeLayerData}
+            selectLayerItem={selectLayerItem}
+            layerManager={layerManager}
+          />
+          <CamerasLayer
+            map={mapRef.current}
+            data={layers.cameras}
+            addLayerData={addLayerData}
+            removeLayerData={removeLayerData}
+            selectLayerItem={selectLayerItem}
+            layerManager={layerManager}
+          />
+          {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
-          {selection.type === SELECTION_STATE.DEVICE && (
-            <DeviceDetails device={selection.element} onDeviceDetailsClose={clearSelection} />
-          )}
-
-          {selection.type === SELECTION_STATE.AREA && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
+          {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
         </div>
       </div>
     </MapContainerStyle>
@@ -96,9 +53,15 @@ const Map = ({ devices, setDevices, selectDevice }) => {
 };
 
 Map.propTypes = {
-  devices: PropTypes.array.isRequired,
-  setDevices: PropTypes.func.isRequired,
-  selectDevice: PropTypes.func.isRequired,
+  layers: PropTypes.shape({
+    devices: PropTypes.shape({ features: PropTypes.array }),
+    cameras: PropTypes.shape({ features: PropTypes.array }),
+  }).isRequired,
+  selectedLayer: PropTypes.string,
+  selectedItem: PropTypes.shape({}),
+  addLayerData: PropTypes.func.isRequired,
+  removeLayerData: PropTypes.func.isRequired,
+  selectLayerItem: PropTypes.func.isRequired,
 };
 
 export default Map;

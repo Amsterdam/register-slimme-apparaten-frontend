@@ -1,30 +1,38 @@
-import React from "react"
+import React from 'react';
 import Map from 'components/Map';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
-import reducer, { makeSelectDevices, setDevicesActionCreator, selectDeviceActionCreator } from './ducks';
+import reducer, {
+  addLayerDataActionCreator,
+  selectLayerItemActionCreator,
+  makeSelectLayers,
+  makeSelectedItem,
+  makeSelectedLayer,
+  removeLayerDataActionCreator,
+  removeMapLayerActionCreator,
+  addMapLayerActionCreator,
+} from './MapContainerDucks';
 
-const MapContainer = ({...props}) => <Map {...props} />
-
-MapContainer.propTypes = {
-  devices: PropTypes.array,
-  setDevices: PropTypes.func,
-};
+const MapContainer = ({ ...props }) => <Map {...props} />;
 
 const mapStateToProps = createStructuredSelector({
-  devices: makeSelectDevices(),
+  layers: makeSelectLayers(),
+  selectedLayer: makeSelectedLayer(),
+  selectedItem: makeSelectedItem(),
 });
 
 export const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      setDevices: setDevicesActionCreator,
-      selectDevice: selectDeviceActionCreator,
+      addLayerData: addLayerDataActionCreator,
+      removeLayerData: removeLayerDataActionCreator,
+      selectLayerItem: selectLayerItemActionCreator,
+      addMapLayer: addMapLayerActionCreator,
+      removeMapLayer: removeMapLayerActionCreator,
     },
-    dispatch
+    dispatch,
   );
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 

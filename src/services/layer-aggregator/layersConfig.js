@@ -1,8 +1,9 @@
 import CONFIGURATION from 'shared/configuration/environment';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
-import { getDevices, getGeojson } from './iot';
+import { readData } from '../datareader';
+import { fetchDevices, fetchCameraAreas } from './layersFetcher';
 
-const PRIVACY_LAYERS_CONFIG = [
+const LAYERS_CONFIG = [
   // {
   //   name: '',
   //   url: 'https://service.vorin-amsterdam.nl/camera-geo_2/camera/geo',
@@ -21,7 +22,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'cmsa',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
-    fetchService: getGeojson,
+    fetchService: readData,
     layers: [
       {
         name: 'WiFi sensor Crowd Management',
@@ -43,7 +44,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'AIS masten',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_AISMASTEN&THEMA=privacy',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'ais-masten',
     category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
     transformer: item => ({
@@ -59,7 +60,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'Wagenparkscan',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_WAGENPARKSCAN&THEMA=privacy',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'wagenparkscan',
     category: CATEGORY_NAMES.CAMERA,
     transformer: item => ({
@@ -75,7 +76,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'Verkeersonderzoek en Overig',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_OVERIG&THEMA=privacy',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'overig',
     category: CATEGORY_NAMES.CAMERA,
     transformer: item => ({
@@ -91,7 +92,7 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'Beweegbare Fysieke Afsluiting (BFA)',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=VIS_BFA&THEMA=vis',
-    fetchService: getGeojson,
+    fetchService: readData,
     className: 'bfa',
     category: CATEGORY_NAMES.CAMERA,
     transformer: item => ({
@@ -107,10 +108,10 @@ const PRIVACY_LAYERS_CONFIG = [
   {
     name: 'iothings',
     url: `${CONFIGURATION.API_ROOT}iothings/devices/`,
-    fetchService: getDevices,
-    layers: Object.entries(categories).map(([key, value]) => ({
+    fetchService: fetchDevices,
+    layers: Object.entries(categories).map(([key]) => ({
       name: `IoT ${key}`,
-      filter: item => item.properties.application === value.name,
+      filter: item => item.properties.application === key,
       className: `iot${key}`,
       category: key,
       transformer: item => item,
@@ -118,4 +119,15 @@ const PRIVACY_LAYERS_CONFIG = [
   },
 ];
 
-export default PRIVACY_LAYERS_CONFIG;
+export const POLYGON_LAYERS_CONFIG = [
+  {
+    name: 'Cameras',
+    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=ms:cameratoezichtgebied&version=1.1.0`,
+    fetchService: fetchCameraAreas,
+    className: 'cameras',
+    category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
+    transformer: item => item,
+  },
+];
+
+export default LAYERS_CONFIG;

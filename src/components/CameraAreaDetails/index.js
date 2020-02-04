@@ -18,7 +18,7 @@ const CameraAreaDetails = props => {
             history.push('/categories');
           }}
         >
-          <QuestionMarkIcon></QuestionMarkIcon>
+          <QuestionMarkIcon />
         </button>
       )}
     />

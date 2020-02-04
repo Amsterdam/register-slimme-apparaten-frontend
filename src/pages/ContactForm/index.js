@@ -14,7 +14,7 @@ import CheckboxInput from './components/CheckboxInput';
 import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
-import { makeSelectedDevice } from '../../containers/MapContainer/ducks';
+import { makeSelectedItem } from '../../containers/MapContainer/MapContainerDucks';
 
 const MAX_INPUT_LENGTH = 250;
 
@@ -213,11 +213,11 @@ ContactForm.propTypes = {
       contact: PropTypes.string.isRequired,
     }),
   }),
-  device: PropTypes.shape({ properties: PropTypes.shape({}) }).isRequired,
+  device: PropTypes.shape({ properties: PropTypes.shape({}) }),
 };
 
 const mapStateToProps = createStructuredSelector({
-  device: makeSelectedDevice(),
+  device: makeSelectedItem(),
 });
 
 const withConnect = connect(mapStateToProps);

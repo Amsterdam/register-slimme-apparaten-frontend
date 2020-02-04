@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { legend } from 'shared/configuration/categories';
 import { Checkbox } from '../../shared/components/checkbox';
 
 import CollapseIcon from '../../images/icon-arrow-down.svg';
@@ -17,10 +18,10 @@ class MapLegend extends React.Component {
   }
 
   render() {
-    const { categories, onCategorieToggle } = this.props;
-    const checkboxList = Object.entries(categories).map(([id, category]) => (
+    const { onToggleCategory } = this.props;
+    const checkboxList = Object.entries(legend).map(([id, category]) => (
       <div key={category.name} className="map-legend__row mb-1">
-        <Checkbox name="check" checked={category.enabled} onChange={() => onCategorieToggle(id)} />
+        <Checkbox name="check" checked={category.enabled} onChange={() => onToggleCategory(id)} />
         <span className="map-legend__icon">
           <img className="map-legend__icon" src={category.iconUrl} alt="" />
         </span>
@@ -62,8 +63,7 @@ class MapLegend extends React.Component {
 }
 
 MapLegend.propTypes = {
-  categories: PropTypes.object,
-  onCategorieToggle: PropTypes.func,
+  onToggleCategory: PropTypes.func,
 };
 
 export default MapLegend;
