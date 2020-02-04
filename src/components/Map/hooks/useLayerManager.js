@@ -14,7 +14,7 @@ export const showInfo = (element, item, onClick, highlight) => {
 };
 
 const useLayerManager = map => {
-  const [layerList, setLayerList] = useState({});
+  const layerListRef = useRef({});
   const markerGroupRef = useRef(null);
   const layerGroupRef = useRef({});
   const { highlightMarker, highlightPolygon } = useHighlight();
@@ -38,8 +38,8 @@ const useLayerManager = map => {
     if (!markers || !markerGroupRef.current) return;
     const clusterLayers = clusterCategories
       .map(([name]) => {
-        if (layerList[name]) {
-          markerGroupRef.current.removeLayers([layerList[name]]);
+        if (layerListRef.current[name]) {
+          markerGroupRef.current.removeLayers([layerListRef.current[name]]);
         }
 
         const layer = L.featureGroup();
@@ -55,53 +55,46 @@ const useLayerManager = map => {
           );
 
           if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
+          layerListRef.current[name] = layer;
         }
-        console.log(name, layer);
         return { name, layer };
       })
-      .reduce((acc, { name, layer }) => ({ ...acc, [name]: layer }), {});
-    console.log('bla', clusterLayers);
-    setLayerList({ ...layerList, ...clusterLayers });
   };
 
   const addPolygonLayer = (name, layerData, onClickCallback) => {
-    console.log('addPolygonLayer', map, layerData);
     const layer = L.Proj.geoJson(layerData, { className: 'camera-area' });
     layer.on('click', event =>
       showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon),
     );
     if (map && categories[name].enabled) map.addLayer(layer);
 
-    console.log('---', layer);
-    setLayerList({ ...layerList, [name]: layer });
+    layerListRef.current[name] = layer;
   };
 
   const removeClusterPointLayer = () => {
-    const removedLayers = Object.entries(layerList)
-      .filter(([name, layer]) => name !== CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED)
+    Object.entries(layerListRef.current)
+      .filter(([name]) => name !== CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED)
       .reduce((acc, [name, layer]) => {
         map.removeLayer(layer);
+        layerListRef.current[name] = null;
+
         return {
           ...acc,
           [name]: null,
         };
       }, {});
-    console.log('remove clusterPointerLayer', removedLayers);
-    setLayerList({ ...layerList, ...removedLayers });
   };
 
   const removePolygonLayer = () => {
     const name = CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED;
-    const layer = layerList[name];
-    if (layer) map.removeLayer(layerList[name]);
-    console.log('remove polygonLayer', layer, layerList);
-    setLayerList({ ...layerList, [name]: null });
+    const layer = layerListRef[name];
+    if (layer) map.removeLayer(layerListRef[name]);
+    layerListRef.current[name] = null;
   };
 
-  const toggleLayer = (category, layerList1) => {
-    console.log('toggle', category, layerList1);
+  const toggleLayer = category => {
     categories[category].enabled = !categories[category].enabled;
-    const layer = layerList1[category];
+    const layer = layerListRef.current[category];
     if (layer) {
       if (categories[category].isClustered) {
         if (categories[category].enabled) {
@@ -118,7 +111,7 @@ const useLayerManager = map => {
 
     if (layerGroupRef.current[category]) {
       layerGroupRef.current[category].forEach(name => {
-        const privacyLayer = layerList1[name];
+        const privacyLayer = layerListRef.current[name];
         if (privacyLayer) {
           if (categories[category].enabled) {
             map.addLayer(privacyLayer);
@@ -130,7 +123,7 @@ const useLayerManager = map => {
     }
   };
 
-  return { layerList, addPointClusterLayer, addPolygonLayer, toggleLayer, removeClusterPointLayer, removePolygonLayer };
+  return { addPointClusterLayer, addPolygonLayer, toggleLayer, removeClusterPointLayer, removePolygonLayer };
 };
 
 export default useLayerManager;

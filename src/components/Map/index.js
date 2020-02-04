@@ -16,21 +16,19 @@ import useMap from './hooks/useMap';
 import { MapContainerStyle } from './MapStyle';
 import useLayerManager from './hooks/useLayerManager';
 
-const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, removeLayerData }) => {
-  // const mapRef = useMap();
-  const { addPolygonLayer, removePolygonLayer } = useLayerManager(map);
+const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, removeLayerData, layerManager }) => {
+  const { addPolygonLayer, removePolygonLayer } = layerManager;
 
   const showCameraAreaDetail = item => {
     selectLayerItem('cameras', item);
   };
 
   useEffect(() => {
-    if (cameras != null) {
-      console.log('draw cameras');
+    if (map!== null && cameras != null) {
       addPolygonLayer(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraAreaDetail);
     }
-    // return () => removePolygonLayer();
-  }, [cameras]);
+    return () => removePolygonLayer();
+  }, [map, cameras]);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +38,6 @@ const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, remov
     })();
 
     return () => {
-      console.log('remove cameras');
       removeLayerData('cameras')
     };
 
@@ -49,9 +46,8 @@ const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, remov
   return null;
 };
 
-const ClusterLayer = ({ map, data: devices, selectLayerItem, addLayerData, removeLayerData }) => {
-  // const mapRef = useMap();
-  const { addPointClusterLayer, removeClusterPointLayer } = useLayerManager(map);
+const ClusterLayer = ({ map, data: devices, selectLayerItem, addLayerData, removeLayerData,layerManager }) => {
+  const { addPointClusterLayer, removeClusterPointLayer } = layerManager;
 
   const showDeviceDetail = device => {
     if (device) {
@@ -62,12 +58,11 @@ const ClusterLayer = ({ map, data: devices, selectLayerItem, addLayerData, remov
   };
 
   useEffect(() => {
-    if (devices != null) {
-      console.log('add devices');
+    if (map!== null && devices != null) {
       addPointClusterLayer(devices.features, showDeviceDetail);
     }
-    // return () => removeClusterPointLayer();
-  }, [devices]);
+    return () => removeClusterPointLayer();
+  }, [map, devices]);
 
   useEffect(() => {
     (async () => {
@@ -77,7 +72,6 @@ const ClusterLayer = ({ map, data: devices, selectLayerItem, addLayerData, remov
       addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features });
     })();
     return () => {
-      console.log('remove devices');
       removeLayerData('devices')
     };
   }, []);
@@ -87,7 +81,7 @@ const ClusterLayer = ({ map, data: devices, selectLayerItem, addLayerData, remov
 
 const Map = ({ layers, selectedLayer, selectedItem, addLayerData, removeLayerData, selectLayerItem }) => {
   const mapRef = useMap();
-  const { toggleLayer } = useLayerManager(mapRef.current);
+  const layerManager = useLayerManager(mapRef.current);
 
   const clearSelection = () => {
     selectLayerItem();
@@ -98,9 +92,9 @@ const Map = ({ layers, selectedLayer, selectedItem, addLayerData, removeLayerDat
     <MapContainerStyle className="map-component">
       <div className="map">
         <div id="mapdiv">
-          <MapLegend onToggleCategory={name => toggleLayer(name)} />
-          <ClusterLayer map={mapRef.current} data={layers.devices} addLayerData={addLayerData} removeLayerData={removeLayerData} selectLayerItem={selectLayerItem} />
-          <CamerasLayer map={mapRef.current} data={layers.cameras} addLayerData={addLayerData} removeLayerData={removeLayerData} selectLayerItem={selectLayerItem} />
+          <MapLegend onToggleCategory={name => layerManager.toggleLayer(name)} />
+          <ClusterLayer map={mapRef.current} data={layers.devices} addLayerData={addLayerData} removeLayerData={removeLayerData} selectLayerItem={selectLayerItem} layerManager={layerManager}/>
+          <CamerasLayer map={mapRef.current} data={layers.cameras} addLayerData={addLayerData} removeLayerData={removeLayerData} selectLayerItem={selectLayerItem} layerManager={layerManager}/>
           {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
           {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
