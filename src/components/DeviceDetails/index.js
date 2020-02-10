@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 
-import { getMarkerCategory } from '../../services/iotmap';
-
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
@@ -14,30 +12,48 @@ class DeviceDetails extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isMapPreviewPanelVisible: true };
+    this.state = {};
   }
 
   render() {
-    const ContactButton = (<Route
-      render={({ history }) => (
-        <button className="device-details__contact-button action secundary-blue" onClick={() => { history.push(`/contact-owner/${this.props.device.id}`); }}>
-          <MailIcon />Contact met eigenaar
-        </button>
-      )}
-    />);
+    const ContactButton = (
+      <Route
+        render={({ history }) => (
+          <button
+            type="button"
+            className="device-details__contact-button action secundary-blue"
+            onClick={() => {
+              history.push(`/contact-owner/${this.props.device.contact}/${this.props.device.id}`);
+            }}
+          >
+            <MailIcon />
+            Contact met eigenaar
+          </button>
+        )}
+      />
+    );
 
-    const TypesButton = (<Route
-      render={({ history }) => (
-        <button className="device-details__question-mark-button" onClick={() => { history.push('/categories'); }}>
-          <QuestionMarkIcon />
-        </button>
-      )}
-    />);
+    const TypesButton = (
+      <Route
+        render={({ history }) => (
+          <button
+            type="button"
+            className="device-details__question-mark-button"
+            onClick={() => {
+              history.push('/categories');
+            }}
+          >
+            <QuestionMarkIcon />
+          </button>
+        )}
+      />
+    );
 
     return (
       <section id="device-details" className="device-details">
         <div className="device-details__heading">
           <button
+            type="button"
             className="device-details__button"
             onClick={this.props.onDeviceDetailsClose}
             title="Sluiten"
@@ -53,13 +69,24 @@ class DeviceDetails extends React.Component {
             </div>
             <div className="device-details__row">
               <div className="device-details__row-label">Categorie</div>
-              <div className="device-details__row-element">{getMarkerCategory(this.props.device).name}</div>
-              { TypesButton }
+              <div className="device-details__row-element">{this.props.device.category}</div>
+              {TypesButton}
             </div>
-            { this.props.device.types && <div className="device-details__row">
-              <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{(this.props.device.types.length && this.props.device.types[0].name) || 'Onbekend'}</div>
-            </div> }
+            {this.props.device.soort && (
+              <div className="device-details__row">
+                <div className="device-details__row-label">Type</div>
+                <div className="device-details__row-element">{this.props.device.soort}</div>
+              </div>
+            )}
+            {this.props.device.privacy && (
+              <div className="device-details__row">
+                <div className="device-details__row-label">Privacyverklaring</div>
+                <div className="device-details__row-element"><a href={this.props.device.privacy} target="_blank" rel="noopener noreferrer">
+                  {this.props.device.privacy}
+                </a>
+                </div>
+              </div>
+            )}
           </div>
           {ContactButton}
         </div>
@@ -71,10 +98,13 @@ class DeviceDetails extends React.Component {
 DeviceDetails.propTypes = {
   device: PropTypes.shape({
     id: PropTypes.number,
-    types: PropTypes.array.isRequired,
     name: PropTypes.string, // Back-end does not provide value at this time
+    soort: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired,
+    privacy: PropTypes.string.isRequired,
+    contact: PropTypes.string.isRequired,
   }).isRequired,
-  onDeviceDetailsClose: PropTypes.func
+  onDeviceDetailsClose: PropTypes.func,
 };
 
 export default DeviceDetails;

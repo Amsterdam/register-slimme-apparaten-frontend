@@ -27,6 +27,6 @@ export default function () {
   // of) our binary data to an Ascii string
   return btoa(Array
     .from(list) // convert to normal array
-    .map((n) => String.fromCharCode(n)) // convert each integer to a character
+    .map(n => String.fromCharCode(n)) // convert each integer to a character
     .join('')); // convert to a string of characters
 }

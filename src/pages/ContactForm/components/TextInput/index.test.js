@@ -12,7 +12,7 @@ describe('<TextInput />', () => {
       name: 'name',
       display: 'display',
       placeholder: 'placeholder',
-      handler: jest.fn()
+      handler: jest.fn(),
     };
 
     const TextInputRender = TextInput(props);

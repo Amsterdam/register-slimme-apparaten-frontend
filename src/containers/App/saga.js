@@ -1,18 +1,11 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 import { authCall } from 'shared/services/api/api';
-import CONFIGURATION from 'shared/services/configuration/configuration';
+import CONFIGURATION from 'shared/configuration/environment';
 
-import {
-  LOGOUT,
-  LOGIN,
-  AUTHENTICATE_USER
-} from './constants';
-import {
-  showGlobalError,
-  authorizeUser
-} from './actions';
+import { LOGOUT, LOGIN, AUTHENTICATE_USER } from './constants';
+import { showGlobalError, authorizeUser } from './actions';
 import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 export const baseUrl = `${CONFIGURATION.API_ROOT}signals/auth/me`;
@@ -54,11 +47,10 @@ export function* callAuthorize(action) {
   }
 }
 
-
 export default function* watchAppSaga() {
   yield all([
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
-    takeLatest(AUTHENTICATE_USER, callAuthorize)
+    takeLatest(AUTHENTICATE_USER, callAuthorize),
   ]);
 }

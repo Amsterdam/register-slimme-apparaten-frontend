@@ -5,7 +5,6 @@ exports[`<Header /> should render correctly 1`] = `
   className="header-component no-print"
 >
   <NavLink
-    activeClassName="active"
     className="header-link"
     to="/"
   >

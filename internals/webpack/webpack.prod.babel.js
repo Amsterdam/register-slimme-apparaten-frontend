@@ -1,14 +1,13 @@
 // Important modules this config uses
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 
 module.exports = require('./webpack.base.babel')({
+  mode: 'production',
+
   // In production, we skip all hot-reloading stuff
-  entry: [
-    'babel-polyfill', path.join(process.cwd(), 'src/app.js'),
-  ],
+  entry: ['@babel/polyfill', path.join(process.cwd(), 'src/app.js')],
 
   // Utilize long-term caching by adding content hashes (not compilation hashes) to compiled assets
   output: {
@@ -17,14 +16,6 @@ module.exports = require('./webpack.base.babel')({
   },
 
   plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      children: true,
-      minChunks: 2,
-      async: true,
-    }),
-
     // Minify and optimize the index.html
     new HtmlWebpackPlugin({
       template: 'src/index.html',
@@ -70,6 +61,16 @@ module.exports = require('./webpack.base.babel')({
   ],
 
   performance: {
-    assetFilter: (assetFilename) => !(/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename)),
+    assetFilter: assetFilename => !/(\.map$)|(^(main\.|favicon\.))/.test(assetFilename),
+  },
+
+  optimization: {
+    namedModules: true, // NamedModulesPlugin()
+    splitChunks: {
+      name: 'vendor',
+      minChunks: 2,
+    },
+    noEmitOnErrors: true, // NoEmitOnErrorsPlugin
+    concatenateModules: true, // ModuleConcatenationPlugin
   },
 });

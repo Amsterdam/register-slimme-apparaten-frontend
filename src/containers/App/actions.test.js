@@ -8,7 +8,7 @@ import {
   RESET_GLOBAL_ERROR,
 
   LOGIN,
-  LOGOUT
+  LOGOUT,
 } from './constants';
 
 import {
@@ -19,7 +19,7 @@ import {
   resetGlobalError,
 
   doLogin,
-  doLogout
+  doLogout,
 } from './actions';
 
 
@@ -31,7 +31,7 @@ describe('App actions', () => {
     const payload = {
       userName,
       userScopes,
-      accessToken
+      accessToken,
     };
     testActionCreator(authenticateUser, AUTHENTICATE_USER, payload);
   });
@@ -43,7 +43,7 @@ describe('App actions', () => {
     const payload = {
       userName,
       userScopes,
-      accessToken
+      accessToken,
     };
     testActionCreator(authorizeUser, AUTHORIZE_USER, payload);
   });

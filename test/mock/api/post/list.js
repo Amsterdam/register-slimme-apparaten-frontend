@@ -6,14 +6,14 @@
 
 const successResult = {
   success: true,
-  message: ''
+  message: '',
 };
 
 const addItem = {
   path: '/list/add',
   container() {
     return successResult;
-  }
+  },
 };
 
 export default [addItem];

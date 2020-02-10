@@ -1,6 +1,6 @@
 import L from 'leaflet';
 
-import { rd } from '../services/geojson';
+import { rd } from "./rdutil";
 
 /**
  * Returns a Leaflet map for Amsterdam
@@ -12,7 +12,7 @@ export function amsMap(el) {
     crs: rd,
     attributionControl: false,
     zoomControl: true,
-    scrollWheelZoom: false
+    scrollWheelZoom: false,
   });
 
   mapHome(map);
@@ -40,7 +40,7 @@ function tileLayer() {
       tms: true,
       minZoom: 7,
       maxZoom: 16,
-      opacity: 0.8
+      opacity: 0.8,
     }
   );
 }

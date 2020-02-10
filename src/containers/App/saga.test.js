@@ -1,5 +1,5 @@
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 import { authCall } from 'shared/services/api/api';
 import watchAppSaga, { callLogin, callLogout, callAuthorize } from './saga';
@@ -21,11 +21,13 @@ describe('App saga', () => {
 
   it('should watchAppSaga', () => {
     const gen = watchAppSaga();
-    expect(gen.next().value).toEqual(all([ // eslint-disable-line redux-saga/yield-effects
-      takeLatest(LOGIN, callLogin), // eslint-disable-line redux-saga/yield-effects
-      takeLatest(LOGOUT, callLogout), // eslint-disable-line redux-saga/yield-effects
-      takeLatest(AUTHENTICATE_USER, callAuthorize), // eslint-disable-line redux-saga/yield-effects
-    ])
+    expect(gen.next().value).toEqual(
+      all([
+        // eslint-disable-line redux-saga/yield-effects
+        takeLatest(LOGIN, callLogin), // eslint-disable-line redux-saga/yield-effects
+        takeLatest(LOGOUT, callLogout), // eslint-disable-line redux-saga/yield-effects
+        takeLatest(AUTHENTICATE_USER, callAuthorize), // eslint-disable-line redux-saga/yield-effects
+      ])
     );
   });
 
@@ -60,7 +62,10 @@ describe('App saga', () => {
       getOauthDomain.mockImplementation(() => 'grip');
       const gen = callLogout();
       gen.next();
-      expect(window.open).toHaveBeenCalledWith('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank');
+      expect(window.open).toHaveBeenCalledWith(
+        'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
+        '_blank'
+      );
     });
 
     it('should error', () => {
@@ -75,35 +80,49 @@ describe('App saga', () => {
     const payload = {
       accessToken: 'akjgrff',
       userName: 'foo@bar.com',
-      userScopes: [
-        'SIG/ALL'
-      ]
+      userScopes: ['SIG/ALL'],
     };
 
     it('should success', () => {
       const mockCredentials = {
         accessToken: 'akjgrff',
         userName: 'foo@bar.com',
-        userScopes: ['SIG/ALL']
+        userScopes: ['SIG/ALL'],
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
-      expect(gen.next({
-        groups: ['SIG/ALL']
-      }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(
+        authCall(
+          'https://acc.api.data.amsterdam.nl/signals/auth/me',
+          null,
+          'akjgrff'
+        )
+      ); // eslint-disable-line redux-saga/yield-effects
+      expect(
+        gen.next({
+          groups: ['SIG/ALL'],
+        }).value
+      ).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
     });
 
     it('should success', () => {
       const mockCredentials = {
         accessToken: 'akjgrff',
         userName: 'foo@bar.com',
-        userScopes: ['SIG/ALL']
+        userScopes: ['SIG/ALL'],
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
-      expect(gen.next({
-        groups: ['SIG/ALL']
-      }).value).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(
+        authCall(
+          'https://acc.api.data.amsterdam.nl/signals/auth/me',
+          null,
+          'akjgrff'
+        )
+      ); // eslint-disable-line redux-saga/yield-effects
+      expect(
+        gen.next({
+          groups: ['SIG/ALL'],
+        }).value
+      ).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
     });
 
     it('should fail without message when accessToken is not available', () => {
@@ -114,7 +133,9 @@ describe('App saga', () => {
     it('should error', () => {
       const gen = callAuthorize({ payload });
       gen.next();
-      expect(gen.throw().value).toEqual(put(showGlobalError('AUTHORIZE_FAILED'))); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.throw().value).toEqual(
+        put(showGlobalError('AUTHORIZE_FAILED'))
+      ); // eslint-disable-line redux-saga/yield-effects
     });
   });
 });

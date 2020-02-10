@@ -4,7 +4,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -12,12 +12,15 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = (options) => ({
+module.exports = options => ({
+  mode: options.mode,
   entry: options.entry,
-  output: Object.assign({ // Compile into js/build.js
+  output: {
+    // Compile into js/build.js
     path: path.resolve(process.cwd(), 'build'),
     publicPath: '/',
-  }, options.output), // Merge with env dependent settings
+    ...options.output,
+  }, // Merge with env dependent settings
   module: {
     rules: [
       {
@@ -29,48 +32,51 @@ module.exports = (options) => ({
         },
       },
       {
-        // Preprocess our own .css files
-        // This is the place to add your own loaders (e.g. sass/less etc.)
-        // for a list of loaders, see https://webpack.js.org/loaders/#styling
-        test: /\.(scss|css)$/,
-        loader: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader']
-        })
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          'css-loader',
+          'sass-loader',
+        ],
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'fonts/[name].[hash:7].[ext]'
-        }
+          name: 'fonts/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.(jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'images/[name].[hash:7].[ext]'
-        }
+          name: 'images/[name].[hash:7].[ext]',
+        },
       },
       {
         test: /\.(png|cur)$/,
         exclude: /src/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'assets/'
-          }
-        }]
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/',
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
         use: 'html-loader',
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader',
       },
       {
         test: /\.(mp4|webm)$/,
@@ -97,29 +103,23 @@ module.exports = (options) => ({
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new webpack.NamedModulesPlugin(),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
-    })
+    }),
   ]),
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: [
-      '.js',
-      '.jsx',
-      '.react.js',
-    ],
-    mainFields: [
-      'browser',
-      'jsnext:main',
-      'main',
-    ],
+    extensions: ['.js', '.jsx', '.react.js'],
+    mainFields: ['browser', 'jsnext:main', 'main'],
   },
   devtool: options.devtool,
   target: options.target || 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
   externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(),'environment.conf.json'))), //eslint-disable-line
+    globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
+  },
+  node: {
+    fs: 'empty',
   },
 });

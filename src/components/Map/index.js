@@ -1,48 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import amaps from '../../static/amaps.iife';
+import 'services/map'; // loads L.Proj (Proj binding leaflet)
+import MapLegend from '../MapLegend';
+import DeviceDetails from '../DeviceDetails';
+import CameraAreaDetails from '../CameraAreaDetails';
 
 import './style.scss';
+import './amaps-style.scss';
+import useMap from './hooks/useMap';
+import { MapContainerStyle } from './MapStyle';
+import useLayerManager from './hooks/useLayerManager';
+import DevicesLayer from './components/DevicesLayer';
+import CamerasLayer from './components/CamerasLayer';
 
-const PREVIEW_ZOOM_LEVEL = 14;
+const Map = ({ layers, selectedLayer, selectedItem, addLayerData, removeLayerData, selectLayerItem }) => {
+  const mapRef = useMap();
+  const layerManager = useLayerManager(mapRef.current);
 
-class Map extends React.Component {
-  componentDidMount() {
-    amaps.createMap({
-      center: {
-        latitude: this.props.latlng.latitude,
-        longitude: this.props.latlng.longitude
-      },
-      layer: 'standaard',
-      target: 'mapdiv',
-      marker: false,
-      search: false,
-      zoom: PREVIEW_ZOOM_LEVEL
-    });
-  }
+  const clearSelection = () => {
+    selectLayerItem();
+  };
 
-  render() {
-    return (
-      <div className="map-component">
-        <div className="row">
-          <div className="col-12">
-            <div className="map">
-              <div id="mapdiv" />
-            </div>
-          </div>
+  return (
+    <MapContainerStyle className="map-component">
+      <div className="map">
+        <div id="mapdiv">
+          <MapLegend onToggleCategory={name => layerManager.toggleLayer(name)} />
+          <DevicesLayer
+            map={mapRef.current}
+            data={layers.devices}
+            addLayerData={addLayerData}
+            removeLayerData={removeLayerData}
+            selectLayerItem={selectLayerItem}
+            layerManager={layerManager}
+          />
+          <CamerasLayer
+            map={mapRef.current}
+            data={layers.cameras}
+            addLayerData={addLayerData}
+            removeLayerData={removeLayerData}
+            selectLayerItem={selectLayerItem}
+            layerManager={layerManager}
+          />
+          {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
+
+          {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
         </div>
       </div>
-    );
-  }
-}
-
-Map.defaultProps = {
-  latlng: {}
+    </MapContainerStyle>
+  );
 };
 
 Map.propTypes = {
-  latlng: PropTypes.object
+  layers: PropTypes.shape({
+    devices: PropTypes.shape({ features: PropTypes.array }),
+    cameras: PropTypes.shape({ features: PropTypes.array }),
+  }).isRequired,
+  selectedLayer: PropTypes.string,
+  selectedItem: PropTypes.shape({}),
+  addLayerData: PropTypes.func.isRequired,
+  removeLayerData: PropTypes.func.isRequired,
+  selectLayerItem: PropTypes.func.isRequired,
 };
 
 export default Map;

@@ -7,23 +7,27 @@ import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 
 import './style.scss';
 
-const CameraAreaDetails = (props) => {
-  const TypesButton = (<Route
-    render={({ history }) => (
-      <button className="device-details__question-mark-button" onClick={() => { history.push('/categories'); }}>
-        <QuestionMarkIcon></QuestionMarkIcon>
-      </button>
-    )}
-  />);
+const CameraAreaDetails = props => {
+  const TypesButton = (
+    <Route
+      render={({ history }) => (
+        <button
+          type="button"
+          className="device-details__question-mark-button"
+          onClick={() => {
+            history.push('/categories');
+          }}
+        >
+          <QuestionMarkIcon />
+        </button>
+      )}
+    />
+  );
 
   return (
     <section id="device-details" className="device-details">
       <div className="device-details__heading">
-        <button
-          className="device-details__button"
-          onClick={props.onDeviceDetailsClose}
-          title="Sluiten"
-        >
+        <button type="button" className="device-details__button" onClick={props.onDeviceDetailsClose} title="Sluiten">
           <CloseIcon className="device-details__button-icon" />
         </button>
       </div>
@@ -35,7 +39,7 @@ const CameraAreaDetails = (props) => {
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
             <div className="device-details__row-element">Camera toezichtsgebied</div>
-            { TypesButton }
+            {TypesButton}
           </div>
 
           <div className="device-details__row">
@@ -49,7 +53,7 @@ const CameraAreaDetails = (props) => {
 };
 
 CameraAreaDetails.propTypes = {
-  onDeviceDetailsClose: PropTypes.func
+  onDeviceDetailsClose: PropTypes.func,
 };
 
 export default CameraAreaDetails;

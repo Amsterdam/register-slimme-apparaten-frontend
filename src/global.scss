@@ -1,8 +1,8 @@
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-font.scss";
-@import "node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss";
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-font.scss';
+@import 'node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss';
 
 html,
 body {
@@ -11,19 +11,12 @@ body {
 }
 
 body {
-  font-family: 'AvenirNextLTW01-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'AvenirNextLTW01-Regular', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
 }
 
 p {
   line-height: 26px;
-}
-
-a, a:hover {
-  color: #004699 !important;
-}
-
-a:hover::before {
-  background-image: url("~amsterdam-stijl/dist/images/svg/caret-left-blue.svg") !important;
 }
 
 ul li {
@@ -46,9 +39,14 @@ dd {
   min-width: 100%;
   background-color: $ams-background-sidebars;
 
-  .content.container, .content.container-fluid {
+  .content.container,
+  .content.container-fluid {
     padding-bottom: 20px;
     min-height: 60vh;
+
+    @media screen and (max-width: 576px) {
+      margin-top: 0;
+    }
   }
 
   .app-container {
@@ -80,7 +78,10 @@ main {
 }
 
 @media print {
-  html, body {height: 100%;}
+  html,
+  body {
+    height: 100%;
+  }
 
   @page {
     size: A4;
@@ -100,5 +101,4 @@ main {
   .page-break {
     page-break-after: always;
   }
-
 }
