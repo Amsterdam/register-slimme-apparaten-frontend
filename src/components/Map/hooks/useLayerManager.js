@@ -9,6 +9,7 @@ import { getMarkerIcon } from 'services/marker';
 import useHighlight from './useHighlight';
 
 export const showInfo = (element, item, onClick, highlight) => {
+  console.log(item);
   highlight(element);
   onClick(item);
 };
@@ -60,16 +61,19 @@ const useLayerManager = map => {
     });
   };
 
-  const selectFeature = (id, category, showInfoClick) => {
+  const selectFeature = (showInfoClick,id, category, contact) => {
     const layer = layerListRef.current && layerListRef.current[category];
     if (!layer) return;
     layer.eachLayer(f => {
-      if (String(f.feature.properties.id) === id) {
-        const isMarker = !f.getBounds;
+
+      const isMarker = !f.getBounds;
+      const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
+      const zoom = isMarker ? 16 : 14;
+      if ((featureId === id) && (contact === f.feature.contact)) {
         const highlight = isMarker ? highlightMarker : highlightPolygon;
         const bounds = isMarker ? L.latLngBounds([f.getLatLng()]): f.getBounds();
         map.fitBounds(bounds);
-        map.setZoom(14);
+        map.setZoom(zoom);
         showInfo(f, f.feature, showInfoClick, highlight);
       }
     });

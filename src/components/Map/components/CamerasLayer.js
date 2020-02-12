@@ -20,7 +20,7 @@ const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, remov
       addPolygonLayer(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, cameras, showCameraAreaDetail);
       const { id, category } = queryStringParser(location.search);
       if (id && category === CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED) {
-        selectFeature(id, category, showCameraAreaDetail);
+        selectFeature(showCameraAreaDetail,id, category);
       }
     }
     return () => removePolygonLayer();
