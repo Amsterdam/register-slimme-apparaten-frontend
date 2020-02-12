@@ -18,12 +18,12 @@ class DeviceDetails extends React.Component {
   render() {
     const ContactButton = (
       <Route
-        render={({ history }) => (
+        render={({ history, location }) => (
           <button
             type="button"
             className="device-details__contact-button action secundary-blue"
             onClick={() => {
-              history.push(`/contact-owner/${this.props.device.contact}/${this.props.device.id}`);
+              history.push(`/contact-owner/${location.search}`);
             }}
           >
             <MailIcon />
