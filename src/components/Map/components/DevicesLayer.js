@@ -1,14 +1,19 @@
 import { useEffect } from 'react';
 import LAYERS_CONFIG from 'services/layer-aggregator/layersConfig';
 import layersReader from 'services/layer-aggregator/layersReader';
+import { useHistory } from 'react-router-dom';
 
 const DevicesLayer = ({ map, data: devices, selectLayerItem, addLayerData, removeLayerData, layerManager }) => {
   const { addPointClusterLayer, removeClusterPointLayer } = layerManager;
+  const { push } = useHistory();
 
   const showDeviceDetail = device => {
     if (device) {
+      const { id, category } = device;
+      push({ pathname: '/', search: `?id=${id}&type=devices&category=${category}` });
       selectLayerItem('devices', device);
     } else {
+      push({ pathname: '/', search: '' });
       selectLayerItem();
     }
   };

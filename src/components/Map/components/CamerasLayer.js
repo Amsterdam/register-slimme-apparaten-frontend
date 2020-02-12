@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
 import { CATEGORY_NAMES } from 'shared/configuration/categories';
 import { fetchCameraAreas } from 'services/layer-aggregator/layersFetcher';
+import { useHistory } from 'react-router-dom';
 
 const CamerasLayer = ({ map, data: cameras, selectLayerItem, addLayerData, removeLayerData, layerManager }) => {
+  const { push } = useHistory();
   const { addPolygonLayer, removePolygonLayer } = layerManager;
 
   const showCameraAreaDetail = item => {
+    const { id } = item.properties;
+    push({ pathname: '/', search: `?id=${id}&type=cameras` });
     selectLayerItem('cameras', item);
   };
 
