@@ -4,19 +4,17 @@ import layersReader from 'services/layer-aggregator/layersReader';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryStringParser from 'shared/services/auth/services/query-string-parser/query-string-parser';
 import { CATEGORY_NAMES } from 'shared/configuration/categories';
-import useHighlight from '../hooks/useHighlight';
 
 const DevicesLayer = ({ map, data: devices, selectLayerItem, addLayerData, removeLayerData, layerManager }) => {
   const { addPointClusterLayer, removeClusterPointLayer,selectFeature } = layerManager;
   const { push } = useHistory();
   const location = useLocation();
-  const { highlightMarker } = useHighlight();
 
   const showDeviceDetail = device => {
     if (device) {
       const { id, category } = device;
-      push({ pathname: '/', search: `?id=${id}&category=${category}` });
       selectLayerItem('devices', device);
+      push({ pathname: '/', search: `?id=${id}&category=${category}` });
     } else {
       push({ pathname: '/', search: '' });
       selectLayerItem();
@@ -25,10 +23,10 @@ const DevicesLayer = ({ map, data: devices, selectLayerItem, addLayerData, remov
 
   useEffect(() => {
     if (map !== null && devices != null) {
-      addPointClusterLayer(devices.features, showDeviceDetail, highlightMarker);
+      addPointClusterLayer(devices.features, showDeviceDetail);
       const { id, category} = queryStringParser(location.search);
       if (id && category !== CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED) {
-        selectFeature(id, category, showDeviceDetail, highlightMarker)
+        selectFeature(id, category, showDeviceDetail)
       }
     }
     return () => removeClusterPointLayer();

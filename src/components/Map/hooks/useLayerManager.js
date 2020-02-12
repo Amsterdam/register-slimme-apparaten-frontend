@@ -6,6 +6,7 @@ import 'leaflet.markercluster';
 
 import { categories, clusterCategories, CATEGORY_NAMES } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
+import useHighlight from './useHighlight';
 
 export const showInfo = (element, item, onClick, highlight) => {
   highlight(element);
@@ -16,6 +17,7 @@ const useLayerManager = map => {
   const layerListRef = useRef({});
   const markerGroupRef = useRef(null);
   const layerGroupRef = useRef({});
+  const { highlightMarker, highlightPolygon } = useHighlight();
 
   useEffect(() => {
     if (!map) return () => {};
@@ -32,7 +34,7 @@ const useLayerManager = map => {
     };
   }, [map]);
 
-  const addPointClusterLayer = (markers, showInfoClick, highlight) => {
+  const addPointClusterLayer = (markers, showInfoClick) => {
     if (!markers || !markerGroupRef.current) return;
     const clusterLayers = clusterCategories.map(([name]) => {
       if (layerListRef.current[name]) {
@@ -48,23 +50,24 @@ const useLayerManager = map => {
             icon,
           });
           marker.feature = item;
-          marker.addTo(layer).on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlight));
+          marker.addTo(layer).on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker));
         });
 
         if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
         layerListRef.current[name] = layer;
-        // layer.eachLayer(f => console.log('device', name, f.feature));
       }
       return { name, layer };
     });
   };
 
-  const selectFeature = (id, category, showInfoClick, highlight) => {
+  const selectFeature = (id, category, showInfoClick) => {
     const layer = layerListRef.current && layerListRef.current[category];
     if (!layer) return;
     layer.eachLayer(f => {
       if (String(f.feature.properties.id) === id) {
-        const bounds = f.getBounds ? f.getBounds() : L.latLngBounds([f.getLatLng()]);
+        const isMarker = !f.getBounds;
+        const highlight = isMarker ? highlightMarker : highlightPolygon;
+        const bounds = isMarker ? L.latLngBounds([f.getLatLng()]): f.getBounds();
         map.fitBounds(bounds);
         map.setZoom(14);
         showInfo(f, f.feature, showInfoClick, highlight);
@@ -72,9 +75,9 @@ const useLayerManager = map => {
     });
   };
 
-  const addPolygonLayer = (name, layerData, onClickCallback, highlight) => {
+  const addPolygonLayer = (name, layerData, onClickCallback) => {
     const layer = L.Proj.geoJson(layerData, { className: 'camera-area' });
-    layer.on('click', event => showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlight));
+    layer.on('click', event => showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon));
     if (map && categories[name].enabled) map.addLayer(layer);
 
     layerListRef.current[name] = layer;
