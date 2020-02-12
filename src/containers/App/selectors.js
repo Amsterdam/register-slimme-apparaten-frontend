@@ -2,8 +2,6 @@ import { createSelector } from 'reselect';
 
 const selectGlobal = state => state.global;
 
-const selectRoute = state => state.route;
-
 const makeSelectUserName = () => createSelector(selectGlobal, globalState => globalState.userName);
 
 const makeSelectAccessToken = () => createSelector(selectGlobal, globalState => globalState.accessToken);
@@ -14,8 +12,6 @@ const makeSelectError = () => createSelector(selectGlobal, globalState => global
 
 const makeSelectErrorMessage = () => createSelector(selectGlobal, globalState => globalState.errorMessage);
 
-const makeSelectLocation = () => createSelector(selectRoute, routeState => routeState.location);
-
 const makeSelectIsAuthenticated = () => createSelector(selectGlobal, globalState => !globalState.accessToken === false);
 
 export {
@@ -25,6 +21,5 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectErrorMessage,
-  makeSelectLocation,
   makeSelectIsAuthenticated,
 };
