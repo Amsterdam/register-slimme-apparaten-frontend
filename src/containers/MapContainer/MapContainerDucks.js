@@ -50,15 +50,7 @@ export const makeSelectLayers = () => createSelector(selectMap, map => map.layer
 
 export const makeSelectedLayer = () => createSelector(selectMap, map => map.selectedLayer);
 
-export const makeSelectedItem = () =>
-  createSelector(selectMap, ({ layers, selectedLayer, selectedItem }) => (
-    (selectedLayer &&
-        selectedItem &&
-        layers[selectedLayer].features.find(
-          item => item.id === selectedItem.id && item.contact === selectedItem.contact,
-        )) ||
-      null
-  ));
+export const makeSelectedItem = () => createSelector(selectMap, ({ selectedItem }) => selectedItem || null);
 
 // reducer
 export const initialState = {
@@ -103,8 +95,6 @@ function mapReducer(state = initialState, action) {
             features: [],
           },
         },
-        selectedLayer: null,
-        selectedItem: null,
       };
       return result;
     }

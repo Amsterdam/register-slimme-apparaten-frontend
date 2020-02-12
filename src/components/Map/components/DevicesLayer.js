@@ -12,9 +12,9 @@ const DevicesLayer = ({ map, data: devices, selectLayerItem, addLayerData, remov
 
   const showDeviceDetail = device => {
     if (device) {
-      const { id, category, contact } = device;
+      const { id, category, contact: source } = device;
       selectLayerItem('devices', device);
-      push({ pathname: '/', search: `?id=${id}&category=${category}&contact=${contact}` });
+      push({ pathname: '/', search: `?id=${id}&category=${category}&source=${source}` });
     } else {
       push({ pathname: '/', search: '' });
       selectLayerItem();
@@ -24,9 +24,9 @@ const DevicesLayer = ({ map, data: devices, selectLayerItem, addLayerData, remov
   useEffect(() => {
     if (map !== null && devices != null) {
       addPointClusterLayer(devices.features, showDeviceDetail);
-      const { id, category, contact} = queryStringParser(location.search);
+      const { id, category, source} = queryStringParser(location.search);
       if (id && category !== CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED) {
-        selectFeature(showDeviceDetail, id, category, contact)
+        selectFeature(showDeviceDetail, id, category, source)
       }
     }
     return () => removeClusterPointLayer();
