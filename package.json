@@ -126,6 +126,8 @@
       "@datapunt/asc-assets",
       "@datapunt/asc-core",
       "@datapunt/asc-ui",
+      "@datapunt/amsterdam-react-maps",
+      "@datapunt/react-maps",
       "fs"
     ],
     "include": [
@@ -180,10 +182,11 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.3",
     "@datapunt/amsterdam-react-maps": "git+https://github.com/Amsterdam/amsterdam-react-maps.git#master",
-    "@datapunt/asc-assets": "^0.17.7",
-    "@datapunt/asc-core": "^0.17.7",
-    "@datapunt/asc-ui": "^0.17.7",
+    "@datapunt/asc-assets": "^0.18.2-alpha.12",
+    "@datapunt/asc-core": "^0.18.2-alpha.12",
+    "@datapunt/asc-ui": "^0.18.2-alpha.12",
     "@datapunt/matomo-tracker-js": "0.0.15",
+    "@datapunt/react-maps": "^0.7.2",
     "@formatjs/intl-pluralrules": "^1.5.2",
     "amsterdam-amaps": "^2.0.1",
     "amsterdam-stijl": "^3.0.5",
