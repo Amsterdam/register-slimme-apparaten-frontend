@@ -90,10 +90,10 @@ module.exports = options => ({
     ],
   },
   plugins: options.plugins.concat([
-    new webpack.ProvidePlugin({
-      // make fetch available
-      fetch: 'exports-loader?self.fetch!whatwg-fetch',
-    }),
+    // new webpack.ProvidePlugin({
+    //   // make fetch available
+    //   fetch: 'exports-loader?self.fetch!whatwg-fetch',
+    // }),
 
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically
@@ -112,6 +112,10 @@ module.exports = options => ({
     modules: ['src', 'node_modules'],
     extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
+    alias: {
+      react: path.resolve('./node_modules/react'),
+      'react-dom': path.resolve('./node_modules/react-dom'),
+    },
   },
   devtool: options.devtool,
   target: options.target || 'web', // Make web variables accessible to webpack, e.g. window
