@@ -121,12 +121,17 @@ const LAYERS_CONFIG = [
 
 export const POLYGON_LAYERS_CONFIG = [
   {
+    id: 'cameras',
     name: 'Cameras',
-    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=ms:cameratoezichtgebied&version=1.1.0`,
+    // url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=ms:cameratoezichtgebied&version=1.1.0`,
+    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&srsName=EPSG:4326&Typename=ms:cameratoezichtgebied&version=1.1.0`,
     fetchService: fetchCameraAreas,
     className: 'cameras',
     category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
     transformer: item => item,
+    options: {
+
+    },
   },
 ];
 
