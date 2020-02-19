@@ -14,7 +14,8 @@ import GeoJSONLayerGroup from './GeoJSONLayerGroup';
 import CameraAreaDetails from '../CameraAreaDetails';
 import DeviceDetails from '../DeviceDetails';
 import reducer, {
-  selectLayerItemActionCreator, toggleMapLayerActionCreator,
+  selectLayerItemActionCreator,
+  toggleMapLayerActionCreator,
 } from '../../containers/MapContainer/MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 
@@ -23,8 +24,7 @@ const StyledMap = styled(Map)`
   height: calc(100vh - 50px);
 `;
 
-const StyledViewerContainer = styled(ViewerContainer)`
-`;
+const StyledViewerContainer = styled(ViewerContainer)``;
 
 const MapLayers = () => {
   const selectedLayer = useSelector(state => state?.map?.selectedLayer);
@@ -39,7 +39,7 @@ const MapLayers = () => {
 
   const handleToggleCategory = name => {
     dispatch(toggleMapLayerActionCreator(name));
-  }
+  };
 
   const handleItemSelected = (name, feature) => {
     dispatch(selectLayerItemActionCreator(name, feature));
@@ -56,9 +56,8 @@ const MapLayers = () => {
       <GeoJSONLayerGroup onItemSelected={handleItemSelected} />
 
       <GeoJSONLayerWithConfig
-        name="Cameras"
-        config={POLYGON_LAYERS_CONFIG}
         options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
+        config={POLYGON_LAYERS_CONFIG}
       />
 
       <TileLayer

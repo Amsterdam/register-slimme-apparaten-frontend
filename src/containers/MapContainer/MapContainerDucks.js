@@ -1,26 +1,25 @@
 import { createSelector } from 'reselect';
+import { Data } from '@datapunt/asc-assets';
 import { categories } from '../../shared/configuration/categories';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
 export const REMOVE_LAYER_DATA = 'src/containers/MapContainer/REMOVE_LAYER_DATA';
 export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM';
-export const ADD_MAP_LAYER = 'src/containers/MapContainer/ADD_MAP_LAYER';
-export const REMOVE_MAP_LAYER = 'src/containers/MapContainer/REMOVE_MAP_LAYER';
 export const TOGGLE_MAP_LAYER = 'src/containers/MapContainer/TOGGLE_MAP_LAYER';
 
 // action creators
-export function addLayerDataActionCreator(name, layer) {
+export function addLayerDataActionCreator(layers) {
   return {
     type: ADD_LAYER_DATA,
-    payload: { name, layer },
+    payload: layers ,
   };
 }
 
-export function removeLayerDataActionCreator(name) {
+export function removeLayerDataActionCreator(names) {
   return {
     type: REMOVE_LAYER_DATA,
-    payload: name,
+    payload: names,
   };
 }
 
@@ -28,20 +27,6 @@ export function selectLayerItemActionCreator(name, item) {
   return {
     type: SELECT_LAYER_ITEM,
     payload: { name, item },
-  };
-}
-
-export function addMapLayerActionCreator(name, layer) {
-  return {
-    type: ADD_MAP_LAYER,
-    payload: { name, layer },
-  };
-}
-
-export function removeMapLayerActionCreator(name) {
-  return {
-    type: REMOVE_MAP_LAYER,
-    payload: name,
   };
 }
 
@@ -61,56 +46,38 @@ export const makeSelectedLayer = () => createSelector(selectMap, map => map.sele
 
 export const makeSelectedItem = () => createSelector(selectMap, ({ selectedItem }) => selectedItem || null);
 
+/** initializes the legend with all layers visible */
 export const legend = Object.entries(categories).reduce(
   (acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: true } : { ...acc }),
   {},
 );
 
-
 // reducer
 export const initialState = {
-  layers: {},
+  layers: [],
   selectedLayer: null,
   selectedItem: null,
-  mapLayers: {},
   legend,
 };
 
 function mapReducer(state = initialState, action) {
+  console.log(action.type, action.payload);
   switch (action.type) {
     case ADD_LAYER_DATA: {
-      const {
-        name,
-        layer: { features },
-        layer,
-      } = action.payload;
-      const newfeatures =
-        state.layers[name] && state.layers[name].features
-          ? [...state.layers[name].features, ...features]
-          : [...features];
       const result = {
         ...state,
-        layers: {
+        layers: [
           ...state.layers,
-          [name]: {
-            ...layer,
-            features: [...newfeatures],
-          },
-        },
+          ...action.payload,
+        ],
       };
       return result;
     }
     case REMOVE_LAYER_DATA: {
-      const name = action.payload;
+      const names = action.payload;
       const result = {
         ...state,
-        layers: {
-          ...state.layers,
-          [name]: {
-            ...state.layers[name],
-            features: [],
-          },
-        },
+        layers: [...state?.layers.filter(layer => !names.includes(layer.name))],
       };
       return result;
     }
@@ -118,28 +85,6 @@ function mapReducer(state = initialState, action) {
     case SELECT_LAYER_ITEM: {
       const { name, item } = action.payload;
       return { ...state, selectedLayer: name, selectedItem: item };
-    }
-
-    case ADD_MAP_LAYER: {
-      const { name, layer } = action.payload;
-      return {
-        ...state,
-        mapLayers: {
-          ...state.mapLayers,
-          [name]: layer,
-        },
-      };
-    }
-
-    case REMOVE_MAP_LAYER: {
-      const { name } = action.payload;
-      return {
-        ...state,
-        mapLayers: {
-          ...state.mapLayers,
-          [name]: null,
-        },
-      };
     }
 
     case TOGGLE_MAP_LAYER: {

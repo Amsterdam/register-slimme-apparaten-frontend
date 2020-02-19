@@ -1,17 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useMapInstance, GeoJSON } from '@datapunt/react-maps';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import layersReader from '../../services/layer-aggregator/layersReader';
-// import {
-//   addLayerDataActionCreator,
-//   removeLayerDataActionCreator,
-// } from '../../containers/MapContainer/MapContainerDucks';
+import {
+  addLayerDataActionCreator,
+  removeLayerDataActionCreator,
+} from '../../containers/MapContainer/MapContainerDucks';
+import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 
-const GeoJSONLayerWithConfig = ({ name, options, config }) => {
+const GeoJSONLayerWithConfig = ({ options, config }) => {
   const mapInstance = useMapInstance();
   const [json, setJson] = useState();
   const dispatch = useDispatch();
+  const layerName = useRef()
+
+  const legend = useSelector(state => state?.map?.legend);
+  const layer = useSelector(state => state?.map?.layers.filter(l => l.name === layerName.current && state?.map?.legend[l.name]));
+
+  useEffect(() => {
+    setJson(layer[0])
+  }, [legend])
+
 
   useEffect(() => {
     if (!mapInstance) {
@@ -23,7 +33,7 @@ const GeoJSONLayerWithConfig = ({ name, options, config }) => {
       const features = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
       const layerData = {
         type: 'FeatureCollection',
-        name,
+        name: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
         crs: {
           type: 'name',
           properties: {
@@ -33,11 +43,12 @@ const GeoJSONLayerWithConfig = ({ name, options, config }) => {
         features,
       };
       setJson(layerData);
-      // dispatch(addLayerDataActionCreator('cameras', { type: 'FeatureCollection', name: 'cameras', features }));
+      layerName.current=layerData.name;
+      dispatch(addLayerDataActionCreator([layerData]));
     })();
 
     return () => {
-      // dispatch(removeLayerDataActionCreator('cameras'));
+      dispatch(removeLayerDataActionCreator([layerName.current]));
     };
   }, [mapInstance]);
 
@@ -45,9 +56,8 @@ const GeoJSONLayerWithConfig = ({ name, options, config }) => {
 };
 
 GeoJSONLayerWithConfig.propTypes = {
-  name: PropTypes.string.isRequired,
   options: PropTypes.shape({}).isRequired,
-  config: PropTypes.shape({}).isRequired,
+  config: PropTypes.array.isRequired,
 };
 
 export default GeoJSONLayerWithConfig;
