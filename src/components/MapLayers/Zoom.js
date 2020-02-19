@@ -1,15 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, memo } from 'react'
 import { Button } from '@datapunt/asc-ui'
 import { Minimise, Enlarge } from '@datapunt/asc-assets'
 import { useMapInstance } from '@datapunt/react-maps'
 
 const Zoom= () => {
   const mapInstance = useMapInstance()
-  console.log('zoom', mapInstance)
 
   const handleZoom = useCallback(
     (out = false) => {
-      console.log('handleZoom', mapInstance)
       if (mapInstance !== null) {
         mapInstance.setZoom(mapInstance.getZoom() + (out ? -1 : 1))
       }
@@ -45,5 +43,4 @@ const Zoom= () => {
   )
 }
 
-// export default memo(Zoom)
-export default Zoom
+export default memo(Zoom)

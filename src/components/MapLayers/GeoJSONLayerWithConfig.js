@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMapInstance, GeoJSON } from '@datapunt/react-maps';
-import { utils } from '@datapunt/amsterdam-react-maps';
 import layersReader from '../../services/layer-aggregator/layersReader';
 
-/**
- * This GeoJSONLayer can be used with any api, the data is requested only once and is
- * not dependent on zoom levels. Not to be used for large datasets because it can
- * impact the overall map performance
- */
-const GeoJSONLayerWithConfig = ({name, options, config }) => {
+const GeoJSONLayerWithConfig = ({ name, options, config }) => {
   const mapInstance = useMapInstance();
   const [json, setJson] = useState();
 
@@ -31,31 +26,22 @@ const GeoJSONLayerWithConfig = ({name, options, config }) => {
         },
         features,
       };
-      console.log('layer data', layerData);
       setJson(layerData);
       // addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features });
     })();
 
-    // const [request, controller] = fetchWithAbort(url)
-
-    // request
-    //   .then(res => res.json())
-    //   .then(res => setJson(res))
-    //   .catch(error => {
-    //     // Ignore abort errors since they are expected to happen.
-    //     if (error instanceof Error && error.name === 'AbortError') {
-    //       return
-    //     }
-
-    //     return Promise.reject(error)
-    //   })
-
     // return () => {
-    //   controller.abort()
-    // }
+    //   // remove layer data
+    // };
   }, [mapInstance]);
 
   return json ? <GeoJSON args={[json]} options={options} /> : null;
+};
+
+GeoJSONLayerWithConfig.propTypes = {
+  name: PropTypes.string.isRequired,
+  options: PropTypes.shape({}).isRequired,
+  config: PropTypes.shape({}).isRequired,
 };
 
 export default GeoJSONLayerWithConfig;

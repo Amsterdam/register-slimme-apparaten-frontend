@@ -1,4 +1,6 @@
 import CONFIGURATION from 'shared/configuration/environment';
+import { DomEvent } from 'leaflet';
+import { getMarkerIcon } from 'services/marker';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
 import { readData } from '../datareader';
 import { fetchDevices, fetchCameraAreas } from './layersFetcher';
@@ -129,10 +131,69 @@ export const POLYGON_LAYERS_CONFIG = [
     className: 'cameras',
     category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
     transformer: item => item,
-    options: {
-
-    },
   },
 ];
+
+const markerStyle = {
+  fillColor: '#f14600',
+  opacity: 1,
+  color: '#f14600',
+  strokeOpacity: 1,
+  weight: 1,
+};
+
+const markerStyleActive = {
+  // strokeWidth: 3;
+  weight: 3,
+};
+
+const getOptions = CATEGORY_NAME => ({
+  onEachFeature: (feature, layer) => {
+    layer.on('click', e => {
+      DomEvent.stopPropagation(e);
+      console.log('showInfo', CATEGORY_NAME, feature);
+      // marker.addTo(layer).on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker));
+    });
+  },
+  pointToLayer: (feature, latlng) => {
+    const marker = L.marker(latlng, {
+      icon: getMarkerIcon(CATEGORY_NAME),
+    });
+    marker.feature = feature;
+    return marker;
+  },
+});
+
+export const LAYER_OPTIONS_CONFIG = {
+  [CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED]: {
+    options: {
+      style: markerStyle,
+      onEachFeature: (feature, layer) => {
+        layer.on('click', e => {
+          DomEvent.stopPropagation(e);
+          e.target.setStyle(markerStyleActive);
+          // showInfo
+          console.log('showInfo', feature);
+        });
+      },
+    },
+  },
+  [CATEGORY_NAMES.CAMERA]: {
+    // icon: getMarkerIcon(CATEGORY_NAMES.CAMERA),
+    options: getOptions(CATEGORY_NAMES.CAMERA),
+  },
+  [CATEGORY_NAMES.SENSOR]: {
+    options: getOptions(CATEGORY_NAMES.SENSOR),
+  },
+  [CATEGORY_NAMES.BEACONS]: {
+    options: getOptions(CATEGORY_NAMES.BEACONS),
+  },
+  [CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE]: {
+    options: getOptions(CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE),
+  },
+  [CATEGORY_NAMES.SLIMME_LANTAARNPAAL]: {
+    options: getOptions(CATEGORY_NAMES.SLIMME_LANTAARNPAAL),
+  },
+};
 
 export default LAYERS_CONFIG;

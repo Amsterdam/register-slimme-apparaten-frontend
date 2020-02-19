@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMapInstance, GeoJSON } from '@datapunt/react-maps';
 import { utils } from '@datapunt/amsterdam-react-maps';
 
@@ -28,6 +29,7 @@ const GeoJSONLayer = ({ url, options }) => {
           return;
         }
 
+        // eslint-disable-next-line consistent-return
         return Promise.reject(error);
       });
 
@@ -37,6 +39,11 @@ const GeoJSONLayer = ({ url, options }) => {
   }, [mapInstance]);
 
   return json ? <GeoJSON args={[json]} options={options} /> : null;
+};
+
+GeoJSONLayer.propTypes = {
+  url: PropTypes.string.isRequired,
+  options: PropTypes.shape({}).isRequired,
 };
 
 export default GeoJSONLayer;
