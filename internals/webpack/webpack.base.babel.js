@@ -110,7 +110,7 @@ module.exports = options => ({
   ]),
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: ['.js', '.jsx', '.react.js'],
+    extensions: ['.js', '.jsx', '.react.js', '.ts', '.tsx'],
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
       react: path.resolve('./node_modules/react'),

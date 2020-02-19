@@ -36,36 +36,51 @@ const useLayerManager = map => {
 
   const addPointClusterLayer = (markers, showInfoClick) => {
     if (!markers || !markerGroupRef.current) return;
-    const clusterLayers = clusterCategories
-      .map(([name]) => {
-        if (layerListRef.current[name]) {
-          markerGroupRef.current.removeLayers([layerListRef.current[name]]);
-        }
+    const clusterLayers = clusterCategories.map(([name]) => {
+      if (layerListRef.current[name]) {
+        markerGroupRef.current.removeLayers([layerListRef.current[name]]);
+      }
 
-        const layer = L.featureGroup();
-        const filteredMarkers = markers.filter(marker => marker.category === name);
-        if (filteredMarkers.length > 0) {
-          const icon = getMarkerIcon(filteredMarkers[0].category);
-          filteredMarkers.forEach(item =>
-            L.marker([item.latitude, item.longitude], {
-              icon,
-            })
-              .addTo(layer)
-              .on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker)),
-          );
+      const layer = L.featureGroup();
+      const filteredMarkers = markers.filter(marker => marker.category === name);
+      if (filteredMarkers.length > 0) {
+        const icon = getMarkerIcon(filteredMarkers[0].category);
+        filteredMarkers.forEach(item => {
+          const marker = L.marker([item.latitude, item.longitude], {
+            icon,
+          });
+          marker.feature = item;
+          marker.addTo(layer).on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker));
+        });
 
-          if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
-          layerListRef.current[name] = layer;
-        }
-        return { name, layer };
-      })
+        if (categories[name].enabled) markerGroupRef.current.addLayer(layer);
+        layerListRef.current[name] = layer;
+      }
+      return { name, layer };
+    });
+  };
+
+  const selectFeature = (showInfoClick,id, category, source) => {
+    const layer = layerListRef.current && layerListRef.current[category];
+    if (!layer) return;
+    layer.eachLayer(f => {
+
+      const isMarker = !f.getBounds;
+      const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
+      const zoom = isMarker ? 16 : 14;
+      if ((featureId === id) && (source === f.feature.contact)) {
+        const highlight = isMarker ? highlightMarker : highlightPolygon;
+        const bounds = isMarker ? L.latLngBounds([f.getLatLng()]): f.getBounds();
+        map.fitBounds(bounds);
+        map.setZoom(zoom);
+        showInfo(f, f.feature, showInfoClick, highlight);
+      }
+    });
   };
 
   const addPolygonLayer = (name, layerData, onClickCallback) => {
     const layer = L.Proj.geoJson(layerData, { className: 'camera-area' });
-    layer.on('click', event =>
-      showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon),
-    );
+    layer.on('click', event => showInfo(event.sourceTarget, event.sourceTarget.feature, onClickCallback, highlightPolygon));
     if (map && categories[name].enabled) map.addLayer(layer);
 
     layerListRef.current[name] = layer;
@@ -123,7 +138,14 @@ const useLayerManager = map => {
     }
   };
 
-  return { addPointClusterLayer, addPolygonLayer, toggleLayer, removeClusterPointLayer, removePolygonLayer };
+  return {
+    addPointClusterLayer,
+    addPolygonLayer,
+    toggleLayer,
+    removeClusterPointLayer,
+    removePolygonLayer,
+    selectFeature,
+  };
 };
 
 export default useLayerManager;
