@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useMapInstance, GeoJSON } from '@datapunt/react-maps';
+import { useDispatch } from 'react-redux';
 import layersReader from '../../services/layer-aggregator/layersReader';
+// import {
+//   addLayerDataActionCreator,
+//   removeLayerDataActionCreator,
+// } from '../../containers/MapContainer/MapContainerDucks';
 
 const GeoJSONLayerWithConfig = ({ name, options, config }) => {
   const mapInstance = useMapInstance();
   const [json, setJson] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!mapInstance) {
-      return;
+      return () => { };
     }
 
     (async () => {
@@ -27,12 +33,12 @@ const GeoJSONLayerWithConfig = ({ name, options, config }) => {
         features,
       };
       setJson(layerData);
-      // addLayerData('devices', { type: 'FeatureCollection', name: 'devices', features });
+      // dispatch(addLayerDataActionCreator('cameras', { type: 'FeatureCollection', name: 'cameras', features }));
     })();
 
-    // return () => {
-    //   // remove layer data
-    // };
+    return () => {
+      // dispatch(removeLayerDataActionCreator('cameras'));
+    };
   }, [mapInstance]);
 
   return json ? <GeoJSON args={[json]} options={options} /> : null;

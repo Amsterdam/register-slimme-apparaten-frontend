@@ -14,7 +14,7 @@ import GeoJSONLayerGroup from './GeoJSONLayerGroup';
 import CameraAreaDetails from '../CameraAreaDetails';
 import DeviceDetails from '../DeviceDetails';
 import reducer, {
-  selectLayerItemActionCreator,
+  selectLayerItemActionCreator, toggleMapLayerActionCreator,
 } from '../../containers/MapContainer/MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 
@@ -24,7 +24,6 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)`
-  // z-index: 1;
 `;
 
 const MapLayers = () => {
@@ -38,7 +37,10 @@ const MapLayers = () => {
     dispatch(selectLayerItemActionCreator());
   };
 
-  const handleToggleCategory = name => console.log('toggle', name);
+  const handleToggleCategory = name => {
+    dispatch(toggleMapLayerActionCreator(name));
+  }
+
   const handleItemSelected = (name, feature) => {
     dispatch(selectLayerItemActionCreator(name, feature));
   };

@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { categories } from '../../shared/configuration/categories';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
@@ -6,6 +7,7 @@ export const REMOVE_LAYER_DATA = 'src/containers/MapContainer/REMOVE_LAYER_DATA'
 export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM';
 export const ADD_MAP_LAYER = 'src/containers/MapContainer/ADD_MAP_LAYER';
 export const REMOVE_MAP_LAYER = 'src/containers/MapContainer/REMOVE_MAP_LAYER';
+export const TOGGLE_MAP_LAYER = 'src/containers/MapContainer/TOGGLE_MAP_LAYER';
 
 // action creators
 export function addLayerDataActionCreator(name, layer) {
@@ -43,6 +45,13 @@ export function removeMapLayerActionCreator(name) {
   };
 }
 
+export function toggleMapLayerActionCreator(name) {
+  return {
+    type: TOGGLE_MAP_LAYER,
+    payload: name,
+  };
+}
+
 // selectors
 const selectMap = state => state.map;
 
@@ -52,12 +61,19 @@ export const makeSelectedLayer = () => createSelector(selectMap, map => map.sele
 
 export const makeSelectedItem = () => createSelector(selectMap, ({ selectedItem }) => selectedItem || null);
 
+export const legend = Object.entries(categories).reduce(
+  (acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: true } : { ...acc }),
+  {},
+);
+
+
 // reducer
 export const initialState = {
   layers: {},
   selectedLayer: null,
   selectedItem: null,
   mapLayers: {},
+  legend,
 };
 
 function mapReducer(state = initialState, action) {
@@ -122,6 +138,17 @@ function mapReducer(state = initialState, action) {
         mapLayers: {
           ...state.mapLayers,
           [name]: null,
+        },
+      };
+    }
+
+    case TOGGLE_MAP_LAYER: {
+      const name = action.payload;
+      return {
+        ...state,
+        legend: {
+          ...state.legend,
+          [name]: !state.legend[name],
         },
       };
     }
