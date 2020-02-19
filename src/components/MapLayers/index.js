@@ -3,6 +3,7 @@ import { Map, TileLayer  } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { constants } from '@datapunt/amsterdam-react-maps';
+import MapLegend from 'components/MapLegend';
 import Zoom from './Zoom';
 import GeoJSONLayerWithConfig from './GeoJSONLayerWithConfig';
 import { POLYGON_LAYERS_CONFIG, LAYER_OPTIONS_CONFIG } from '../../services/layer-aggregator/layersConfig';
@@ -15,12 +16,13 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)`
-  z-index: 400;
+  z-index: 1;
 `;
 
 const MapLayers = () => (
   <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS}>
     <StyledViewerContainer bottomRight={<Zoom />} />
+    <MapLegend onToggleCategory={name => console.log('toggle', name)} />
 
     <GeoJSONLayerGroup />
 
