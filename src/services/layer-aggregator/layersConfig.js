@@ -147,12 +147,13 @@ const markerStyleActive = {
   weight: 3,
 };
 
-const getOptions = CATEGORY_NAME => ({
+export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
   onEachFeature: (feature, layer) => {
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
+
       console.log('showInfo', CATEGORY_NAME, feature);
-      // marker.addTo(layer).on('click', event => showInfo(event.sourceTarget, item, showInfoClick, highlightMarker));
+      onItemSelected('devices', feature);
     });
   },
   pointToLayer: (feature, latlng) => {
@@ -161,6 +162,18 @@ const getOptions = CATEGORY_NAME => ({
     });
     marker.feature = feature;
     return marker;
+  },
+});
+
+export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
+  style: markerStyle,
+  onEachFeature: (feature, layer) => {
+    layer.on('click', e => {
+      DomEvent.stopPropagation(e);
+      e.target.setStyle(markerStyleActive);
+      console.log('showInfo', CATEGORY_NAME, feature);
+      onItemSelected('cameras', feature)
+    });
   },
 });
 
@@ -180,19 +193,19 @@ export const LAYER_OPTIONS_CONFIG = {
   },
   [CATEGORY_NAMES.CAMERA]: {
     // icon: getMarkerIcon(CATEGORY_NAMES.CAMERA),
-    options: getOptions(CATEGORY_NAMES.CAMERA),
+    options: getPointOptions(CATEGORY_NAMES.CAMERA, ),
   },
   [CATEGORY_NAMES.SENSOR]: {
-    options: getOptions(CATEGORY_NAMES.SENSOR),
+    options: getPointOptions(CATEGORY_NAMES.SENSOR),
   },
   [CATEGORY_NAMES.BEACONS]: {
-    options: getOptions(CATEGORY_NAMES.BEACONS),
+    options: getPointOptions(CATEGORY_NAMES.BEACONS),
   },
   [CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE]: {
-    options: getOptions(CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE),
+    options: getPointOptions(CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE),
   },
   [CATEGORY_NAMES.SLIMME_LANTAARNPAAL]: {
-    options: getOptions(CATEGORY_NAMES.SLIMME_LANTAARNPAAL),
+    options: getPointOptions(CATEGORY_NAMES.SLIMME_LANTAARNPAAL),
   },
 };
 

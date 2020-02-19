@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { GeoJSON } from '@datapunt/react-maps';
 import layersReader from '../../services/layer-aggregator/layersReader';
-import LAYERS_CONFIG, { LAYER_OPTIONS_CONFIG } from '../../services/layer-aggregator/layersConfig';
+import LAYERS_CONFIG, { getPointOptions } from '../../services/layer-aggregator/layersConfig';
 
-const GeoJSONLayerGroup = () => {
+const GeoJSONLayerGroup = ({ onItemSelected }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -35,9 +36,14 @@ const GeoJSONLayerGroup = () => {
     };
   }, []);
 
-  return Object.entries(data)?.map(([name, value]) => (value.features.length &&
-    <GeoJSON args={[value]} options={LAYER_OPTIONS_CONFIG[name].options} />
-  ));
+  return Object.entries(data)?.map(
+    ([name, value]) =>
+      value.features.length && <GeoJSON args={[value]} options={getPointOptions(name, onItemSelected)} />,
+  );
+};
+
+GeoJSONLayerGroup.propTypes = {
+  onItemSelected: PropTypes.func.isRequired,
 };
 
 export default GeoJSONLayerGroup;
