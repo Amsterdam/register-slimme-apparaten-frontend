@@ -7,6 +7,7 @@ import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
+import { useHistory } from 'react-router-dom';
 import Zoom from './Zoom';
 import GeoJSONLayerWithConfig from './GeoJSONLayerWithConfig';
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
@@ -40,7 +41,9 @@ const MapLayers = () => {
   const selectedLayer = useSelector(state => state?.map?.selectedLayer);
   const selectedItem = useSelector(state => state?.map?.selectedItem);
   const dispatch = useDispatch();
-  const { highlightMarker, highlightPolygon } = useHighlight();
+  const { highlight } = useHighlight();
+  const { push } = useHistory();
+  // const location = useLocation();
 
   const clearSelection = () => {
     dispatch(selectLayerItemActionCreator());
@@ -50,10 +53,16 @@ const MapLayers = () => {
     dispatch(toggleMapLayerActionCreator(name));
   };
 
-  const handleItemSelected = (name, feature, item) => {
-    console.log('marker', name, item);
+  const handleItemSelected = (name, feature, element) => {
+    // const { id } = feature.properties;
+    // push({ pathname: '/', search: `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}` });
+    // const { id, category, contact: source } = feature.properties;
+    // selectLayerItem('devices', device);
+    // push({ pathname: '/', search: `?id=${id}&category=${category}&source=${source}` });
+
+    console.log('marker', name, element);
     // eslint-disable-next-line no-unused-expressions
-    name === 'devices' ? highlightMarker(item) : highlightPolygon(item);
+    highlight(element);
     dispatch(selectLayerItemActionCreator(name, feature));
   };
 

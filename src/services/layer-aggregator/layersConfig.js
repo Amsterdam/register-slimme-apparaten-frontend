@@ -151,7 +151,7 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
       DomEvent.stopPropagation(e);
 
       console.log('showInfo device', CATEGORY_NAME, feature);
-      onItemSelected('devices', feature,layer);
+      onItemSelected('devices', feature,layer._icon);
     });
   },
   pointToLayer: (feature, latlng) => {
@@ -171,7 +171,7 @@ export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
       // e.target.setStyle(markerStyleActive);
 
       console.log('showInfo camera', layer);
-      onItemSelected('cameras', feature, layer)
+      onItemSelected('cameras', feature, layer.getElement())
     });
   },
 });
