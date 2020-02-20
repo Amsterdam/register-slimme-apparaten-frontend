@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, TileLayer} from '@datapunt/react-maps';
+import { Map, TileLayer } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { constants } from '@datapunt/amsterdam-react-maps';
@@ -35,7 +35,9 @@ const StyledMap = styled(Map)`
   }
 `;
 
-const StyledViewerContainer = styled(ViewerContainer)``;
+const StyledViewerContainer = styled(ViewerContainer)`
+  z-index: 400;
+`;
 
 const MapLayers = () => {
   const selectedLayer = useSelector(state => state?.map?.selectedLayer);
