@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { Data } from '@datapunt/asc-assets';
 import { categories } from '../../shared/configuration/categories';
 
 // actions

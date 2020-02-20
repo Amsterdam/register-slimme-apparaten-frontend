@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, TileLayer } from '@datapunt/react-maps';
+import { Map, TileLayer} from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { constants } from '@datapunt/amsterdam-react-maps';
@@ -43,8 +43,6 @@ const MapLayers = () => {
   const dispatch = useDispatch();
   const { highlight } = useHighlight();
   const { push } = useHistory();
-  // const location = useLocation();
-
   const clearSelection = () => {
     dispatch(selectLayerItemActionCreator());
   };
@@ -54,9 +52,9 @@ const MapLayers = () => {
   };
 
   const handleItemSelected = (name, feature, element, queryString) => {
-    push({ pathname: '/', search: queryString });
-    highlight(element);
+    if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
+    highlight(element);
   };
 
   return (
