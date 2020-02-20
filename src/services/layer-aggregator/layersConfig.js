@@ -141,17 +141,13 @@ const markerStyle = {
   weight: 1,
 };
 
-const markerStyleActive = {
-  weight: 3,
-};
-
 export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
   onEachFeature: (feature, layer) => {
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
-
-      console.log('showInfo device', CATEGORY_NAME, feature);
-      onItemSelected('devices', feature,layer._icon);
+      const { id, category, contact: source } = feature;
+      const queryString =  `?id=${id}&category=${category}&source=${source}` ;
+      onItemSelected('devices', feature, layer._icon, queryString);
     });
   },
   pointToLayer: (feature, latlng) => {
@@ -168,44 +164,12 @@ export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
   onEachFeature: (feature, layer) => {
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
-      // e.target.setStyle(markerStyleActive);
+      const { id } = feature.properties;
+      const queryString = `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}`;
 
-      console.log('showInfo camera', layer);
-      onItemSelected('cameras', feature, layer.getElement())
+      onItemSelected('cameras', feature, layer.getElement(), queryString);
     });
   },
 });
-
-export const LAYER_OPTIONS_CONFIG = {
-  [CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED]: {
-    options: {
-      style: markerStyle,
-      onEachFeature: (feature, layer) => {
-        layer.on('click', e => {
-          DomEvent.stopPropagation(e);
-          e.target.setStyle(markerStyleActive);
-          // showInfo
-          console.log('showInfo', feature);
-        });
-      },
-    },
-  },
-  [CATEGORY_NAMES.CAMERA]: {
-    // icon: getMarkerIcon(CATEGORY_NAMES.CAMERA),
-    options: getPointOptions(CATEGORY_NAMES.CAMERA, ),
-  },
-  [CATEGORY_NAMES.SENSOR]: {
-    options: getPointOptions(CATEGORY_NAMES.SENSOR),
-  },
-  [CATEGORY_NAMES.BEACONS]: {
-    options: getPointOptions(CATEGORY_NAMES.BEACONS),
-  },
-  [CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE]: {
-    options: getPointOptions(CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE),
-  },
-  [CATEGORY_NAMES.SLIMME_LANTAARNPAAL]: {
-    options: getPointOptions(CATEGORY_NAMES.SLIMME_LANTAARNPAAL),
-  },
-};
 
 export default LAYERS_CONFIG;

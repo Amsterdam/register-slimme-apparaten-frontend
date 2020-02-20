@@ -53,15 +53,8 @@ const MapLayers = () => {
     dispatch(toggleMapLayerActionCreator(name));
   };
 
-  const handleItemSelected = (name, feature, element) => {
-    // const { id } = feature.properties;
-    // push({ pathname: '/', search: `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}` });
-    // const { id, category, contact: source } = feature.properties;
-    // selectLayerItem('devices', device);
-    // push({ pathname: '/', search: `?id=${id}&category=${category}&source=${source}` });
-
-    console.log('marker', name, element);
-    // eslint-disable-next-line no-unused-expressions
+  const handleItemSelected = (name, feature, element, queryString) => {
+    push({ pathname: '/', search: queryString });
     highlight(element);
     dispatch(selectLayerItemActionCreator(name, feature));
   };
