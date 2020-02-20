@@ -30,7 +30,7 @@ const GeoJSONLayerWithConfig = ({ options, config }) => {
 
     (async () => {
       const results = await layersReader(config);
-      const features = results.reduce((acc, { layer }) => [...acc, ...layer.features], []);
+      const features = results.reduce((acc, { layer: l }) => [...acc, ...l.features], []);
       const layerData = {
         type: 'FeatureCollection',
         name: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,

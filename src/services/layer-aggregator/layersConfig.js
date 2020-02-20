@@ -142,7 +142,6 @@ const markerStyle = {
 };
 
 const markerStyleActive = {
-  // strokeWidth: 3;
   weight: 3,
 };
 
@@ -151,8 +150,8 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
 
-      console.log('showInfo', CATEGORY_NAME, feature);
-      onItemSelected('devices', feature);
+      console.log('showInfo device', CATEGORY_NAME, feature);
+      onItemSelected('devices', feature,layer);
     });
   },
   pointToLayer: (feature, latlng) => {
@@ -169,9 +168,10 @@ export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
   onEachFeature: (feature, layer) => {
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
-      e.target.setStyle(markerStyleActive);
-      console.log('showInfo', CATEGORY_NAME, feature);
-      onItemSelected('cameras', feature)
+      // e.target.setStyle(markerStyleActive);
+
+      console.log('showInfo camera', layer);
+      onItemSelected('cameras', feature, layer)
     });
   },
 });

@@ -9,7 +9,7 @@ const useHighlight = () => {
 
   const clearSelection = () => {
     if (activeMarker.current && activeMarker.current._icon) {
-      activeMarker.current._icon.classList.remove('highlight');
+      activeMarker.current._icon.classList.remove(HIGHLIGHT_CLASS);
     }
 
     if (activePolygon.current) {
@@ -23,13 +23,15 @@ const useHighlight = () => {
   const highlightMarker = marker => {
     clearSelection();
     activeMarker.current = marker;
-    activeMarker.current._icon.classList.add('highlight');
+    activeMarker.current._icon.classList.add(HIGHLIGHT_CLASS);
   };
 
   const highlightPolygon = polygon => {
     clearSelection();
     activePolygon.current = polygon;
+    console.log(activePolygon.current);
     const { classList } = activePolygon.current.getElement();
+    console.log(classList);
     if (classList && classList.add) {
       classList.add(HIGHLIGHT_CLASS);
     }

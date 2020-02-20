@@ -18,10 +18,20 @@ import reducer, {
   toggleMapLayerActionCreator,
 } from '../../containers/MapContainer/MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
+import useHighlight from '../Map/hooks/useHighlight';
 
 const StyledMap = styled(Map)`
   width: 100%;
   height: calc(100vh - 50px);
+
+  .leaflet-marker-icon.active-element {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+  }
+
+  .leaflet-interactive.active-element {
+    stroke-width: 3;
+  }
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)``;
@@ -30,8 +40,7 @@ const MapLayers = () => {
   const selectedLayer = useSelector(state => state?.map?.selectedLayer);
   const selectedItem = useSelector(state => state?.map?.selectedItem);
   const dispatch = useDispatch();
-
-  console.log('MapLayers', selectedLayer, selectedItem);
+  const { highlightMarker, highlightPolygon } = useHighlight();
 
   const clearSelection = () => {
     dispatch(selectLayerItemActionCreator());
@@ -41,7 +50,10 @@ const MapLayers = () => {
     dispatch(toggleMapLayerActionCreator(name));
   };
 
-  const handleItemSelected = (name, feature) => {
+  const handleItemSelected = (name, feature, item) => {
+    console.log('marker', name, item);
+    // eslint-disable-next-line no-unused-expressions
+    name === 'devices' ? highlightMarker(item) : highlightPolygon(item);
     dispatch(selectLayerItemActionCreator(name, feature));
   };
 
