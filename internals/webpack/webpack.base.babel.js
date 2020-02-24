@@ -116,6 +116,7 @@ module.exports = options => ({
       react: path.resolve('./node_modules/react'),
       'react-dom': path.resolve('./node_modules/react-dom'),
       'styled-components': path.resolve('./node_modules/styled-components'),
+      'leaflet': path.resolve('./node_modules/leaflet'),
     },
   },
   devtool: options.devtool,

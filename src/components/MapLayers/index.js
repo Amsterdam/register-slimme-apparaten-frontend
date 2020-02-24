@@ -33,6 +33,25 @@ const StyledMap = styled(Map)`
   .leaflet-interactive.active-element {
     stroke-width: 3;
   }
+
+  // Override cluster design from leaflet
+  .marker-cluster {
+    color: white;
+    background-color: white !important;
+    box-shadow: 1px 1px 1px #666666;
+
+    div {
+      width: 32px !important;
+      height: 32px !important;
+      margin-top: 4px !important;
+      margin-left: 4px !important;
+      background-color: #004699 !important;
+    }
+
+    span {
+      line-height: 34px !important;
+    }
+  }
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)`

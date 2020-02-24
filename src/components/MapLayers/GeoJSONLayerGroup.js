@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { GeoJSON, useMapInstance } from '@datapunt/react-maps';
+import { useMapInstance, createLeafletComponent } from '@datapunt/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import queryStringParser from 'shared/services/auth/services/query-string-parser/query-string-parser';
 import layersReader from '../../services/layer-aggregator/layersReader';
@@ -10,21 +10,31 @@ import {
   removeLayerDataActionCreator,
 } from '../../containers/MapContainer/MapContainerDucks';
 
+const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
+
+const clusterGroupOptions = {
+  disableClusteringAtZoom: 16,
+  showCoverageOnHover: false,
+  spiderfyOnMaxZoom: false,
+};
+
 const GeoJSONLayerGroup = ({ onItemSelected }) => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const layerNames = useRef([]);
   const mapInstance = useMapInstance();
-
+  const [layerInstance, setLayerInstance] = useState();
 
   const legend = useSelector(state => state?.map?.legend);
-  const layers = useSelector(state => state?.map?.layers.filter(l => (layerNames.current.includes(l.name) &&state?.map?.legend[l.name])));
+  const layers = useSelector(state =>
+    state?.map?.layers.filter(l => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
+  );
 
   const udpateSelection = () => {
     const { id, source } = queryStringParser(location.search);
     mapInstance.eachLayer(f => {
       const isMarker = !f.getBounds;
-      if(!f.feature) return;
+      if (!f.feature) return;
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
       const zoom = isMarker ? 16 : 14;
       if (featureId === id && source === f.feature.contact) {
@@ -39,12 +49,26 @@ const GeoJSONLayerGroup = ({ onItemSelected }) => {
   };
 
   useEffect(() => {
+    if (layerInstance) {
+      layerInstance.clearLayers()
+      // eslint-disable-next-line no-unused-expressions
+      Object.entries(data)?.forEach(
+        ([name, value]) => {
+          // This will be moved in the react syntax
+          const layer = L.geoJSON(value, getPointOptions(name, onItemSelected));
+          layerInstance.addLayer( layer)
+        }
+      );
+    }
+  }, [layerInstance, data]);
+
+  useEffect(() => {
     const layerData = layers.reduce((acc, layer) => ({ ...acc, [layer.name]: layer }), {});
-    setData(layerData)
+    setData(layerData);
   }, [legend]);
 
   useEffect(() => {
-    if (!mapInstance) return () => { };
+    if (!mapInstance) return () => {};
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
       const layerData = results.reduce(
@@ -68,7 +92,6 @@ const GeoJSONLayerGroup = ({ onItemSelected }) => {
             : acc,
         {},
       );
-
       setData(layerData);
       layerNames.current = [...Object.keys(layerData)];
       dispatch(addLayerDataActionCreator([...Object.values(layerData)]));
@@ -78,10 +101,13 @@ const GeoJSONLayerGroup = ({ onItemSelected }) => {
       dispatch(removeLayerDataActionCreator([...layerNames.current]));
     };
   }, [mapInstance]);
-
-  return Object.entries(data)?.map(
-    ([name, value]) =>
-      value.features.length && <GeoJSON key={name} args={[value]} options={getPointOptions(name, onItemSelected)} />,
+  return (
+    (
+      <MarkerClusterGroup
+        setInstance={setLayerInstance}
+        options={clusterGroupOptions}
+      />
+    ) || null
   );
 };
 
