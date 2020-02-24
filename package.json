@@ -182,7 +182,6 @@
     "@datapunt/matomo-tracker-js": "0.0.15",
     "@datapunt/react-maps": "^0.7.2",
     "@formatjs/intl-pluralrules": "^1.5.2",
-    "amsterdam-amaps": "^2.0.1",
     "amsterdam-stijl": "^3.0.5",
     "axios": "^0.19.0",
     "babel-plugin-inline-react-svg": "^1.1.1",

@@ -21,7 +21,6 @@ import reducer, {
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import Geocoder, {
-  pointQuery,
   getSuggestions,
   getAddressById,
 } from '../Geocoder'

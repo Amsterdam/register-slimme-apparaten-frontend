@@ -3,11 +3,11 @@
     width: 50%;
     background-color: #eee;
 
-    @media screen and (max-width:992px) {
+    @media screen and (max-width: 992px) {
       width: 75%;
     }
 
-    @media screen and (max-width:576px) {
+    @media screen and (max-width: 576px) {
       width: 100%;
     }
   }
@@ -21,11 +21,11 @@
       padding-left: 50px;
     }
   }
-  
+
   label {
     font-weight: 900;
   }
-  
+
   .rij {
     margin-top: 16px;
 
@@ -61,6 +61,6 @@
   }
 
   .email {
-    font-family: 'Avenir LT W01 85 Heavy';
+    font-weight: 700;
   }
 }

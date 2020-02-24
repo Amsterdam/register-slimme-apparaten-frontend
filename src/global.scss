@@ -1,9 +1,3 @@
-@import 'node_modules/amsterdam-stijl/dist/scss/_ams-breakpoints.scss';
-@import 'node_modules/amsterdam-stijl/dist/scss/_ams-colorpalette.scss';
-@import 'node_modules/amsterdam-stijl/dist/scss/_ams-extends.scss';
-@import 'node_modules/amsterdam-stijl/dist/scss/_ams-font.scss';
-@import 'node_modules/amsterdam-stijl/dist/scss/_ams-mixins.scss';
-
 html,
 body {
   height: 100%;
@@ -11,8 +5,7 @@ body {
 }
 
 body {
-  font-family: 'AvenirNextLTW01-Regular', 'Helvetica Neue', Helvetica, Arial,
-    sans-serif;
+  font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 p {
@@ -37,7 +30,7 @@ dd {
 #app {
   min-height: 100%;
   min-width: 100%;
-  background-color: $ams-background-sidebars;
+  background-color: #e5e5e5;
 
   .content.container,
   .content.container-fluid {
@@ -51,7 +44,7 @@ dd {
 
   .app-container {
     padding: 0;
-    background-color: $ams-wit;
+    background-color: white;
   }
 
   .container {
