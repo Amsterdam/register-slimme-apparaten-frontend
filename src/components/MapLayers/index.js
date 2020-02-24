@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Map, TileLayer } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
 import { ViewerContainer } from '@datapunt/asc-ui';
@@ -20,6 +20,13 @@ import reducer, {
 } from '../../containers/MapContainer/MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
+import Geocoder, {
+  pointQuery,
+  getSuggestions,
+  getAddressById,
+} from '../Geocoder'
+
+
 
 const StyledMap = styled(Map)`
   width: 100%;
@@ -55,6 +62,7 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)`
+  top: 50px;
   z-index: 400;
 `;
 
@@ -78,9 +86,20 @@ const MapLayers = () => {
     highlight(element);
   };
 
+  const geocoderProps = useMemo(
+    () => ({
+      getSuggestions,
+      getAddressById,
+    }),
+    [],
+  )
+
   return (
-    <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS}>
-      <StyledViewerContainer bottomRight={<Zoom />} />
+    <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS} e>
+      <StyledViewerContainer
+        topLeft={<Geocoder {...geocoderProps} />}
+        bottomRight={<Zoom />}
+      />
 
       <MapLegend onToggleCategory={handleToggleCategory} />
       {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
