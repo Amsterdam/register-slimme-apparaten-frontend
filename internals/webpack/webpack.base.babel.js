@@ -24,7 +24,7 @@ module.exports = options => ({
   module: {
     rules: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.(t|j)sx?$/, // Transform all .js files required somewhere with Babel
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -117,6 +117,9 @@ module.exports = options => ({
       'react-dom': path.resolve('./node_modules/react-dom'),
       'styled-components': path.resolve('./node_modules/styled-components'),
       'leaflet': path.resolve('./node_modules/leaflet'),
+      '@datapunt/asc-assets': path.resolve('./node_modules/@datapunt/asc-assets'),
+      '@datapunt/asc-core': path.resolve('./node_modules/@datapunt/asc-core'),
+      '@datapunt/asc-ui': path.resolve('./node_modules/@datapunt/asc-ui'),
     },
   },
   devtool: options.devtool,

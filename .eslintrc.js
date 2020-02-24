@@ -100,11 +100,15 @@ module.exports = {
     'react/no-access-state-in-setstate': 1,
     'react/static-property-placement': 1,
     'jsx-a11y/anchor-is-valid': 1,
+    'react/jsx-filename-extension': [0, { extensions: ['.tsx', '.jsx'] }],
   },
   settings: {
     'import/resolver': {
       webpack: {
         config: './internals/webpack/webpack.prod.babel.js',
+      },
+      node: {
+        extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },
