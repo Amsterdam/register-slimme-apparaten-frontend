@@ -6,7 +6,7 @@ import 'leaflet.markercluster';
 
 import { categories, clusterCategories, CATEGORY_NAMES } from 'shared/configuration/categories';
 import { getMarkerIcon } from 'services/marker';
-import useHighlight from './useHighlight';
+import useHighlight from '../../MapLayers/hooks/useHighlight';
 
 export const showInfo = (element, item, onClick, highlight) => {
   highlight(element);

@@ -19,7 +19,7 @@ import reducer, {
   toggleMapLayerActionCreator,
 } from '../../containers/MapContainer/MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
-import useHighlight from '../Map/hooks/useHighlight';
+import useHighlight from './hooks/useHighlight';
 
 const StyledMap = styled(Map)`
   width: 100%;
