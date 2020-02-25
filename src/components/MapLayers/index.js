@@ -9,9 +9,9 @@ import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import { useHistory } from 'react-router-dom';
 import Zoom from './Zoom';
-import GeoJSONLayerWithConfig from './GeoJSONLayerWithConfig';
+import MapLayer from './MapLayer';
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
-import GeoJSONLayerGroup from './GeoJSONLayerGroup';
+import ClusterLayerGroup from './ClusterLayerGroup';
 import CameraAreaDetails from '../CameraAreaDetails';
 import DeviceDetails from '../DeviceDetails';
 import reducer, {
@@ -21,7 +21,6 @@ import reducer, {
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import Geocoder, {
-  pointQuery,
   getSuggestions,
   getAddressById,
 } from '../Geocoder'
@@ -105,9 +104,9 @@ const MapLayers = () => {
       {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
       {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
 
-      <GeoJSONLayerGroup onItemSelected={handleItemSelected} />
+      <ClusterLayerGroup onItemSelected={handleItemSelected} />
 
-      <GeoJSONLayerWithConfig
+      <MapLayer
         options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
         config={POLYGON_LAYERS_CONFIG}
       />

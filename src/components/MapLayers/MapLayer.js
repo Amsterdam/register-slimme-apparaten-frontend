@@ -9,7 +9,7 @@ import {
 } from '../../containers/MapContainer/MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 
-const GeoJSONLayerWithConfig = ({ options, config }) => {
+const MapLayer = ({ options, config }) => {
   const mapInstance = useMapInstance();
   const [json, setJson] = useState();
   const dispatch = useDispatch();
@@ -55,9 +55,9 @@ const GeoJSONLayerWithConfig = ({ options, config }) => {
   return json ? <GeoJSON args={[json]} options={options} /> : null;
 };
 
-GeoJSONLayerWithConfig.propTypes = {
+MapLayer.propTypes = {
   options: PropTypes.shape({}).isRequired,
   config: PropTypes.array.isRequired,
 };
 
-export default GeoJSONLayerWithConfig;
+export default MapLayer;

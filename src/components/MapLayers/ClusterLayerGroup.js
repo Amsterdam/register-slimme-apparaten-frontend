@@ -18,7 +18,7 @@ const clusterGroupOptions = {
   spiderfyOnMaxZoom: false,
 };
 
-const GeoJSONLayerGroup = ({ onItemSelected }) => {
+const ClusterLayerGroup = ({ onItemSelected }) => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
   const layerNames = useRef([]);
@@ -51,7 +51,6 @@ const GeoJSONLayerGroup = ({ onItemSelected }) => {
   useEffect(() => {
     if (layerInstance) {
       layerInstance.clearLayers()
-      // eslint-disable-next-line no-unused-expressions
       Object.entries(data)?.forEach(
         ([name, value]) => {
           // This will be moved in the react syntax
@@ -101,6 +100,7 @@ const GeoJSONLayerGroup = ({ onItemSelected }) => {
       dispatch(removeLayerDataActionCreator([...layerNames.current]));
     };
   }, [mapInstance]);
+
   return (
     (
       <MarkerClusterGroup
@@ -111,8 +111,8 @@ const GeoJSONLayerGroup = ({ onItemSelected }) => {
   );
 };
 
-GeoJSONLayerGroup.propTypes = {
+ClusterLayerGroup.propTypes = {
   onItemSelected: PropTypes.func.isRequired,
 };
 
-export default GeoJSONLayerGroup;
+export default ClusterLayerGroup;
