@@ -7,8 +7,8 @@ $accordion-toggle-width: 14px;
 $accordion-toggle-margin: 6px;
 
 .c-accordion {
-	margin-top: 30px;
-	margin-bottom: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .c-accordion__toggle {
@@ -20,7 +20,7 @@ $accordion-toggle-margin: 6px;
 }
 
 .c-accordion__toggle-title {
-	display: inline-block;
+  display: inline-block;
   margin: 0;
   max-width: calc(100% - #{$accordion-toggle-margin * 2 + $accordion-toggle-width});
 }
@@ -85,18 +85,18 @@ $accordion-toggle-margin: 6px;
   &:hover {
     .c-accordion__toggle {
       outline: 1px solid $gray-light-focus;
-    };
+    }
   }
   // End webkit border hack
 
   .c-accordion__content {
-		padding: 15px 20px;
-		font-size: 18px;
-		line-height: 24px;
+    padding: 15px 20px;
+    line-height: 24px;
 
-		ul li, ol li {
-			color: black;
-		}
+    ul li,
+    ol li {
+      color: black;
+    }
   }
 
   .c-accordion__toggle {

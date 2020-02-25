@@ -20,21 +20,21 @@ const StyledFooter = styled(AscFooter)`
 `;
 
 const desclaimers = [
-  `Het register biedt geen compleet overzicht van alle slimme apparaten. Registratie van slimme apparaten in het register is niet verplicht, maar wordt wel gevraagd.`,
-  `De "slimme apparaten" in het register zijn van diverse organisaties.`,
-  `De gegevens van de eigenaar van het slimme apparaat worden niet getoond i.v.m. privacy.`,
-  `De eigenaar bepaalt of hij reageert; hij is dat niet verplicht.`,
-  `Uw mail wordt niet gearchiveerd in het register. Ook uw persoonlijke gegevens worden niet geregistreerd in het register.`,
-  `De gegevens van de apparaten in het register worden overgenomen van de eigenaar. Die is verantwoordelijk voor de juistheid en volledigheid van de gegevens.`,
-  `OIS, onderdeel van Gemeente Amsterdam, kan niet aansprakelijk worden gesteld voor de juistheid, volledigheid en actualiteit van de website. De Gemeente Amsterdam, OIS kan in het bijzonder niet aansprakelijk worden gesteld voor eventuele schade of consequenties ontstaan door direct of indirect gebruik van de inhoud van de website.`,
+  { id: 1, value: `Het register biedt geen compleet overzicht van alle slimme apparaten. Registratie van slimme apparaten in het register is niet verplicht, maar wordt wel gevraagd.` },
+  { id: 2, value: `De "slimme apparaten" in het register zijn van diverse organisaties.` },
+  { id: 3, value: `De gegevens van de eigenaar van het slimme apparaat worden niet getoond i.v.m. privacy.` },
+  { id: 4, value: `De eigenaar bepaalt of hij reageert; hij is dat niet verplicht.` },
+  { id: 5, value: `Uw mail wordt niet gearchiveerd in het register. Ook uw persoonlijke gegevens worden niet geregistreerd in het register.` },
+  { id: 6, value: `De gegevens van de apparaten in het register worden overgenomen van de eigenaar. Die is verantwoordelijk voor de juistheid en volledigheid van de gegevens.` },
+  { id: 7, value: `OIS, onderdeel van Gemeente Amsterdam, kan niet aansprakelijk worden gesteld voor de juistheid, volledigheid en actualiteit van de website. De Gemeente Amsterdam, OIS kan in het bijzonder niet aansprakelijk worden gesteld voor eventuele schade of consequenties ontstaan door direct of indirect gebruik van de inhoud van de website.` },
 ];
 
 const DisclaimerLinks: React.FC<{ indent?: boolean }> = () => (
   <FooterLinkList>
-    {desclaimers.map(disclaimer => (
-      <FooterLinkListItem>
+    {desclaimers.map(({ id, value}) => (
+      <FooterLinkListItem key={id}>
         <Link href="/" variant="with-chevron" >
-          {disclaimer}
+          {value}
         </Link>
       </FooterLinkListItem>
     ))}
