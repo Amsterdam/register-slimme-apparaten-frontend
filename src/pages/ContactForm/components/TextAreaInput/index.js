@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TextArea from '../TextArea';
 
 import './style.scss';
 
@@ -38,7 +39,7 @@ const TextAreaInput = props => {
         )}
 
         <div className="text-area-input__control invoer">
-          <textarea
+          <TextArea
             name=""
             id={`form${name}`}
             value=""
