@@ -60,7 +60,6 @@ export const initialState = {
 };
 
 function mapReducer(state = initialState, action) {
-  console.log(action.type, action.payload);
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const result = {
