@@ -20,6 +20,7 @@ export const fetchDevices = async url => {
     contact: 'iothings',
     longitude: item.longitude,
     latitude: item.latitude,
+    organisation: item.organisation,
   }));
   return {
     type: 'FeatureCollection',

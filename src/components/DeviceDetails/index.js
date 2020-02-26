@@ -70,7 +70,6 @@ class DeviceDetails extends React.Component {
           <div className="device-details__table">
             <div className="device-details__header-row device-details__row">
               <div className="device-details__row-label">Apparaat</div>
-              <div className="device-details__row-element">{this.props.device.name}</div>
             </div>
             <div className="device-details__row">
               <div className="device-details__row-label">Categorie</div>
@@ -81,6 +80,12 @@ class DeviceDetails extends React.Component {
               <div className="device-details__row">
                 <div className="device-details__row-label">Type</div>
                 <div className="device-details__row-element">{this.props.device.soort}</div>
+              </div>
+            )}
+            {this.props.device.organisation && (
+              <div className="device-details__row">
+                <div className="device-details__row-label">Organisatie</div>
+                <div className="device-details__row-element">{this.props.device.organisation}</div>
               </div>
             )}
             {this.props.device.privacy && (
@@ -109,6 +114,7 @@ DeviceDetails.propTypes = {
     category: PropTypes.string.isRequired,
     privacy: PropTypes.string.isRequired,
     contact: PropTypes.string.isRequired,
+    organisation: PropTypes.string.isRequired,
   }).isRequired,
   onDeviceDetailsClose: PropTypes.func,
 };

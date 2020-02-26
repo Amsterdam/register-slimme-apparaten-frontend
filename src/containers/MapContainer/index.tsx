@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
+import { MapOptions } from 'leaflet'
 import { Map, TileLayer } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
+import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { constants } from '@datapunt/amsterdam-react-maps';
 import MapLegend from 'components/MapLegend';
@@ -24,6 +26,20 @@ import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import PointClusterLayer from './PointClusterLayer';
 import MapLayer from './MapLayer';
+
+const MAP_OPTIONS: MapOptions = {
+  center: [52.3731081, 4.8932945],
+  zoom: 10,
+  maxZoom: 16,
+  minZoom: 8,
+  zoomControl: false,
+  crs: getCrsRd(),
+  maxBounds: [
+    [52.25168, 4.64034],
+    [52.50536, 5.10737],
+  ],
+}
+
 
 const StyledMap = styled(Map)`
   width: 100%;
@@ -92,7 +108,7 @@ const MapContainer = () => {
   )
 
   return (
-    <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS} >
+    <StyledMap options={MAP_OPTIONS} >
       <StyledViewerContainer
         topLeft={<Geocoder {...geocoderProps} />}
         bottomRight={<Zoom />}
