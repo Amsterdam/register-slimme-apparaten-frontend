@@ -34,7 +34,7 @@ const CameraAreaDetails = props => {
       <div className="device-details__body">
         <div className="device-details__table">
           <div className="device-details__header-row device-details__row">
-            <div className="device-details__row-label">Apparaat</div>
+            <div className="device-details__row-label">Gebied</div>
           </div>
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
@@ -43,8 +43,8 @@ const CameraAreaDetails = props => {
           </div>
 
           <div className="device-details__row">
-            <div className="device-details__row-label">Type</div>
-            <div className="device-details__row-element">Onbekend</div>
+            <div className="device-details__row-label">Naam</div>
+            <div className="device-details__row-element">{props.device.properties.display}</div>
           </div>
         </div>
       </div>
@@ -54,6 +54,11 @@ const CameraAreaDetails = props => {
 
 CameraAreaDetails.propTypes = {
   onDeviceDetailsClose: PropTypes.func,
+  device: PropTypes.shape({
+    properties: PropTypes.shape({
+      display: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
 };
 
 export default CameraAreaDetails;

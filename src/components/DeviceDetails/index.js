@@ -11,7 +11,7 @@ import MailIcon from '../../images/icon-mail.svg';
 import './style.scss';
 
 const StyledButton = styled(Button)`
-  margin: ${themeSpacing(5)};
+  margin: ${themeSpacing(2, 6)};
 `;
 
 class DeviceDetails extends React.Component {

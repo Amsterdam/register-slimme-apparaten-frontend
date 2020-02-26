@@ -116,7 +116,7 @@ const MapContainer = () => {
 
       <MapLegend onToggleCategory={handleToggleCategory} />
       {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
-      {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
+      {selectedLayer === 'cameras' && <CameraAreaDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
       <PointClusterLayer onItemSelected={handleItemSelected} />
 

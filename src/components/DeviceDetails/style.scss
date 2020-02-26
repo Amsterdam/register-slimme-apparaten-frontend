@@ -45,6 +45,10 @@ $device-details-bottom: 10px;
     border-bottom: 1px solid $secondary-gray20;
   }
 
+  &__body {
+    padding-bottom: 8px;
+  }
+
   &__table {
     .device-details__header-row {
       background-color: $secondary-gray60;
