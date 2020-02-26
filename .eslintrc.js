@@ -101,6 +101,7 @@ module.exports = {
     'react/static-property-placement': 1,
     'jsx-a11y/anchor-is-valid': 1,
     'react/jsx-filename-extension': [0, { extensions: ['.tsx', '.jsx'] }],
+    'no-unused-expressions': 0,
   },
   settings: {
     'import/resolver': {
