@@ -22,7 +22,7 @@ import reducer, {
 } from './MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
-import ClusterLayerGroup from './ClusterLayerGroup';
+import PointClusterLayer from './PointClusterLayer';
 import MapLayer from './MapLayer';
 
 const StyledMap = styled(Map)`
@@ -77,7 +77,7 @@ const MapContainer = () => {
     dispatch(toggleMapLayerActionCreator(name));
   };
 
-  const handleItemSelected = (name, feature, element, queryString) => {
+  const handleItemSelected = (name, feature, element, queryString = null) => {
     if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
     highlight(element);
@@ -102,7 +102,7 @@ const MapContainer = () => {
       {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
       {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
 
-      <ClusterLayerGroup onItemSelected={handleItemSelected} />
+      <PointClusterLayer onItemSelected={handleItemSelected} />
 
       <MapLayer
         options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
