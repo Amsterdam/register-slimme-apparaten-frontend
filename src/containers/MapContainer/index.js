@@ -92,7 +92,7 @@ const MapContainer = () => {
   )
 
   return (
-    <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS} e>
+    <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS}>
       <StyledViewerContainer
         topLeft={<Geocoder {...geocoderProps} />}
         bottomRight={<Zoom />}
