@@ -1,12 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
+import { Button, themeSpacing } from '@datapunt/asc-ui';
+import styled from '@datapunt/asc-core';
 
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
 
 import './style.scss';
+
+const StyledButton = styled(Button)`
+  margin: ${themeSpacing(5)};
+`;
 
 class DeviceDetails extends React.Component {
   constructor(props) {
@@ -19,16 +25,15 @@ class DeviceDetails extends React.Component {
     const ContactButton = (
       <Route
         render={({ history, location }) => (
-          <button
-            type="button"
-            className="device-details__contact-button action secundary-blue"
+          <StyledButton
+            variant="primary"
+            iconLeft={<MailIcon />}
             onClick={() => {
               history.push(`/contact-owner/${location.search}`);
             }}
           >
-            <MailIcon />
             Contact met eigenaar
-          </button>
+          </StyledButton>
         )}
       />
     );
@@ -81,9 +86,10 @@ class DeviceDetails extends React.Component {
             {this.props.device.privacy && (
               <div className="device-details__row">
                 <div className="device-details__row-label">Privacyverklaring</div>
-                <div className="device-details__row-element"><a href={this.props.device.privacy} target="_blank" rel="noopener noreferrer">
-                  {this.props.device.privacy}
-                </a>
+                <div className="device-details__row-element">
+                  <a href={this.props.device.privacy} target="_blank" rel="noopener noreferrer">
+                    {this.props.device.privacy}
+                  </a>
                 </div>
               </div>
             )}
