@@ -15,15 +15,15 @@ import Geocoder, {
   getAddressById,
 } from 'components/Geocoder'
 import Zoom from './Zoom';
-import GeoJSONLayerWithConfig from './GeoJSONLayerWithConfig';
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
-import GeoJSONLayerGroup from './GeoJSONLayerGroup';
 import reducer, {
   selectLayerItemActionCreator,
   toggleMapLayerActionCreator,
 } from './MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
+import ClusterLayerGroup from './ClusterLayerGroup';
+import MapLayer from './MapLayer';
 
 const StyledMap = styled(Map)`
   width: 100%;
@@ -102,9 +102,9 @@ const MapContainer = () => {
       {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
       {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
 
-      <GeoJSONLayerGroup onItemSelected={handleItemSelected} />
+      <ClusterLayerGroup onItemSelected={handleItemSelected} />
 
-      <GeoJSONLayerWithConfig
+      <MapLayer
         options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
         config={POLYGON_LAYERS_CONFIG}
       />
