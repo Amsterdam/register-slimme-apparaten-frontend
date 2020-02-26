@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
-// import MapContainer from 'containers/MapContainer';
-import MapLayers from 'components/MapLayers';
+import MapContainer from 'containers/MapContainer';
 import HeaderContainer from 'containers/HeaderContainer';
 
 const MapPage = () => (
   <Fragment>
     <HeaderContainer />
-    {/* <MapContainer /> */}
-    <MapLayers/>
+    <MapContainer />
   </Fragment>
 );
 

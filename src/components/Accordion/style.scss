@@ -23,6 +23,7 @@ $accordion-toggle-margin: 6px;
   display: inline-block;
   margin: 0;
   max-width: calc(100% - #{$accordion-toggle-margin * 2 + $accordion-toggle-width});
+  font-size: 18px;
 }
 
 .c-accordion__toggle-icon {
