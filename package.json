@@ -7,8 +7,8 @@
     "url": "https://github.com/Amsterdam/register-slimme-apparaten-frontend.git"
   },
   "engines": {
-    "npm": ">=3",
-    "node": ">=5"
+    "npm": ">=6",
+    "node": ">=10"
   },
   "author": "Datapunt Amsterdam",
   "license": "MPL-2.0",
@@ -35,68 +35,7 @@
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=development jest",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
-    "test:watch": "cross-env NODE_ENV=test jest --watchAll",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
-  },
-  "babel": {
-    "plugins": [
-      "styled-components",
-      [
-        "inline-react-svg",
-        {
-          "ignorePattern": ".*marker\\.svg"
-        }
-      ],
-      "@babel/plugin-syntax-dynamic-import",
-      "@babel/plugin-syntax-import-meta",
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-proposal-json-strings",
-      [
-        "@babel/plugin-proposal-decorators",
-        {
-          "legacy": true
-        }
-      ],
-      "@babel/plugin-proposal-function-sent",
-      "@babel/plugin-proposal-export-namespace-from",
-      "@babel/plugin-proposal-numeric-separator",
-      "@babel/plugin-proposal-throw-expressions",
-      "@babel/plugin-proposal-export-default-from",
-      "@babel/plugin-proposal-logical-assignment-operators",
-      "@babel/plugin-proposal-optional-chaining",
-      [
-        "@babel/plugin-proposal-pipeline-operator",
-        {
-          "proposal": "minimal"
-        }
-      ],
-      "@babel/plugin-proposal-nullish-coalescing-operator",
-      "@babel/plugin-proposal-do-expressions",
-      "@babel/plugin-proposal-function-bind"
-    ],
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react",
-      "@babel/preset-typescript"
-    ],
-    "env": {
-      "production": {
-        "only": [
-          "src"
-        ],
-        "plugins": [
-          "transform-react-remove-prop-types",
-          "@babel/plugin-transform-react-constant-elements",
-          "@babel/plugin-transform-react-inline-elements"
-        ]
-      },
-      "test": {
-        "plugins": [
-          "@babel/plugin-transform-modules-commonjs",
-          "dynamic-import-node"
-        ]
-      }
-    }
+    "test:watch": "cross-env NODE_ENV=test jest --watchAll"
   },
   "dllPlugin": {
     "path": "node_modules/react-boilerplate-dlls",
@@ -119,50 +58,6 @@
       "core-js",
       "lodash",
       "eventsource-polyfill"
-    ]
-  },
-  "jest": {
-    "verbose": false,
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.test.{js,jsx,ts,tsx}",
-      "!src/*/RbGenerated*/*.{js,jsx,ts,tsx}",
-      "!src/app.tsx",
-      "!src/global-styles.js",
-      "!src/*/*/Loadable.{js,jsx,ts,tsx}",
-      "!src/static/*",
-      "!src/**/definitions/*"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 0,
-        "branches": 0,
-        "functions": 0,
-        "lines": 0
-      }
-    },
-    "coverageReporters": [
-      "lcov"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "src"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/internals/",
-      "<rootDir>/src/static"
-    ],
-    "moduleNameMapper": {
-      ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
-      ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/image.js"
-    },
-    "setupFilesAfterEnv": [
-      "<rootDir>/internals/testing/test-bundler.js"
-    ],
-    "testRegex": ".*\\.test\\.(j|s)s$",
-    "testEnvironment": "./internals/testing/jest-environment-jsdom-global-fix",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
     ]
   },
   "dependencies": {
@@ -253,7 +148,6 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "circular-dependency-plugin": "^5.2.0",
     "copy-webpack-plugin": "^5.1.1",
-    "coveralls": "^3.0.9",
     "css-loader": "^3.4.2",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
