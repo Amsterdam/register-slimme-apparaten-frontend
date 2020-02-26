@@ -3,12 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
+import { Checkbox } from '@datapunt/asc-ui';
 
 export const CheckboxInput = props => {
   const { name, display } = props;
   const render = ({ handler, value }) => (
     <div className="rij antwoord">
-      <input
+      <Checkbox
         type="checkbox"
         name=""
         id={`form${name}`}

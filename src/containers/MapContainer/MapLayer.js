@@ -6,7 +6,7 @@ import layersReader from '../../services/layer-aggregator/layersReader';
 import {
   addLayerDataActionCreator,
   removeLayerDataActionCreator,
-} from '../../containers/MapContainer/MapContainerDucks';
+} from './MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 
 const MapLayer = ({ options, config }) => {

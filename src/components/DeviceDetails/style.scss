@@ -18,7 +18,7 @@ $device-details-bottom: 10px;
   box-shadow: 2px 2px 0 0 $secondary-gray40;
   display: flex;
   flex-direction: column;
-  font-family: 'AvenirNextLTW01-Regular';
+  font-family: 'Avenir Next';
   max-height: calc(100% - #{$device-details-top + $device-details-bottom});
   max-width: $device-details-max-width;
   min-width: 285px;
@@ -97,7 +97,7 @@ $device-details-bottom: 10px;
     }
 
     .device-details__header-row & {
-      font-family: 'Avenir LT W01 85 Heavy';
+      font-weight: 700;
       color: $primary-light;
       background-color: inherit;
     }

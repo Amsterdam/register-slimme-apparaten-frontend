@@ -8,7 +8,7 @@ import LAYERS_CONFIG, { getPointOptions } from '../../services/layer-aggregator/
 import {
   addLayerDataActionCreator,
   removeLayerDataActionCreator,
-} from '../../containers/MapContainer/MapContainerDucks';
+} from './MapContainerDucks';
 
 const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
 

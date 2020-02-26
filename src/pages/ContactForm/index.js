@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styled from '@datapunt/asc-core';
+import { Button, themeSpacing } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import axios from 'axios';
 
@@ -35,6 +37,12 @@ const oneOrMoreQuestionsValidator = formControl => {
   });
   return valid ? null : { noneSelected: true };
 };
+
+const ContactFormStyle = styled.div``;
+
+const FormSuccessStyle = styled.div`
+  margin-top: ${themeSpacing(3)};
+`;
 
 const ContactForm = ({ device }) => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -86,7 +94,7 @@ const ContactForm = ({ device }) => {
   };
 
   const renderSuccess = () => (
-    <div className="form-success">
+    <FormSuccessStyle>
       <NavLink className="startagain action" to="/">
         Terug naar de kaart
       </NavLink>
@@ -96,7 +104,7 @@ const ContactForm = ({ device }) => {
         Een kopie van uw verzoek is verstuurd naar <span className="email">{contactForm.value.email}</span>. Uw verzoek
         is niet vastgelegd in het register.
       </p>
-    </div>
+    </FormSuccessStyle>
   );
 
   return (
@@ -104,7 +112,7 @@ const ContactForm = ({ device }) => {
       {submitSuccess ? (
         renderSuccess()
       ) : (
-        <div className="contact-form">
+        <ContactFormStyle className="contact-form">
           <h1>Contact met eigenaar</h1>
           {device && (
             <table className="contact-form__device-details table table-borderless">
@@ -188,14 +196,14 @@ const ContactForm = ({ device }) => {
                       control={contactForm.get('comment')}
                     />
                   </div>
-                  <button className="action secundary-blue" type="submit">
-                    <span className="value">Versturen</span>
-                  </button>
+                  <Button variant="primary" type="submit">
+                    Versturen
+                  </Button>
                 </div>
               </form>
             )}
           />
-        </div>
+        </ContactFormStyle>
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
+import { Input } from '@datapunt/asc-ui';
 
 export const TextInput = props => {
   const { name, display, placeholder } = props;
@@ -32,7 +33,7 @@ export const TextInput = props => {
       )}
 
       <div className="invoer">
-        <input
+        <Input
           name=""
           id={`form${name}`}
           value=""
