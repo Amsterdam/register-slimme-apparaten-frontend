@@ -4,7 +4,11 @@ import { Link } from '@datapunt/asc-ui'
 import styled from '@datapunt/asc-core'
 import SearchResultsListStyle from './SearchResultsListStyle'
 
-const StyledLink = styled(Link)<{ active?: boolean }>`
+interface Active {
+  active?: boolean
+}
+
+const StyledLink = styled(Link)<Active>`
   // @ts-ignore
   font-weight: ${({ active }) => (active ? 700 : 400)};
 

@@ -102,6 +102,12 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 1,
     'react/jsx-filename-extension': [0, { extensions: ['.tsx', '.jsx'] }],
     'no-unused-expressions': 0,
+    'import/extensions': ['error', 'ignorePackages', {
+      js: 'never',
+      jsx: 'never',
+      ts: 'never',
+      tsx: 'never',
+    }],
   },
   settings: {
     'import/resolver': {
@@ -109,7 +115,7 @@ module.exports = {
         config: './internals/webpack/webpack.prod.babel.js',
       },
       node: {
-        extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },

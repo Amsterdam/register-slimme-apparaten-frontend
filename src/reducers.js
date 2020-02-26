@@ -7,7 +7,6 @@ import { connectRouter } from 'connected-react-router';
 
 import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
-import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
 /*
  * routeReducer
@@ -24,7 +23,6 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     router: connectRouter(history),
     global: globalReducer,
-    language: languageProviderReducer,
     ...injectedReducers,
   });
 }
