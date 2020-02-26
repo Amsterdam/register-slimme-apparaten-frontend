@@ -18,6 +18,28 @@ const clusterGroupOptions = {
   spiderfyOnMaxZoom: false,
 };
 
+const transform = results => results.reduce(
+  (acc, { category, layer }) =>
+    layer.features.length
+      ? {
+        ...acc,
+        [category]: {
+          type: 'FeatureCollection',
+          name: category,
+          crs: {
+            type: 'name',
+            properties: {
+              name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
+            },
+          },
+          ...acc[category],
+          features: [...(acc[category]?.features || []), ...layer.features],
+        },
+      }
+      : acc,
+  {},
+);
+
 const ClusterLayerGroup = ({ onItemSelected }) => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
@@ -70,27 +92,7 @@ const ClusterLayerGroup = ({ onItemSelected }) => {
     if (!mapInstance) return () => {};
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
-      const layerData = results.reduce(
-        (acc, { category, layer }) =>
-          layer.features.length
-            ? {
-              ...acc,
-              [category]: {
-                type: 'FeatureCollection',
-                name: category,
-                crs: {
-                  type: 'name',
-                  properties: {
-                    name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
-                  },
-                },
-                ...acc[category],
-                features: [...(acc[category]?.features || []), ...layer.features],
-              },
-            }
-            : acc,
-        {},
-      );
+      const layerData = transform(results);
       setData(layerData);
       layerNames.current = [...Object.keys(layerData)];
       dispatch(addLayerDataActionCreator([...Object.values(layerData)]));
