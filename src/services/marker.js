@@ -1,7 +1,4 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable no-unused-vars */
 import L from 'leaflet';
-import 'leaflet.markercluster';
 
 import { categories } from 'shared/configuration/categories';
 

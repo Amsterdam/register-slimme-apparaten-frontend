@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
+import { MapOptions } from 'leaflet'
 import { Map, TileLayer } from '@datapunt/react-maps';
 import styled from '@datapunt/asc-core';
+import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
 import { ViewerContainer } from '@datapunt/asc-ui';
 import { constants } from '@datapunt/amsterdam-react-maps';
 import MapLegend from 'components/MapLegend';
@@ -22,8 +24,22 @@ import reducer, {
 } from './MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
-import ClusterLayerGroup from './ClusterLayerGroup';
+import PointClusterLayer from './PointClusterLayer';
 import MapLayer from './MapLayer';
+
+const MAP_OPTIONS: MapOptions = {
+  center: [52.3731081, 4.8932945],
+  zoom: 10,
+  maxZoom: 16,
+  minZoom: 8,
+  zoomControl: false,
+  crs: getCrsRd(),
+  maxBounds: [
+    [52.25168, 4.64034],
+    [52.50536, 5.10737],
+  ],
+}
+
 
 const StyledMap = styled(Map)`
   width: 100%;
@@ -77,7 +93,7 @@ const MapContainer = () => {
     dispatch(toggleMapLayerActionCreator(name));
   };
 
-  const handleItemSelected = (name, feature, element, queryString) => {
+  const handleItemSelected = (name, feature, element, queryString = null) => {
     if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
     highlight(element);
@@ -92,7 +108,7 @@ const MapContainer = () => {
   )
 
   return (
-    <StyledMap options={constants.DEFAULT_AMSTERDAM_MAPS_OPTIONS} >
+    <StyledMap options={MAP_OPTIONS} >
       <StyledViewerContainer
         topLeft={<Geocoder {...geocoderProps} />}
         bottomRight={<Zoom />}
@@ -100,9 +116,9 @@ const MapContainer = () => {
 
       <MapLegend onToggleCategory={handleToggleCategory} />
       {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
-      {selectedLayer === 'cameras' && <CameraAreaDetails onDeviceDetailsClose={clearSelection} />}
+      {selectedLayer === 'cameras' && <CameraAreaDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
-      <ClusterLayerGroup onItemSelected={handleItemSelected} />
+      <PointClusterLayer onItemSelected={handleItemSelected} />
 
       <MapLayer
         options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
