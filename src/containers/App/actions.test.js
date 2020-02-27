@@ -1,5 +1,5 @@
-import { testActionCreator } from '../../../internals/testing/test-utils';
 
+import { testActionCreator } from 'test/utils';
 import {
   AUTHENTICATE_USER,
   AUTHORIZE_USER,

@@ -17,7 +17,7 @@ $secondary-gray4: #f6f6f6;
   z-index: 1010;
   background-color: #fff;
   box-shadow: 2px 2px 0 0 $secondary-gray40;
-  font-family: "AvenirNextLTW01-Regular";
+  font-family: 'Avenir Next';
 
   @media screen and (max-width: 576px) {
     width: 100%;
@@ -77,8 +77,7 @@ $secondary-gray4: #f6f6f6;
     flex-grow: 1;
     font-size: 16px;
     line-height: 24px;
-    font-weight: normal;
-    font-family: "Avenir LT W01 85 Heavy";
+    font-weight: 700;
     text-align: left;
     display: inline-block;
     width: calc(100% - 56px);
@@ -111,5 +110,10 @@ $secondary-gray4: #f6f6f6;
     height: 20px;
     margin-left: -1px;
     margin-right: 7px;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
   }
 }

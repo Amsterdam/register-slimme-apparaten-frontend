@@ -8,37 +8,43 @@ const HeaderLink = styled(Link)`
   margin-right: ${themeSpacing(5)};
 `;
 
-const StyeldHeader = styled(Header)`
+const HeaderWrapper = styled.div`
+  z-index: 1;
+  position: sticky;
+  top:0;
+
   @media screen and ${breakpoint('max-width', 'tabletS')} {
     display: none;
   }
-`
+`;
 
 export const HeaderContainer = () => (
-  <StyeldHeader
-    tall={false}
-    title="Register slimme apparaten"
-    homeLink="/"
-    fullWidth
-    navigation={
-      <Fragment>
-        <div>
-          <HeaderLink $as={NavLink} to={APP_ROUTES.HOME} variant="blank">
-            Kaart
-          </HeaderLink>
-          <HeaderLink $as={NavLink} to={APP_ROUTES.CATEGORIES} variant="blank">
-            Type apparaten
-          </HeaderLink>
-          <HeaderLink $as={NavLink} to={APP_ROUTES.ABOUT_FAQ} variant="blank">
-            Veelgevraagd
-          </HeaderLink>
-          <HeaderLink $as={NavLink} to={APP_ROUTES.ABOUT} variant="blank">
-            Over dit register
-          </HeaderLink>
-        </div>
-      </Fragment>
-    }
-  ></StyeldHeader>
+  <HeaderWrapper>
+    <Header
+      tall={false}
+      title="Register slimme apparaten"
+      homeLink="/"
+      fullWidth
+      navigation={
+        <Fragment>
+          <div>
+            <HeaderLink $as={NavLink} to={APP_ROUTES.HOME} variant="blank">
+              Kaart
+            </HeaderLink>
+            <HeaderLink $as={NavLink} to={APP_ROUTES.CATEGORIES} variant="blank">
+              Type apparaten
+            </HeaderLink>
+            <HeaderLink $as={NavLink} to={APP_ROUTES.ABOUT_FAQ} variant="blank">
+              Veelgevraagd
+            </HeaderLink>
+            <HeaderLink $as={NavLink} to={APP_ROUTES.ABOUT} variant="blank">
+              Over dit register
+            </HeaderLink>
+          </div>
+        </Fragment>
+      }
+    ></Header>
+  </HeaderWrapper>
 );
 
 export default HeaderContainer;

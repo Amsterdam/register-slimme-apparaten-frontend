@@ -50,7 +50,7 @@ class MapLegend extends React.Component {
           title={this.state.isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
         >
           <MapLayersIcon className="map-legend__header-icon" />
-          <h4 className="map-legend__header-title" aria-hidden="true">
+          <h4 className="map-legend__header-title">
             Apparaten
           </h4>
           <CollapseIcon className="map-legend__header-icon map-legend__header-icon--expanded" />

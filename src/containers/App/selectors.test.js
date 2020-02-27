@@ -4,7 +4,6 @@ import {
   makeSelectAccessToken,
   makeSelectLoading,
   makeSelectError,
-  makeSelectLocation,
 } from './selectors';
 
 describe('selectGlobal', () => {
@@ -66,18 +65,5 @@ describe('makeSelectError', () => {
       },
     };
     expect(errorSelector(mockedState)).toEqual(error);
-  });
-});
-
-describe('makeSelectLocation', () => {
-  const locationStateSelector = makeSelectLocation();
-  it('should select the location', () => {
-    const route = {
-      location: { pathname: '/foo' },
-    };
-    const mockedState = {
-      route,
-    };
-    expect(locationStateSelector(mockedState)).toEqual(route.location);
   });
 });

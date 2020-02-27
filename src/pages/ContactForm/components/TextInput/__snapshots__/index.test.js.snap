@@ -16,7 +16,7 @@ exports[`<TextInput /> should render correctly 1`] = `
   <div
     className="invoer"
   >
-    <input
+    <Input
       className="input"
       id="formname"
       name=""

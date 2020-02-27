@@ -21,11 +21,11 @@ node {
         checkout scm
     }
 
-    stage("Unit and Integration") {
-      String  PROJECT = "iot-unittests"
+    stage("Unit tests") {
+      String  PROJECT = "iot-unittests-${env.BUILD_NUMBER}"
 
       tryStep "unittests start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit-integration test-unit-integration"
+        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit test-unit"
       }
       always {
         tryStep "unittests stop", {
@@ -51,7 +51,7 @@ node {
 
 String BRANCH = "${env.BRANCH_NAME}"
 
-if (BRANCH == "master") {
+if (BRANCH == "master" || BRANCH == "develop" ) {
 
     node {
         stage('Push acceptance image') {
@@ -75,6 +75,10 @@ if (BRANCH == "master") {
         }
     }
 
+}
+
+if (BRANCH == "master") {
+  
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Slimme Apparaten frontend is waiting for Production Release - please confirm'
         timeout(10) {
