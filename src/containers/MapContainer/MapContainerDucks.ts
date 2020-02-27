@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
 import { categories } from '../../shared/configuration/categories';
+import { ActionType } from '../../utils/types';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
@@ -8,42 +8,33 @@ export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM'
 export const TOGGLE_MAP_LAYER = 'src/containers/MapContainer/TOGGLE_MAP_LAYER';
 
 // action creators
-export function addLayerDataActionCreator(layers) {
+export function addLayerDataActionCreator(layers: any[]) {
   return {
     type: ADD_LAYER_DATA,
-    payload: layers ,
+    payload: layers,
   };
 }
 
-export function removeLayerDataActionCreator(names) {
+export function removeLayerDataActionCreator(names: string[]) {
   return {
     type: REMOVE_LAYER_DATA,
     payload: names,
   };
 }
 
-export function selectLayerItemActionCreator(name, item) {
+export function selectLayerItemActionCreator(name?: string, item?: any) {
   return {
     type: SELECT_LAYER_ITEM,
     payload: { name, item },
   };
 }
 
-export function toggleMapLayerActionCreator(name) {
+export function toggleMapLayerActionCreator(name: string) {
   return {
     type: TOGGLE_MAP_LAYER,
     payload: name,
   };
 }
-
-// selectors
-const selectMap = state => state.map;
-
-export const makeSelectLayers = () => createSelector(selectMap, map => map.layers);
-
-export const makeSelectedLayer = () => createSelector(selectMap, map => map.selectedLayer);
-
-export const makeSelectedItem = () => createSelector(selectMap, ({ selectedItem }) => selectedItem || null);
 
 /** initializes the legend with all layers visible */
 export const legend = Object.entries(categories).reduce(
@@ -51,23 +42,28 @@ export const legend = Object.entries(categories).reduce(
   {},
 );
 
+export interface MapState {
+  layers: Array<any>;
+  selectedLayer: any;
+  selectedItem: any;
+  legend: any;
+}
+
 // reducer
-export const initialState = {
+export const initialState: MapState = {
   layers: [],
   selectedLayer: null,
   selectedItem: null,
   legend,
 };
 
-function mapReducer(state = initialState, action) {
+
+function mapReducer(state = initialState, action: ActionType<any[] | string>) {
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const result = {
         ...state,
-        layers: [
-          ...state.layers,
-          ...action.payload,
-        ],
+        layers: [...state.layers, ...action.payload],
       };
       return result;
     }

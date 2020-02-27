@@ -5,9 +5,9 @@ export const HIGHLIGHT_CLASS = 'active-element';
 
 const useHighlight = () => {
 
-  const activeElement = useRef(null);
+  const activeElement = useRef<HTMLElement | null>(null);
 
-  const highlight = marker => {
+  const highlight = (marker: HTMLElement) => {
     activeElement.current?.classList.remove(HIGHLIGHT_CLASS);
     activeElement.current = marker;
     activeElement.current.classList.add(HIGHLIGHT_CLASS);

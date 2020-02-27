@@ -21,6 +21,7 @@ import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-a
 import reducer, {
   selectLayerItemActionCreator,
   toggleMapLayerActionCreator,
+  MapState,
 } from './MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
@@ -79,9 +80,10 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
 `;
 
+
 const MapContainer = () => {
-  const selectedLayer = useSelector(state => state?.map?.selectedLayer);
-  const selectedItem = useSelector(state => state?.map?.selectedItem);
+  const selectedLayer = useSelector<{map?: MapState}>(state => state?.map?.selectedLayer);
+  const selectedItem = useSelector<{map?: MapState}>(state => state?.map?.selectedItem);
   const dispatch = useDispatch();
   const { highlight } = useHighlight();
   const { push } = useHistory();
@@ -89,11 +91,11 @@ const MapContainer = () => {
     dispatch(selectLayerItemActionCreator());
   };
 
-  const handleToggleCategory = name => {
+  const handleToggleCategory = (name: string) => {
     dispatch(toggleMapLayerActionCreator(name));
   };
 
-  const handleItemSelected = (name, feature, element, queryString = null) => {
+  const handleItemSelected = (name: string, feature: any, element: HTMLElement, queryString?: string) => {
     if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
     highlight(element);

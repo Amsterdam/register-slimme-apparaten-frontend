@@ -117,7 +117,7 @@ module.exports = options => ({
 
   ]),
   resolve: {
-    modules: ['src', 'node_modules'],
+    modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js', '.ts', '.tsx'],
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
@@ -135,8 +135,5 @@ module.exports = options => ({
   performance: options.performance || {},
   externals: {
     globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
-  },
-  node: {
-    fs: 'empty',
   },
 });

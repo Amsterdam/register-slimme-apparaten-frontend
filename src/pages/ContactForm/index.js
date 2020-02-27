@@ -8,15 +8,12 @@ import axios from 'axios';
 
 import CONFIGURATION from 'shared/configuration/environment';
 
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { useSelector } from 'react-redux';
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
 import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
-import { makeSelectedItem } from '../../containers/MapContainer/MapContainerDucks';
 import queryStringParser from '../../shared/services/auth/services/query-string-parser/query-string-parser';
 
 const MAX_INPUT_LENGTH = 250;
@@ -44,9 +41,10 @@ const FormSuccessStyle = styled.div`
   margin-top: ${themeSpacing(3)};
 `;
 
-const ContactForm = ({ device }) => {
+const ContactForm = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const params = queryStringParser(window.location.search);
+  const device = useSelector(state => state?.map?.selectedItem);
 
   const contactForm = FormBuilder.group(
     {
@@ -220,10 +218,4 @@ ContactForm.propTypes = {
   }),
 };
 
-const mapStateToProps = createStructuredSelector({
-  device: makeSelectedItem(),
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(ContactForm);
+export default ContactForm;
