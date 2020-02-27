@@ -4,32 +4,35 @@ import { useMapInstance, GeoJSON } from '@datapunt/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import layersReader from 'services/layer-aggregator/layersReader';
 import { CATEGORY_NAMES } from 'shared/configuration/categories';
-import {
-  addLayerDataActionCreator,
-  removeLayerDataActionCreator,
-} from './MapContainerDucks';
+import { addLayerDataActionCreator, removeLayerDataActionCreator, MapState } from './MapContainerDucks';
 
-const MapLayer = ({ options, config }) => {
+interface MapLayerProps {
+  options: any;
+  config: any;
+}
+
+const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   const mapInstance = useMapInstance();
   const [json, setJson] = useState();
   const dispatch = useDispatch();
-  const layerName = useRef()
+  const layerName = useRef<string | undefined>();
 
-  const legend = useSelector(state => state?.map?.legend);
-  const layer = useSelector(state => state?.map?.layers.filter(l => l.name === layerName.current && state?.map?.legend[l.name]));
+  const legend = useSelector((state: { map: MapState }) => state?.map?.legend);
+  const layer = useSelector((state: { map: MapState }) =>
+    state?.map?.layers.filter(l => l.name === layerName.current && state?.map?.legend[l.name]),
+  );
 
   useEffect(() => {
-    setJson(layer[0])
-  }, [legend])
-
+    setJson(layer[0]);
+  }, [legend]);
 
   useEffect(() => {
     if (!mapInstance) {
-      return () => { };
+      return () => {};
     }
 
     (async () => {
-      const results = await layersReader(config);
+      const results: any[] = await layersReader(config);
       const features = results.reduce((acc, { layer: l }) => [...acc, ...l.features], []);
       const layerData = {
         type: 'FeatureCollection',
@@ -43,12 +46,12 @@ const MapLayer = ({ options, config }) => {
         features,
       };
       setJson(layerData);
-      layerName.current=layerData.name;
+      layerName.current = layerData.name;
       dispatch(addLayerDataActionCreator([layerData]));
     })();
 
     return () => {
-      dispatch(removeLayerDataActionCreator([layerName.current]));
+      layerName.current && dispatch(removeLayerDataActionCreator([layerName.current]));
     };
   }, [mapInstance]);
 

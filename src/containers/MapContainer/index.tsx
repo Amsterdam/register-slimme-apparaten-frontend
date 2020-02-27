@@ -16,7 +16,7 @@ import Geocoder, {
   getSuggestions,
   getAddressById,
 } from 'components/Geocoder'
-import Zoom from './Zoom';
+import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
 import reducer, {
   selectLayerItemActionCreator,
@@ -40,7 +40,6 @@ const MAP_OPTIONS: MapOptions = {
     [52.50536, 5.10737],
   ],
 }
-
 
 const StyledMap = styled(Map)`
   width: 100%;

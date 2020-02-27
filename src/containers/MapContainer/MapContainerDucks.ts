@@ -58,7 +58,7 @@ export const initialState: MapState = {
 };
 
 
-function mapReducer(state = initialState, action: ActionType<any[] | string>) {
+function mapReducer(state = initialState, action: ActionType<any>) {
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const result = {

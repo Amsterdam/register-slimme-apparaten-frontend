@@ -9,9 +9,7 @@ import { addLayerDataActionCreator, removeLayerDataActionCreator } from './MapCo
 import MarkersCluster, { MarkerClusterData } from '../../components/MarkerCluster/MarkersCluster';
 
 const clusterLayerOptions: MarkerClusterGroupOptions = {
-  disableClusteringAtZoom: 16,
   showCoverageOnHover: false,
-  spiderfyOnMaxZoom: false,
 };
 
 interface PointClusterLayerProps {
@@ -94,7 +92,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
   return (
     (
       <MarkersCluster
-        options={clusterLayerOptions}
+        clusterOptions={clusterLayerOptions}
         data={data}
         pointOptions={getPointOptions}
         onItemSelected={onItemSelected}
