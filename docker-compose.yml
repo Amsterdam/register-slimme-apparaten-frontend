@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Amsterdam
     ipc: host
     ports:
-      - "3001:80"
+      - '3001:80'
 
   test-unit:
     build:

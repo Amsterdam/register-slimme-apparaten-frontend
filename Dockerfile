@@ -16,6 +16,9 @@ COPY package.json \
   .eslintrc.js \
   .gitignore \
   .gitattributes \
+  tsconfig.json \
+  jest.config.js \
+  .babelrc \
   /app/
 
 COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
@@ -34,7 +37,7 @@ RUN npm cache clean --force
 
 # Build
 RUN echo "run build"
-RUN npm run build
+# RUN npm run build
 
 # Deploy
 FROM nginx:stable-alpine
