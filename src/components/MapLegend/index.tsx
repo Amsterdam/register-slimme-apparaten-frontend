@@ -35,6 +35,7 @@ const MapLegend: React.FC<Props> = ({
       <button
         type="button"
         className="map-legend__header"
+        data-testid="mapLegendToggleButton"
         onClick={() => setLegendVisible(!isLegendVisible)}
         title={isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
       >
@@ -46,7 +47,7 @@ const MapLegend: React.FC<Props> = ({
         <ExpandIcon className="map-legend__header-icon map-legend__header-icon--collapsed" />
       </button>
       <div className="map-legend__body">
-        {Object.entries(legend).map(([id, category]) => (
+        {isLegendVisible && Object.entries(legend).map(([id, category]) => (
           <div key={category.name} className="map-legend__row mb-1">
             <Checkbox name="check" checked={category.enabled} onChange={() => onToggleCategory(id)} />
             <span className="map-legend__icon">
