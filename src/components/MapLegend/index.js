@@ -24,7 +24,7 @@ const MapLegend = ({ onToggleCategory }) => {
       aria-expanded={isLegendVisible}
       className={`
           map-legend
-          map-legend--${setLegendVisible ? 'expanded' : 'collapsed'}
+          map-legend--${isLegendVisible ? 'expanded' : 'collapsed'}
         `}
     >
       <button
