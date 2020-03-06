@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { legend } from 'shared/configuration/categories';
 import { Checkbox } from '../../shared/components/checkbox';
@@ -10,7 +9,13 @@ import MapLayersIcon from '../../images/icon-map-layers.svg';
 
 import './style.scss';
 
-const MapLegend = ({ onToggleCategory }) => {
+export interface Props {
+  onToggleCategory: Function,
+}
+
+const MapLegend: React.FC<Props> = ({
+  onToggleCategory,
+}) => {
   const [isLegendVisible, setLegendVisible] = useState(window.innerWidth > 576);
 
   return (
@@ -53,10 +58,6 @@ const MapLegend = ({ onToggleCategory }) => {
       </div>
     </section>
   );
-};
-
-MapLegend.propTypes = {
-  onToggleCategory: PropTypes.func,
 };
 
 export default MapLegend;
