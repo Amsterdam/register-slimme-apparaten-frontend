@@ -9,7 +9,7 @@ import MailIcon from '../../images/icon-mail.svg';
 
 import './style.scss';
 
-interface Props {
+export interface Props {
   device: {
     id: number,
     name?: string, // Back-end does not provide value at this time
