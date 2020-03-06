@@ -14,7 +14,15 @@ const StyledButton = styled(Button)`
   margin: ${themeSpacing(2, 6)};
 `;
 
-const DeviceDetails = props => {
+const DeviceDetails = ({
+  onDeviceDetailsClose,
+  device: {
+    category,
+    soort,
+    organisation,
+    privacy,
+  },
+}) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -24,7 +32,7 @@ const DeviceDetails = props => {
         <button
           type="button"
           className="device-details__button"
-          onClick={props.onDeviceDetailsClose}
+          onClick={onDeviceDetailsClose}
           title="Sluiten"
         >
           <CloseIcon className="device-details__button-icon" />
@@ -37,7 +45,7 @@ const DeviceDetails = props => {
           </div>
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
-            <div className="device-details__row-element">{props.device.category}</div>
+            <div className="device-details__row-element">{category}</div>
             <button
               type="button"
               className="device-details__question-mark-button"
@@ -49,24 +57,24 @@ const DeviceDetails = props => {
             </button>
 
           </div>
-          {props.device.soort && (
+          {soort && (
             <div className="device-details__row">
               <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{props.device.soort}</div>
+              <div className="device-details__row-element">{soort}</div>
             </div>
           )}
-          {props.device.organisation && (
+          {organisation && (
             <div className="device-details__row">
               <div className="device-details__row-label">Organisatie</div>
-              <div className="device-details__row-element">{props.device.organisation}</div>
+              <div className="device-details__row-element">{organisation}</div>
             </div>
           )}
-          {props.device.privacy && (
+          {privacy && (
             <div className="device-details__row">
               <div className="device-details__row-label">Privacyverklaring</div>
               <div className="device-details__row-element">
-                <a href={props.device.privacy} target="_blank" rel="noopener noreferrer">
-                  {props.device.privacy}
+                <a href={privacy} target="_blank" rel="noopener noreferrer">
+                  {privacy}
                 </a>
               </div>
             </div>
@@ -86,6 +94,11 @@ const DeviceDetails = props => {
   );
 };
 
+DeviceDetails.defaultProps = {
+  device: {
+    organisation: '',
+  },
+}
 
 DeviceDetails.propTypes = {
   device: PropTypes.shape({
@@ -95,8 +108,8 @@ DeviceDetails.propTypes = {
     category: PropTypes.string.isRequired,
     privacy: PropTypes.string.isRequired,
     contact: PropTypes.string.isRequired,
-    organisation: PropTypes.string.isRequired,
-  }).isRequired,
+    organisation: PropTypes.string,
+  }),
   onDeviceDetailsClose: PropTypes.func,
 };
 
