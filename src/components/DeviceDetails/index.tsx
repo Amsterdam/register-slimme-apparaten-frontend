@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Button, themeSpacing } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
@@ -10,11 +9,24 @@ import MailIcon from '../../images/icon-mail.svg';
 
 import './style.scss';
 
+interface Props {
+  device: {
+    id: number,
+    name?: string, // Back-end does not provide value at this time
+    soort: string,
+    category: string,
+    privacy?: string,
+    contact: string,
+    organisation?: string,
+  },
+  onDeviceDetailsClose: Function,
+}
+
 const StyledButton = styled(Button)`
   margin: ${themeSpacing(2, 6)};
 `;
 
-const DeviceDetails = ({
+const DeviceDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
   device: {
     category,
@@ -92,25 +104,6 @@ const DeviceDetails = ({
       </div>
     </section>
   );
-};
-
-DeviceDetails.defaultProps = {
-  device: {
-    organisation: '',
-  },
-}
-
-DeviceDetails.propTypes = {
-  device: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string, // Back-end does not provide value at this time
-    soort: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    privacy: PropTypes.string.isRequired,
-    contact: PropTypes.string.isRequired,
-    organisation: PropTypes.string,
-  }),
-  onDeviceDetailsClose: PropTypes.func,
 };
 
 export default DeviceDetails;
