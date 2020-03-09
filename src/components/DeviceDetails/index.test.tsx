@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { withAppContext } from 'test/utils';
 
-import DeviceDetails , {Props} from '.';
+import DeviceDetails , { Props } from '.';
 
 describe('DeviceDetails', () => {
   const props:Props = {

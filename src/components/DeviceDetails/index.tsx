@@ -19,7 +19,7 @@ export interface Props {
     contact: string,
     organisation?: string,
   },
-  onDeviceDetailsClose: Function,
+  onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
 }
 
 const StyledButton = styled(Button)`
