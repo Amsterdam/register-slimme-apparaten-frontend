@@ -9,12 +9,6 @@ import './style.scss';
 export interface Props {
   device: {
     id: number;
-    name?: string; // Back-end does not provide value at this time
-    soort: string;
-    category: string;
-    privacy?: string;
-    contact: string;
-    organisation?: string;
     properties: {
       display: string
     };
@@ -25,13 +19,9 @@ export interface Props {
 const CameraAreaDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
   device: {
-    category,
-    soort,
-    organisation,
-    privacy,
     properties: {
-      display
-    }
+      display,
+    },
   },
 }) => {
   const history = useHistory();
