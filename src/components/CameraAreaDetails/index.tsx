@@ -1,33 +1,45 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 
 import './style.scss';
 
-const CameraAreaDetails = props => {
-  const TypesButton = (
-    <Route
-      render={({ history }) => (
-        <button
-          type="button"
-          className="device-details__question-mark-button"
-          onClick={() => {
-            history.push('/categories');
-          }}
-        >
-          <QuestionMarkIcon />
-        </button>
-      )}
-    />
-  );
+export interface Props {
+  device: {
+    id: number;
+    name?: string; // Back-end does not provide value at this time
+    soort: string;
+    category: string;
+    privacy?: string;
+    contact: string;
+    organisation?: string;
+    properties: {
+      display: string
+    };
+  },
+  onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
+}
+
+const CameraAreaDetails: React.FC<Props> = ({
+  onDeviceDetailsClose,
+  device: {
+    category,
+    soort,
+    organisation,
+    privacy,
+    properties: {
+      display
+    }
+  },
+}) => {
+  const history = useHistory();
 
   return (
     <section id="device-details" className="device-details">
       <div className="device-details__heading">
-        <button type="button" className="device-details__button" onClick={props.onDeviceDetailsClose} title="Sluiten">
+        <button type="button" className="device-details__button" onClick={onDeviceDetailsClose} title="Sluiten">
           <CloseIcon className="device-details__button-icon" />
         </button>
       </div>
@@ -39,26 +51,26 @@ const CameraAreaDetails = props => {
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
             <div className="device-details__row-element">Camera toezichtsgebied</div>
-            {TypesButton}
+            <button
+              type="button"
+              className="device-details__question-mark-button"
+              onClick={() => {
+                history.push('/categories');
+              }}
+            >
+              <QuestionMarkIcon />
+            </button>
+
           </div>
 
           <div className="device-details__row">
             <div className="device-details__row-label">Naam</div>
-            <div className="device-details__row-element">{props.device.properties.display}</div>
+            <div className="device-details__row-element">{display}</div>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-CameraAreaDetails.propTypes = {
-  onDeviceDetailsClose: PropTypes.func,
-  device: PropTypes.shape({
-    properties: PropTypes.shape({
-      display: PropTypes.string.isRequired,
-    }),
-  }).isRequired,
 };
 
 export default CameraAreaDetails;
