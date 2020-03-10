@@ -5,27 +5,55 @@ import { withAppContext } from 'test/utils';
 import DeviceDetails , { Props } from '.';
 
 describe('DeviceDetails', () => {
-  const props:Props = {
-    device: {
-      id: 42,
-      soort: 'Luchtkwaliteit',
-      category: 'Sensor',
-      privacy: 'privacy',
-      contact: 'iothings',
-      organisation: 'GGD Amsterdam',
-    },
-    onDeviceDetailsClose: jest.fn(),
-  };
-  it('should render', () => {
+  it('should render device', () => {
+    const props:Props = {
+      device: {
+        id: 42,
+        soort: 'Luchtkwaliteit',
+        category: 'Sensor',
+        privacy: 'privacy',
+        contact: 'iothings',
+        organisation: 'GGD Amsterdam',
+      },
+      isAreaCamera: false,
+      onDeviceDetailsClose: jest.fn(),
+    };
+
     const { queryByText } = render(
       withAppContext(<DeviceDetails {...props} />)
     );
 
-    expect(queryByText(props.device.soort)).toBeInTheDocument();
+    expect(queryByText('Apparaat')).toBeInTheDocument();
+    expect(queryByText(props.device?.soort)).toBeInTheDocument();
     expect(queryByText(props.device.category)).toBeInTheDocument();
     expect(queryByText(props.device.privacy)).toBeInTheDocument();
     expect(queryByText(props.device.organisation)).toBeInTheDocument();
+  });
 
-    expect(queryByText(props.device.contact)).not.toBeInTheDocument();
+  it('should render area cameras', () => {
+    const props:Props = {
+      device: {
+        id: 42,
+        soort: 'Luchtkwaliteit',
+        category: 'Sensor',
+        privacy: 'privacy',
+        contact: 'iothings',
+        organisation: 'GGD Amsterdam',
+        properties: {
+          display: 'Karel Doormanplein',
+        },
+      },
+      isAreaCamera: true,
+      onDeviceDetailsClose: jest.fn(),
+    };
+
+
+    const { queryByText } = render(
+      withAppContext(<DeviceDetails {...props} />)
+    );
+
+    expect(queryByText('Gebied')).toBeInTheDocument();
+    expect(queryByText(props.device?.properties?.display)).toBeInTheDocument();
+    expect(queryByText('Camera toezichtsgebied')).toBeInTheDocument();
   });
 });
