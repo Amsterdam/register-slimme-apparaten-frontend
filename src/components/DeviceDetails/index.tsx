@@ -10,15 +10,19 @@ import MailIcon from '../../images/icon-mail.svg';
 import './style.scss';
 
 export interface Props {
-  device: {
-    id: number,
-    name?: string, // Back-end does not provide value at this time
-    soort: string,
-    category: string,
-    privacy?: string,
-    contact: string,
-    organisation?: string,
+  device?: {
+    id: number;
+    name?: string; // Back-end does not provide value at this time
+    soort?: string;
+    category?: string;
+    privacy?: string;
+    contact?: string;
+    organisation?: string;
+    properties?: {
+      display: string
+    };
   },
+  isAreaCamera: boolean;
   onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
 }
 
@@ -28,18 +32,15 @@ const StyledButton = styled(Button)`
 
 const DeviceDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
-  device: {
-    category,
-    soort,
-    organisation,
-    privacy,
-  },
+  isAreaCamera,
+  device,
 }) => {
   const history = useHistory();
   const location = useLocation();
 
   return (
     <section id="device-details" className="device-details">
+
       <div className="device-details__heading">
         <button
           type="button"
@@ -53,42 +54,51 @@ const DeviceDetails: React.FC<Props> = ({
       <div className="device-details__body">
         <div className="device-details__table">
           <div className="device-details__header-row device-details__row">
-            <div className="device-details__row-label">Apparaat</div>
+            <div className="device-details__row-label">{isAreaCamera ? 'Gebied' : 'Apparaat'}</div>
           </div>
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
-            <div className="device-details__row-element">{category}</div>
-            <button
-              type="button"
-              className="device-details__question-mark-button"
-              onClick={() => {
-                history.push('/categories');
-              }}
-            >
-              <QuestionMarkIcon />
-            </button>
+            <div className="device-details__row-element">{isAreaCamera ? 'Camera toezichtsgebied' : device?.category}</div>
+
+            {!isAreaCamera &&
+              <button
+                type="button"
+                className="device-details__question-mark-button"
+                onClick={() => {
+                  history.push('/categories');
+                }}
+              >
+                <QuestionMarkIcon />
+              </button>
+            }
 
           </div>
-          {soort && (
+          {device?.soort && (
             <div className="device-details__row">
               <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{soort}</div>
+              <div className="device-details__row-element">{device?.soort}</div>
             </div>
           )}
-          {organisation && (
+          {device?.organisation && (
             <div className="device-details__row">
               <div className="device-details__row-label">Organisatie</div>
-              <div className="device-details__row-element">{organisation}</div>
+              <div className="device-details__row-element">{device?.organisation}</div>
             </div>
           )}
-          {privacy && (
+          {device?.privacy && (
             <div className="device-details__row">
               <div className="device-details__row-label">Privacyverklaring</div>
               <div className="device-details__row-element">
-                <a href={privacy} target="_blank" rel="noopener noreferrer">
-                  {privacy}
+                <a href={device?.privacy} target="_blank" rel="noopener noreferrer">
+                  {device?.privacy}
                 </a>
               </div>
+            </div>
+          )}
+          {device?.properties?.display && (
+            <div className="device-details__row">
+              <div className="device-details__row-label">Naam</div>
+              <div className="device-details__row-element">{device?.properties?.display}</div>
             </div>
           )}
         </div>

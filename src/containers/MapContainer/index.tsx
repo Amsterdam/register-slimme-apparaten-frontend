@@ -10,7 +10,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
 import injectReducer from 'utils/injectReducer';
 import { useHistory } from 'react-router-dom';
-import CameraAreaDetails from 'components/CameraAreaDetails';
 import DeviceDetails from 'components/DeviceDetails';
 import Geocoder, {
   getSuggestions,
@@ -97,6 +96,8 @@ const MapContainer = () => {
   const handleItemSelected = (name: string, feature: any, element: HTMLElement, queryString?: string) => {
     if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
+    console.log('handleItemSelected', name, feature);
+
     highlight(element);
   };
 
@@ -116,8 +117,7 @@ const MapContainer = () => {
       />
 
       <MapLegend onToggleCategory={handleToggleCategory} />
-      {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
-      {selectedLayer === 'cameras' && <CameraAreaDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
+      {selectedLayer && <DeviceDetails device={selectedItem} isAreaCamera={selectedLayer === 'cameras'} onDeviceDetailsClose={clearSelection} />}
 
       <PointClusterLayer onItemSelected={handleItemSelected} />
 
