@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Button, themeSpacing } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
 
+import APP_ROUTES from '../../services/appRoutes';
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
@@ -65,7 +66,7 @@ const DeviceDetails: React.FC<Props> = ({
                 type="button"
                 className="device-details__question-mark-button"
                 onClick={() => {
-                  history.push('/categories');
+                  history.push(APP_ROUTES.CATEGORIES);
                 }}
               >
                 <QuestionMarkIcon />
@@ -106,7 +107,7 @@ const DeviceDetails: React.FC<Props> = ({
           variant="primary"
           iconLeft={<MailIcon />}
           onClick={() => {
-            history.push(`/contact-owner/${location.search}`);
+            history.push(`${APP_ROUTES.CONTACT}/${location.search}`);
           }}
         >
           Contact met eigenaar
