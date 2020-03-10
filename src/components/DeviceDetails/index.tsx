@@ -45,6 +45,7 @@ const DeviceDetails: React.FC<Props> = ({
       <div className="device-details__heading">
         <button
           type="button"
+          data-testid="closeButton"
           className="device-details__button"
           onClick={onDeviceDetailsClose}
           title="Sluiten"
@@ -61,17 +62,16 @@ const DeviceDetails: React.FC<Props> = ({
             <div className="device-details__row-label">Categorie</div>
             <div className="device-details__row-element">{isAreaCamera ? 'Camera toezichtsgebied' : device?.category}</div>
 
-            {!isAreaCamera &&
-              <button
-                type="button"
-                className="device-details__question-mark-button"
-                onClick={() => {
-                  history.push(APP_ROUTES.CATEGORIES);
-                }}
-              >
-                <QuestionMarkIcon />
-              </button>
-            }
+            <button
+              data-testid="categoriesButton"
+              type="button"
+              className="device-details__question-mark-button"
+              onClick={() => {
+                history.push(APP_ROUTES.CATEGORIES);
+              }}
+            >
+              <QuestionMarkIcon />
+            </button>
 
           </div>
           {device?.soort && (
@@ -103,15 +103,18 @@ const DeviceDetails: React.FC<Props> = ({
             </div>
           )}
         </div>
-        <StyledButton
-          variant="primary"
-          iconLeft={<MailIcon />}
-          onClick={() => {
-            history.push(`${APP_ROUTES.CONTACT}/${location.search}`);
-          }}
-        >
-          Contact met eigenaar
-        </StyledButton>
+        {!isAreaCamera &&
+          <StyledButton
+            variant="primary"
+            data-testid="contactButton"
+            iconLeft={<MailIcon />}
+            onClick={() => {
+              history.push(`${APP_ROUTES.CONTACT}/${location.search}`);
+            }}
+          >
+            Contact met eigenaar
+          </StyledButton>
+        }
       </div>
     </section>
   );
