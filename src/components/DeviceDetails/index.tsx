@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Button, themeSpacing } from '@datapunt/asc-ui';
 import styled from '@datapunt/asc-core';
 
-import APP_ROUTES from '../../services/appRoutes';
+import APP_ROUTES from 'services/appRoutes';
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
@@ -20,7 +20,8 @@ export interface Props {
     contact?: string;
     organisation?: string;
     properties?: {
-      display: string
+      display: string;
+      Privacyverklaring?: string;
     };
   },
   selectedLayer: string;
@@ -38,8 +39,8 @@ const DeviceDetails: React.FC<Props> = ({
 }) => {
   const history = useHistory();
   const location = useLocation();
-  const { soort, category, privacy, organisation, properties } = device || {};
-  const { display } = properties || {};
+  const { soort, category, organisation, properties } = device || {};
+  const { display, Privacyverklaring } = properties || {};
 
   return (
     <section id="device-details" className="device-details">
@@ -88,12 +89,12 @@ const DeviceDetails: React.FC<Props> = ({
               <div className="device-details__row-element">{organisation}</div>
             </div>
           )}
-          {privacy && (
+          {Privacyverklaring && (
             <div className="device-details__row">
               <div className="device-details__row-label">Privacyverklaring</div>
               <div className="device-details__row-element">
-                <a href={privacy} target="_blank" rel="noopener noreferrer">
-                  {privacy}
+                <a href={Privacyverklaring} target="_blank" rel="noopener noreferrer">
+                  {Privacyverklaring}
                 </a>
               </div>
             </div>
