@@ -25,7 +25,7 @@ describe('DeviceDetails', () => {
         contact: 'iothings',
         organisation: 'GGD Amsterdam',
       },
-      isAreaCamera: false,
+      selectedLayer: 'devices',
       onDeviceDetailsClose: jest.fn(),
     };
 
@@ -52,7 +52,7 @@ describe('DeviceDetails', () => {
           display: 'Karel Doormanplein',
         },
       },
-      isAreaCamera: true,
+      selectedLayer: 'cameras',
       onDeviceDetailsClose: jest.fn(),
     };
 
@@ -81,7 +81,7 @@ describe('DeviceDetails', () => {
           soort: 'Luchtkwaliteit',
           category: 'Sensor',
         },
-        isAreaCamera: false,
+        selectedLayer: 'devices',
         onDeviceDetailsClose: jest.fn(),
       };
 

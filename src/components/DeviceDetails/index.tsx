@@ -23,7 +23,7 @@ export interface Props {
       display: string
     };
   },
-  isAreaCamera: boolean;
+  selectedLayer: string;
   onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
 }
 
@@ -33,7 +33,7 @@ const StyledButton = styled(Button)`
 
 const DeviceDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
-  isAreaCamera,
+  selectedLayer,
   device,
 }) => {
   const history = useHistory();
@@ -56,11 +56,11 @@ const DeviceDetails: React.FC<Props> = ({
       <div className="device-details__body">
         <div className="device-details__table">
           <div className="device-details__header-row device-details__row">
-            <div className="device-details__row-label">{isAreaCamera ? 'Gebied' : 'Apparaat'}</div>
+            <div className="device-details__row-label">{selectedLayer === 'cameras' ? 'Gebied' : 'Apparaat'}</div>
           </div>
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
-            <div className="device-details__row-element">{isAreaCamera ? 'Camera toezichtsgebied' : device?.category}</div>
+            <div className="device-details__row-element">{selectedLayer === 'cameras'  ? 'Camera toezichtsgebied' : device?.category}</div>
 
             <button
               data-testid="categoriesButton"
@@ -103,7 +103,7 @@ const DeviceDetails: React.FC<Props> = ({
             </div>
           )}
         </div>
-        {!isAreaCamera &&
+        {selectedLayer === 'devices'  &&
           <StyledButton
             variant="primary"
             data-testid="contactButton"
