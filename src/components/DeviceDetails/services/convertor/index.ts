@@ -1,12 +1,5 @@
 import APP_ROUTES from 'services/appRoutes';
-import { Device } from '../..';
-
-interface DeviceDataItem {
-  key: string;
-  value?: string;
-  buttonAction?: string;
-  isLink?: boolean;
-}
+import { Device, DeviceDataItem } from '../..';
 
 interface DeviceData {
   title: string;

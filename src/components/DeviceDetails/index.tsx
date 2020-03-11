@@ -22,6 +22,13 @@ export interface Device {
   };
 }
 
+interface DeviceDataItem {
+  key: string;
+  value?: string;
+  buttonAction?: string;
+  isLink?: boolean;
+}
+
 export interface Props {
   device?: Device;
   selectedLayer: string;
@@ -59,7 +66,7 @@ const DeviceDetails: React.FC<Props> = ({
           <div className="device-details__header-row device-details__row">
             <div className="device-details__row-label">{deviceData.title}</div>
           </div>
-          {deviceData.props.map(({ key, value, buttonAction, isLink }) => (
+          {deviceData.props.map(({ key, value, buttonAction, isLink }: DeviceDataItem) => (
             <div key={key}>
               {value && (
                 <div className="device-details__row">
