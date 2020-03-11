@@ -1,20 +1,22 @@
 import APP_ROUTES from 'services/appRoutes';
+import { Device } from '../..';
 
-// interface DeviceDataItem {
-//   name: string,
-//   value: string | React.FC,
-// }
+interface DeviceDataItem {
+  key: string;
+  value?: string;
+  buttonAction?: string;
+  isLink?: boolean;
+}
 
-// interface DeviceData {
-//   title: string,
-//   props: DeviceDataItem[],
-//   hasOwner: boolean,
-//   hasHelp: boolean,
-// }
+interface DeviceData {
+  title: string;
+  props: DeviceDataItem[];
+  hasOwner: boolean;
+}
 
 const convertor = {
   'devices': {
-    getData: device => {
+    getData: (device: Device): DeviceData => {
       const {
         soort,
         category,
@@ -49,7 +51,7 @@ const convertor = {
     },
   },
   'cameras': {
-    getData: device => {
+    getData: (device: Device): DeviceData => {
       const {
         properties,
       } = device || {};

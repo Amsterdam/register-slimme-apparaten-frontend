@@ -10,20 +10,20 @@ import MailIcon from '../../images/icon-mail.svg';
 import convertor from './services/convertor';
 import './style.scss';
 
+export interface Device {
+  id: number;
+  soort?: string;
+  category?: string;
+  contact?: string;
+  organisation?: string;
+  properties?: {
+    display?: string;
+    Privacyverklaring?: string;
+  };
+}
+
 export interface Props {
-  device?: {
-    id: number;
-    name?: string; // Back-end does not provide value at this time
-    soort?: string;
-    category?: string;
-    privacy?: string;
-    contact?: string;
-    organisation?: string;
-    properties?: {
-      display: string;
-      Privacyverklaring?: string;
-    };
-  },
+  device?: Device;
   selectedLayer: string;
   onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
 }
@@ -39,7 +39,7 @@ const DeviceDetails: React.FC<Props> = ({
 }) => {
   const history = useHistory();
   const location = useLocation();
-  const deviceData = convertor[selectedLayer].getData(device)
+  const deviceData = convertor[selectedLayer].getData(device);
 
   return (
     <section id="device-details" className="device-details">
