@@ -38,6 +38,8 @@ const DeviceDetails: React.FC<Props> = ({
 }) => {
   const history = useHistory();
   const location = useLocation();
+  const { soort, category, privacy, organisation, properties } = device || {};
+  const { display } = properties || {};
 
   return (
     <section id="device-details" className="device-details">
@@ -60,7 +62,7 @@ const DeviceDetails: React.FC<Props> = ({
           </div>
           <div className="device-details__row">
             <div className="device-details__row-label">Categorie</div>
-            <div className="device-details__row-element">{selectedLayer === 'cameras'  ? 'Camera toezichtsgebied' : device?.category}</div>
+            <div className="device-details__row-element">{selectedLayer === 'cameras'  ? 'Camera toezichtsgebied' : category}</div>
 
             <button
               data-testid="categoriesButton"
@@ -74,32 +76,32 @@ const DeviceDetails: React.FC<Props> = ({
             </button>
 
           </div>
-          {device?.soort && (
+          {soort && (
             <div className="device-details__row">
               <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{device?.soort}</div>
+              <div className="device-details__row-element">{soort}</div>
             </div>
           )}
-          {device?.organisation && (
+          {organisation && (
             <div className="device-details__row">
               <div className="device-details__row-label">Organisatie</div>
-              <div className="device-details__row-element">{device?.organisation}</div>
+              <div className="device-details__row-element">{organisation}</div>
             </div>
           )}
-          {device?.privacy && (
+          {privacy && (
             <div className="device-details__row">
               <div className="device-details__row-label">Privacyverklaring</div>
               <div className="device-details__row-element">
-                <a href={device?.privacy} target="_blank" rel="noopener noreferrer">
-                  {device?.privacy}
+                <a href={privacy} target="_blank" rel="noopener noreferrer">
+                  {privacy}
                 </a>
               </div>
             </div>
           )}
-          {device?.properties?.display && (
+          {display && (
             <div className="device-details__row">
               <div className="device-details__row-label">Naam</div>
-              <div className="device-details__row-element">{device?.properties?.display}</div>
+              <div className="device-details__row-element">{display}</div>
             </div>
           )}
         </div>
