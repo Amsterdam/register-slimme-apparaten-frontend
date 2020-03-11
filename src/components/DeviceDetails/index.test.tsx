@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('DeviceDetails', () => {
-  it.only('should render device', () => {
+  it('should render device', () => {
     const props:Props = {
       device: {
         id: 42,
