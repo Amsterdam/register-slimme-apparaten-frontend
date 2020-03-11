@@ -7,7 +7,7 @@ import APP_ROUTES from 'services/appRoutes';
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import MailIcon from '../../images/icon-mail.svg';
-
+import convertor from './services/convertor';
 import './style.scss';
 
 export interface Props {
@@ -39,12 +39,10 @@ const DeviceDetails: React.FC<Props> = ({
 }) => {
   const history = useHistory();
   const location = useLocation();
-  const { soort, category, organisation, properties } = device || {};
-  const { display, Privacyverklaring } = properties || {};
+  const deviceData = convertor[selectedLayer].getData(device)
 
   return (
     <section id="device-details" className="device-details">
-
       <div className="device-details__heading">
         <button
           type="button"
@@ -59,54 +57,39 @@ const DeviceDetails: React.FC<Props> = ({
       <div className="device-details__body">
         <div className="device-details__table">
           <div className="device-details__header-row device-details__row">
-            <div className="device-details__row-label">{selectedLayer === 'cameras' ? 'Gebied' : 'Apparaat'}</div>
+            <div className="device-details__row-label">{deviceData.title}</div>
           </div>
-          <div className="device-details__row">
-            <div className="device-details__row-label">Categorie</div>
-            <div className="device-details__row-element">{selectedLayer === 'cameras'  ? 'Camera toezichtsgebied' : category}</div>
+          {deviceData.props.map(({ key, value, buttonAction, isLink }) => (
+            <div key={key}>
+              {value && (
+                <div className="device-details__row">
+                  <div className="device-details__row-label">{key}</div>
+                  <div className="device-details__row-element">
+                    {isLink ? (
+                      <a href={value} target="_blank" rel="noopener noreferrer">
+                        {value}
+                      </a>
+                    ) : value}
 
-            <button
-              data-testid="categoriesButton"
-              type="button"
-              className="device-details__question-mark-button"
-              onClick={() => {
-                history.push(APP_ROUTES.CATEGORIES);
-              }}
-            >
-              <QuestionMarkIcon />
-            </button>
-
-          </div>
-          {soort && (
-            <div className="device-details__row">
-              <div className="device-details__row-label">Type</div>
-              <div className="device-details__row-element">{soort}</div>
+                    {buttonAction &&
+                      <button
+                        data-testid="categoriesButton"
+                        type="button"
+                        className="device-details__question-mark-button"
+                        onClick={() => {
+                          history.push(buttonAction);
+                        }}
+                      >
+                        <QuestionMarkIcon />
+                      </button>
+                    }
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-          {organisation && (
-            <div className="device-details__row">
-              <div className="device-details__row-label">Organisatie</div>
-              <div className="device-details__row-element">{organisation}</div>
-            </div>
-          )}
-          {Privacyverklaring && (
-            <div className="device-details__row">
-              <div className="device-details__row-label">Privacyverklaring</div>
-              <div className="device-details__row-element">
-                <a href={Privacyverklaring} target="_blank" rel="noopener noreferrer">
-                  {Privacyverklaring}
-                </a>
-              </div>
-            </div>
-          )}
-          {display && (
-            <div className="device-details__row">
-              <div className="device-details__row-label">Naam</div>
-              <div className="device-details__row-element">{display}</div>
-            </div>
-          )}
+          ))}
         </div>
-        {selectedLayer === 'devices'  &&
+        {deviceData.hasOwner  &&
           <StyledButton
             variant="primary"
             data-testid="contactButton"
