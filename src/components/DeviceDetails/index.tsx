@@ -22,7 +22,7 @@ export interface Device {
   };
 }
 
-interface DeviceDataItem {
+export interface DeviceDataItem {
   key: string;
   value?: string;
   buttonAction?: string;
