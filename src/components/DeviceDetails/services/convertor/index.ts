@@ -1,4 +1,5 @@
 import APP_ROUTES from 'services/appRoutes';
+
 import { Device, DeviceDataItem } from '../..';
 
 interface DeviceData {
@@ -54,12 +55,12 @@ const convertor = {
         title: 'Gebied',
         props: [
           {
-            key: 'category',
+            key: 'Categorie',
             value: 'Camera toezichtsgebied',
             buttonAction: APP_ROUTES.CATEGORIES,
           },
           {
-            key: 'name',
+            key: 'Naam',
             value: display,
           },
         ],
