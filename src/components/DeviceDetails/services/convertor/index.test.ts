@@ -11,9 +11,7 @@ describe('convertor', () => {
       category: 'Slimme verkeersinformatie',
       soort: 'Amstelsluizen',
       organisation: 'GGD Amsterdam',
-      properties: {
-        Privacyverklaring: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/vaarwegbeheer/',
-      },
+      privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/vaarwegbeheer/',
     };
 
     expect(convertor.devices.getData(device)).toEqual({
@@ -35,7 +33,7 @@ describe('convertor', () => {
         },
         {
           key: 'Privacyverklaring',
-          value: device.properties?.Privacyverklaring,
+          value: device.privacy,
           isLink: true,
         },
       ],

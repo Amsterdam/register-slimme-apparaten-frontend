@@ -15,9 +15,9 @@ const convertor = {
         soort,
         category,
         organisation,
-        properties,
+        privacy,
       } = device || {};
-      const { Privacyverklaring } = properties || {};
+
       return {
         title: 'Apparaat',
         props: [
@@ -36,7 +36,7 @@ const convertor = {
           },
           {
             key: 'Privacyverklaring',
-            value: Privacyverklaring,
+            value: privacy,
             isLink: true,
           },
         ],

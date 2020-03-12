@@ -23,9 +23,7 @@ describe('DeviceDetails', () => {
         category: 'Sensor',
         contact: 'iothings',
         organisation: 'GGD Amsterdam',
-        properties: {
-          Privacyverklaring: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/vaarwegbeheer/',
-        },
+        privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/vaarwegbeheer/',
       },
       selectedLayer: 'devices',
       onDeviceDetailsClose: jest.fn(),
@@ -38,7 +36,7 @@ describe('DeviceDetails', () => {
     expect(queryByText('Apparaat')).toBeInTheDocument();
     expect(queryByText(props.device.soort)).toBeInTheDocument();
     expect(queryByText(props.device.category)).toBeInTheDocument();
-    expect(queryByText(props.device.properties.Privacyverklaring)).toBeInTheDocument();
+    expect(queryByText(props.device.privacy)).toBeInTheDocument();
     expect(queryByText(props.device.organisation)).toBeInTheDocument();
 
     expect(queryByTestId('closeButton')).toBeInTheDocument();

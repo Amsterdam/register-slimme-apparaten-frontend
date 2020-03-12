@@ -16,9 +16,9 @@ export interface Device {
   category?: string;
   contact?: string;
   organisation?: string;
+  privacy?: string;
   properties?: {
     display?: string;
-    Privacyverklaring?: string;
   };
 }
 
