@@ -18,7 +18,7 @@ export const testActionCreator = (action, actionType, payload) => {
 
 export const store = configureStore({}, history);
 
-export const withAppContext = Component => (
+export const withAppContext = (Component: React.ReactNode) => (
   <ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>{Component}</ConnectedRouter>
