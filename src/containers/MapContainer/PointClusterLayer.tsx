@@ -58,13 +58,13 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
       if (!f.feature) return;
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
       const zoom = isMarker ? 16 : 14;
-      if (featureId === id && source === f.feature.contact) {
+      if (featureId === id) {
         const element = isMarker ? f._icon : f.getElement();
 
         const bounds = isMarker ? [f.getLatLng(), f.getLatLng()] : f.getBounds();
         mapInstance.fitBounds(bounds);
         mapInstance.setZoom(zoom);
-        onItemSelected('devices', f.feature, element);
+        onItemSelected(isMarker ? 'devices' : 'cameras', f.feature, element);
       }
     });
   };

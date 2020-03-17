@@ -146,7 +146,7 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
     layer.on('click', e => {
       DomEvent.stopPropagation(e);
       const { id, category, contact: source } = feature;
-      const queryString =  `?id=${id}&category=${category}&source=${source}` ;
+      const queryString = `?id=${id}&category=${category}&source=${source}`;
       onItemSelected('devices', feature, layer._icon, queryString);
     });
   },
