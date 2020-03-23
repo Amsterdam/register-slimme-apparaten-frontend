@@ -1,12 +1,15 @@
+/* eslint-disable */
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useMapInstance } from '@datapunt/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
-import { MarkerClusterGroupOptions } from 'leaflet';
+import { MarkerClusterGroupOptions, marker } from 'leaflet';
 import layersReader from 'services/layer-aggregator/layersReader';
 import queryStringParser from '../../shared/services/auth/services/query-string-parser';
 import LAYERS_CONFIG, { getPointOptions } from '../../services/layer-aggregator/layersConfig';
 import { addLayerDataActionCreator, removeLayerDataActionCreator } from './MapContainerDucks';
 import MarkersCluster, { MarkerClusterData } from '../../components/MarkerCluster/MarkersCluster';
+import { isMemberExpression } from '@babel/types';
 
 const clusterLayerOptions: MarkerClusterGroupOptions = {
   showCoverageOnHover: false,
@@ -50,6 +53,17 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
     state?.map?.layers.filter((l:any) => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
   );
 
+  const onMarkerSelected = (map: any, layer: any, onMarkerSelected: Function, isMarker: boolean) => {
+    const element = isMarker ? layer._icon : layer.getElement();
+    const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
+    map.fitBounds(bounds);
+    if (isMarker) {
+      map.setZoom(16);
+    }
+
+    onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, element);
+  };
+
   const udpateSelection = () => {
     if(!mapInstance) return
     const { id, source } = queryStringParser(location.search);
@@ -57,14 +71,22 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
       const isMarker = !f.getBounds;
       if (!f.feature) return;
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
-      if (featureId === id) {
-        const element = isMarker ? f._icon : f.getElement();
-        const bounds = isMarker ? [f.getLatLng(), f.getLatLng()] : f.getBounds();
-        mapInstance.fitBounds(bounds);
-        if (isMarker) {
-          mapInstance.setZoom(16);
-        }
-        onItemSelected(isMarker ? 'devices' : 'cameras', f.feature, element);
+      if (isMarker) {
+        const chlildMarkers = f.__parent.getAllChildMarkers();
+
+        chlildMarkers.forEach(marker => {
+          const fId = String(marker.feature.id);
+          if (fId === id && source === marker.feature.contact) {
+console.log('FOUND CLUSTER id', id);
+            onMarkerSelected(mapInstance, marker, onItemSelected, true);
+            return;
+          }
+        });
+      }
+
+      if (featureId === id && source === f.feature.contact) {
+console.log('FOUND not cluster id', id);
+        onMarkerSelected(mapInstance, f, onItemSelected, isMarker);
       }
     });
   };
