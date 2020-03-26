@@ -1,15 +1,12 @@
-/* eslint-disable */
-
 import React, { useEffect, useState, useRef } from 'react';
 import { useMapInstance } from '@datapunt/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
-import { MarkerClusterGroupOptions, marker } from 'leaflet';
+import { MarkerClusterGroupOptions } from 'leaflet';
 import layersReader from 'services/layer-aggregator/layersReader';
 import queryStringParser from '../../shared/services/auth/services/query-string-parser';
 import LAYERS_CONFIG, { getPointOptions } from '../../services/layer-aggregator/layersConfig';
 import { addLayerDataActionCreator, removeLayerDataActionCreator } from './MapContainerDucks';
 import MarkersCluster, { MarkerClusterData } from '../../components/MarkerCluster/MarkersCluster';
-import { isMemberExpression } from '@babel/types';
 
 const clusterLayerOptions: MarkerClusterGroupOptions = {
   showCoverageOnHover: false,
@@ -58,7 +55,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
     const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
     map.fitBounds(bounds);
     if (isMarker) {
-       map.setZoom(16);
+      map.setZoom(16);
     }
 
     onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, element);
@@ -73,12 +70,11 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
       if (isMarker) {
         const chlildMarkers = f.__parent.getAllChildMarkers();
-        chlildMarkers.forEach((marker) => {
+        chlildMarkers.forEach(marker => {
           const fId = String(marker.feature.id);
 
           if (fId === id && source === marker.feature.contact) {
             hanleMarkerSelected(mapInstance, marker, onItemSelected, true);
-            return;
           }
         });
       }
