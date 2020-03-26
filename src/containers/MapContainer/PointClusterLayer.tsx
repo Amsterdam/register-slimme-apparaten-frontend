@@ -53,12 +53,12 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
     state?.map?.layers.filter((l:any) => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
   );
 
-  const onMarkerSelected = (map: any, layer: any, onMarkerSelected: Function, isMarker: boolean) => {
+  const hanleMarkerSelected = (map: any, layer: any, onMarkerSelected: Function, isMarker: boolean) => {
     const element = isMarker ? layer._icon : layer.getElement();
     const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
     map.fitBounds(bounds);
     if (isMarker) {
-      map.setZoom(16);
+       map.setZoom(16);
     }
 
     onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, element);
@@ -73,20 +73,18 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
       if (isMarker) {
         const chlildMarkers = f.__parent.getAllChildMarkers();
-
-        chlildMarkers.forEach(marker => {
+        chlildMarkers.forEach((marker) => {
           const fId = String(marker.feature.id);
+
           if (fId === id && source === marker.feature.contact) {
-console.log('FOUND CLUSTER id', id);
-            onMarkerSelected(mapInstance, marker, onItemSelected, true);
+            hanleMarkerSelected(mapInstance, marker, onItemSelected, true);
             return;
           }
         });
       }
 
       if (featureId === id && source === f.feature.contact) {
-console.log('FOUND not cluster id', id);
-        onMarkerSelected(mapInstance, f, onItemSelected, isMarker);
+        hanleMarkerSelected(mapInstance, f, onItemSelected, isMarker);
       }
     });
   };
