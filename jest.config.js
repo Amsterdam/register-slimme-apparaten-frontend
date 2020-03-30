@@ -10,15 +10,15 @@ module.exports = {
     '!src/static/*',
     '!src/**/definitions/*',
   ],
-  // coverageThreshold: {
-  // global: {
-  // statements: 0,
-  // branches: 0,
-  // functions: 0,
-  // lines: 0,
-  // },
-  // },
-  // coverageReporters: ['lcov'],
+  coverageThreshold: {
+    global: {
+      statements: 0,
+      branches: 0,
+      functions: 0,
+      lines: 0,
+    },
+  },
+  coverageReporters: ['lcov'],
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: ['<rootDir>/internals/', '<rootDir>/src/static'],
   moduleNameMapper: {
