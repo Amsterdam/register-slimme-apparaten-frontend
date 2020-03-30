@@ -97,7 +97,6 @@ const MapContainer = () => {
   const handleItemSelected = (name: string, feature: any, element: HTMLElement, queryString?: string) => {
     if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
-
     highlight(element);
   };
 
