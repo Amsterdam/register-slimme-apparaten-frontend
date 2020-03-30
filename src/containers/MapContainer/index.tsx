@@ -98,7 +98,7 @@ const MapContainer = () => {
     if (queryString) push({ pathname: '/', search: queryString });
     dispatch(selectLayerItemActionCreator(name, feature));
 
-    if (element) highlight(element);
+    highlight(element);
   };
 
   const geocoderProps = useMemo(

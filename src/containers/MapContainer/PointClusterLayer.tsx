@@ -51,14 +51,13 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
   );
 
   const hanleMarkerSelected = (map: any, layer: any, onMarkerSelected: Function, isMarker: boolean) => {
-    const element = isMarker ? layer._icon : layer.getElement();
     const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
     map.fitBounds(bounds);
     if (isMarker) {
       map.setZoom(16);
     }
 
-    onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, element);
+    onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, layer.getElement());
   };
 
   const udpateSelection = () => {
