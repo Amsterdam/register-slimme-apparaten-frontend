@@ -175,7 +175,7 @@
     "html-webpack-plugin": "^3.2.0",
     "http-proxy-middleware": "^0.20.0",
     "husky": "^4.2.3",
-    "image-webpack-loader": "^6.0.0",
+    "image-webpack-loader": "^7.0.1",
     "imports-loader": "^0.8.0",
     "jest-cli": "^24.9.0",
     "jest-environment-jsdom": "23.2.0",
