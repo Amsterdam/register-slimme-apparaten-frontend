@@ -198,7 +198,7 @@
     "plop": "^2.7.4",
     "pre-commit": "1.2.2",
     "prettier": "^1.19.1",
-    "prettier-eslint": "^9.0.1",
+    "prettier-eslint": "^11.0.0",
     "react-test-renderer": "15.6.1",
     "redux-mock-store": "^1.5.4",
     "rimraf": "^3.0.1",
