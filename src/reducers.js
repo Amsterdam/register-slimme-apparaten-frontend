@@ -3,7 +3,7 @@
  */
 
 import { combineReducers } from 'redux';
-import { LOCATION_CHANGE, connectRouter } from 'connected-react-router';
+import { connectRouter } from 'connected-react-router';
 
 import history from 'utils/history';
 import globalReducer from 'containers/App/reducer';
@@ -16,11 +16,6 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
  * The change is necessitated by moving to connected-react-router@5
  *
  */
-
-// Initial routing state
-const routeInitialState = {
-  location: null,
-};
 
 /**
  * Creates the main reducer with the dynamically injected ones
