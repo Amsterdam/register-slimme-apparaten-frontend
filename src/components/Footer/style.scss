@@ -10,4 +10,13 @@
 
 .footer-wrapper {
   padding-top: 0 !important;
+
+  .footer {
+    background-color: #666;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    color: #fff;
+  }
 }

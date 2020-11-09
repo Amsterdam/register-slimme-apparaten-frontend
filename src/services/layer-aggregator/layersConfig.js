@@ -1,4 +1,6 @@
 import CONFIGURATION from 'shared/configuration/environment';
+import { DomEvent } from 'leaflet';
+import { getMarkerIcon } from 'services/marker';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
 import { readData } from '../datareader';
 import { fetchDevices, fetchCameraAreas } from './layersFetcher';
@@ -121,13 +123,53 @@ const LAYERS_CONFIG = [
 
 export const POLYGON_LAYERS_CONFIG = [
   {
-    name: 'Cameras',
-    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&Typename=ms:cameratoezichtgebied&version=1.1.0`,
+    id: 'cameras',
+    name: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
+    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&srsName=EPSG:4326&Typename=ms:cameratoezichtgebied&version=1.1.0`,
     fetchService: fetchCameraAreas,
     className: 'cameras',
     category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
     transformer: item => item,
   },
 ];
+
+const markerStyle = {
+  fillColor: '#f14600',
+  opacity: 1,
+  color: '#f14600',
+  strokeOpacity: 1,
+  weight: 1,
+};
+
+export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
+  onEachFeature: (feature, layer) => {
+    layer.on('click', e => {
+      DomEvent.stopPropagation(e);
+      const { id, category, contact: source } = feature;
+      const queryString = `?id=${id}&category=${category}&source=${source}`;
+      onItemSelected('devices', feature, layer._icon, queryString);
+    });
+  },
+  pointToLayer: (feature, latlng) => {
+    const marker = L.marker(latlng, {
+      icon: getMarkerIcon(CATEGORY_NAME),
+    });
+    marker.feature = feature;
+    return marker;
+  },
+});
+
+export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
+  style: markerStyle,
+  onEachFeature: (feature, layer) => {
+    layer.on('click', e => {
+      DomEvent.stopPropagation(e);
+      const { id } = feature.properties;
+      const queryString = `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}`;
+
+      onItemSelected('cameras', feature, layer.getElement(), queryString);
+    });
+  },
+});
 
 export default LAYERS_CONFIG;

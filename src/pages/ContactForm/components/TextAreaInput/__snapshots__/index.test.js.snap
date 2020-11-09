@@ -19,7 +19,7 @@ exports[`<TextAreaInput /> should render correctly 1`] = `
     <div
       className="text-area-input__control invoer"
     >
-      <textarea
+      <TextArea__StyledArea
         id="formname"
         name=""
         placeholder="placeholder"

@@ -1,6 +1,6 @@
 version: '3.5'
 services:
-  iot-frontend: # NGINX
+  app: # NGINX
     build:
       args:
         - BUILD_ENV=acc
@@ -9,10 +9,9 @@ services:
       - TZ=Europe/Amsterdam
     ipc: host
     ports:
-      - "3001:80"
-  # networks_mode: "host"
+      - '3001:80'
 
-  test-unit-integration:
+  test-unit:
     build:
       context: .
       target: builder

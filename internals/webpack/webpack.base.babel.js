@@ -5,6 +5,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -24,7 +25,7 @@ module.exports = options => ({
   module: {
     rules: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.(t|j)sx?$/, // Transform all .js files required somewhere with Babel
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -90,10 +91,10 @@ module.exports = options => ({
     ],
   },
   plugins: options.plugins.concat([
-    new webpack.ProvidePlugin({
-      // make fetch available
-      fetch: 'exports-loader?self.fetch!whatwg-fetch',
-    }),
+    // new webpack.ProvidePlugin({
+    //   // make fetch available
+    //   fetch: 'exports-loader?self.fetch!whatwg-fetch',
+    // }),
 
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically
@@ -107,14 +108,26 @@ module.exports = options => ({
       filename: 'css/[name].[contenthash].css',
       allChunks: true,
     }),
+    new CopyWebpackPlugin([
+      {
+        from: './node_modules/@datapunt/asc-assets/static/fonts',
+        to: 'fonts',
+      },
+    ]),
+
   ]),
   resolve: {
-    modules: ['src', 'node_modules'],
+    modules: ['node_modules', 'src'],
     extensions: ['.js', '.jsx', '.react.js', '.ts', '.tsx'],
     mainFields: ['browser', 'jsnext:main', 'main'],
     alias: {
       react: path.resolve('./node_modules/react'),
       'react-dom': path.resolve('./node_modules/react-dom'),
+      'styled-components': path.resolve('./node_modules/styled-components'),
+      'leaflet': path.resolve('./node_modules/leaflet'),
+      '@datapunt/asc-assets': path.resolve('./node_modules/@datapunt/asc-assets'),
+      '@datapunt/asc-core': path.resolve('./node_modules/@datapunt/asc-core'),
+      '@datapunt/asc-ui': path.resolve('./node_modules/@datapunt/asc-ui'),
     },
   },
   devtool: options.devtool,
@@ -122,8 +135,5 @@ module.exports = options => ({
   performance: options.performance || {},
   externals: {
     globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
-  },
-  node: {
-    fs: 'empty',
   },
 });

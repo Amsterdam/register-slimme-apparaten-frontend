@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styled from '@datapunt/asc-core';
+import { Button, themeSpacing } from '@datapunt/asc-ui';
 import { FormBuilder, FieldGroup, Validators } from 'react-reactive-form';
 import axios from 'axios';
 
 import CONFIGURATION from 'shared/configuration/environment';
 
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { useSelector } from 'react-redux';
 import FieldControlWrapper from './components/FieldControlWrapper';
 import CheckboxInput from './components/CheckboxInput';
 import TextInput from './components/TextInput';
 import TextAreaInput from './components/TextAreaInput';
 import './style.scss';
-import { makeSelectedItem } from '../../containers/MapContainer/MapContainerDucks';
 import queryStringParser from '../../shared/services/auth/services/query-string-parser/query-string-parser';
 
 const MAX_INPUT_LENGTH = 250;
@@ -36,9 +35,16 @@ const oneOrMoreQuestionsValidator = formControl => {
   return valid ? null : { noneSelected: true };
 };
 
-const ContactForm = ({ device }) => {
+const ContactFormStyle = styled.div``;
+
+const FormSuccessStyle = styled.div`
+  margin-top: ${themeSpacing(3)};
+`;
+
+const ContactForm = () => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const params = queryStringParser(window.location.search);
+  const device = useSelector(state => state?.map?.selectedItem);
 
   const contactForm = FormBuilder.group(
     {
@@ -86,7 +92,7 @@ const ContactForm = ({ device }) => {
   };
 
   const renderSuccess = () => (
-    <div className="form-success">
+    <FormSuccessStyle>
       <NavLink className="startagain action" to="/">
         Terug naar de kaart
       </NavLink>
@@ -96,7 +102,7 @@ const ContactForm = ({ device }) => {
         Een kopie van uw verzoek is verstuurd naar <span className="email">{contactForm.value.email}</span>. Uw verzoek
         is niet vastgelegd in het register.
       </p>
-    </div>
+    </FormSuccessStyle>
   );
 
   return (
@@ -104,7 +110,7 @@ const ContactForm = ({ device }) => {
       {submitSuccess ? (
         renderSuccess()
       ) : (
-        <div className="contact-form">
+        <ContactFormStyle className="contact-form">
           <h1>Contact met eigenaar</h1>
           {device && (
             <table className="contact-form__device-details table table-borderless">
@@ -188,14 +194,14 @@ const ContactForm = ({ device }) => {
                       control={contactForm.get('comment')}
                     />
                   </div>
-                  <button className="action secundary-blue" type="submit">
-                    <span className="value">Versturen</span>
-                  </button>
+                  <Button variant="primary" type="submit">
+                    Versturen
+                  </Button>
                 </div>
               </form>
             )}
           />
-        </div>
+        </ContactFormStyle>
       )}
     </div>
   );
@@ -212,10 +218,4 @@ ContactForm.propTypes = {
   }),
 };
 
-const mapStateToProps = createStructuredSelector({
-  device: makeSelectedItem(),
-});
-
-const withConnect = connect(mapStateToProps);
-
-export default compose(withConnect)(ContactForm);
+export default ContactForm;

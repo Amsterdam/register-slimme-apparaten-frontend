@@ -19,7 +19,7 @@ const withContainer = Component => ({ ...otherProps }) => (
         <Column span={12}></Column>
       </Row>
       <Row>
-        <Column span={10} push={1}>
+        <Column span={12}>
           <Component {...otherProps} />
         </Column>
       </Row>
