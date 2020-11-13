@@ -44,7 +44,7 @@ const CameraAreaDetails = props => {
 
           <div className="device-details__row">
             <div className="device-details__row-label">Naam</div>
-            <div className="device-details__row-element">{props.device.properties.display}</div>
+            <div className="device-details__row-element">{props.device.properties.oov_naam}</div>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ CameraAreaDetails.propTypes = {
   onDeviceDetailsClose: PropTypes.func,
   device: PropTypes.shape({
     properties: PropTypes.shape({
-      display: PropTypes.string.isRequired,
+      oov_naam: PropTypes.string.isRequired,
     }),
   }).isRequired,
 };
