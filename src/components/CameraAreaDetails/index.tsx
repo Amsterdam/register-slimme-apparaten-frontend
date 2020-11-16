@@ -7,7 +7,7 @@ import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import './style.scss';
 
 export interface Props {
-  device: any,
+  device: { propertes: { oov_naam: string }, },
   onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
 }
 
@@ -22,7 +22,6 @@ const CameraAreaDetails: React.FC<Props> = ({
 }) => {
   const history = useHistory();
 
-  console.log('-');
   return (
     <section id="device-details" className="device-details">
       <div className="device-details__heading">
