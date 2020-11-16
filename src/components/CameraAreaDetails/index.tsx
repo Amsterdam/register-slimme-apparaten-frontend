@@ -16,7 +16,7 @@ const CameraAreaDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
   device: {
     properties: {
-      oov_naam,
+      oov_naam: string,
     },
   },
 }) => {
