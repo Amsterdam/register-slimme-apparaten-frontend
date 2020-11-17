@@ -99,7 +99,7 @@
     "redux-immutable": "4.0.0",
     "redux-saga": "^1.1.1",
     "reselect": "^4.0.0",
-    "styled-components": "^4.4.1",
+    "styled-components": "^5.2.1",
     "warning": "^4.0.3",
     "whatwg-fetch": "^2.0.4"
   },
