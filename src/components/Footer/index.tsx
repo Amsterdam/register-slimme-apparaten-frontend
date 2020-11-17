@@ -10,7 +10,6 @@ import {
   List,
   ListItem,
   Link,
-  FooterHeading,
 } from '@amsterdam/asc-ui';
 
 const StyledFooter = styled(AscFooter)`
