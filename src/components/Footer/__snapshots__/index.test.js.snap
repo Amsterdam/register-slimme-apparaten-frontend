@@ -24,28 +24,7 @@ exports[`<Footer /> should render correctly 1`] = `
         }
         wrap={true}
       >
-        <Component
-          hideAt="tabletM"
-          title="Disclaimer"
-        >
-          <Component
-            indent={true}
-          >
-            <DisclaimerLinks />
-          </Component>
-        </Component>
-        <Component
-          showAt="tabletM"
-        >
-          <Styled(Heading)
-            $as="h3"
-            forwardedAs="h3"
-            styleAs="h2"
-          >
-            Disclaimer
-          </Styled(Heading)>
-          <DisclaimerLinks />
-        </Component>
+        <DisclaimerLinks />
       </Column>
     </Row>
   </styled.div>
