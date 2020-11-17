@@ -7,21 +7,18 @@ import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import './style.scss';
 
 export interface Props {
-  device: { 
-    propertes: { 
-      oov_naam: string 
-    }, 
-  },
-  onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
+  device: {
+    propertes: {
+      oov_naam: string;
+    };
+  };
+  onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>;
 }
-
 
 const CameraAreaDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
   device: {
-    properties: {
-      oov_naam,
-    },
+    properties: { oov_naam },
   },
 }) => {
   const history = useHistory();
