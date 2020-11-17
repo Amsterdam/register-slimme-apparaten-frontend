@@ -10,22 +10,23 @@ import {
   List,
   ListItem,
   Link,
+  themeColor
 } from '@amsterdam/asc-ui';
 
 const StyledFooter = styled(AscFooter)`
   svg path {
-    fill: white !important;
+    fill: ${themeColor('tint', 'level1')} !important;
 
     :hover {
-      fill:  white !important;
+      fill:  ${themeColor('tint', 'level1')} !important;
     }
   }
 
   a {
-    color: white;
+    color: ${themeColor('tint', 'level1')};
 
     :hover {
-      color: white;
+      color: ${themeColor('tint', 'level1')};
       text-decoration: underline;
 
       svg {

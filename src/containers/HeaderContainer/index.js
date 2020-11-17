@@ -1,18 +1,14 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { Header, Link, MenuItem, MenuButton, themeSpacing, breakpoint } from '@amsterdam/asc-ui';
+import { Header, Link, MenuItem, MenuButton, themeSpacing, breakpoint, themeColor } from '@amsterdam/asc-ui';
 import APP_ROUTES from '../../services/appRoutes';
-
-const HeaderLink = styled(Link)`
-  margin-right: ${themeSpacing(5)};
-`;
 
 const HeaderWrapper = styled.div`
   z-index: 1;
   position: sticky;
   top: 0;
-  padding-left: 8px;
-  background-color: white;
+  padding-left: ${themeSpacing(2)};
+  background-color: ${themeColor('tint', 'level1')};
 
   h1 a:first-child {
     display: none;
