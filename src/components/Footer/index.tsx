@@ -7,16 +7,33 @@ import {
   FooterTop,
   Row,
   Column,
-  FooterToggle,
-  FooterContent,
-  FooterLinkList,
-  FooterLinkListItem,
+  List,
+  ListItem,
   Link,
   FooterHeading,
 } from '@amsterdam/asc-ui';
 
 const StyledFooter = styled(AscFooter)`
-  .;
+  svg path {
+    fill: white !important;
+
+    :hover {
+      fill:  white !important;
+    }
+  }
+
+  a {
+    color: white;
+
+    :hover {
+      color: white;
+      text-decoration: underline;
+
+      svg {
+        fill: green !important;
+      }
+    }
+  }
 `;
 
 const desclaimers = [
@@ -30,15 +47,15 @@ const desclaimers = [
 ];
 
 const DisclaimerLinks: React.FC<{ indent?: boolean }> = () => (
-  <FooterLinkList>
+  <List>
     {desclaimers.map(({ id, value}) => (
-      <FooterLinkListItem key={id}>
+      <ListItem key={id}>
         <Link href="/" variant="with-chevron" >
           {value}
         </Link>
-      </FooterLinkListItem>
+      </ListItem> 
     ))}
-  </FooterLinkList>
+  </List>
 );
 
 function Footer() {
@@ -47,17 +64,7 @@ function Footer() {
       <FooterTop>
         <Row>
           <Column wrap span={{ small: 1, medium: 2, big: 4, large: 8, xLarge: 8 }}>
-            <React.Fragment>
-              <FooterToggle title="Disclaimer" hideAt="tabletM">
-                <FooterContent indent>
-                  <DisclaimerLinks />
-                </FooterContent>
-              </FooterToggle>
-              <FooterContent showAt="tabletM">
-                <FooterHeading $as="h3">Disclaimer</FooterHeading>
-                <DisclaimerLinks />
-              </FooterContent>
-            </React.Fragment>
+            <DisclaimerLinks />
           </Column>
         </Row>
       </FooterTop>
