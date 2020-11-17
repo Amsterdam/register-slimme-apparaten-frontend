@@ -7,7 +7,11 @@ import QuestionMarkIcon from '../../images/icon-question-mark.svg';
 import './style.scss';
 
 export interface Props {
-  device: { propertes: { oov_naam: string }, },
+  device: { 
+    propertes: { 
+      oov_naam: string 
+    }, 
+  },
   onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
 }
 
