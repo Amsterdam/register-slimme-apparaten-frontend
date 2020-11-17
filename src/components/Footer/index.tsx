@@ -13,7 +13,7 @@ import {
   FooterLinkListItem,
   Link,
   FooterHeading,
-} from '@datapunt/asc-ui';
+} from '@amsterdam/asc-ui';
 
 const StyledFooter = styled(AscFooter)`
   .;

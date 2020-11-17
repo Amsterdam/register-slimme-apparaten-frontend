@@ -1,14 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
-<styled.div>
+<HeaderContainer__HeaderWrapper>
   <Header
     fullWidth={true}
     homeLink="/"
+    logo={[Function]}
     navigation={
       <React.Fragment>
         <div>
-          <Styled(Link)
+          <HeaderContainer__HeaderLink
             $as={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
@@ -36,8 +37,8 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             variant="blank"
           >
             Kaart
-          </Styled(Link)>
-          <Styled(Link)
+          </HeaderContainer__HeaderLink>
+          <HeaderContainer__HeaderLink
             $as={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
@@ -65,8 +66,8 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             variant="blank"
           >
             Type apparaten
-          </Styled(Link)>
-          <Styled(Link)
+          </HeaderContainer__HeaderLink>
+          <HeaderContainer__HeaderLink
             $as={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
@@ -94,8 +95,8 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             variant="blank"
           >
             Veelgevraagd
-          </Styled(Link)>
-          <Styled(Link)
+          </HeaderContainer__HeaderLink>
+          <HeaderContainer__HeaderLink
             $as={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
@@ -123,12 +124,12 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             variant="blank"
           >
             Over dit register
-          </Styled(Link)>
+          </HeaderContainer__HeaderLink>
         </div>
       </React.Fragment>
     }
     tall={false}
     title="Register slimme apparaten"
   />
-</styled.div>
+</HeaderContainer__HeaderWrapper>
 `;

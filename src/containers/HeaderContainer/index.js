@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { Header, Link, themeSpacing, breakpoint } from '@datapunt/asc-ui';
+import { Header, Link, themeSpacing, breakpoint } from '@amsterdam/asc-ui';
 import APP_ROUTES from '../../services/appRoutes';
 
 const HeaderLink = styled(Link)`

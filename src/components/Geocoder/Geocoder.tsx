@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useReducer } from 'react';
 import 'leaflet/dist/leaflet.css';
-import { SearchBar } from '@datapunt/asc-ui';
+import { SearchBar } from '@amsterdam/asc-ui';
 import { useMapInstance } from '@datapunt/react-maps';
 import SearchResultsList from './SearchResultsList';
 import { nearestAdresToString } from './services/transformers';

@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import 'leaflet/dist/leaflet.css'
-import { Link } from '@datapunt/asc-ui'
+import { Link } from '@amsterdam/asc-ui'
 import styled from 'styled-components';
 import SearchResultsListStyle from './SearchResultsListStyle'
 

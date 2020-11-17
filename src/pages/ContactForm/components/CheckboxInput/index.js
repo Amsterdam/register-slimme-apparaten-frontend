@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
-import { Checkbox } from '@datapunt/asc-ui';
+import { Checkbox } from '@amsterdam/asc-ui';
 
 export const CheckboxInput = props => {
   const { name, display } = props;
