@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { Header, Link, themeSpacing, breakpoint } from '@datapunt/asc-ui';
 import APP_ROUTES from '../../services/appRoutes';
 

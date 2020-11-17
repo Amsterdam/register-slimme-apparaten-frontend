@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './style.scss';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import {
   Footer as AscFooter,
   FooterTop,

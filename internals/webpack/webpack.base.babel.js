@@ -126,7 +126,6 @@ module.exports = options => ({
       'styled-components': path.resolve('./node_modules/styled-components'),
       'leaflet': path.resolve('./node_modules/leaflet'),
       '@datapunt/asc-assets': path.resolve('./node_modules/@datapunt/asc-assets'),
-      '@datapunt/asc-core': path.resolve('./node_modules/@datapunt/asc-core'),
       '@datapunt/asc-ui': path.resolve('./node_modules/@datapunt/asc-ui'),
     },
   },

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Row, Column, Container, themeColor } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import HeaderContainer from 'containers/HeaderContainer';
 import Footer from 'components/Footer';
 
