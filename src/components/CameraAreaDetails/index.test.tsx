@@ -7,7 +7,7 @@ import CameraAreaDetails , { Props } from '.';
 describe('CameraAreaDetails', () => {
   const props:Props = {
     device: {
-      propertes: {
+      properties: {
         oov_naam: 'Rokin',
       },
     },
@@ -18,6 +18,6 @@ describe('CameraAreaDetails', () => {
       withAppContext(<CameraAreaDetails {...props} />)
     );
 
-    expect(queryByText(props.device.propertes.oov_naam)).toBeInTheDocument();
+    expect(queryByText(props.device.properties.oov_naam)).toBeInTheDocument();
   });
 });
