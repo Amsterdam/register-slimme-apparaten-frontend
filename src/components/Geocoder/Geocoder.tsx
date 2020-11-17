@@ -118,7 +118,8 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     onSelect(idx);
   };
 
-  const handleOnChange = (value: any): void => {
+  const handleOnChange = (e: any): void => { 
+    const value = e.currentTarget.value;
     dispatch(searchTermChanged(value));
     if (value === '') {
       marker?.setOpacity(0);
