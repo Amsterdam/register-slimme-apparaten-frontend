@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 import { MapOptions } from 'leaflet'
-import { Map, TileLayer } from '@datapunt/react-maps';
+import { Map, TileLayer } from '@amsterdam/react-maps';
 import styled from 'styled-components';
-import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
+import getCrsRd from '../../shared/services/getCrsRd';
 import { ViewerContainer } from '@amsterdam/asc-ui';
-import { constants } from '@datapunt/amsterdam-react-maps';
+import { constants, Zoom } from '@amsterdam/arm-core';
+
+
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
@@ -16,7 +18,6 @@ import Geocoder, {
   getSuggestions,
   getAddressById,
 } from 'components/Geocoder'
-import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
 import reducer, {
   selectLayerItemActionCreator,
