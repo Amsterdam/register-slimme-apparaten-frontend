@@ -2,7 +2,9 @@ import React, { useMemo } from 'react';
 import { MapOptions } from 'leaflet'
 import styled from 'styled-components';
 import { ViewerContainer } from '@amsterdam/asc-ui';
-import { Map, BaseLayer, constants, Zoom } from '@amsterdam/arm-core';
+import { Map, BaseLayer, Zoom } from '@amsterdam/arm-core';
+
+// attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam'
 
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -33,6 +35,7 @@ const MAP_OPTIONS: MapOptions = {
   maxZoom: 16,
   minZoom: 8,
   zoomControl: false,
+  attributionControl: true,
   crs: getCrsRd(),
   maxBounds: [
     [52.25168, 4.64034],
@@ -103,7 +106,7 @@ const MapContainer = () => {
     () => ({
       getSuggestions,
       getAddressById,
-    }),
+    }), 
     [],
   )
 
