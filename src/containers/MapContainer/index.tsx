@@ -3,9 +3,6 @@ import { MapOptions } from 'leaflet'
 import styled from 'styled-components';
 import { ViewerContainer } from '@amsterdam/asc-ui';
 import { Map, BaseLayer, Zoom } from '@amsterdam/arm-core';
-
-// attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam'
-
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';

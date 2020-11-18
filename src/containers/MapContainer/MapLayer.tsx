@@ -22,6 +22,8 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
     state?.map?.layers.filter(l => l.name === layerName.current && state?.map?.legend[l.name]),
   );
 
+  mapInstance.attributionControl.addAttribution('Kaartgegevens CC-BY-4.0 Gemeente Amsterdam');
+
   useEffect(() => {
     setJson(layer[0]);
   }, [legend]);
