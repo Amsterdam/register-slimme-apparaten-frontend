@@ -2,10 +2,8 @@ import React, { useMemo } from 'react';
 import { MapOptions } from 'leaflet'
 import { Map, TileLayer } from '@amsterdam/react-maps';
 import styled from 'styled-components';
-import getCrsRd from '../../shared/services/getCrsRd';
 import { ViewerContainer } from '@amsterdam/asc-ui';
 import { constants, Zoom } from '@amsterdam/arm-core';
-
 
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -24,6 +22,7 @@ import reducer, {
   toggleMapLayerActionCreator,
   MapState,
 } from './MapContainerDucks';
+import getCrsRd from '../../shared/services/getCrsRd';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import PointClusterLayer from './PointClusterLayer';
