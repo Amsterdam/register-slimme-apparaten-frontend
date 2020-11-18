@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useMapInstance, GeoJSON } from '@amsterdam/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import layersReader from 'services/layer-aggregator/layersReader';
@@ -58,11 +57,6 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   }, [mapInstance]);
 
   return json ? <GeoJSON args={[json]} options={options} /> : null;
-};
-
-MapLayer.propTypes = {
-  options: PropTypes.shape({}).isRequired,
-  config: PropTypes.array.isRequired,
 };
 
 export default MapLayer;
