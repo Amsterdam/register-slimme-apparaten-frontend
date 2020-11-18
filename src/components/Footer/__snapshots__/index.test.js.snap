@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> should render correctly 1`] = `
-<Footer__StyledFooter>
+<styled.footer>
   <styled.div>
     <Row
       debug={false}
@@ -28,5 +28,5 @@ exports[`<Footer /> should render correctly 1`] = `
       </Column>
     </Row>
   </styled.div>
-</Footer__StyledFooter>
+</styled.footer>
 `;

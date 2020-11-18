@@ -1,7 +1,5 @@
 import React from 'react';
-
 import './style.scss';
-import styled from 'styled-components';
 import {
   Footer as AscFooter,
   FooterTop,
@@ -10,32 +8,7 @@ import {
   List,
   ListItem,
   Link,
-  themeColor,
 } from '@amsterdam/asc-ui';
-
-const StyledFooter = styled(AscFooter)`
-  svg path {
-    fill: ${themeColor('tint', 'level1')} !important;
-
-    :hover {
-      fill:  ${themeColor('tint', 'level1')} !important;
-    }
-  }
-
-  a {
-    color: ${themeColor('tint', 'level1')};
-
-    :hover {
-      color: ${themeColor('tint', 'level1')};
-      text-decoration: underline;
-
-      svg {
-        fill: green !important;
-      }
-    }
-  }
-`;
-
 const desclaimers = [
   { id: 1, value: `Het register biedt geen compleet overzicht van alle slimme apparaten. Registratie van slimme apparaten in het register is niet verplicht, maar wordt wel gevraagd.` },
   { id: 2, value: `De "slimme apparaten" in het register zijn van diverse organisaties.` },
@@ -45,22 +18,20 @@ const desclaimers = [
   { id: 6, value: `De gegevens van de apparaten in het register worden overgenomen van de eigenaar. Die is verantwoordelijk voor de juistheid en volledigheid van de gegevens.` },
   { id: 7, value: `OIS, onderdeel van Gemeente Amsterdam, kan niet aansprakelijk worden gesteld voor de juistheid, volledigheid en actualiteit van de website. De Gemeente Amsterdam, OIS kan in het bijzonder niet aansprakelijk worden gesteld voor eventuele schade of consequenties ontstaan door direct of indirect gebruik van de inhoud van de website.` },
 ];
-
 const DisclaimerLinks: React.FC<{ indent?: boolean }> = () => (
   <List>
     {desclaimers.map(({ id, value}) => (
       <ListItem key={id}>
-        <Link href="/" variant="with-chevron" >
+        <Link darkBackground href="/" variant="with-chevron" >
           {value}
         </Link>
-      </ListItem> 
+      </ListItem>
     ))}
   </List>
 );
-
 function Footer() {
   return (
-    <StyledFooter>
+    <AscFooter>
       <FooterTop>
         <Row>
           <Column wrap span={{ small: 1, medium: 2, big: 4, large: 8, xLarge: 8 }}>
@@ -68,8 +39,7 @@ function Footer() {
           </Column>
         </Row>
       </FooterTop>
-    </StyledFooter>
+    </AscFooter>
   );
 }
-
 export default Footer;
