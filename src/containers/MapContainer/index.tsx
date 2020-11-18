@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import { MapOptions } from 'leaflet'
-import { Map, TileLayer } from '@amsterdam/react-maps';
 import styled from 'styled-components';
 import { ViewerContainer } from '@amsterdam/asc-ui';
-import { constants, Zoom } from '@amsterdam/arm-core';
+import { Map, BaseLayer, constants, Zoom } from '@amsterdam/arm-core';
 
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
@@ -126,14 +125,7 @@ const MapContainer = () => {
         config={POLYGON_LAYERS_CONFIG}
       />
 
-      <TileLayer
-        args={[constants.DEFAULT_AMSTERDAM_LAYERS[0].urlTemplate]}
-        options={{
-          subdomains: ['1', '2', '3', '4'],
-          tms: true,
-          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-        }}
-      />
+      <BaseLayer />
     </StyledMap>
   );
 };
