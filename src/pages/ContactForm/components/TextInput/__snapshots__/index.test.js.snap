@@ -16,7 +16,7 @@ exports[`<TextInput /> should render correctly 1`] = `
   <div
     className="invoer"
   >
-    <Input
+    <ForwardRef
       className="input"
       id="formname"
       name=""

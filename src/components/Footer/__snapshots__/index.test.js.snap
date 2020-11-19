@@ -39,6 +39,7 @@ exports[`<Footer /> should render correctly 1`] = `
         >
           <FooterHeading
             $as="h3"
+            forwardedAs="h3"
           >
             Disclaimer
           </FooterHeading>
