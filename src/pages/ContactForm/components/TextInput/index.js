@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
-import { Input } from '@datapunt/asc-ui';
+import { Input } from '@amsterdam/asc-ui';
 
 export const TextInput = props => {
   const { name, display, placeholder } = props;

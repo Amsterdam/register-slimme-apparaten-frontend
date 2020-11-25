@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useMapInstance } from '@datapunt/react-maps';
+import { useMapInstance } from '@amsterdam/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import { MarkerClusterGroupOptions } from 'leaflet';
 import layersReader from 'services/layer-aggregator/layersReader';

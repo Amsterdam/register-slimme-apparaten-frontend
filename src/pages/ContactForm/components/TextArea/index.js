@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { styles } from '@datapunt/asc-ui';
+import { styles } from '@amsterdam/asc-ui';
 
 const { InputStyle } = styles;
 

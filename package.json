@@ -47,11 +47,10 @@
       "minimist",
       "amsterdam-stijl",
       "styled-components",
-      "@datapunt/asc-assets",
-      "@datapunt/asc-core",
-      "@datapunt/asc-ui",
-      "@datapunt/amsterdam-react-maps",
-      "@datapunt/react-maps",
+      "@amsterdam/asc-assets",
+      "@amsterdam/asc-ui",
+      "@amsterdam/arm-core",
+      "@amsterdam/react-maps",
       "fs"
     ],
     "include": [
@@ -61,13 +60,12 @@
     ]
   },
   "dependencies": {
+    "@amsterdam/arm-core": "^0.4.0",
+    "@amsterdam/asc-assets": "^0.26.1",
+    "@amsterdam/asc-ui": "^0.26.1",
+    "@amsterdam/react-maps": "^0.11.0",
     "@babel/polyfill": "^7.12.1",
-    "@datapunt/amsterdam-react-maps": "0.1.2-alpha.1",
-    "@datapunt/asc-assets": "^0.18.2-alpha.12",
-    "@datapunt/asc-core": "^0.18.2-alpha.12",
-    "@datapunt/asc-ui": "^0.18.2-alpha.22",
     "@datapunt/matomo-tracker-js": "0.0.15",
-    "@datapunt/react-maps": "^0.8.1",
     "@formatjs/intl-pluralrules": "^1.5.9",
     "axios": "^0.19.2",
     "babel-plugin-inline-react-svg": "^1.1.2",

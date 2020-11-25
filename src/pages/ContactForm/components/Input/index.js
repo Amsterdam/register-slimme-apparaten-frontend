@@ -7,7 +7,7 @@ import {
   themeColor,
   Typography,
   themeSpacing,
-} from '@datapunt/asc-ui';
+} from '@amsterdam/asc-ui';
 
 const StyledInput = styled.input`
   ${styles.InputStyle.componentStyle.rules}
