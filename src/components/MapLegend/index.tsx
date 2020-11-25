@@ -21,12 +21,6 @@ const MapLegend: React.FC<Props> = ({
   return (
     <section
       id="map-legend"
-      aria-label={
-        isLegendVisible
-          ? 'Kaartlagen legenda, Kaartlagen verbergen'
-          : 'Kaartlagen legenda, Kaartlagen tonen'
-      }
-      aria-expanded={isLegendVisible}
       className={`
           map-legend
           map-legend--${isLegendVisible ? 'expanded' : 'collapsed'}
@@ -36,6 +30,12 @@ const MapLegend: React.FC<Props> = ({
         type="button"
         className="map-legend__header"
         data-testid="mapLegendToggleButton"
+        aria-label={
+          isLegendVisible
+            ? 'Kaartlagen legenda, Kaartlagen verbergen'
+            : 'Kaartlagen legenda, Kaartlagen tonen'
+        }
+        aria-expanded={isLegendVisible}      
         onClick={() => setLegendVisible(!isLegendVisible)}
         title={isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
       >
