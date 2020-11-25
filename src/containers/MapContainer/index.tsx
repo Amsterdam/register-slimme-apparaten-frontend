@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { MapOptions } from 'leaflet'
-import { Map, TileLayer } from '@datapunt/react-maps';
 import styled from 'styled-components';
-import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
 import { ViewerContainer } from '@amsterdam/asc-ui';
-import { constants } from '@datapunt/amsterdam-react-maps';
+import { Map, BaseLayer, Zoom } from '@amsterdam/arm-core';
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
@@ -16,13 +14,13 @@ import Geocoder, {
   getSuggestions,
   getAddressById,
 } from 'components/Geocoder'
-import { Zoom } from '@datapunt/amsterdam-react-maps/lib/components';
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
 import reducer, {
   selectLayerItemActionCreator,
   toggleMapLayerActionCreator,
   MapState,
 } from './MapContainerDucks';
+import getCrsRd from '../../shared/services/getCrsRd';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import PointClusterLayer from './PointClusterLayer';
@@ -34,6 +32,7 @@ const MAP_OPTIONS: MapOptions = {
   maxZoom: 16,
   minZoom: 8,
   zoomControl: false,
+  attributionControl: true,
   crs: getCrsRd(),
   maxBounds: [
     [52.25168, 4.64034],
@@ -104,7 +103,7 @@ const MapContainer = () => {
     () => ({
       getSuggestions,
       getAddressById,
-    }),
+    }), 
     [],
   )
 
@@ -126,14 +125,7 @@ const MapContainer = () => {
         config={POLYGON_LAYERS_CONFIG}
       />
 
-      <TileLayer
-        args={[constants.DEFAULT_AMSTERDAM_LAYERS[0].urlTemplate]}
-        options={{
-          subdomains: ['1', '2', '3', '4'],
-          tms: true,
-          attribution: 'Kaartgegevens CC-BY-4.0 Gemeente Amsterdam',
-        }}
-      />
+      <BaseLayer />
     </StyledMap>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createLeafletComponent } from '@datapunt/react-maps';
+import { createLeafletComponent } from '@amsterdam/react-maps';
 import L, { GeoJSONOptions, MarkerClusterGroupOptions } from 'leaflet';
 import { FeatureCollection } from 'geojson';
 
