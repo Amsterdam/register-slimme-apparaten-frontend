@@ -15,7 +15,7 @@ import ReactDOM from 'react-dom';
 import { Provider, ReactReduxContext } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
-import { ThemeProvider, GlobalStyle } from '@datapunt/asc-ui';
+import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
 import 'leaflet/dist/leaflet';
 
 /* eslint-disable import/no-webpack-loader-syntax */

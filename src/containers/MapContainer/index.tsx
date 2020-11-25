@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { MapOptions } from 'leaflet'
 import { Map, TileLayer } from '@datapunt/react-maps';
-import styled from '@datapunt/asc-core';
+import styled from 'styled-components';
 import { getCrsRd } from '@datapunt/amsterdam-react-maps/lib/utils';
-import { ViewerContainer } from '@datapunt/asc-ui';
+import { ViewerContainer } from '@amsterdam/asc-ui';
 import { constants } from '@datapunt/amsterdam-react-maps';
 import MapLegend from 'components/MapLegend';
 import { useSelector, useDispatch } from 'react-redux';

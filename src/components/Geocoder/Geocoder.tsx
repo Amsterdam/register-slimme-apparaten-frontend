@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useReducer } from 'react';
 import 'leaflet/dist/leaflet.css';
-import { SearchBar } from '@datapunt/asc-ui';
+import { SearchBar } from '@amsterdam/asc-ui';
 import { useMapInstance } from '@datapunt/react-maps';
 import SearchResultsList from './SearchResultsList';
 import { nearestAdresToString } from './services/transformers';
@@ -118,7 +118,8 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     onSelect(idx);
   };
 
-  const handleOnChange = (value: any): void => {
+  const handleOnChange = (e: any): void => { 
+    const value = e.currentTarget.value;
     dispatch(searchTermChanged(value));
     if (value === '') {
       marker?.setOpacity(0);
