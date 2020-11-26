@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Button, themeSpacing } from '@datapunt/asc-ui';
-import styled from '@datapunt/asc-core';
+import { Button, themeSpacing } from '@amsterdam/asc-ui';
+import styled from 'styled-components';
 
 import CloseIcon from '../../images/icon-cross-big.svg';
 import QuestionMarkIcon from '../../images/icon-question-mark.svg';

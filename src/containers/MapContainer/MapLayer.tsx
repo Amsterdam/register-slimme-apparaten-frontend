@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { useMapInstance, GeoJSON } from '@datapunt/react-maps';
+import { useMapInstance, GeoJSON } from '@amsterdam/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import layersReader from 'services/layer-aggregator/layersReader';
 import { CATEGORY_NAMES } from 'shared/configuration/categories';
@@ -21,6 +20,8 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   const layer = useSelector((state: { map: MapState }) =>
     state?.map?.layers.filter(l => l.name === layerName.current && state?.map?.legend[l.name]),
   );
+
+  mapInstance.attributionControl.addAttribution('Kaartgegevens CC-BY-4.0 Gemeente Amsterdam');
 
   useEffect(() => {
     setJson(layer[0]);
@@ -56,11 +57,6 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   }, [mapInstance]);
 
   return json ? <GeoJSON args={[json]} options={options} /> : null;
-};
-
-MapLayer.propTypes = {
-  options: PropTypes.shape({}).isRequired,
-  config: PropTypes.array.isRequired,
 };
 
 export default MapLayer;

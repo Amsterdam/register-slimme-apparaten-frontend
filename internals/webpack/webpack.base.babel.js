@@ -110,7 +110,7 @@ module.exports = options => ({
     }),
     new CopyWebpackPlugin([
       {
-        from: './node_modules/@datapunt/asc-assets/static/fonts',
+        from: './node_modules/@amsterdam/asc-assets/static/fonts',
         to: 'fonts',
       },
     ]),
@@ -125,9 +125,8 @@ module.exports = options => ({
       'react-dom': path.resolve('./node_modules/react-dom'),
       'styled-components': path.resolve('./node_modules/styled-components'),
       'leaflet': path.resolve('./node_modules/leaflet'),
-      '@datapunt/asc-assets': path.resolve('./node_modules/@datapunt/asc-assets'),
-      '@datapunt/asc-core': path.resolve('./node_modules/@datapunt/asc-core'),
-      '@datapunt/asc-ui': path.resolve('./node_modules/@datapunt/asc-ui'),
+      '@amsterdam/asc-assets': path.resolve('./node_modules/@amsterdam/asc-assets'),
+      '@amsterdam/asc-ui': path.resolve('./node_modules/@amsterdam/asc-ui'),
     },
   },
   devtool: options.devtool,

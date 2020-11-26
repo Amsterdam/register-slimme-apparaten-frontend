@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Footer /> should render correctly 1`] = `
-<Styled(Footer)>
-  <FooterTop>
+<styled.footer>
+  <styled.div>
     <Row
       debug={false}
       debugColor="rgba(51,102,153,0.75)"
@@ -24,28 +24,9 @@ exports[`<Footer /> should render correctly 1`] = `
         }
         wrap={true}
       >
-        <FooterToggle
-          hideAt="tabletM"
-          title="Disclaimer"
-        >
-          <FooterContent
-            indent={true}
-          >
-            <DisclaimerLinks />
-          </FooterContent>
-        </FooterToggle>
-        <FooterContent
-          showAt="tabletM"
-        >
-          <FooterHeading
-            $as="h3"
-          >
-            Disclaimer
-          </FooterHeading>
-          <DisclaimerLinks />
-        </FooterContent>
+        <DisclaimerLinks />
       </Column>
     </Row>
-  </FooterTop>
-</Styled(Footer)>
+  </styled.div>
+</styled.footer>
 `;
