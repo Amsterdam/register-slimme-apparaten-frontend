@@ -146,7 +146,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.2.1",
     "babel-plugin-dynamic-import-node": "^2.3.3",
-    "babel-plugin-react-intl": "^5.1.18",
+    "babel-plugin-react-intl": "^8.2.25",
     "babel-plugin-react-transform": "^3.0.0",
     "babel-plugin-styled-components": "^1.11.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
