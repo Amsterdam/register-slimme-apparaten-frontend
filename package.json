@@ -86,7 +86,7 @@
     "proj4leaflet": "^1.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
-    "react-accessible-accordion": "^2.4.4",
+    "react-accessible-accordion": "^3.3.4",
     "react-albus": "^2.0.0",
     "react-dom": "^16.14.0",
     "react-intl": "2.3.0",
