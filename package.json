@@ -22,7 +22,7 @@
     "build:prod": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress --hide-modules --display-optimization-bailout",
     "build:clean": "rimraf ./build",
     "build:dll": "node ./internals/scripts/dependencies.js",
-    "start": "cross-env NODE_ENV=development npm run build:dll && node server -- --proxyConfig=proxy.conf.api.js --port=3001",
+    "start": "cross-env NODE_ENV=development npm run build:dll && node server -- --proxyConfig=proxy.conf.api.js --port=3002",
     "start:production": "npm run test && npm run build && npm run start:prod",
     "start:prod": "cross-env NODE_ENV=production node server",
     "clean": "shjs ./internals/scripts/clean.js",
