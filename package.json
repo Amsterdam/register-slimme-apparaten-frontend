@@ -185,7 +185,7 @@
     "jest-styled-components": "^6.3.3",
     "jsdom": "11.11.0",
     "leaflet-headless": "^0.2.6",
-    "lint-staged": "^3.6.1",
+    "lint-staged": "^11.0.0",
     "mini-css-extract-plugin": "^0.8.2",
     "node-plop": "^0.26.2",
     "node-sass": "^4.14.1",
