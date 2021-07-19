@@ -6,7 +6,7 @@ const apiDomainName = 'api.data.amsterdam.nl';
 const defaultConfig = {
   API_ROOT: `https://acc.${apiDomainName}/`,
   MAP_ROOT: 'https://map.data.amsterdam.nl/',
-  ROOT: 'http://localhost:3001/',
+  ROOT: 'http://localhost:3002/',
   AUTH_ROOT: 'https://acc.api.data.amsterdam.nl/',
 };
 

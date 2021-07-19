@@ -16,7 +16,7 @@ This application reads from this backend: https://github.com/amsterdam/iot-api
 ## Development
 
 - To run the frontend: `npm start`
-- Your standard browser will then open a new tab at [http://localhost:3001/](http://localhost:3001/)
+- Your standard browser will then open a new tab at [http://localhost:3002/](http://localhost:3002/)
 - By default the frontend uses the API hosted at [https://acc.api.data.amsterdam.nl/iothings/](https://acc.api.data.amsterdam.nl/iothings/)
 - To change it, modify the apiDomainName and/or API_ROOT in shared/configuration/environment
 
