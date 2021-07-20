@@ -56,8 +56,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 1,
     '@typescript-eslint/no-empty-function': 1,
     'import/order': 'off',
-    'jsx-a11y/aria-role': 'off',
-    'jsx-a11y/no-autofocus': 'off',
     'no-restricted-imports': 1, 
     'no-undef': 'off',
     'promise/always-return': 'off',
