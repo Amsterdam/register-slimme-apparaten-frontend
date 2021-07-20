@@ -5,6 +5,7 @@ import { makeSelectAccessToken } from 'containers/App/selectors';
 import { generateParams, authCall, authPostCall } from './api';
 
 jest.mock('containers/App/selectors', () => {
+  /* eslint-disable-next-line  @typescript-eslint/no-empty-function */
   function mockedMakeSelectAccessToken() { }
   return ({
     makeSelectAccessToken: () => mockedMakeSelectAccessToken,

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'redux';
 
@@ -13,9 +13,9 @@ import About from 'pages/About';
 import FAQ from 'pages/FAQ';
 import NotFoundPage from 'containers/NotFoundPage';
 
+import withContainer from '../../pages/withContainer';
 import reducer from './reducer';
 import saga from './saga';
-import withContainer from '../../pages/withContainer';
 
 export const App = () => (
   <Fragment>

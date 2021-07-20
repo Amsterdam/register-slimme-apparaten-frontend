@@ -30,7 +30,7 @@ const Categories = () => {
         {renderSubtypes(category.subtypes)}
         {category.wikipediaDescription && (
           <p>
-            <a href={category.wikipediaUrl} target="_blank">
+            <a href={category.wikipediaUrl} target="_blank" rel="noreferrer">
               Wikipedia:
             </a>{' '}
             &quot;{category.wikipediaDescription}&quot;

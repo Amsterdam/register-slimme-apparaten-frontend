@@ -6,6 +6,7 @@ jest.mock('./services/query-string-parser/query-string-parser');
 jest.mock('./services/state-token-generator/state-token-generator');
 
 describe('The auth service', () => {
+  /* eslint-disable-next-line  @typescript-eslint/no-empty-function */
   const noop = () => {};
 
   let origSessionStorage;

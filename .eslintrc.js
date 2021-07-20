@@ -27,6 +27,7 @@ module.exports = {
       files: ['**/*.test.*'],
       rules: {
         'testing-library/prefer-screen-queries': 1,
+        'testing-library/render-result-naming-convention': 1,
         'testing-library/no-container': 1,
         'testing-library/no-node-access': 1
       },
@@ -46,26 +47,18 @@ module.exports = {
   root: true,
   rules: {
     'import/first': 'error',
-    'import/order': 'error',
     'no-console': [
       'error',
       {
         allow: ['warn', 'error'],
       },
     ],
+    '@typescript-eslint/no-unused-vars': 1,
+    '@typescript-eslint/no-empty-function': 1,
+    'import/order': 'off',
     'jsx-a11y/aria-role': 'off',
     'jsx-a11y/no-autofocus': 'off',
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'react',
-            importNames: ['default'],
-          },
-        ],
-      },
-    ],
+    'no-restricted-imports': 1, 
     'no-undef': 'off',
     'promise/always-return': 'off',
     'promise/catch-or-return': 'off',
@@ -77,10 +70,11 @@ module.exports = {
     'require-yield': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    'no-import-assign': 'off'
   },
   settings: {
     react: {
       version: 'detect',
     },
-  },
+  }
 }
