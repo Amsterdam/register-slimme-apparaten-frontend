@@ -8,7 +8,11 @@ import configureStore from '../configureStore';
 
 export const history = createMemoryHistory();
 
-export const testActionCreator = (action, actionType, payload) => {
+type Payload = {
+  type?: string;
+};
+
+export const testActionCreator = (action: () => void, actionType: string, payload: Payload): void => {
   const expected = {
     type: actionType,
     payload,
@@ -18,7 +22,7 @@ export const testActionCreator = (action, actionType, payload) => {
 
 export const store = configureStore({}, history);
 
-export const withAppContext = (Component: React.ReactNode) => (
+export const withAppContext = (Component: React.ReactNode): React.ReactNode => (
   <ThemeProvider>
     <Provider store={store}>
       <ConnectedRouter history={history}>{Component}</ConnectedRouter>
