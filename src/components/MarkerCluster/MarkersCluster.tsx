@@ -11,13 +11,13 @@ export interface MarkerClusterData {
 
 interface MarkersClusterProps {
   clusterOptions: MarkerClusterGroupOptions;
-  pointOptions: (name: string, onItemSelected: Function) =>  GeoJSONOptions;
+  pointOptions: (name: string, onItemSelected: () => void) => GeoJSONOptions;
   data: MarkerClusterData;
-  onItemSelected: Function;
+  onItemSelected: () => void;
 }
 
 const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, pointOptions, onItemSelected }) => {
-  const [layerInstance, setLayerInstance] = useState();
+  const [layerInstance, setLayerInstance] = useState<any>();
 
   useEffect(() => {
     if (layerInstance) {
@@ -27,7 +27,8 @@ const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, p
         layerInstance.addLayer(layer);
       });
     }
-  }, [layerInstance, data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layerInstance, data, onItemSelected]);
 
   return <MarkerClusterGroup setInstance={setLayerInstance} options={clusterOptions} /> || null;
 };

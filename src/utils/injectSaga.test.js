@@ -15,6 +15,7 @@ import * as sagaInjectors from './sagaInjectors';
 const Component = () => null;
 
 function* testSaga() {
+  // eslint-disable-next-line redux-saga/no-unhandled-errors
   yield put({ type: 'TEST', payload: 'yup' });
 }
 
@@ -24,6 +25,7 @@ describe('injectSaga decorator', () => {
   let ComponentWithSaga;
 
   beforeAll(() => {
+    // eslint-disable-next-line no-import-assign
     sagaInjectors.default = jest.fn().mockImplementation(() => injectors);
   });
 

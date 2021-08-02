@@ -5,13 +5,13 @@ import { categories } from 'shared/configuration/categories';
 import './style.scss';
 
 const Categories = () => {
-  const deviceCategories = Object.keys(categories).map(key => categories[key]);
+  const deviceCategories = Object.keys(categories).map((key) => categories[key]);
 
-  const renderSubtypes = subtypes => (
+  const renderSubtypes = (subtypes) => (
     <div>
       {subtypes.length > 0 && 'Typen:'}
       <ul>
-        {subtypes.map(subtype => (
+        {subtypes.map((subtype) => (
           <li key={subtype}>{subtype}</li>
         ))}
       </ul>
@@ -19,8 +19,8 @@ const Categories = () => {
   );
 
   const renderCategories = deviceCategories
-    .filter(category => category.description)
-    .map(category => (
+    .filter((category) => category.description)
+    .map((category) => (
       <div key={category.name}>
         <h3>{category.name}</h3>
         <p
@@ -30,7 +30,7 @@ const Categories = () => {
         {renderSubtypes(category.subtypes)}
         {category.wikipediaDescription && (
           <p>
-            <a href={category.wikipediaUrl} target="_blank">
+            <a href={category.wikipediaUrl} target="_blank" rel="noreferrer">
               Wikipedia:
             </a>{' '}
             &quot;{category.wikipediaDescription}&quot;

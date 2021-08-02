@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * app.js
  *
@@ -60,7 +61,6 @@ const MatomoInstance = new MatomoTracker({
 });
 
 MatomoInstance.trackPageView({});
-
 
 const render = () => {
   ReactDOM.render(

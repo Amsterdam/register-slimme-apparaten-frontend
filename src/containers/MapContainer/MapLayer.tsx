@@ -18,7 +18,7 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
 
   const legend = useSelector((state: { map: MapState }) => state?.map?.legend);
   const layer = useSelector((state: { map: MapState }) =>
-    state?.map?.layers.filter(l => l.name === layerName.current && state?.map?.legend[l.name]),
+    state?.map?.layers.filter((l) => l.name === layerName.current && state?.map?.legend[l.name]),
   );
 
   mapInstance.attributionControl.addAttribution('Kaartgegevens CC-BY-4.0 Gemeente Amsterdam');
@@ -29,7 +29,7 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
 
   useEffect(() => {
     if (!mapInstance) {
-      return () => {};
+      return () => ({});
     }
 
     (async () => {
