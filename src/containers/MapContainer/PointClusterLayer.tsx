@@ -13,7 +13,7 @@ const clusterLayerOptions: MarkerClusterGroupOptions = {
 };
 
 interface PointClusterLayerProps {
-  onItemSelected: () => void;
+  onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string) => void;
 }
 
 const transform = (results: any) =>

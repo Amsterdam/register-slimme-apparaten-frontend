@@ -10,7 +10,7 @@ import MapLayersIcon from '../../images/icon-map-layers.svg';
 import './style.scss';
 
 export interface Props {
-  onToggleCategory: () => void;
+  onToggleCategory: (name: string) => void;
 }
 
 const MapLegend: React.FC<Props> = ({ onToggleCategory }) => {
