@@ -45,6 +45,7 @@ module.exports = {
     'promise/always-return': 'off',
     'promise/catch-or-return': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react/display-name': 'off',
     'import/no-webpack-loader-syntax': 'off',
   },
   parserOptions: {
