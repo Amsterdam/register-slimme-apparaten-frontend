@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useReducer } from 'react';
+import React, { FunctionComponent, useEffect, useState, useCallback, useReducer } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@amsterdam/asc-ui';
 import { useMapInstance } from '@amsterdam/react-maps';
@@ -15,13 +15,28 @@ import {
 } from './ducks';
 import GeocoderStyle from './GeocoderStyle';
 
-const inputProps: any = {
+const inputProps = {
   autoCapitalize: 'off',
   autoComplete: 'off',
   autoCorrect: 'off',
 };
 
-const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddressById, ...otherProps }: any) => {
+interface Props {
+  marker: any;
+  clickPointInfo: any;
+  placeholder: string;
+  getSuggestions: (searchTerm: string) => void;
+  getAddressById: (id: string) => void;
+}
+
+const Geocoder: FunctionComponent<Props> = ({
+  marker,
+  clickPointInfo,
+  placeholder,
+  getSuggestions,
+  getAddressById,
+  ...otherProps
+}) => {
   const mapInstance = useMapInstance();
   const [{ term, results, index, searchMode }, dispatch] = useReducer(reducer, initialState);
   const [markerLocation, setMarkerLocation] = useState();
@@ -60,7 +75,7 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
   }, [clickPointInfo, marker]);
 
   const flyTo = useCallback(
-    location => {
+    (location) => {
       if (mapInstance) {
         const currentZoom = mapInstance.getZoom();
         mapInstance.flyTo(location, currentZoom < 11 ? 11 : currentZoom);
@@ -75,7 +90,8 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     marker?.setLatLng(markerLocation);
     flyTo(markerLocation);
     setMarkerLocation(markerLocation);
-  }, [markerLocation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markerLocation, flyTo]);
 
   const handleKeyDown = async (event: React.KeyboardEvent) => {
     switch (event.keyCode) {
@@ -118,7 +134,7 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     onSelect(idx);
   };
 
-  const handleOnChange = (e: any): void => { 
+  const handleOnChange = (e: any): void => {
     const value = e.currentTarget.value;
     dispatch(searchTermChanged(value));
     if (value === '') {
