@@ -4,6 +4,9 @@ import { SearchBar } from '@amsterdam/asc-ui';
 import { useMapInstance } from '@amsterdam/react-maps';
 import SearchResultsList from './SearchResultsList';
 import { nearestAdresToString } from './services/transformers';
+import { Marker } from 'leaflet';
+import { Suggestion, Location } from '../../components/Geocoder/services/api';
+
 import {
   reducer,
   searchTermSelected,
@@ -22,11 +25,11 @@ const inputProps = {
 };
 
 interface Props {
-  marker: any;
-  clickPointInfo: any;
+  marker: Marker;
+  clickPointInfo?: any;
   placeholder: string;
-  getSuggestions: (searchTerm: string) => void;
-  getAddressById: (id: string) => void;
+  getSuggestions: (term: string) => Suggestion[];
+  getAddressById: (id: string) => Location;
 }
 
 const Geocoder: FunctionComponent<Props> = ({
@@ -134,7 +137,7 @@ const Geocoder: FunctionComponent<Props> = ({
     onSelect(idx);
   };
 
-  const handleOnChange = (e: any): void => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.currentTarget.value;
     dispatch(searchTermChanged(value));
     if (value === '') {
