@@ -10,6 +10,7 @@ export interface Suggestion {
   data: string;
 }
 
+// @ts-ignore
 export const getSuggestions: Suggestion[] = async (searchTerm: string) => {
   const result = await window.fetch(`${GEOCODER_API_SUGGEST}${searchTerm}`);
   const data = await result.json();
@@ -26,6 +27,7 @@ export interface Location {
   lon: number;
 }
 
+// @ts-ignore
 export const getAddressById: Location | null = async (addressId: string) => {
   const result = await window.fetch(`${GEOCODER_API_LOOKUP}${addressId}`);
   const { response } = await result.json();

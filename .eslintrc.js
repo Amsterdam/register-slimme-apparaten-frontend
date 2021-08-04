@@ -30,6 +30,7 @@ module.exports = {
       files: ['**/*.ts', '**/*.tsx'],
       rules: {
         'react/prop-types': 'off',
+        '@typescript-eslint/ban-ts-comment': 'off',
       },
     },
     {

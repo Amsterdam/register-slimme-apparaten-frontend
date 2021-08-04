@@ -3,7 +3,6 @@ import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@amsterdam/asc-ui';
 import { useMapInstance } from '@amsterdam/react-maps';
 import SearchResultsList from './SearchResultsList';
-import { nearestAdresToString } from './services/transformers';
 import { Marker } from 'leaflet';
 import { Suggestion, Location } from '../../components/Geocoder/services/api';
 
@@ -26,20 +25,12 @@ const inputProps = {
 
 interface Props {
   marker: Marker;
-  clickPointInfo?: any;
   placeholder: string;
   getSuggestions: (term: string) => Suggestion[];
-  getAddressById: (id: string) => Location;
+  getAddressById: (id: string) => Location | null;
 }
 
-const Geocoder: FunctionComponent<Props> = ({
-  marker,
-  clickPointInfo,
-  placeholder,
-  getSuggestions,
-  getAddressById,
-  ...otherProps
-}) => {
+const Geocoder: FunctionComponent<Props> = ({ marker, placeholder, getSuggestions, getAddressById, ...otherProps }) => {
   const mapInstance = useMapInstance();
   const [{ term, results, index, searchMode }, dispatch] = useReducer(reducer, initialState);
   const [markerLocation, setMarkerLocation] = useState();
@@ -49,6 +40,7 @@ const Geocoder: FunctionComponent<Props> = ({
     const { id } = results[idx];
     const location = await getAddressById(id);
     if (location) {
+      // @ts-ignore
       setMarkerLocation(location);
     }
     dispatch(clearSearchResults());
@@ -69,14 +61,6 @@ const Geocoder: FunctionComponent<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term]);
 
-  useEffect(() => {
-    if (!clickPointInfo) return;
-    const { location, nearestAdres } = clickPointInfo;
-    marker?.setLatLng(location);
-    marker?.setOpacity(1);
-    dispatch(searchTermSelected(nearestAdresToString(nearestAdres)));
-  }, [clickPointInfo, marker]);
-
   const flyTo = useCallback(
     (location) => {
       if (mapInstance) {
@@ -90,6 +74,7 @@ const Geocoder: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!markerLocation) return;
+    // @ts-ignore
     marker?.setLatLng(markerLocation);
     flyTo(markerLocation);
     setMarkerLocation(markerLocation);
