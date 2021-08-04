@@ -1,4 +1,5 @@
 import React, { useCallback, FunctionComponent /* DetailedHTMLProps, HTMLLIElement, LiHTMLAttributes */ } from 'react';
+// @ts-ignore
 import styled from 'styled-components';
 import 'leaflet/dist/leaflet.css';
 import { Link } from '@amsterdam/asc-ui';

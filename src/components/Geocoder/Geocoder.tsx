@@ -54,6 +54,7 @@ const Geocoder: FunctionComponent<Props> = ({ marker, placeholder, getSuggestion
     } else {
       (async () => {
         const suggestions = await getSuggestions(term);
+        // @ts-ignore
         dispatch(searchResultsChanged(suggestions));
       })();
     }
