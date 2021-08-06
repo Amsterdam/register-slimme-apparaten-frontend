@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createLeafletComponent } from '@amsterdam/react-maps';
-import L, { GeoJSONOptions, MarkerClusterGroupOptions } from 'leaflet';
+import L, { GeoJSONOptions, GeoJSON, MarkerClusterGroupOptions } from 'leaflet';
 import { FeatureCollection } from 'geojson';
 
 const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
@@ -17,8 +17,7 @@ interface MarkersClusterProps {
 }
 
 const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, pointOptions, onItemSelected }) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [layerInstance, setLayerInstance] = useState<any>();
+  const [layerInstance, setLayerInstance] = useState<GeoJSON>();
 
   useEffect(() => {
     if (layerInstance) {
@@ -31,6 +30,7 @@ const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, p
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layerInstance, data, onItemSelected]);
 
+  // @ts-ignore
   return <MarkerClusterGroup setInstance={setLayerInstance} options={clusterOptions} /> || null;
 };
 

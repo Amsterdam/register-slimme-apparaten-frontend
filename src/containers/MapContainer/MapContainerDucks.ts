@@ -1,5 +1,5 @@
 import { categories } from '../../shared/configuration/categories';
-import { ActionType } from '../../utils/types';
+import { ActionType, ItemType, LayerType } from '../../utils/types';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
@@ -8,28 +8,28 @@ export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM'
 export const TOGGLE_MAP_LAYER = 'src/containers/MapContainer/TOGGLE_MAP_LAYER';
 
 // action creators
-export function addLayerDataActionCreator(layers: any[]) {
+export function addLayerDataActionCreator(layers: LayerType[]): ActionType {
   return {
     type: ADD_LAYER_DATA,
     payload: layers,
   };
 }
 
-export function removeLayerDataActionCreator(names: string[]) {
+export function removeLayerDataActionCreator(names: string[]): ActionType {
   return {
     type: REMOVE_LAYER_DATA,
     payload: names,
   };
 }
 
-export function selectLayerItemActionCreator(name?: string, item?: any) {
+export function selectLayerItemActionCreator(name: string, item?: ItemType): ActionType {
   return {
     type: SELECT_LAYER_ITEM,
     payload: { name, item },
   };
 }
 
-export function toggleMapLayerActionCreator(name: string) {
+export function toggleMapLayerActionCreator(name: string): ActionType {
   return {
     type: TOGGLE_MAP_LAYER,
     payload: name,
@@ -43,9 +43,10 @@ export const legend = Object.entries(categories).reduce(
 );
 
 export interface MapState {
-  layers: Array<any>;
-  selectedLayer: any;
-  selectedItem: any;
+  layers: LayerType[] | [];
+  selectedLayer: string | null;
+  selectedItem: ItemType | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   legend: any;
 }
 
@@ -54,11 +55,12 @@ export const initialState: MapState = {
   layers: [],
   selectedLayer: null,
   selectedItem: null,
-  legend,
+  legend: {},
 };
 
-
-function mapReducer(state = initialState, action: ActionType<any>) {
+function mapReducer(state = initialState, action: ActionType): MapState {
+  // eslint-disable-next-line no-console
+  console.log('map reducer', action);
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const result = {
@@ -71,7 +73,7 @@ function mapReducer(state = initialState, action: ActionType<any>) {
       const names = action.payload;
       const result = {
         ...state,
-        layers: [...state?.layers.filter(layer => !names.includes(layer.name))],
+        layers: [...state?.layers.filter((layer) => !names.includes(layer.name))],
       };
       return result;
     }
