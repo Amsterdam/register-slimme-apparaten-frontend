@@ -1,5 +1,5 @@
 import { categories } from '../../shared/configuration/categories';
-import { ActionType } from '../../utils/types';
+import { ActionType, LayerType } from '../../utils/types';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
@@ -8,33 +8,33 @@ export const SELECT_LAYER_ITEM = 'src/containers/MapContainer/SELECT_LAYER_ITEM'
 export const TOGGLE_MAP_LAYER = 'src/containers/MapContainer/TOGGLE_MAP_LAYER';
 
 // action creators
-export function addLayerDataActionCreator(layers: any[]) {
+export const addLayerDataActionCreator = (layers: LayerType[]): ActionType => {
   return {
     type: ADD_LAYER_DATA,
     payload: layers,
   };
-}
+};
 
-export function removeLayerDataActionCreator(names: string[]) {
+export const removeLayerDataActionCreator = (names: string[]): ActionType => {
   return {
     type: REMOVE_LAYER_DATA,
     payload: names,
   };
-}
+};
 
-export function selectLayerItemActionCreator(name?: string, item?: any) {
+export const selectLayerItemActionCreator = (name?: string, item?: any): ActionType => {
   return {
     type: SELECT_LAYER_ITEM,
     payload: { name, item },
   };
-}
+};
 
-export function toggleMapLayerActionCreator(name: string) {
+export const toggleMapLayerActionCreator = (name: string): ActionType => {
   return {
     type: TOGGLE_MAP_LAYER,
     payload: name,
   };
-}
+};
 
 /** initializes the legend with all layers visible */
 export const legend = Object.entries(categories).reduce(
@@ -43,8 +43,8 @@ export const legend = Object.entries(categories).reduce(
 );
 
 export interface MapState {
-  layers: Array<any>;
-  selectedLayer: any;
+  layers: LayerType[];
+  selectedLayer: LayerType | null;
   selectedItem: any;
   legend: any;
 }
@@ -57,7 +57,7 @@ export const initialState: MapState = {
   legend,
 };
 
-function mapReducer(state = initialState, action: ActionType<any>) {
+function mapReducer(state = initialState, action: ActionType): MapState {
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const result = {

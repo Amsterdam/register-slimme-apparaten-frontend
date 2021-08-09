@@ -3,7 +3,7 @@
  */
 export interface ActionType {
   type: string;
-  payload: string | number | string[] | SearchResult[] | ItemType | null;
+  payload: string | number | string[] | SearchResult[] | LayerType[] | ItemType | null;
 }
 
 export interface SearchResult {
