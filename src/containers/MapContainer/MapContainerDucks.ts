@@ -59,8 +59,6 @@ export const initialState: MapState = {
 };
 
 function mapReducer(state = initialState, action: ActionType): MapState {
-  // eslint-disable-next-line no-console
-  console.log('map reducer', action);
   switch (action.type) {
     case ADD_LAYER_DATA: {
       const result = {
