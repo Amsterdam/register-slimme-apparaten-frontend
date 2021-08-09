@@ -1,5 +1,5 @@
 import { categories } from '../../shared/configuration/categories';
-import { ActionType, LayerType } from '../../utils/types';
+import { ActionType, LayerType, ItemType, Item } from '../../utils/types';
 
 // actions
 export const ADD_LAYER_DATA = 'src/containers/MapContainer/ADD_LAYER_DATA';
@@ -22,9 +22,10 @@ export const removeLayerDataActionCreator = (names: string[]): ActionType => {
   };
 };
 
-export const selectLayerItemActionCreator = (name?: string, item?: any): ActionType => {
+export const selectLayerItemActionCreator = (name?: string, item?: Item): ActionType => {
   return {
     type: SELECT_LAYER_ITEM,
+    // @ts-ignore
     payload: { name, item },
   };
 };
@@ -44,8 +45,9 @@ export const legend = Object.entries(categories).reduce(
 
 export interface MapState {
   layers: LayerType[];
-  selectedLayer: LayerType | null;
-  selectedItem: any;
+  selectedLayer: string | null;
+  selectedItem: ItemType | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   legend: any;
 }
 
@@ -62,6 +64,7 @@ function mapReducer(state = initialState, action: ActionType): MapState {
     case ADD_LAYER_DATA: {
       const result = {
         ...state,
+        // @ts-ignore
         layers: [...state.layers, ...action.payload],
       };
       return result;
@@ -70,12 +73,14 @@ function mapReducer(state = initialState, action: ActionType): MapState {
       const names = action.payload;
       const result = {
         ...state,
+        // @ts-ignore
         layers: [...state?.layers.filter((layer) => !names.includes(layer.name))],
       };
       return result;
     }
 
     case SELECT_LAYER_ITEM: {
+      // @ts-ignore
       const { name, item } = action.payload;
       return { ...state, selectedLayer: name, selectedItem: item };
     }
@@ -86,6 +91,7 @@ function mapReducer(state = initialState, action: ActionType): MapState {
         ...state,
         legend: {
           ...state.legend,
+          // @ts-ignore
           [name]: !state.legend[name],
         },
       };
