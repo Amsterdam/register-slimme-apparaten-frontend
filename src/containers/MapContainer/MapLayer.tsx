@@ -20,12 +20,6 @@ interface Category {
   layer: LayerType;
 }
 
-// interface Feature {
-//   geometry: any;
-//   properties: any;
-//   type: string;
-// }
-
 const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   const mapInstance = useMapInstance();
   const [json, setJson] = useState<GeoJsonObject>();
