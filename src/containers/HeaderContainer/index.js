@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Header, MenuItem, MenuButton, themeSpacing, breakpoint, themeColor } from '@amsterdam/asc-ui';
 import APP_ROUTES from '../../services/appRoutes';
 
@@ -13,15 +13,6 @@ const HeaderWrapper = styled.div`
 
   h1 a:first-child {
     display: none;
-  }
-
-  a {
-    color: ${themeColor('tint', 'level7')};
-    text-decoration: none;
-
-    :hover {
-      color: ${themeColor('secondary')};
-    }
   }
 
   @media screen and ${breakpoint('max-width', 'tabletS')} {
@@ -39,23 +30,23 @@ export const HeaderContainer = () => (
       navigation={
         <Fragment>
           <MenuItem>
-            <MenuButton forwardedAs="a">
-              <NavLink to={APP_ROUTES.HOME}>Kaart</NavLink>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.HOME}>
+              Kaart
             </MenuButton>
           </MenuItem>
           <MenuItem>
-            <MenuButton forwardedAs="a">
-              <NavLink to={APP_ROUTES.CATEGORIES}>Type apparaten</NavLink>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.CATEGORIES}>
+              Type apparaten
             </MenuButton>
           </MenuItem>
           <MenuItem>
-            <MenuButton forwardedAs="a">
-              <NavLink to={APP_ROUTES.ABOUT_FAQ}>Veelgevraagd</NavLink>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT_FAQ}>
+              Veelgevraagd
             </MenuButton>
           </MenuItem>
           <MenuItem>
-            <MenuButton forwardedAs="a">
-              <NavLink to={APP_ROUTES.ABOUT}>Over dit register</NavLink>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT}>
+              Over dit register
             </MenuButton>
           </MenuItem>
         </Fragment>
