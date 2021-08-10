@@ -1,18 +1,34 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
+import { GeoJsonObject } from 'geojson';
+import { GeoJSONOptions } from 'leaflet';
 import { useMapInstance, GeoJSON } from '@amsterdam/react-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import layersReader from 'services/layer-aggregator/layersReader';
 import { CATEGORY_NAMES } from 'shared/configuration/categories';
 import { addLayerDataActionCreator, removeLayerDataActionCreator, MapState } from './MapContainerDucks';
+import { LayerType } from '../../utils/types';
 
 interface MapLayerProps {
-  options: any;
-  config: any;
+  options: GeoJSONOptions;
+  config?: any;
 }
+
+interface Category {
+  category: string;
+  name: string;
+  layer: LayerType;
+}
+
+// interface Feature {
+//   geometry: any;
+//   properties: any;
+//   type: string;
+// }
 
 const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   const mapInstance = useMapInstance();
-  const [json, setJson] = useState();
+  const [json, setJson] = useState<GeoJsonObject>();
   const dispatch = useDispatch();
   const layerName = useRef<string | undefined>();
 
@@ -24,7 +40,9 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
   mapInstance.attributionControl.addAttribution('Kaartgegevens CC-BY-4.0 Gemeente Amsterdam');
 
   useEffect(() => {
+    // @ts-ignore
     setJson(layer[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [legend]);
 
   useEffect(() => {
@@ -33,7 +51,8 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
     }
 
     (async () => {
-      const results: any[] = await layersReader(config);
+      const results: Category[] = await layersReader(config);
+      // @ts-ignore
       const features = results.reduce((acc, { layer: l }) => [...acc, ...l.features], []);
       const layerData = {
         type: 'FeatureCollection',
@@ -45,16 +64,19 @@ const MapLayer: React.FC<MapLayerProps> = ({ options, config }) => {
           },
         },
         features,
-      };
+      } as GeoJsonObject;
       setJson(layerData);
+      // @ts-ignore
       layerName.current = layerData.name;
+      // @ts-ignore
       dispatch(addLayerDataActionCreator([layerData]));
     })();
 
     return () => {
       layerName.current && dispatch(removeLayerDataActionCreator([layerName.current]));
     };
-  }, [mapInstance]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapInstance, dispatch]);
 
   return json ? <GeoJSON args={[json]} options={options} /> : null;
 };
