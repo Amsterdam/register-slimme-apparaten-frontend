@@ -11,6 +11,7 @@ import { LayerType } from '../../utils/types';
 
 interface MapLayerProps {
   options: GeoJSONOptions;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   config?: any;
 }
 
