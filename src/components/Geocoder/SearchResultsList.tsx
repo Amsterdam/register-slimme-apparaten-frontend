@@ -1,14 +1,15 @@
-import React, { useCallback } from 'react'
-import 'leaflet/dist/leaflet.css'
-import { Link } from '@amsterdam/asc-ui'
+import React, { useCallback, FunctionComponent /* DetailedHTMLProps, HTMLLIElement, LiHTMLAttributes */ } from 'react';
+// @ts-ignore
 import styled from 'styled-components';
-import SearchResultsListStyle from './SearchResultsListStyle'
+import 'leaflet/dist/leaflet.css';
+import { Link } from '@amsterdam/asc-ui';
+import SearchResultsListStyle from './SearchResultsListStyle';
 
-interface Active {
-  active?: boolean
+interface LinkProps {
+  active?: boolean;
 }
 
-const StyledLink = styled(Link)<Active>`
+const StyledLink = styled(Link)<LinkProps>`
   // @ts-ignore
   font-weight: ${({ active }) => (active ? 700 : 400)};
 
@@ -16,41 +17,44 @@ const StyledLink = styled(Link)<Active>`
     font-weight: 700;
     cursor: pointer;
   }
-`
+`;
 
-const SearchResultsListItem = ({
-  id,
-  name,
-  selected,
-  index,
-  onSelect,
-}: any) => (
+interface ItemProps {
+  id: string;
+  name: string;
+  selected: number;
+  index: number;
+  onSelect: (index: number) => void;
+}
+
+const SearchResultsListItem: FunctionComponent<ItemProps> = ({ id, name, selected, index, onSelect }) => (
   <li>
-    <StyledLink
-      id={id}
-      active={index === selected}
-      variant="blank"
-      onClick={() => onSelect(index)}
-    >
+    <StyledLink id={id} active={index === selected} variant="blank" onClick={() => onSelect(index)}>
       {name}
     </StyledLink>
   </li>
-)
+);
 
-const SearchResultsList = ({ items, selected, onSelect }: any) => {
+interface Props {
+  items: [];
+  selected: number;
+  onSelect: (index: number) => void;
+}
+
+const SearchResultsList: FunctionComponent<Props> = ({ items, selected, onSelect }) => {
   const handleSelectedLink = useCallback(
-    index => {
-      onSelect(index)
+    (index) => {
+      onSelect(index);
     },
     [onSelect],
-  )
+  );
 
   return (
     items && (
       <SearchResultsListStyle>
         <ul>
           {items &&
-            items.map(({ id, name }: any, index: number) => (
+            items.map(({ id, name }, index: number) => (
               <SearchResultsListItem
                 key={id}
                 id={id}
@@ -63,7 +67,7 @@ const SearchResultsList = ({ items, selected, onSelect }: any) => {
         </ul>
       </SearchResultsListStyle>
     )
-  )
-}
+  );
+};
 
-export default SearchResultsList
+export default SearchResultsList;

@@ -12,45 +12,45 @@ const clusterLayerOptions: MarkerClusterGroupOptions = {
   showCoverageOnHover: false,
 };
 
-interface PointClusterLayerProps {
-  onItemSelected: Function
-};
+interface Props {
+  onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string) => void;
+}
 
 const transform = (results: any) =>
   results.reduce(
-    (acc: any, { category, layer }: {category: string, layer: any}) =>
+    (acc: any, { category, layer }: { category: string; layer: any }) =>
       layer.features.length
         ? {
-          ...acc,
-          [category]: {
-            type: 'FeatureCollection',
-            name: category,
-            crs: {
-              type: 'name',
-              properties: {
-                name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
+            ...acc,
+            [category]: {
+              type: 'FeatureCollection',
+              name: category,
+              crs: {
+                type: 'name',
+                properties: {
+                  name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
+                },
               },
+              ...acc[category],
+              features: [...(acc[category]?.features || []), ...layer.features],
             },
-            ...acc[category],
-            features: [...(acc[category]?.features || []), ...layer.features],
-          },
-        }
+          }
         : acc,
     {},
   );
 
-const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected }) => {
+const PointClusterLayer: React.FC<Props> = ({ onItemSelected }) => {
   const [data, setData] = useState<MarkerClusterData>({});
   const dispatch = useDispatch();
   const layerNames = useRef<Array<string>>([]);
   const mapInstance = useMapInstance();
 
-  const legend = useSelector((state:any) => state?.map?.legend);
+  const legend = useSelector((state: any) => state?.map?.legend);
   const layers = useSelector((state: any) =>
-    state?.map?.layers.filter((l:any) => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
+    state?.map?.layers.filter((l: any) => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
   );
 
-  const hanleMarkerSelected = (map: any, layer: any, onMarkerSelected: Function, isMarker: boolean) => {
+  const hanleMarkerSelected = (map: any, layer: any, onMarkerSelected: () => void, isMarker: boolean) => {
     const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
     map.fitBounds(bounds);
     if (isMarker) {
@@ -61,7 +61,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
   };
 
   const udpateSelection = () => {
-    if(!mapInstance) return
+    if (!mapInstance) return;
     const { id, source } = queryStringParser(location.search);
     mapInstance.eachLayer((f: any) => {
       const isMarker = !f.getBounds;
@@ -69,7 +69,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
       if (isMarker) {
         const chlildMarkers = f.__parent.getAllChildMarkers();
-        chlildMarkers.forEach(marker => {
+        chlildMarkers.forEach((marker) => {
           const fId = String(marker.feature.id);
 
           if (fId === id && source === marker.feature.contact) {
@@ -87,10 +87,11 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
   useEffect(() => {
     const layerData = layers.reduce((acc: any, layer: any) => ({ ...acc, [layer.name]: layer }), {});
     setData(layerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [legend]);
 
   useEffect(() => {
-    if (!mapInstance) return () => {};
+    if (!mapInstance) return () => ({});
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
       const layerData = transform(results);
@@ -102,6 +103,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
     return () => {
       dispatch(removeLayerDataActionCreator([...layerNames.current]));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapInstance]);
 
   return (

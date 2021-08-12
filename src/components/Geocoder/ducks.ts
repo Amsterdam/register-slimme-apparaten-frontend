@@ -1,38 +1,38 @@
-import { ActionType } from "../../utils/types";
+import { ActionType, SearchResult } from '../../utils/types';
 
 export const SEARCH_TERM_CHANGED = 'SEARCH_TERM_CHANGED';
-export const searchTermChanged = (value: string) => ({
+export const searchTermChanged = (value: string): ActionType => ({
   type: SEARCH_TERM_CHANGED,
   payload: value,
 });
 
 export const SEARCH_TERM_SELECTED = 'SEARCH_TERM_SELECTED';
-export const searchTermSelected = (value: string) => ({
+export const searchTermSelected = (value: string): ActionType => ({
   type: SEARCH_TERM_SELECTED,
   payload: value,
 });
 
 export const SEARCH_RESULTS_CHANGED = 'SEARCH_RESULTS_CHANGED';
-export const searchResultsChanged = (results: any[]) => ({
+export const searchResultsChanged = (results: SearchResult[]): ActionType => ({
   type: SEARCH_RESULTS_CHANGED,
   payload: results,
 });
 
 export const RESULT_SELECTED = 'RESULT_SELECTED';
-export const resultSelected = (index: number) => ({
+export const resultSelected = (index: number): ActionType => ({
   type: RESULT_SELECTED,
   payload: index,
 });
 
 export const CLEAR_SEARCH_RESULTS = 'CLEAR_SEARCH_RESULTS';
-export const clearSearchResults = () => ({
+export const clearSearchResults = (): ActionType => ({
   type: CLEAR_SEARCH_RESULTS,
   payload: null,
 });
 
 export interface GeocoderState {
   term: string;
-  results: any[];
+  results: SearchResult[];
   index: number;
   searchMode: boolean;
 }
@@ -44,11 +44,12 @@ export const initialState: GeocoderState = {
   searchMode: true,
 };
 
-export const reducer = (state: any, action: ActionType<any>) => {
+export const reducer = (state: GeocoderState, action: ActionType): GeocoderState => {
   switch (action.type) {
     case SEARCH_TERM_CHANGED:
       return {
         ...state,
+        // @ts-ignore
         term: action.payload,
         indeobjectobjectx: -1,
         results: [],
@@ -58,6 +59,7 @@ export const reducer = (state: any, action: ActionType<any>) => {
     case SEARCH_TERM_SELECTED:
       return {
         ...state,
+        // @ts-ignore
         term: action.payload,
         index: -1,
         searchMode: false,
@@ -67,13 +69,16 @@ export const reducer = (state: any, action: ActionType<any>) => {
       return {
         ...state,
         index: -1,
+        // @ts-ignore
         results: [...action.payload],
       };
 
     case RESULT_SELECTED:
       return {
         ...state,
+        // @ts-ignore
         term: action.payload === -1 ? '' : state.results[action.payload].name,
+        // @ts-ignore
         index: action.payload,
       };
 

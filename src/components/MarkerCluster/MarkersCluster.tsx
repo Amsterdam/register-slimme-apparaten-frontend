@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createLeafletComponent } from '@amsterdam/react-maps';
-import L, { GeoJSONOptions, MarkerClusterGroupOptions } from 'leaflet';
+import L, { GeoJSONOptions, GeoJSON, MarkerClusterGroupOptions } from 'leaflet';
 import { FeatureCollection } from 'geojson';
 
 const MarkerClusterGroup = createLeafletComponent('markerClusterGroup');
@@ -9,15 +9,15 @@ export interface MarkerClusterData {
   [name: string]: FeatureCollection;
 }
 
-interface MarkersClusterProps {
+interface Props {
   clusterOptions: MarkerClusterGroupOptions;
-  pointOptions: (name: string, onItemSelected: Function) =>  GeoJSONOptions;
+  pointOptions: (name: string, onItemSelected: () => void) => GeoJSONOptions;
   data: MarkerClusterData;
-  onItemSelected: Function;
+  onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string | undefined) => void;
 }
 
-const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, pointOptions, onItemSelected }) => {
-  const [layerInstance, setLayerInstance] = useState();
+const MarkersCluster: React.FC<Props> = ({ clusterOptions, data, pointOptions, onItemSelected }) => {
+  const [layerInstance, setLayerInstance] = useState<GeoJSON>();
 
   useEffect(() => {
     if (layerInstance) {
@@ -27,8 +27,10 @@ const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, p
         layerInstance.addLayer(layer);
       });
     }
-  }, [layerInstance, data]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layerInstance, data, onItemSelected]);
 
+  // @ts-ignore
   return <MarkerClusterGroup setInstance={setLayerInstance} options={clusterOptions} /> || null;
 };
 

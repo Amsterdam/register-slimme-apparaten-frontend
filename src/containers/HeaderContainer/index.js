@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Header, MenuItem, MenuButton, themeSpacing, breakpoint, themeColor } from '@amsterdam/asc-ui';
 import APP_ROUTES from '../../services/appRoutes';
 
@@ -29,22 +30,22 @@ export const HeaderContainer = () => (
       navigation={
         <Fragment>
           <MenuItem>
-            <MenuButton forwardedAs="a" href={APP_ROUTES.HOME}>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.HOME}>
               Kaart
             </MenuButton>
           </MenuItem>
           <MenuItem>
-            <MenuButton forwardedAs="a" href={APP_ROUTES.CATEGORIES}>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.CATEGORIES}>
               Type apparaten
             </MenuButton>
           </MenuItem>
           <MenuItem>
-            <MenuButton forwardedAs="a" href={APP_ROUTES.ABOUT_FAQ}>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT_FAQ}>
               Veelgevraagd
             </MenuButton>
           </MenuItem>
           <MenuItem>
-            <MenuButton forwardedAs="a" href={APP_ROUTES.ABOUT}>
+            <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT}>
               Over dit register
             </MenuButton>
           </MenuItem>

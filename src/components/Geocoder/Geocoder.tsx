@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useCallback, useReducer } from 'react';
+import React, { FunctionComponent, useEffect, useState, useCallback, useReducer } from 'react';
 import 'leaflet/dist/leaflet.css';
 import { SearchBar } from '@amsterdam/asc-ui';
 import { useMapInstance } from '@amsterdam/react-maps';
 import SearchResultsList from './SearchResultsList';
-import { nearestAdresToString } from './services/transformers';
+import { Marker } from 'leaflet';
+import { Suggestion, Location } from '../../components/Geocoder/services/api';
+
 import {
   reducer,
   searchTermSelected,
@@ -15,13 +17,20 @@ import {
 } from './ducks';
 import GeocoderStyle from './GeocoderStyle';
 
-const inputProps: any = {
+const inputProps = {
   autoCapitalize: 'off',
   autoComplete: 'off',
   autoCorrect: 'off',
 };
 
-const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddressById, ...otherProps }: any) => {
+interface Props {
+  marker: Marker;
+  placeholder: string;
+  getSuggestions: (term: string) => Suggestion[];
+  getAddressById: (id: string) => Location | null;
+}
+
+const Geocoder: FunctionComponent<Props> = ({ marker, placeholder, getSuggestions, getAddressById, ...otherProps }) => {
   const mapInstance = useMapInstance();
   const [{ term, results, index, searchMode }, dispatch] = useReducer(reducer, initialState);
   const [markerLocation, setMarkerLocation] = useState();
@@ -31,6 +40,7 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     const { id } = results[idx];
     const location = await getAddressById(id);
     if (location) {
+      // @ts-ignore
       setMarkerLocation(location);
     }
     dispatch(clearSearchResults());
@@ -44,6 +54,7 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     } else {
       (async () => {
         const suggestions = await getSuggestions(term);
+        // @ts-ignore
         dispatch(searchResultsChanged(suggestions));
       })();
     }
@@ -51,16 +62,8 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [term]);
 
-  useEffect(() => {
-    if (!clickPointInfo) return;
-    const { location, nearestAdres } = clickPointInfo;
-    marker?.setLatLng(location);
-    marker?.setOpacity(1);
-    dispatch(searchTermSelected(nearestAdresToString(nearestAdres)));
-  }, [clickPointInfo, marker]);
-
   const flyTo = useCallback(
-    location => {
+    (location) => {
       if (mapInstance) {
         const currentZoom = mapInstance.getZoom();
         mapInstance.flyTo(location, currentZoom < 11 ? 11 : currentZoom);
@@ -72,10 +75,12 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
 
   useEffect(() => {
     if (!markerLocation) return;
+    // @ts-ignore
     marker?.setLatLng(markerLocation);
     flyTo(markerLocation);
     setMarkerLocation(markerLocation);
-  }, [markerLocation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markerLocation, flyTo]);
 
   const handleKeyDown = async (event: React.KeyboardEvent) => {
     switch (event.keyCode) {
@@ -118,7 +123,7 @@ const Geocoder = ({ marker, clickPointInfo, placeholder, getSuggestions, getAddr
     onSelect(idx);
   };
 
-  const handleOnChange = (e: any): void => { 
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.currentTarget.value;
     dispatch(searchTermChanged(value));
     if (value === '') {
