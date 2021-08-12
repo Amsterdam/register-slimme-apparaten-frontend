@@ -9,14 +9,14 @@ export interface MarkerClusterData {
   [name: string]: FeatureCollection;
 }
 
-interface MarkersClusterProps {
+interface Props {
   clusterOptions: MarkerClusterGroupOptions;
   pointOptions: (name: string, onItemSelected: () => void) => GeoJSONOptions;
   data: MarkerClusterData;
-  onItemSelected: () => void;
+  onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string | undefined) => void;
 }
 
-const MarkersCluster: React.FC<MarkersClusterProps> = ({ clusterOptions, data, pointOptions, onItemSelected }) => {
+const MarkersCluster: React.FC<Props> = ({ clusterOptions, data, pointOptions, onItemSelected }) => {
   const [layerInstance, setLayerInstance] = useState<GeoJSON>();
 
   useEffect(() => {

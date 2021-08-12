@@ -31,6 +31,7 @@ module.exports = {
       rules: {
         'react/prop-types': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
       },
     },
     {
@@ -45,6 +46,7 @@ module.exports = {
     'no-redeclare': 'off',
     'promise/always-return': 'off',
     'promise/catch-or-return': 'off',
+    'promise/no-callback-in-promise': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
     'import/no-webpack-loader-syntax': 'off',

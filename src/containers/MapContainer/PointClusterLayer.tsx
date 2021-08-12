@@ -12,7 +12,7 @@ const clusterLayerOptions: MarkerClusterGroupOptions = {
   showCoverageOnHover: false,
 };
 
-interface PointClusterLayerProps {
+interface Props {
   onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string) => void;
 }
 
@@ -39,7 +39,7 @@ const transform = (results: any) =>
     {},
   );
 
-const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected }) => {
+const PointClusterLayer: React.FC<Props> = ({ onItemSelected }) => {
   const [data, setData] = useState<MarkerClusterData>({});
   const dispatch = useDispatch();
   const layerNames = useRef<Array<string>>([]);
@@ -87,6 +87,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
   useEffect(() => {
     const layerData = layers.reduce((acc: any, layer: any) => ({ ...acc, [layer.name]: layer }), {});
     setData(layerData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [legend]);
 
   useEffect(() => {
@@ -102,6 +103,7 @@ const PointClusterLayer: React.FC<PointClusterLayerProps> = ({ onItemSelected })
     return () => {
       dispatch(removeLayerDataActionCreator([...layerNames.current]));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapInstance]);
 
   return (
