@@ -10,32 +10,80 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
       <React.Fragment>
         <ForwardRef(MenuItem)>
           <MenuButton
-            forwardedAs="a"
-            href="/"
+            forwardedAs={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "propTypes": Object {
+                  "innerRef": [Function],
+                  "onClick": [Function],
+                  "replace": [Function],
+                  "target": [Function],
+                  "to": [Function],
+                },
+                "render": [Function],
+              }
+            }
+            to="/"
           >
             Kaart
           </MenuButton>
         </ForwardRef(MenuItem)>
         <ForwardRef(MenuItem)>
           <MenuButton
-            forwardedAs="a"
-            href="/categories"
+            forwardedAs={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "propTypes": Object {
+                  "innerRef": [Function],
+                  "onClick": [Function],
+                  "replace": [Function],
+                  "target": [Function],
+                  "to": [Function],
+                },
+                "render": [Function],
+              }
+            }
+            to="/categories"
           >
             Type apparaten
           </MenuButton>
         </ForwardRef(MenuItem)>
         <ForwardRef(MenuItem)>
           <MenuButton
-            forwardedAs="a"
-            href="/about/faq"
+            forwardedAs={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "propTypes": Object {
+                  "innerRef": [Function],
+                  "onClick": [Function],
+                  "replace": [Function],
+                  "target": [Function],
+                  "to": [Function],
+                },
+                "render": [Function],
+              }
+            }
+            to="/about/faq"
           >
             Veelgevraagd
           </MenuButton>
         </ForwardRef(MenuItem)>
         <ForwardRef(MenuItem)>
           <MenuButton
-            forwardedAs="a"
-            href="/about"
+            forwardedAs={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "propTypes": Object {
+                  "innerRef": [Function],
+                  "onClick": [Function],
+                  "replace": [Function],
+                  "target": [Function],
+                  "to": [Function],
+                },
+                "render": [Function],
+              }
+            }
+            to="/about"
           >
             Over dit register
           </MenuButton>

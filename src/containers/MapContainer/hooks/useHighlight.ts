@@ -3,8 +3,7 @@ import 'leaflet.markercluster';
 
 export const HIGHLIGHT_CLASS = 'active-element';
 
-const useHighlight = () => {
-
+const useHighlight = (): { highlight: (marker: HTMLElement) => void } => {
   const activeElement = useRef<HTMLElement | null>(null);
 
   const highlight = (marker: HTMLElement) => {
@@ -12,7 +11,6 @@ const useHighlight = () => {
     activeElement.current = marker;
     activeElement.current.classList.add(HIGHLIGHT_CLASS);
   };
-
 
   return { highlight };
 };
