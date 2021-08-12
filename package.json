@@ -151,7 +151,7 @@
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-react-intl": "^8.2.25",
     "babel-plugin-react-transform": "^3.0.0",
-    "babel-plugin-styled-components": "^1.11.1",
+    "babel-plugin-styled-components": "^1.13.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "circular-dependency-plugin": "^5.2.2",
     "copy-webpack-plugin": "^5.1.2",
