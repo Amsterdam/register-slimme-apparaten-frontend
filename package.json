@@ -70,7 +70,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "axios": "^0.21.1",
-    "babel-plugin-inline-react-svg": "^1.1.2",
+    "babel-plugin-inline-react-svg": "^2.0.1",
     "chalk": "^3.0.0",
     "compression": "^1.7.4",
     "connected-react-router": "^6.8.0",
