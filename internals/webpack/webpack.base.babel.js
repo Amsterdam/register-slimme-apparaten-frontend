@@ -13,7 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 // in the next major version of loader-utils.'
 process.noDeprecation = true;
 
-module.exports = options => ({
+module.exports = (options) => ({
   mode: options.mode,
   entry: options.entry,
   output: {
@@ -39,7 +39,6 @@ module.exports = options => ({
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
-              hmr: process.env.NODE_ENV === 'development',
             },
           },
           'css-loader',
@@ -106,7 +105,6 @@ module.exports = options => ({
     }),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
-      allChunks: true,
     }),
     new CopyWebpackPlugin([
       {
@@ -114,7 +112,6 @@ module.exports = options => ({
         to: 'fonts',
       },
     ]),
-
   ]),
   resolve: {
     modules: ['node_modules', 'src'],
@@ -124,7 +121,7 @@ module.exports = options => ({
       react: path.resolve('./node_modules/react'),
       'react-dom': path.resolve('./node_modules/react-dom'),
       'styled-components': path.resolve('./node_modules/styled-components'),
-      'leaflet': path.resolve('./node_modules/leaflet'),
+      leaflet: path.resolve('./node_modules/leaflet'),
       '@amsterdam/asc-assets': path.resolve('./node_modules/@amsterdam/asc-assets'),
       '@amsterdam/asc-ui': path.resolve('./node_modules/@amsterdam/asc-ui'),
     },
