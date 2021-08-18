@@ -1,17 +1,18 @@
+/* eslint-disable redux-saga/no-unhandled-errors */
 import { call, select } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import { makeSelectAccessToken } from '../../../containers/App/selectors';
 
-export const generateParams = data =>
+export const generateParams = (data) =>
   Object.entries(data)
-    .filter(pair => pair[1])
-    .map(pair =>
+    .filter((pair) => pair[1])
+    .map((pair) =>
       Array.isArray(pair[1]) === true
         ? pair[1]
-          .filter(val => val)
-          .map(val => `${pair[0]}=${val}`)
-          .join('&')
+            .filter((val) => val)
+            .map((val) => `${pair[0]}=${val}`)
+            .join('&')
         : pair.map(encodeURIComponent).join('='),
     )
     .join('&');

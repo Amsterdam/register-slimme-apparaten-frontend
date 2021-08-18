@@ -1,4 +1,5 @@
-import globalConfig from 'globalConfig'; // eslint-disable-line import/extensions, import/no-unresolved
+/* eslint-disable */
+import globalConfig from 'globalConfig';
 
 const domainName = 'slimmeapparaten.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';

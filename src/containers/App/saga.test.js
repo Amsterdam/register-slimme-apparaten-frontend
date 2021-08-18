@@ -1,3 +1,4 @@
+/* eslint-disable redux-saga/no-unhandled-errors */
 import { all, put, takeLatest } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 
@@ -27,7 +28,7 @@ describe('App saga', () => {
         takeLatest(LOGIN, callLogin), // eslint-disable-line redux-saga/yield-effects
         takeLatest(LOGOUT, callLogout), // eslint-disable-line redux-saga/yield-effects
         takeLatest(AUTHENTICATE_USER, callAuthorize), // eslint-disable-line redux-saga/yield-effects
-      ])
+      ]),
     );
   });
 
@@ -62,10 +63,7 @@ describe('App saga', () => {
       getOauthDomain.mockImplementation(() => 'grip');
       const gen = callLogout();
       gen.next();
-      expect(window.open).toHaveBeenCalledWith(
-        'https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t',
-        '_blank'
-      );
+      expect(window.open).toHaveBeenCalledWith('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank');
     });
 
     it('should error', () => {
@@ -90,17 +88,11 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL'],
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(
-        authCall(
-          'https://acc.api.data.amsterdam.nl/signals/auth/me',
-          null,
-          'akjgrff'
-        )
-      ); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(
         gen.next({
           groups: ['SIG/ALL'],
-        }).value
+        }).value,
       ).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
     });
 
@@ -111,17 +103,11 @@ describe('App saga', () => {
         userScopes: ['SIG/ALL'],
       };
       const gen = callAuthorize({ payload });
-      expect(gen.next().value).toEqual(
-        authCall(
-          'https://acc.api.data.amsterdam.nl/signals/auth/me',
-          null,
-          'akjgrff'
-        )
-      ); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.next().value).toEqual(authCall('https://acc.api.data.amsterdam.nl/signals/auth/me', null, 'akjgrff')); // eslint-disable-line redux-saga/yield-effects
       expect(
         gen.next({
           groups: ['SIG/ALL'],
-        }).value
+        }).value,
       ).toEqual(put(authorizeUser(mockCredentials))); // eslint-disable-line redux-saga/yield-effects
     });
 
@@ -133,9 +119,7 @@ describe('App saga', () => {
     it('should error', () => {
       const gen = callAuthorize({ payload });
       gen.next();
-      expect(gen.throw().value).toEqual(
-        put(showGlobalError('AUTHORIZE_FAILED'))
-      ); // eslint-disable-line redux-saga/yield-effects
+      expect(gen.throw().value).toEqual(put(showGlobalError('AUTHORIZE_FAILED'))); // eslint-disable-line redux-saga/yield-effects
     });
   });
 });

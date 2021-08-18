@@ -1,3 +1,4 @@
+/* eslint-disable redux-saga/no-unhandled-errors */
 /**
  * Test injectors
  */
@@ -32,7 +33,6 @@ describe('injectors', () => {
         }),
       );
     });
-
   });
 
   describe('ejectSaga helper', () => {

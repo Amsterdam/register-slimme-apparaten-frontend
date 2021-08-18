@@ -1,3 +1,4 @@
+/* eslint-disable redux-saga/no-unhandled-errors */
 import { call, select } from 'redux-saga/effects';
 import request from 'utils/request';
 import { makeSelectAccessToken } from 'containers/App/selectors';
@@ -5,10 +6,10 @@ import { makeSelectAccessToken } from 'containers/App/selectors';
 import { generateParams, authCall, authPostCall } from './api';
 
 jest.mock('containers/App/selectors', () => {
-  function mockedMakeSelectAccessToken() { }
-  return ({
+  function mockedMakeSelectAccessToken() {}
+  return {
     makeSelectAccessToken: () => mockedMakeSelectAccessToken,
-  });
+  };
 });
 
 describe('api service', () => {
@@ -27,7 +28,6 @@ describe('api service', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
-
 
   describe('generateParams', () => {
     it('should create the correct params from object', () => {

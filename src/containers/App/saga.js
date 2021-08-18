@@ -48,6 +48,7 @@ export function* callAuthorize(action) {
 }
 
 export default function* watchAppSaga() {
+  // eslint-disable-next-line redux-saga/no-unhandled-errors
   yield all([
     takeLatest(LOGIN, callLogin),
     takeLatest(LOGOUT, callLogout),
