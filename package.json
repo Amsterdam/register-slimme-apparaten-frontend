@@ -68,7 +68,7 @@
     "@datapunt/matomo-tracker-js": "0.5.1",
     "@formatjs/intl-pluralrules": "^4.1.2",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
-    "@typescript-eslint/parser": "^4.28.5",
+    "@typescript-eslint/parser": "^4.29.3",
     "axios": "^0.21.1",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "chalk": "^3.0.0",
