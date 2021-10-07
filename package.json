@@ -10,7 +10,7 @@
     "npm": ">=6",
     "node": ">=10"
   },
-  "author": "Datapunt Amsterdam",
+  "author": "Datapunt Amsterdam ",
   "license": "MPL-2.0",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
