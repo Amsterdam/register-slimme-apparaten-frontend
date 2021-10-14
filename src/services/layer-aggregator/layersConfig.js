@@ -23,7 +23,7 @@ const LAYERS_CONFIG = [
   // },
   {
     name: 'cmsa',
-    url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
     fetchService: readData,
     layers: [
       {
@@ -45,7 +45,7 @@ const LAYERS_CONFIG = [
   },
   {
     name: 'AIS masten',
-    url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_AISMASTEN&THEMA=privacy',
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_AISMASTEN&THEMA=privacy',
     fetchService: readData,
     className: 'ais-masten',
     category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
@@ -62,7 +62,7 @@ const LAYERS_CONFIG = [
   // temp removed failing service
   // {
   //   name: 'Wagenparkscan',
-  //   url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_WAGENPARKSCAN&THEMA=privacy',
+  //   url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_WAGENPARKSCAN&THEMA=privacy',
   //   fetchService: readData,
   //   className: 'wagenparkscan',
   //   category: CATEGORY_NAMES.CAMERA,
@@ -78,7 +78,7 @@ const LAYERS_CONFIG = [
   // },
   {
     name: 'Verkeersonderzoek en Overig',
-    url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=PRIVACY_OVERIG&THEMA=privacy',
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_OVERIG&THEMA=privacy',
     fetchService: readData,
     className: 'overig',
     category: CATEGORY_NAMES.CAMERA,
@@ -94,7 +94,7 @@ const LAYERS_CONFIG = [
   },
   {
     name: 'Beweegbare Fysieke Afsluiting (BFA)',
-    url: 'https://maps.amsterdam.nl/open_geodata/geojson.php?KAARTLAAG=VIS_BFA&THEMA=vis',
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS_BFA&THEMA=vis',
     fetchService: readData,
     className: 'bfa',
     category: CATEGORY_NAMES.CAMERA,
