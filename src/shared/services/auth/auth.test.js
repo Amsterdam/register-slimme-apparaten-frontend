@@ -192,52 +192,6 @@ describe('The auth service', () => {
     });
   });
 
-  describe('Login process', () => {
-    it('throws an error when the crypto library is not supported by the browser', () => {
-      stateToken = '';
-      expect(() => {
-        login();
-      }).toThrow('crypto library is not available on the current browser');
-    });
-
-    it('Updates the session storage', () => {
-      const hash = '#?the=current-hash';
-      global.location.hash = hash;
-
-      login();
-
-      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith('accessToken');
-      expect(global.sessionStorage.setItem).toHaveBeenCalledWith('returnPath', hash);
-      expect(global.sessionStorage.setItem).toHaveBeenCalledWith('stateToken', stateToken);
-    });
-
-    it('Redirects to the auth service', () => {
-      // eslint-disable-next-line no-undef
-      jsdom.reconfigure({ url: 'https://data.amsterdam.nl/the/current/path' });
-
-      login();
-
-      expect(global.location.assign).toHaveBeenCalledWith(
-        'https://acc.api.data.amsterdam.nl/' +
-          'oauth2/authorize?idp_id=datapunt&response_type=token&client_id=sia' +
-          '&scope=SIG%2FALL' +
-          '&state=123StateToken&redirect_uri=https%3A%2F%2Fdata.amsterdam.nl%2Fmanage%2Fincidents',
-      );
-    });
-  });
-
-  describe('Logout process', () => {
-    it('Removes the access token from the session storage', () => {
-      logout();
-      expect(global.sessionStorage.removeItem).toHaveBeenCalledWith('accessToken');
-    });
-
-    it('Reloads the app', () => {
-      logout();
-      expect(global.location.reload).toHaveBeenCalledWith();
-    });
-  });
-
   describe('Retrieving the return path', () => {
     it('returns the return path after initialized with a successful callback', () => {
       queryObject = {

@@ -1,27 +1,7 @@
-
 import { testActionCreator } from 'test/utils';
-import {
-  AUTHENTICATE_USER,
-  AUTHORIZE_USER,
+import { AUTHENTICATE_USER, AUTHORIZE_USER, SHOW_GLOBAL_ERROR, RESET_GLOBAL_ERROR } from './constants';
 
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
-
-  LOGIN,
-  LOGOUT,
-} from './constants';
-
-import {
-  authenticateUser,
-  authorizeUser,
-
-  showGlobalError,
-  resetGlobalError,
-
-  doLogin,
-  doLogout,
-} from './actions';
-
+import { authenticateUser, authorizeUser, showGlobalError, resetGlobalError } from './actions';
 
 describe('App actions', () => {
   it('should dispatch authenticate user action', () => {
@@ -55,15 +35,5 @@ describe('App actions', () => {
 
   it('should dispatch reset global error action', () => {
     testActionCreator(resetGlobalError, RESET_GLOBAL_ERROR);
-  });
-
-  it('should dispatch login action', () => {
-    const payload = 'domain';
-    testActionCreator(doLogin, LOGIN, payload);
-  });
-
-  it('should dispatch logout action', () => {
-    const payload = null;
-    testActionCreator(doLogout, LOGOUT, payload);
   });
 });

@@ -1,12 +1,10 @@
 /* eslint-disable redux-saga/no-unhandled-errors */
 import { all, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
 
 import { authCall } from 'shared/services/api/api';
-import watchAppSaga, { callLogin, callLogout, callAuthorize } from './saga';
-import { LOGIN, LOGOUT, AUTHENTICATE_USER } from './constants';
+import watchAppSaga, { callAuthorize } from './saga';
+import { AUTHENTICATE_USER } from './constants';
 import { authorizeUser, showGlobalError } from './actions';
-import { login, logout, getOauthDomain } from '../../shared/services/auth/auth';
 
 jest.mock('../../shared/services/auth/auth');
 jest.mock('shared/services/api/api');
@@ -25,53 +23,9 @@ describe('App saga', () => {
     expect(gen.next().value).toEqual(
       all([
         // eslint-disable-line redux-saga/yield-effects
-        takeLatest(LOGIN, callLogin), // eslint-disable-line redux-saga/yield-effects
-        takeLatest(LOGOUT, callLogout), // eslint-disable-line redux-saga/yield-effects
         takeLatest(AUTHENTICATE_USER, callAuthorize), // eslint-disable-line redux-saga/yield-effects
       ]),
     );
-  });
-
-  describe('login', () => {
-    const payload = 'datapunt';
-
-    it('should success', () => {
-      const gen = callLogin({ payload });
-      gen.next();
-      expect(login).toHaveBeenCalledWith(payload);
-    });
-
-    // @TODO fix this test
-    // it.only('should error', () => {
-    // const gen = callLogin({ payload });
-    // gen.next();
-    // expect(gen.throw().value).toEqual(put(showGlobalError('LOGIN_FAILED'))); // eslint-disable-line redux-saga/yield-effects
-    // expect(1).toBe(1);
-    // });
-  });
-
-  describe('logout', () => {
-    it('should success', () => {
-      getOauthDomain.mockImplementation(() => '');
-      const gen = callLogout();
-      const value = gen.next().value;
-      expect(value).toEqual(put(push('/'))); // eslint-disable-line redux-saga/yield-effects
-      expect(logout).toHaveBeenCalledWith();
-    });
-
-    it('should grip success', () => {
-      getOauthDomain.mockImplementation(() => 'grip');
-      const gen = callLogout();
-      gen.next();
-      expect(window.open).toHaveBeenCalledWith('https://auth.grip-on-it.com/v2/logout?tenantId=rjsfm52t', '_blank');
-    });
-
-    it('should error', () => {
-      // const error = new Error();
-      const gen = callLogout();
-      gen.next();
-      expect(gen.throw().value).toEqual(put(showGlobalError('LOGOUT_FAILED'))); // eslint-disable-line redux-saga/yield-effects
-    });
   });
 
   describe('callAuthorize', () => {
