@@ -39,23 +39,3 @@ export function* authCall(url, params, authorizationToken) {
   const fullUrl = `${url}/${params ? `?${generateParams(params)}` : ''}`;
   return yield call(request, fullUrl, options);
 }
-
-export function* authPostCall(url, params) {
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-
-  const token = yield select(makeSelectAccessToken());
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const options = {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(params),
-  };
-
-  const fullUrl = `${url}`;
-  return yield call(request, fullUrl, options);
-}

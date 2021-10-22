@@ -3,7 +3,7 @@ import { call, select } from 'redux-saga/effects';
 import request from 'utils/request';
 import { makeSelectAccessToken } from 'containers/App/selectors';
 
-import { generateParams, authCall, authPostCall } from './api';
+import { generateParams, authCall } from './api';
 
 jest.mock('containers/App/selectors', () => {
   function mockedMakeSelectAccessToken() {}
@@ -47,23 +47,6 @@ describe('api service', () => {
         },
       };
       const gen = authCall(url, params);
-      expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
-      expect(gen.next(token).value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
-    });
-  });
-
-  describe('authPostCall', () => {
-    it('should generate the right call', () => {
-      const fullUrl = `${url}`;
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(params),
-      };
-      const gen = authPostCall(url, params);
       expect(gen.next().value).toEqual(select(makeSelectAccessToken())); // eslint-disable-line redux-saga/yield-effects
       expect(gen.next(token).value).toEqual(call(request, fullUrl, options)); // eslint-disable-line redux-saga/yield-effects
     });

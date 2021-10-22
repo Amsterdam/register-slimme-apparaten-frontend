@@ -1,9 +1,7 @@
-import { initAuth, login, logout, getReturnPath, getAuthHeaders } from './auth';
+import { initAuth, getReturnPath, getAuthHeaders } from './auth';
 import queryStringParser from './services/query-string-parser/query-string-parser';
-import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 
 jest.mock('./services/query-string-parser/query-string-parser');
-jest.mock('./services/state-token-generator/state-token-generator');
 
 describe('The auth service', () => {
   const noop = () => {};
@@ -13,7 +11,6 @@ describe('The auth service', () => {
   let savedAccessToken;
   let savedReturnPath;
   let savedStateToken;
-  let stateToken;
 
   beforeEach(() => {
     origSessionStorage = global.sessionStorage;
@@ -42,10 +39,8 @@ describe('The auth service', () => {
     jest.spyOn(global.sessionStorage, 'setItem');
 
     queryStringParser.mockImplementation(() => queryObject);
-    stateTokenGenerator.mockImplementation(() => stateToken);
 
     queryObject = {};
-    stateToken = '123StateToken';
     savedStateToken = '';
     savedReturnPath = '';
     savedAccessToken = '';

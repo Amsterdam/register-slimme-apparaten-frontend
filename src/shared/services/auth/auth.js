@@ -2,9 +2,7 @@
  * @jest-environment jsdom
  */
 
-import CONFIGURATION from 'shared/configuration/environment';
 import queryStringParser from './services/query-string-parser/query-string-parser';
-import stateTokenGenerator from './services/state-token-generator/state-token-generator';
 import accessTokenParser from './services/access-token-parser/access-token-parser';
 
 // A map of the error keys, that the OAuth2 authorization service can
@@ -63,8 +61,6 @@ const STATE_TOKEN = 'stateToken';
 // The access token returned by the OAuth2 authorization service
 // containing user scopes and name
 const ACCESS_TOKEN = 'accessToken';
-
-const OAUTH_DOMAIN = 'oauthDomain';
 
 let returnPath;
 let tokenData = {};
