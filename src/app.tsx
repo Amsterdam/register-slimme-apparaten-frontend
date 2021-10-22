@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * app.js
  *
@@ -19,9 +18,7 @@ import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
 import 'leaflet/dist/leaflet';
 
-/* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
-/* eslint-enable import/no-webpack-loader-syntax */
 
 // Import marker icons so Webpack adds them as separate files instead of inlining them
 import '../public/images/icon-camera-gebied@3x.png';
@@ -86,7 +83,8 @@ if (module.hot) {
 // it's not most important operation and if main code fails,
 // we do not want it installed
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptance') {
-  require('offline-plugin/runtime').install(); // eslint-disable-line global-require
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('offline-plugin/runtime').install();
 }
 
 // Authenticate and start the authorization process
