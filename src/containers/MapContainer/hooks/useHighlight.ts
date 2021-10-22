@@ -9,7 +9,7 @@ const useHighlight = (): { highlight: (marker: HTMLElement) => void } => {
   const highlight = (marker: HTMLElement) => {
     activeElement.current?.classList.remove(HIGHLIGHT_CLASS);
     activeElement.current = marker;
-    activeElement.current.classList.add(HIGHLIGHT_CLASS);
+    activeElement.current?.classList.add(HIGHLIGHT_CLASS);
   };
 
   return { highlight };
