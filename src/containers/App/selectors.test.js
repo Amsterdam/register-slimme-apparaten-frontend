@@ -1,10 +1,4 @@
-import {
-  selectGlobal,
-  makeSelectUserName,
-  makeSelectAccessToken,
-  makeSelectLoading,
-  makeSelectError,
-} from './selectors';
+import { selectGlobal, makeSelectError } from './selectors';
 
 describe('selectGlobal', () => {
   it('should select the global state', () => {
@@ -13,45 +7,6 @@ describe('selectGlobal', () => {
       global: globalState,
     };
     expect(selectGlobal(mockedState)).toEqual(globalState);
-  });
-});
-
-describe('makeSelectUserName', () => {
-  const userNameSelector = makeSelectUserName();
-  it('should select the current user', () => {
-    const username = 'loggedInUser';
-    const mockedState = {
-      global: {
-        userName: username,
-      },
-    };
-    expect(userNameSelector(mockedState)).toEqual(username);
-  });
-});
-
-describe('makeSelectAccessToken', () => {
-  const selector = makeSelectAccessToken();
-  it('should select the token', () => {
-    const accessToken = 'thisistheaccesstoken';
-    const mockedState = {
-      global: {
-        accessToken,
-      },
-    };
-    expect(selector(mockedState)).toEqual(accessToken);
-  });
-});
-
-describe('makeSelectLoading', () => {
-  const loadingSelector = makeSelectLoading();
-  it('should select the loading', () => {
-    const loading = false;
-    const mockedState = {
-      global: {
-        loading,
-      },
-    };
-    expect(loadingSelector(mockedState)).toEqual(loading);
   });
 });
 

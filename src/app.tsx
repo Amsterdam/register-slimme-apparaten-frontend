@@ -37,8 +37,6 @@ import history from 'utils/history';
 
 // Import root app
 import App from './containers/App';
-import { authenticateUser } from './containers/App/actions';
-import { authenticate } from './shared/services/auth/auth';
 
 import './global.scss';
 
@@ -86,7 +84,3 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptanc
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('offline-plugin/runtime').install();
 }
-
-// Authenticate and start the authorization process
-const credentials = authenticate();
-store.dispatch(authenticateUser(credentials));
