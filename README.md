@@ -6,7 +6,7 @@ This application reads from this backend: https://github.com/amsterdam/iot-api
 
 ## Requirements
 
-- node v10 (doesn't work on node v12 yet)
+- node v16
 - npm
 
 ## Installations

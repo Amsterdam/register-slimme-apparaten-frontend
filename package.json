@@ -49,7 +49,6 @@
       "styled-components",
       "@amsterdam/asc-assets",
       "@amsterdam/asc-ui",
-      "@amsterdam/arm-core",
       "@amsterdam/react-maps",
       "fs"
     ],
