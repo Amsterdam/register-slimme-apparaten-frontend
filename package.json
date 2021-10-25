@@ -174,7 +174,7 @@
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^4.5.2",
     "http-proxy-middleware": "^2.0.1",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "image-webpack-loader": "^7.0.1",
     "imports-loader": "^1.2.0",
     "jest": "^26.3.3",
