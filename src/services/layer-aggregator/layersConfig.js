@@ -6,21 +6,6 @@ import { readData } from '../datareader';
 import { fetchDevices, fetchCameraAreas } from './layersFetcher';
 
 const LAYERS_CONFIG = [
-  // {
-  //   name: '',
-  //   url: 'https://service.vorin-amsterdam.nl/camera-geo_2/camera/geo',
-  //   fetchService: fetch,
-  //   layers: [
-  //     {
-  //       name: 'Verkeershandhaving',
-  //       filter: item => item.properties.doel.find(d => d.startsWith('verkeershandhaving')),
-  //     },
-  //     {
-  //       name: 'Verkeershandhaving',
-  //       filter: item => item.properties.doel.find(d => d.startsWith('verkeersmanagement')),
-  //     },
-  //   ],
-  // },
   {
     name: 'cmsa',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
@@ -28,10 +13,10 @@ const LAYERS_CONFIG = [
     layers: [
       {
         name: 'WiFi sensor Crowd Management',
-        filter: item => item.properties.Soort === 'WiFi sensor' && item.properties.Actief === 'Ja',
+        filter: (item) => item.properties.Soort === 'WiFi sensor' && item.properties.Actief === 'Ja',
         className: 'cmsa',
         category: CATEGORY_NAMES.SENSOR,
-        transformer: item => ({
+        transformer: (item) => ({
           ...item,
           category: CATEGORY_NAMES.SENSOR,
           soort: item.properties.Soort,
@@ -44,12 +29,89 @@ const LAYERS_CONFIG = [
     ],
   },
   {
+    name: 'Camera`s brug- en sluisbediening',
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_BRUGSLUIS&THEMA=privacy',
+    fetchService: readData,
+    category: CATEGORY_NAMES.CAMERA,
+    transformer: (item) => ({
+      ...item,
+      category: CATEGORY_NAMES.CAMERA,
+      soort: item.properties.Naam,
+      privacy: item.properties.Privacyverklaring,
+      contact: item.properties.Eigenaar,
+      longitude: item.geometry.coordinates[0],
+      latitude: item.geometry.coordinates[1],
+    }),
+  },
+  {
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS&THEMA=vis',
+    fetchService: readData,
+    layers: [
+      {
+        category: CATEGORY_NAMES.CAMERA,
+        name: 'CCTV camera`s Verkeersmanagement',
+        filter: (item) => item.properties.Soort === 'TV Camera',
+        transformer: (item) => ({
+          ...item,
+          category: CATEGORY_NAMES.CAMERA,
+          soort: item.properties.Soort,
+          privacy:
+            'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/verkeersmanagement',
+          contact: '',
+          longitude: item.geometry.coordinates[0],
+          latitude: item.geometry.coordinates[1],
+        }),
+      },
+    ],
+  },
+  {
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS&THEMA=vis',
+    fetchService: readData,
+    layers: [
+      {
+        category: CATEGORY_NAMES.CAMERA,
+        name: 'Kentekencamera, reistijd (MoCo)',
+        filter: (item) => item.properties.Soort === 'Kentekencamera, reistijd (MoCo)',
+        transformer: (item) => ({
+          ...item,
+          category: CATEGORY_NAMES.CAMERA,
+          soort: item.properties.Soort,
+          privacy:
+            'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/reistijden-meetsysteem-privacy/',
+          contact: '',
+          longitude: item.geometry.coordinates[0],
+          latitude: item.geometry.coordinates[1],
+        }),
+      },
+    ],
+  },
+  {
+    url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS&THEMA=vis',
+    fetchService: readData,
+    layers: [
+      {
+        category: CATEGORY_NAMES.CAMERA,
+        name: 'Kentekencamera, milieuzone',
+        filter: (item) => item.properties.Soort === 'Kentekencamera, milieuzone',
+        transformer: (item) => ({
+          ...item,
+          category: CATEGORY_NAMES.CAMERA,
+          soort: item.properties.Soort,
+          privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/milieuzones/',
+          contact: '',
+          longitude: item.geometry.coordinates[0],
+          latitude: item.geometry.coordinates[1],
+        }),
+      },
+    ],
+  },
+  {
     name: 'AIS masten',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_AISMASTEN&THEMA=privacy',
     fetchService: readData,
     className: 'ais-masten',
     category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
-    transformer: item => ({
+    transformer: (item) => ({
       ...item,
       category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
       soort: item.properties.Locatienaam,
@@ -59,30 +121,13 @@ const LAYERS_CONFIG = [
       latitude: item.geometry.coordinates[1],
     }),
   },
-  // temp removed failing service
-  // {
-  //   name: 'Wagenparkscan',
-  //   url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_WAGENPARKSCAN&THEMA=privacy',
-  //   fetchService: readData,
-  //   className: 'wagenparkscan',
-  //   category: CATEGORY_NAMES.CAMERA,
-  //   transformer: item => ({
-  //     ...item,
-  //     category: CATEGORY_NAMES.CAMERA,
-  //     soort: item.properties.Locatienaam,
-  //     privacy: item.properties.Privacyverklaring || '',
-  //     contact: 'wagenparkscan',
-  //     longitude: item.geometry.coordinates[0],
-  //     latitude: item.geometry.coordinates[1],
-  //   }),
-  // },
   {
     name: 'Verkeersonderzoek en Overig',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_OVERIG&THEMA=privacy',
     fetchService: readData,
     className: 'overig',
     category: CATEGORY_NAMES.CAMERA,
-    transformer: item => ({
+    transformer: (item) => ({
       ...item,
       category: CATEGORY_NAMES.CAMERA,
       soort: item.properties.Soort,
@@ -98,7 +143,7 @@ const LAYERS_CONFIG = [
     fetchService: readData,
     className: 'bfa',
     category: CATEGORY_NAMES.CAMERA,
-    transformer: item => ({
+    transformer: (item) => ({
       ...item,
       category: CATEGORY_NAMES.CAMERA,
       soort: `${item.properties.BFA_nummer} - ${item.properties.BFA_type} - ${item.properties.Standplaats}`,
@@ -114,10 +159,10 @@ const LAYERS_CONFIG = [
     fetchService: fetchDevices,
     layers: Object.entries(categories).map(([key]) => ({
       name: `IoT ${key}`,
-      filter: item => item.properties.application === key,
+      filter: (item) => item.properties.application === key,
       className: `iot${key}`,
       category: key,
-      transformer: item => item,
+      transformer: (item) => item,
     })),
   },
 ];
@@ -130,7 +175,7 @@ export const POLYGON_LAYERS_CONFIG = [
     fetchService: fetchCameraAreas,
     className: 'cameras',
     category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
-    transformer: item => item,
+    transformer: (item) => item,
   },
 ];
 
@@ -144,7 +189,7 @@ const markerStyle = {
 
 export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
   onEachFeature: (feature, layer) => {
-    layer.on('click', e => {
+    layer.on('click', (e) => {
       DomEvent.stopPropagation(e);
       const { id, category, contact: source } = feature;
       const queryString = `?id=${id}&category=${category}&source=${source}`;
@@ -163,7 +208,7 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
 export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
   style: markerStyle,
   onEachFeature: (feature, layer) => {
-    layer.on('click', e => {
+    layer.on('click', (e) => {
       DomEvent.stopPropagation(e);
       const { id } = feature.properties;
       const queryString = `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}`;
