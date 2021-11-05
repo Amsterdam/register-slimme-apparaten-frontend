@@ -1,27 +1,4 @@
-import {
-  AUTHENTICATE_USER,
-  AUTHORIZE_USER,
-
-  SHOW_GLOBAL_ERROR,
-  RESET_GLOBAL_ERROR,
-
-  LOGIN,
-  LOGOUT,
-} from './constants';
-
-export function authenticateUser(credentials) {
-  return {
-    type: AUTHENTICATE_USER,
-    payload: credentials,
-  };
-}
-
-export function authorizeUser(credentials) {
-  return {
-    type: AUTHORIZE_USER,
-    payload: credentials,
-  };
-}
+import { SHOW_GLOBAL_ERROR, RESET_GLOBAL_ERROR } from './constants';
 
 export function showGlobalError(message) {
   return {
@@ -33,19 +10,5 @@ export function showGlobalError(message) {
 export function resetGlobalError() {
   return {
     type: RESET_GLOBAL_ERROR,
-  };
-}
-
-export function doLogin(domain) {
-  return {
-    type: LOGIN,
-    payload: domain,
-  };
-}
-
-export function doLogout() {
-  return {
-    type: LOGOUT,
-    payload: null,
   };
 }

@@ -10,7 +10,7 @@
  *   return state.set('yourStateVariable', true);
  */
 
-import { AUTHORIZE_USER, SHOW_GLOBAL_ERROR, RESET_GLOBAL_ERROR } from './constants';
+import { SHOW_GLOBAL_ERROR, RESET_GLOBAL_ERROR } from './constants';
 
 // The initial state of the App
 export const initialState = {
@@ -20,14 +20,6 @@ export const initialState = {
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case AUTHORIZE_USER:
-      return {
-        ...state,
-        userName: action.payload.userName,
-        userScopes: { ...action.payload.userScopes },
-        accessToken: action.payload.accessToken,
-      };
-
     case SHOW_GLOBAL_ERROR:
       return { ...state, error: !!action.payload, errorMessage: action.payload, loading: false };
 

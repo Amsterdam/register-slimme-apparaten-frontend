@@ -11,11 +11,5 @@
 
 export const DEFAULT_LOCALE = 'nl';
 
-export const AUTHENTICATE_USER = 'sia/App/AUTHENTICATE_USER';
-export const AUTHORIZE_USER = 'sia/App/AUTHORIZE_USER';
-
 export const SHOW_GLOBAL_ERROR = 'sia/App/SHOW_GLOBAL_ERROR';
 export const RESET_GLOBAL_ERROR = 'sia/App/RESET_GLOBAL_ERROR';
-
-export const LOGIN = 'sia/App/LOGIN';
-export const LOGOUT = 'sia/App/LOGOUT';

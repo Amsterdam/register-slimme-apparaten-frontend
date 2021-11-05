@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { compose } from 'redux';
 
-import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import APP_ROUTES from 'services/appRoutes';
@@ -14,7 +13,6 @@ import FAQ from 'pages/FAQ';
 import NotFoundPage from 'containers/NotFoundPage';
 
 import reducer from './reducer';
-import saga from './saga';
 import withContainer from '../../pages/withContainer';
 
 export const App = () => (
@@ -31,6 +29,5 @@ export const App = () => (
 );
 
 const withReducer = injectReducer({ key: 'global', reducer });
-const withSaga = injectSaga({ key: 'global', saga });
 
-export default compose(withReducer, withSaga)(App);
+export default compose(withReducer)(App);
