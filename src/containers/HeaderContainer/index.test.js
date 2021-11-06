@@ -1,10 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { isAuthenticated } from 'shared/services/auth/auth';
 import { HeaderContainer } from './index';
-
-jest.mock('shared/services/auth/auth');
 
 describe('<HeaderContainer />', () => {
   let props;
@@ -22,8 +19,6 @@ describe('<HeaderContainer />', () => {
   });
 
   it('should render correctly when authenticated', () => {
-    isAuthenticated.mockImplementation(() => true);
-
     const renderedComponent = shallow(<HeaderContainer {...props} />);
     expect(renderedComponent).toMatchSnapshot();
   });

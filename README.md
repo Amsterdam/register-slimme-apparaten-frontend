@@ -6,7 +6,7 @@ This application reads from this backend: https://github.com/amsterdam/iot-api
 
 ## Requirements
 
-- node v10 (doesn't work on node v12 yet)
+- node v14
 - npm
 
 ## Installations
@@ -24,8 +24,8 @@ This application reads from this backend: https://github.com/amsterdam/iot-api
 
 Change the `API_ROOT` and `ROOT` in `environment.conf.json` to:
 
-  "API_ROOT": "http://localhost:8080/",
-  "ROOT": "http://localhost:3001/",
+"API_ROOT": "http://localhost:8080/",
+"ROOT": "http://localhost:3001/",
 
 Make sure to run the iot-api backend on port 8080
 
