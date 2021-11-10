@@ -1,29 +1,23 @@
-import React, { useMemo } from 'react';
-import { MapOptions } from 'leaflet'
+import React, { useState } from 'react';
+import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
-import { ViewerContainer } from '@amsterdam/asc-ui';
-import { Map, BaseLayer, Zoom, getCrsRd } from '@amsterdam/arm-core';
-import MapLegend from 'components/MapLegend';
-import { useSelector, useDispatch } from 'react-redux';
 import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { themeSpacing } from '@amsterdam/asc-ui';
+import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
+
+import injectReducer from 'utils/injectReducer';
 import CameraAreaDetails from 'components/CameraAreaDetails';
-import DeviceDetails from 'components/DeviceDetails';
-import Geocoder, {
-  getSuggestions,
-  getAddressById,
-} from 'components/Geocoder'
 import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
-import reducer, {
-  selectLayerItemActionCreator,
-  toggleMapLayerActionCreator,
-  MapState,
-} from './MapContainerDucks';
+import reducer, { selectLayerItemActionCreator, toggleMapLayerActionCreator, MapState } from './MapContainerDucks';
 import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import PointClusterLayer from './PointClusterLayer';
 import MapLayer from './MapLayer';
+import DrawerOverlay, { DeviceMode, DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
+import LegendControl from 'components/LegendControl/LegendControl';
+import MapLegend from 'components/MapLegend';
 
 const MAP_OPTIONS: MapOptions = {
   center: [52.3731081, 4.8932945],
@@ -37,7 +31,7 @@ const MAP_OPTIONS: MapOptions = {
     [52.25168, 4.64034],
     [52.50536, 5.10737],
   ],
-}
+};
 
 const StyledMap = styled(Map)`
   width: 100%;
@@ -59,10 +53,10 @@ const StyledMap = styled(Map)`
     box-shadow: 1px 1px 1px #666666;
 
     div {
-      width: 32px !important;
-      height: 32px !important;
-      margin-top: 4px !important;
-      margin-left: 4px !important;
+      width: ${themeSpacing(8)} !important;
+      height: ${themeSpacing(8)} !important;
+      margin-top: ${themeSpacing(1)} !important;
+      margin-left: ${themeSpacing(1)} !important;
       background-color: #004699 !important;
     }
 
@@ -77,16 +71,22 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
 `;
 
+const DrawerContentWrapper = styled('div')`
+  width: 350px;
+  padding-left: ${themeSpacing(5)};
+  padding-right: ${themeSpacing(5)};
+`;
 
 const MapContainer = () => {
-  const selectedLayer = useSelector<{map?: MapState}>(state => state?.map?.selectedLayer);
-  const selectedItem = useSelector<{map?: MapState}>(state => state?.map?.selectedItem);
+  const selectedLayer = useSelector<{ map?: MapState }>((state) => state?.map?.selectedLayer);
+  const selectedItem = useSelector<{ map?: MapState }>((state) => state?.map?.selectedItem);
   const dispatch = useDispatch();
   const { highlight } = useHighlight();
   const { push } = useHistory();
   const clearSelection = () => {
     dispatch(selectLayerItemActionCreator());
   };
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open);
 
   const handleToggleCategory = (name: string) => {
     dispatch(toggleMapLayerActionCreator(name));
@@ -98,23 +98,12 @@ const MapContainer = () => {
     highlight(element);
   };
 
-  const geocoderProps = useMemo(
-    () => ({
-      getSuggestions,
-      getAddressById,
-    }), 
-    [],
-  )
-
   return (
-    <StyledMap options={MAP_OPTIONS} >
-      <StyledViewerContainer
-        topLeft={<Geocoder {...geocoderProps} />}
-        bottomRight={<Zoom />}
-      />
+    <StyledMap options={MAP_OPTIONS}>
+      <StyledViewerContainer bottomRight={<Zoom />} />
 
-      <MapLegend onToggleCategory={handleToggleCategory} />
-      {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
+      {/* <MapLegend onToggleCategory={handleToggleCategory} /> */}
+      {/* {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />} */}
       {selectedLayer === 'cameras' && <CameraAreaDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
 
       <PointClusterLayer onItemSelected={handleItemSelected} />
@@ -123,6 +112,19 @@ const MapContainer = () => {
         options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
         config={POLYGON_LAYERS_CONFIG}
       />
+
+      <DrawerOverlay
+        mode={DeviceMode.Desktop}
+        onStateChange={setDrawerState}
+        state={drawerState}
+        Controls={LegendControl}
+      >
+        <DrawerContentWrapper>
+          {selectedLayer === 'devices' && <h2>Device</h2>}
+
+          {selectedLayer === 'legend' && <MapLegend onToggleCategory={handleToggleCategory} />}
+        </DrawerContentWrapper>
+      </DrawerOverlay>
 
       <BaseLayer />
     </StyledMap>

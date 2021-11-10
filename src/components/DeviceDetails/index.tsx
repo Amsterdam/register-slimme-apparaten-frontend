@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Button, themeSpacing } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
@@ -11,15 +11,15 @@ import './style.scss';
 
 export interface Props {
   device: {
-    id: number,
-    name?: string, // Back-end does not provide value at this time
-    soort: string,
-    category: string,
-    privacy?: string,
-    contact: string,
-    organisation?: string,
-  },
-  onDeviceDetailsClose: MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: number;
+    name?: string; // Back-end does not provide value at this time
+    soort: string;
+    category: string;
+    privacy?: string;
+    contact: string;
+    organisation?: string;
+  };
+  onDeviceDetailsClose: (event: FormEvent<HTMLButtonElement>) => void;
 }
 
 const StyledButton = styled(Button)`
@@ -28,12 +28,7 @@ const StyledButton = styled(Button)`
 
 const DeviceDetails: React.FC<Props> = ({
   onDeviceDetailsClose,
-  device: {
-    category,
-    soort,
-    organisation,
-    privacy,
-  },
+  device: { category, soort, organisation, privacy },
 }) => {
   const history = useHistory();
   const location = useLocation();
@@ -41,12 +36,7 @@ const DeviceDetails: React.FC<Props> = ({
   return (
     <section id="device-details" className="device-details">
       <div className="device-details__heading">
-        <button
-          type="button"
-          className="device-details__button"
-          onClick={onDeviceDetailsClose}
-          title="Sluiten"
-        >
+        <button type="button" className="device-details__button" onClick={onDeviceDetailsClose} title="Sluiten">
           <CloseIcon className="device-details__button-icon" />
         </button>
       </div>
@@ -67,7 +57,6 @@ const DeviceDetails: React.FC<Props> = ({
             >
               <QuestionMarkIcon />
             </button>
-
           </div>
           {soort && (
             <div className="device-details__row">

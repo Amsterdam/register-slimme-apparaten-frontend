@@ -54,7 +54,7 @@ export interface MapState {
 // reducer
 export const initialState: MapState = {
   layers: [],
-  selectedLayer: null,
+  selectedLayer: 'legend',
   selectedItem: null,
   legend,
 };

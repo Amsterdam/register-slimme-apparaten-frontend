@@ -5,15 +5,12 @@ import { Header, MenuItem, MenuButton, themeSpacing, breakpoint, themeColor } fr
 import APP_ROUTES from '../../services/appRoutes';
 
 const HeaderWrapper = styled.div`
-  z-index: 1;
+  z-index: 410;
   position: sticky;
   top: 0;
   padding-left: ${themeSpacing(2)};
+  padding-bottom: ${themeSpacing(1)};
   background-color: ${themeColor('tint', 'level1')};
-
-  h1 a:first-child {
-    display: none;
-  }
 
   @media screen and ${breakpoint('max-width', 'tabletS')} {
     display: none;

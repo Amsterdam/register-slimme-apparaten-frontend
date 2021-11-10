@@ -10,10 +10,18 @@ export const CATEGORY_NAMES = {
   SLIMME_LANTAARNPAAL: 'Slimme lantaarnpaal',
 };
 
-export const DISPLAY_NAMES = Object.keys(CATEGORY_NAMES).reduce((acc, item) => ({
-  ...acc,
-  [item]: item === 'BEACONS' ? 'Beacons' : CATEGORY_NAMES[item],
-}), {});
+// export const DISPLAY_NAMES = Object.keys(CATEGORY_NAMES).reduce(
+//   (acc, item) => ({
+//     ...acc,
+//     [item]: item === 'BEACONS' ? 'Beacons' : CATEGORY_NAMES[item],
+//   }),
+//   {},
+// );
+
+export const DISPLAY_NAMES = {
+  ...CATEGORY_NAMES,
+  BEACONS: 'Beacons',
+};
 
 export const categories = {
   [CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED]: {
@@ -76,39 +84,14 @@ export const categories = {
     ],
     visible: true,
   },
-  [CATEGORY_NAMES.SLIMME_LAADPAAL]: {
-    isClustered: true,
-    iconUrl: `${ICON_PATH}icon-laadpaal@3x.png`,
-    name: DISPLAY_NAMES.SLIMME_LAADPAAL,
-    enabled: true,
-    description:
-      'Met een slimme laadpaal is het mogelijk een goede administratie bij te houden en automatisch rekeningen te vereffenen. Dit is van belang als een elektrische auto niet alleen wordt gebruikt om mee te rijden, maar ook als een batterij wanneer die stil staat. Deze paal neemt geen data op uit de omgeving, met uitzondering van data over energiestromen naar en van de auto. Het is denkbaar dat slimme laadpalen in de toekomst ook gebruikt worden om metingen te verrichten. Zover bekend, is dat nu nog niet het geval.',
-    wikipediaUrl: '',
-    wikipediaDescription: '',
-    subtypes: [],
-    visible: false,
-  },
-  [CATEGORY_NAMES.SLIMME_LANTAARNPAAL]: {
-    isClustered: true,
-    iconUrl: `${ICON_PATH}icon-lantaarn@3x.png`,
-    name: DISPLAY_NAMES.SLIMME_LANTAARNPAAL,
-    enabled: true,
-    description:
-      "We kennen allemaal de lantaarnpalen. Deze geven licht, ook als het niet nodig is. Slimme lantaarnpalen passen het lichtniveau aan, aan wat nodig is, omdat een vervoermiddel of persoon langskomt. Deze palen kunnen ook uitgerust worden met sensoren die de luchtkwaliteit of het geluidsniveau meten. Ook kan de lantaarnpaal dienen als oplaadpunt voor elektrische auto's, of dienst doen als opstelplek voor een stadsbreed Wi-Fi netwerk.",
-    wikipediaUrl: '',
-    wikipediaDescription: '',
-    subtypes: [],
-    visible: false,
-  },
 };
 
 /**
  * Global legend definition based on the categories that are enabled and visible
  */
-export const legend = Object.entries(categories).reduce(
-  (acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: category } : { ...acc }),
-  {},
-);
+export const legend = Object.entries(categories).reduce<{
+  [key: string]: { name: string; enabled: boolean; iconUrl: string };
+}>((acc, [key, category]) => (category.visible && category.enabled ? { ...acc, [key]: category } : { ...acc }), {});
 
 /**
  * Global group of categories that should be clustered
