@@ -10,14 +10,6 @@ export const CATEGORY_NAMES = {
   SLIMME_LANTAARNPAAL: 'Slimme lantaarnpaal',
 };
 
-// export const DISPLAY_NAMES = Object.keys(CATEGORY_NAMES).reduce(
-//   (acc, item) => ({
-//     ...acc,
-//     [item]: item === 'BEACONS' ? 'Beacons' : CATEGORY_NAMES[item],
-//   }),
-//   {},
-// );
-
 export const DISPLAY_NAMES = {
   ...CATEGORY_NAMES,
   BEACONS: 'Beacons',
@@ -31,7 +23,7 @@ export const categories = {
     visible: true,
   },
   [CATEGORY_NAMES.CAMERA]: {
-    isClustered: true,
+    isClustered: false,
     iconUrl: `${ICON_PATH}icon-camera@3x.png`,
     name: DISPLAY_NAMES.CAMERA,
     enabled: true,
@@ -44,7 +36,7 @@ export const categories = {
     visible: true,
   },
   [CATEGORY_NAMES.SENSOR]: {
-    isClustered: true,
+    isClustered: false,
     iconUrl: `${ICON_PATH}icon-sensor@3x.png`,
     name: DISPLAY_NAMES.SENSOR,
     enabled: true,
@@ -57,7 +49,7 @@ export const categories = {
     visible: true,
   },
   [CATEGORY_NAMES.BEACONS]: {
-    isClustered: true,
+    isClustered: false,
     iconUrl: `${ICON_PATH}icon-beacon@3x.png`,
     name: DISPLAY_NAMES.BEACONS,
     enabled: true,
@@ -70,7 +62,7 @@ export const categories = {
     visible: true,
   },
   [CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE]: {
-    isClustered: true,
+    isClustered: false,
     iconUrl: `${ICON_PATH}icon-verkeer@3x.png`,
     name: DISPLAY_NAMES.SLIMME_VERKEERSINFORMATIE,
     enabled: true,

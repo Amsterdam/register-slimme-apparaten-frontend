@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import 'leaflet.markercluster';
+// import 'leaflet.markercluster';
 
 export const HIGHLIGHT_CLASS = 'active-element';
 

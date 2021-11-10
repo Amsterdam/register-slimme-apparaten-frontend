@@ -1,6 +1,5 @@
 import CONFIGURATION from 'shared/configuration/environment';
 import { DomEvent } from 'leaflet';
-import { getMarkerIcon } from 'services/marker';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
 import { readData } from '../datareader';
 import { fetchDevices, fetchCameraAreas } from './layersFetcher';
@@ -24,6 +23,7 @@ const LAYERS_CONFIG = [
           contact: 'cmsa',
           longitude: item.geometry.coordinates[0],
           latitude: item.geometry.coordinates[1],
+          color: '#FF0000',
         }),
       },
     ],
@@ -41,6 +41,7 @@ const LAYERS_CONFIG = [
       contact: item.properties.Eigenaar,
       longitude: item.geometry.coordinates[0],
       latitude: item.geometry.coordinates[1],
+      color: '#008080',
     }),
   },
   {
@@ -60,6 +61,7 @@ const LAYERS_CONFIG = [
           contact: '',
           longitude: item.geometry.coordinates[0],
           latitude: item.geometry.coordinates[1],
+          color: '#808000',
         }),
       },
     ],
@@ -81,6 +83,7 @@ const LAYERS_CONFIG = [
           contact: '',
           longitude: item.geometry.coordinates[0],
           latitude: item.geometry.coordinates[1],
+          color: '#008000',
         }),
       },
     ],
@@ -101,6 +104,7 @@ const LAYERS_CONFIG = [
           contact: '',
           longitude: item.geometry.coordinates[0],
           latitude: item.geometry.coordinates[1],
+          color: '#0000FF',
         }),
       },
     ],
@@ -119,6 +123,7 @@ const LAYERS_CONFIG = [
       contact: 'ais-masten',
       longitude: item.geometry.coordinates[0],
       latitude: item.geometry.coordinates[1],
+      color: '#FF00FF',
     }),
   },
   {
@@ -135,6 +140,7 @@ const LAYERS_CONFIG = [
       contact: 'overig',
       longitude: item.geometry.coordinates[0],
       latitude: item.geometry.coordinates[1],
+      color: '#800080',
     }),
   },
   {
@@ -151,6 +157,7 @@ const LAYERS_CONFIG = [
       contact: 'bfa',
       longitude: item.geometry.coordinates[0],
       latitude: item.geometry.coordinates[1],
+      color: '#800000',
     }),
   },
   {
@@ -162,7 +169,10 @@ const LAYERS_CONFIG = [
       filter: (item) => item.properties.application === key,
       className: `iot${key}`,
       category: key,
-      transformer: (item) => item,
+      transformer: (item) => ({
+        ...item,
+        color: '#000000',
+      }),
     })),
   },
 ];
@@ -197,8 +207,12 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
     });
   },
   pointToLayer: (feature, latlng) => {
-    const marker = L.marker(latlng, {
-      icon: getMarkerIcon(CATEGORY_NAME),
+    const marker = L.circleMarker(latlng, {
+      color: 'white',
+      fillColor: feature.color,
+      stroke: true,
+      fillOpacity: 1,
+      radius: 8,
     });
     marker.feature = feature;
     return marker;
