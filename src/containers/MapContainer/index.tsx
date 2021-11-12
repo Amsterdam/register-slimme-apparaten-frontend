@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
+import { Feature } from 'geojson';
 
 import { themeSpacing } from '@amsterdam/asc-ui';
 import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
@@ -12,7 +13,6 @@ import MapLegend from 'components/MapLegend';
 import DeviceDetails from 'components/DeviceDetails';
 import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
 import useFilter from './hooks/useFilter';
-import { Feature } from 'geojson';
 
 const MAP_OPTIONS: MapOptions = {
   center: [52.3731081, 4.8932945],
