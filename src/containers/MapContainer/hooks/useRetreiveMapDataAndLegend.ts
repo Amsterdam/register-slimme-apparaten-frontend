@@ -111,8 +111,6 @@ function useRetrieveMapDataAndLegend(): MapDataAndLegend {
         .map((r) => r.layer.features)
         .flat();
 
-      console.log(featureCollection);
-
       setResults({ legend, featureCollection });
     })();
   }, []);
