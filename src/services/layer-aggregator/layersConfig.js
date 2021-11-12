@@ -27,6 +27,8 @@ const LAYERS_CONFIG = [
             containsPiData: false,
             organisation: 'Gemeente Amsterdam',
             sensorType: 'Aanwezigheid of nabijheidsensor',
+            longitude: item.geometry.coordinates[0],
+            latitude: item.geometry.coordinates[1],
           },
         }),
       },

@@ -1,19 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
 
-import { useHistory } from 'react-router-dom';
 import { themeSpacing } from '@amsterdam/asc-ui';
 import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
 
-import useHighlight from './hooks/useHighlight';
 import PointClusterLayer from './PointClusterLayer';
 import DrawerOverlay, { DeviceMode, DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
 import LegendControl from 'components/LegendControl/LegendControl';
 import MapLegend from 'components/MapLegend';
 import DeviceDetails from 'components/DeviceDetails';
-import { ItemType, LegendCategories, OwnerType, PiOptions } from 'utils/types';
+import { ItemType } from 'utils/types';
 import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
+import useFilter from './hooks/useFilter';
 import { Feature } from 'geojson';
 
 const MAP_OPTIONS: MapOptions = {
@@ -80,55 +79,18 @@ enum LegendOrDetails {
 }
 
 const MapContainer: () => JSX.Element = () => {
-  const { highlight } = useHighlight();
-  const { push } = useHistory();
-
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open);
   const [legendOrDetails, setLegendOrDetails] = useState<LegendOrDetails>(LegendOrDetails.LEGEND);
-  const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Feature | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   const { legend, featureCollection } = useRetrieveMapDataAndLegend();
 
-  const handleItemSelected = (name: string, feature: ItemType, element: HTMLElement, queryString?: string) => {
-    if (queryString) push({ pathname: '/', search: queryString });
-
+  const handleItemSelected = (feature: Feature) => {
     setDrawerState(DrawerState.Open);
     setLegendOrDetails(LegendOrDetails.DETAILS);
 
     setSelectedItem(feature);
-
-    highlight(element);
-  };
-
-  const ownerFilter = (feature: Feature, ownerFilter: string[]) => {
-    if (ownerFilter.length === 2) {
-      return true;
-    }
-
-    if (ownerFilter.length === 0) {
-      return false;
-    }
-
-    return (
-      (ownerFilter[0] === OwnerType.Gemeente && feature.properties?.organisation === OwnerType.Gemeente) ||
-      (ownerFilter[0] === OwnerType.Other && feature.properties?.organisation !== OwnerType.Gemeente)
-    );
-  };
-
-  const piFilter = (feature: Feature, piFilter: string[]) => {
-    if (piFilter.length === 2) {
-      return true;
-    }
-
-    if (piFilter.length === 0) {
-      return false;
-    }
-
-    return (
-      (piFilter[0] === PiOptions.Ja && feature.properties?.containsPiData === true) ||
-      (piFilter[0] === PiOptions.Nee && feature.properties?.containsPiData === false)
-    );
   };
 
   useEffect(() => {
@@ -143,31 +105,7 @@ const MapContainer: () => JSX.Element = () => {
     );
   }, [legend]);
 
-  const filteredMapData = useMemo(() => {
-    if (!featureCollection?.features) {
-      return featureCollection;
-    }
-
-    if (selectedFilters.length === 0 || !legend) {
-      return emptyFeatureCollection();
-    }
-
-    const filterdFeatureCollection = emptyFeatureCollection();
-
-    filterdFeatureCollection.features = featureCollection?.features.filter((f) => {
-      const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) =>
-        selectedFilters.includes(type),
-      );
-
-      const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
-
-      const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
-
-      return allowedSensorTypes.includes(f.properties?.sensorType) && ownerFilter(f, owner) && piFilter(f, pi);
-    });
-
-    return filterdFeatureCollection;
-  }, [featureCollection, legend, selectedFilters]);
+  const filteredMapData = useFilter(featureCollection || emptyFeatureCollection(), legend || {}, selectedFilters);
 
   return (
     <StyledMap options={MAP_OPTIONS}>
@@ -185,7 +123,7 @@ const MapContainer: () => JSX.Element = () => {
         <DrawerContentWrapper>
           {legendOrDetails === LegendOrDetails.DETAILS && (
             <DeviceDetails
-              device={selectedItem}
+              feature={selectedItem}
               onDeviceDetailsClose={() => {
                 setLegendOrDetails(LegendOrDetails.LEGEND);
               }}

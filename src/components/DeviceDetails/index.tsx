@@ -4,10 +4,9 @@ import { themeSpacing, List, ListItem, Link, themeColor } from '@amsterdam/asc-u
 import styled from 'styled-components';
 
 import './style.scss';
-import { ItemType } from 'utils/types';
 
 export interface Props {
-  device: ItemType | null;
+  feature: any | null;
   onDeviceDetailsClose: (event: FormEvent<HTMLButtonElement>) => void;
 }
 
@@ -19,14 +18,14 @@ const InfoContainer = styled('div')`
   border-bottom: 2px solid ${themeColor('tint', 'level2')};
 `;
 
-const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, device }) => {
+const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
   const location = useLocation();
 
-  if (!device) {
+  if (!feature) {
     return null;
   }
 
-  const { category, soort, organisation, privacy } = device;
+  const { category, soort, organisation, privacy } = feature.properties;
 
   return (
     <section id="device-details">
