@@ -59,34 +59,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
     setActiveLayer(layer);
   }, [mapInstance, mapData]);
 
-  return (
-    <>
-      {/* {mapData && legend && selectedFilters && (
-        <GeoJSON
-          args={[mapData]}
-          options={{
-            ...getPointOptions('', onItemSelected),
-            filter: (feature) => {
-              console.log('filter');
-              if (selectedFilters.length === 0) {
-                return false;
-              }
-
-              const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) =>
-                selectedFilters.includes(type),
-              );
-
-              const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
-
-              console.log(allowedSensorTypes.includes(feature.properties?.sensorType) && ownerFilter(feature, owner));
-
-              return allowedSensorTypes.includes(feature.properties?.sensorType) && ownerFilter(feature, owner);
-            },
-          }}
-        />
-      )} */}
-    </>
-  );
+  return <></>;
 };
 
 export default PointClusterLayer;

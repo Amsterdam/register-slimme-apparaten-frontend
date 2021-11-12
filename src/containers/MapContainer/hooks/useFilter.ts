@@ -10,7 +10,6 @@ function useFilter(
   selectedFilters: string[],
 ): FeatureCollection {
   return useMemo(() => {
-    console.log('useFilter');
     if (!unFilteredResults?.features) {
       return unFilteredResults;
     }
