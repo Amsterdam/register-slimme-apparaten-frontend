@@ -2,7 +2,7 @@ import CONFIGURATION from 'shared/configuration/environment';
 import { DomEvent } from 'leaflet';
 import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
 import { readData } from '../datareader';
-import { fetchDevices, fetchCameraAreas } from './layersFetcher';
+import { fetchDevices } from './layersFetcher';
 
 const LAYERS_CONFIG = [
   {
@@ -17,13 +17,17 @@ const LAYERS_CONFIG = [
         category: CATEGORY_NAMES.SENSOR,
         transformer: (item) => ({
           ...item,
-          category: CATEGORY_NAMES.SENSOR,
-          soort: item.properties.Soort,
-          privacy: item.properties.Privacyverklaring || '',
-          contact: 'cmsa',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-          color: '#FF0000',
+          properties: {
+            ...item.properties,
+            category: CATEGORY_NAMES.SENSOR,
+            soort: item.properties.Soort,
+            privacy: item.properties.Privacyverklaring || '',
+            contact: 'cmsa',
+            color: '#FF0000',
+            containsPiData: false,
+            organisation: 'Gemeente Amsterdam',
+            sensorType: 'Aanwezigheid of nabijheidsensor',
+          },
         }),
       },
     ],
@@ -35,13 +39,19 @@ const LAYERS_CONFIG = [
     category: CATEGORY_NAMES.CAMERA,
     transformer: (item) => ({
       ...item,
-      category: CATEGORY_NAMES.CAMERA,
-      soort: item.properties.Naam,
-      privacy: item.properties.Privacyverklaring,
-      contact: item.properties.Eigenaar,
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
-      color: '#008080',
+      properties: {
+        ...item.properties,
+        category: CATEGORY_NAMES.CAMERA,
+        soort: item.properties.Naam,
+        privacy: item.properties.Privacyverklaring,
+        contact: item.properties.Eigenaar,
+        longitude: item.geometry.coordinates[0],
+        latitude: item.geometry.coordinates[1],
+        color: '#008080',
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: 'Optische / camera sensor',
+      },
     }),
   },
   {
@@ -54,14 +64,20 @@ const LAYERS_CONFIG = [
         filter: (item) => item.properties.Soort === 'TV Camera',
         transformer: (item) => ({
           ...item,
-          category: CATEGORY_NAMES.CAMERA,
-          soort: item.properties.Soort,
-          privacy:
-            'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/verkeersmanagement',
-          contact: '',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-          color: '#808000',
+          properties: {
+            ...item.properties,
+            category: CATEGORY_NAMES.CAMERA,
+            soort: item.properties.Soort,
+            privacy:
+              'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/verkeersmanagement',
+            contact: '',
+            longitude: item.geometry.coordinates[0],
+            latitude: item.geometry.coordinates[1],
+            color: '#808000',
+            containsPiData: true,
+            organisation: 'Gemeente Amsterdam',
+            sensorType: 'Geluidsensor',
+          },
         }),
       },
     ],
@@ -76,14 +92,20 @@ const LAYERS_CONFIG = [
         filter: (item) => item.properties.Soort === 'Kentekencamera, reistijd (MoCo)',
         transformer: (item) => ({
           ...item,
-          category: CATEGORY_NAMES.CAMERA,
-          soort: item.properties.Soort,
-          privacy:
-            'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/reistijden-meetsysteem-privacy/',
-          contact: '',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-          color: '#008000',
+          properties: {
+            ...item.properties,
+            category: CATEGORY_NAMES.CAMERA,
+            soort: item.properties.Soort,
+            privacy:
+              'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/reistijden-meetsysteem-privacy/',
+            contact: '',
+            longitude: item.geometry.coordinates[0],
+            latitude: item.geometry.coordinates[1],
+            color: '#008000',
+            containsPiData: false,
+            organisation: 'Anders',
+            sensorType: 'Klimaatsensor',
+          },
         }),
       },
     ],
@@ -98,13 +120,19 @@ const LAYERS_CONFIG = [
         filter: (item) => item.properties.Soort === 'Kentekencamera, milieuzone',
         transformer: (item) => ({
           ...item,
-          category: CATEGORY_NAMES.CAMERA,
-          soort: item.properties.Soort,
-          privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/milieuzones/',
-          contact: '',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-          color: '#0000FF',
+          properties: {
+            ...item.properties,
+            category: CATEGORY_NAMES.CAMERA,
+            soort: item.properties.Soort,
+            privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/milieuzones/',
+            contact: '',
+            longitude: item.geometry.coordinates[0],
+            latitude: item.geometry.coordinates[1],
+            color: '#0000FF',
+            containsPiData: true,
+            organisation: 'Gemeente Amsterdam',
+            sensorType: 'Chemiesensor',
+          },
         }),
       },
     ],
@@ -117,13 +145,19 @@ const LAYERS_CONFIG = [
     category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
     transformer: (item) => ({
       ...item,
-      category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
-      soort: item.properties.Locatienaam,
-      privacy: item.properties.Privacyverklaring,
-      contact: 'ais-masten',
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
-      color: '#FF00FF',
+      properties: {
+        ...item.properties,
+        category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
+        soort: item.properties.Locatienaam,
+        privacy: item.properties.Privacyverklaring,
+        contact: 'ais-masten',
+        longitude: item.geometry.coordinates[0],
+        latitude: item.geometry.coordinates[1],
+        color: '#FF00FF',
+        containsPiData: false,
+        organisation: 'Anders',
+        sensorType: 'Temperatuursensor',
+      },
     }),
   },
   {
@@ -134,13 +168,19 @@ const LAYERS_CONFIG = [
     category: CATEGORY_NAMES.CAMERA,
     transformer: (item) => ({
       ...item,
-      category: CATEGORY_NAMES.CAMERA,
-      soort: item.properties.Soort,
-      privacy: item.properties.Privacyverklaring,
-      contact: 'overig',
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
-      color: '#800080',
+      properties: {
+        ...item.properties,
+        category: CATEGORY_NAMES.CAMERA,
+        soort: item.properties.Soort,
+        privacy: item.properties.Privacyverklaring,
+        contact: 'overig',
+        longitude: item.geometry.coordinates[0],
+        latitude: item.geometry.coordinates[1],
+        color: '#800080',
+        containsPiData: true,
+        organisation: 'Anders',
+        sensorType: 'Druksensor',
+      },
     }),
   },
   {
@@ -151,13 +191,19 @@ const LAYERS_CONFIG = [
     category: CATEGORY_NAMES.CAMERA,
     transformer: (item) => ({
       ...item,
-      category: CATEGORY_NAMES.CAMERA,
-      soort: `${item.properties.BFA_nummer} - ${item.properties.BFA_type} - ${item.properties.Standplaats}`,
-      privacy: item.properties.Privacyverklaring || '',
-      contact: 'bfa',
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
-      color: '#800000',
+      properties: {
+        ...item.properties,
+        category: CATEGORY_NAMES.CAMERA,
+        soort: `${item.properties.BFA_nummer} - ${item.properties.BFA_type} - ${item.properties.Standplaats}`,
+        privacy: item.properties.Privacyverklaring || '',
+        contact: 'bfa',
+        longitude: item.geometry.coordinates[0],
+        latitude: item.geometry.coordinates[1],
+        color: '#800000',
+        containsPiData: false,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: 'Dichtheidssensor',
+      },
     }),
   },
   {
@@ -171,31 +217,17 @@ const LAYERS_CONFIG = [
       category: key,
       transformer: (item) => ({
         ...item,
-        color: '#000000',
+        properties: {
+          ...item.properties,
+          color: '#000000',
+          containsPiData: true,
+          organisation: 'Anders',
+          sensorType: 'Aanwezigheid of nabijheidsensor',
+        },
       }),
     })),
   },
 ];
-
-export const POLYGON_LAYERS_CONFIG = [
-  {
-    id: 'cameras',
-    name: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
-    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&srsName=EPSG:4326&Typename=ms:cameratoezichtgebied&version=1.1.0`,
-    fetchService: fetchCameraAreas,
-    className: 'cameras',
-    category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
-    transformer: (item) => item,
-  },
-];
-
-const markerStyle = {
-  fillColor: '#f14600',
-  opacity: 1,
-  color: '#f14600',
-  strokeOpacity: 1,
-  weight: 1,
-};
 
 export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
   onEachFeature: (feature, layer) => {
@@ -209,26 +241,13 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
   pointToLayer: (feature, latlng) => {
     const marker = L.circleMarker(latlng, {
       color: 'white',
-      fillColor: feature.color,
+      fillColor: feature.properties.color,
       stroke: true,
       fillOpacity: 1,
       radius: 8,
     });
     marker.feature = feature;
     return marker;
-  },
-});
-
-export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
-  style: markerStyle,
-  onEachFeature: (feature, layer) => {
-    layer.on('click', (e) => {
-      DomEvent.stopPropagation(e);
-      const { id } = feature.properties;
-      const queryString = `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}`;
-
-      onItemSelected('cameras', feature, layer.getElement(), queryString);
-    });
   },
 });
 

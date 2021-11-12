@@ -1,14 +1,11 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { MapLayers } from '@amsterdam/asc-assets';
 import { Button } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
-import { useDispatch } from 'react-redux';
-import { selectLayerItemActionCreator } from '../../containers/MapContainer/MapContainerDucks';
-
 export interface LegendControlProps {
   showDesktopVariant: boolean;
-  onClick: (event: MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  onClick: () => void;
 }
 
 const StyledButton = styled(Button)`
@@ -30,8 +27,6 @@ const LegendControl: FunctionComponent<LegendControlProps> = ({ showDesktopVaria
     ? { iconLeft: <MapLayers data-testid="desktopIcon" /> }
     : { icon: <MapLayers data-testid="mobileIcon" />, size: 32 };
 
-  const dispatch = useDispatch();
-
   return (
     <StyledControl data-testid="legendControl">
       <StyledButton
@@ -40,9 +35,8 @@ const LegendControl: FunctionComponent<LegendControlProps> = ({ showDesktopVaria
         title="Legenda"
         data-testid="legenda"
         iconSize={20}
-        onClick={(e) => {
-          dispatch(selectLayerItemActionCreator('legend'));
-          onClick(e);
+        onClick={() => {
+          onClick();
         }}
         {...iconProps}
       >

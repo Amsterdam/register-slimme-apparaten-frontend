@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
-import { compose } from 'redux';
-import { useSelector, useDispatch } from 'react-redux';
+
 import { useHistory } from 'react-router-dom';
 import { themeSpacing } from '@amsterdam/asc-ui';
 import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
 
-import injectReducer from 'utils/injectReducer';
-import CameraAreaDetails from 'components/CameraAreaDetails';
-import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
-import reducer, { selectLayerItemActionCreator, toggleMapLayerActionCreator, MapState } from './MapContainerDucks';
-import { CATEGORY_NAMES } from '../../shared/configuration/categories';
 import useHighlight from './hooks/useHighlight';
 import PointClusterLayer from './PointClusterLayer';
-import MapLayer from './MapLayer';
 import DrawerOverlay, { DeviceMode, DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
 import LegendControl from 'components/LegendControl/LegendControl';
 import MapLegend from 'components/MapLegend';
+import DeviceDetails from 'components/DeviceDetails';
+import { ItemType, LegendCategories, OwnerType, PiOptions } from 'utils/types';
+import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
+import { Feature } from 'geojson';
 
 const MAP_OPTIONS: MapOptions = {
   center: [52.3731081, 4.8932945],
@@ -72,64 +69,147 @@ const StyledViewerContainer = styled(ViewerContainer)`
 `;
 
 const DrawerContentWrapper = styled('div')`
-  width: 350px;
+  width: 370px;
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
 `;
 
-const MapContainer = () => {
-  const selectedLayer = useSelector<{ map?: MapState }>((state) => state?.map?.selectedLayer);
-  const selectedItem = useSelector<{ map?: MapState }>((state) => state?.map?.selectedItem);
-  const dispatch = useDispatch();
+enum LegendOrDetails {
+  LEGEND,
+  DETAILS,
+}
+
+const MapContainer: () => JSX.Element = () => {
   const { highlight } = useHighlight();
   const { push } = useHistory();
-  const clearSelection = () => {
-    dispatch(selectLayerItemActionCreator());
-  };
+
   const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open);
+  const [legendOrDetails, setLegendOrDetails] = useState<LegendOrDetails>(LegendOrDetails.LEGEND);
+  const [selectedItem, setSelectedItem] = useState<ItemType | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const handleToggleCategory = (name: string) => {
-    dispatch(toggleMapLayerActionCreator(name));
-  };
+  const { legend, featureCollection } = useRetrieveMapDataAndLegend();
 
-  const handleItemSelected = (name: string, feature: any, element: HTMLElement, queryString?: string) => {
+  const handleItemSelected = (name: string, feature: ItemType, element: HTMLElement, queryString?: string) => {
     if (queryString) push({ pathname: '/', search: queryString });
-    dispatch(selectLayerItemActionCreator(name, feature));
+
+    setDrawerState(DrawerState.Open);
+    setLegendOrDetails(LegendOrDetails.DETAILS);
+
+    setSelectedItem(feature);
+
     highlight(element);
   };
+
+  const ownerFilter = (feature: Feature, ownerFilter: string[]) => {
+    if (ownerFilter.length === 2) {
+      return true;
+    }
+
+    if (ownerFilter.length === 0) {
+      return false;
+    }
+
+    return (
+      (ownerFilter[0] === OwnerType.Gemeente && feature.properties?.organisation === OwnerType.Gemeente) ||
+      (ownerFilter[0] === OwnerType.Other && feature.properties?.organisation !== OwnerType.Gemeente)
+    );
+  };
+
+  const piFilter = (feature: Feature, piFilter: string[]) => {
+    if (piFilter.length === 2) {
+      return true;
+    }
+
+    if (piFilter.length === 0) {
+      return false;
+    }
+
+    return (
+      (piFilter[0] === PiOptions.Ja && feature.properties?.containsPiData === true) ||
+      (piFilter[0] === PiOptions.Nee && feature.properties?.containsPiData === false)
+    );
+  };
+
+  useEffect(() => {
+    if (!legend) {
+      return;
+    }
+
+    setSelectedFilters(
+      Object.keys(legend)
+        .map((k) => legend[k])
+        .flat(),
+    );
+  }, [legend]);
+
+  const filteredMapData = useMemo(() => {
+    if (!featureCollection?.features) {
+      return featureCollection;
+    }
+
+    if (selectedFilters.length === 0 || !legend) {
+      return emptyFeatureCollection();
+    }
+
+    const filterdFeatureCollection = emptyFeatureCollection();
+
+    filterdFeatureCollection.features = featureCollection?.features.filter((f) => {
+      const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) =>
+        selectedFilters.includes(type),
+      );
+
+      const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
+
+      const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
+
+      return allowedSensorTypes.includes(f.properties?.sensorType) && ownerFilter(f, owner) && piFilter(f, pi);
+    });
+
+    return filterdFeatureCollection;
+  }, [featureCollection, legend, selectedFilters]);
 
   return (
     <StyledMap options={MAP_OPTIONS}>
       <StyledViewerContainer bottomRight={<Zoom />} />
 
-      {/* <MapLegend onToggleCategory={handleToggleCategory} /> */}
-      {/* {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />} */}
-      {selectedLayer === 'cameras' && <CameraAreaDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
-
-      <PointClusterLayer onItemSelected={handleItemSelected} />
-
-      <MapLayer
-        options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
-        config={POLYGON_LAYERS_CONFIG}
-      />
+      <PointClusterLayer mapData={filteredMapData} onItemSelected={handleItemSelected} />
 
       <DrawerOverlay
         mode={DeviceMode.Desktop}
         onStateChange={setDrawerState}
         state={drawerState}
         Controls={LegendControl}
+        onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
       >
         <DrawerContentWrapper>
-          {selectedLayer === 'devices' && <h2>Device</h2>}
+          {legendOrDetails === LegendOrDetails.DETAILS && (
+            <DeviceDetails
+              device={selectedItem}
+              onDeviceDetailsClose={() => {
+                setLegendOrDetails(LegendOrDetails.LEGEND);
+              }}
+            />
+          )}
 
-          {selectedLayer === 'legend' && <MapLegend onToggleCategory={handleToggleCategory} />}
+          {legendOrDetails === LegendOrDetails.LEGEND && (
+            <MapLegend
+              legend={legend}
+              selectedItems={selectedFilters}
+              onToggleCategory={(category) => {
+                if (selectedFilters.includes(category)) {
+                  return setSelectedFilters(selectedFilters.filter((l) => l !== category));
+                }
+
+                setSelectedFilters([...selectedFilters, category]);
+              }}
+            />
+          )}
         </DrawerContentWrapper>
       </DrawerOverlay>
-
       <BaseLayer />
     </StyledMap>
   );
 };
 
-const withReducer = injectReducer({ key: 'map', reducer });
-export default compose(withReducer)(MapContainer);
+export default MapContainer;

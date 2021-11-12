@@ -187,6 +187,7 @@ interface DrawerOverlayProps {
   state?: DrawerState;
   Controls: React.ComponentType<LegendControlProps>;
   onStateChange?: (state: DrawerState) => void;
+  onControlClick: () => void;
 }
 
 const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
@@ -195,6 +196,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
   Controls,
   mode = DeviceMode.Desktop,
   state = DrawerState.Closed,
+  onControlClick,
 }) => {
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop;
 
@@ -235,6 +237,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
               }
 
               onStateChange(DrawerState.Open);
+              onControlClick();
             }}
           />
         </ControlsContainer>

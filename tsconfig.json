@@ -5,7 +5,8 @@
     "allowJs": true,
     "esModuleInterop": true,
     "baseUrl": "src/",
-    "outDir": "build/"
+    "outDir": "build/",
+    "lib": ["ES2019"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

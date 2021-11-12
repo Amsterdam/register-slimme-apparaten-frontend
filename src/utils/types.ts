@@ -1,3 +1,5 @@
+import { FeatureCollection } from 'geojson';
+
 /**
  * Defines a general ActionType to be used with the reducers
  */
@@ -22,6 +24,16 @@ export interface LayerType {
   };
 }
 
+export interface IntermediateLayer {
+  category: string;
+  className: string;
+  layer: {
+    features: any[]; // TODO: Better typing
+    type: string;
+  };
+  name: string;
+}
+
 export interface Item {
   category?: string[];
   contact?: string;
@@ -34,9 +46,50 @@ export interface Item {
   properties: any;
   soort?: string;
   type: string;
+  color: string;
+  containsPiData: boolean;
+  sensorType: SensorTypes;
 }
 
 export interface ItemType {
-  name: string;
+  id: number;
+  name?: string;
+  soort: string;
+  category: string;
+  privacy?: string;
   item: Item;
+  contact: string;
+  organisation?: string;
 }
+
+export enum SensorTypes {
+  Aanwezigheid = 'Aanwezigheid of nabijheidsensor',
+  Temperatuursensor = 'Temperatuursensor',
+  Dichtheidssensor = 'Dichtheidssensor',
+  Druksensor = 'Druksensor',
+  Positie = 'Positie- of verplaatsingsensor',
+  Vloeistof = 'Vloeistof- en gasstroomsensor',
+  Electriciteitssensor = 'Electriciteitssensor',
+  Chemiesensor = 'Chemiesensor',
+  Klimaatsensor = 'Klimaatsensor',
+  Geluidsensor = 'Geluidsensor',
+  Optische = 'Optische / camera sensor',
+}
+
+export enum LegendCategories {
+  'Sensor type' = 'Sensor type',
+  Eigenaar = 'Eigenaar',
+  'Verwerkt persoonsgegevens' = 'Verwerkt persoonsgegevens',
+}
+
+export enum PiOptions {
+  Ja = 'Ja',
+  Nee = 'Nee',
+}
+
+export enum OwnerType {
+  Gemeente = 'Gemeente Amsterdam',
+  Other = 'Andere',
+}
+
+export type SortedResults = { [category: string]: { [type: string]: FeatureCollection | null } };

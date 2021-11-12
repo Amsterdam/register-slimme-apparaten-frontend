@@ -1,56 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useMapInstance } from '@amsterdam/react-maps';
-import { useDispatch, useSelector } from 'react-redux';
-import { MarkerClusterGroupOptions } from 'leaflet';
-import layersReader from 'services/layer-aggregator/layersReader';
-import queryStringParser from '../../shared/services/auth/services/query-string-parser';
-import LAYERS_CONFIG, { getPointOptions } from '../../services/layer-aggregator/layersConfig';
-import { addLayerDataActionCreator, removeLayerDataActionCreator } from './MapContainerDucks';
-import MarkersCluster, { MarkerClusterData } from '../../components/MarkerCluster/MarkersCluster';
+import { useMapInstance, GeoJSON } from '@amsterdam/react-maps';
+import { Feature, FeatureCollection } from 'geojson';
+import L from 'leaflet';
 
-const clusterLayerOptions: MarkerClusterGroupOptions = {
-  showCoverageOnHover: false,
-};
+import queryStringParser from '../../shared/services/auth/services/query-string-parser';
+import { getPointOptions } from '../../services/layer-aggregator/layersConfig';
+import { LegendCategories, OwnerType } from 'utils/types';
 
 interface Props {
+  mapData: FeatureCollection | null;
   onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string) => void;
 }
 
-const transform = (results: any) =>
-  results.reduce(
-    (acc: any, { category, layer }: { category: string; layer: any }) =>
-      layer.features.length
-        ? {
-            ...acc,
-            [category]: {
-              type: 'FeatureCollection',
-              name: category,
-              crs: {
-                type: 'name',
-                properties: {
-                  name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
-                },
-              },
-              ...acc[category],
-              features: [...(acc[category]?.features || []), ...layer.features],
-            },
-          }
-        : acc,
-    {},
-  );
-
-const PointClusterLayer: React.FC<Props> = ({ onItemSelected }) => {
-  const [data, setData] = useState<MarkerClusterData>({});
-  const dispatch = useDispatch();
-  const layerNames = useRef<Array<string>>([]);
+const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
   const mapInstance = useMapInstance();
 
-  const legend = useSelector((state: any) => state?.map?.legend);
-  const layers = useSelector((state: any) =>
-    state?.map?.layers.filter((l: any) => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
-  );
-
-  const hanleMarkerSelected = (map: any, layer: any, onMarkerSelected: () => void, isMarker: boolean) => {
+  const handleMarkerSelected = (
+    map: any,
+    layer: any,
+    onMarkerSelected: (name: string, feature: any, element: HTMLElement, queryString?: string) => void,
+    isMarker: boolean,
+  ) => {
     const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
     map.fitBounds(bounds);
     if (isMarker) {
@@ -60,7 +30,7 @@ const PointClusterLayer: React.FC<Props> = ({ onItemSelected }) => {
     onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, layer.getElement());
   };
 
-  const udpateSelection = () => {
+  const updateSelection = () => {
     if (!mapInstance) return;
     const { id, source } = queryStringParser(location.search);
     mapInstance.eachLayer((f: any) => {
@@ -68,53 +38,90 @@ const PointClusterLayer: React.FC<Props> = ({ onItemSelected }) => {
       if (!f.feature) return;
       const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
       if (isMarker) {
-        const chlildMarkers = f.__parent.getAllChildMarkers();
-        chlildMarkers.forEach((marker) => {
+        const childMarkers = f.__parent.getAllChildMarkers();
+        childMarkers.forEach((marker) => {
           const fId = String(marker.feature.id);
 
           if (fId === id && source === marker.feature.contact) {
-            hanleMarkerSelected(mapInstance, marker, onItemSelected, true);
+            handleMarkerSelected(mapInstance, marker, onItemSelected, true);
           }
         });
       }
 
       if (featureId === id && source === f.feature.contact) {
-        hanleMarkerSelected(mapInstance, f, onItemSelected, isMarker);
+        handleMarkerSelected(mapInstance, f, onItemSelected, isMarker);
       }
     });
   };
 
-  useEffect(() => {
-    const layerData = layers.reduce((acc: any, layer: any) => ({ ...acc, [layer.name]: layer }), {});
-    setData(layerData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [legend]);
+  // useEffect(() => {
+  //   const layerData = layers.reduce((acc: any, layer: any) => ({ ...acc, [layer.name]: layer }), {});
+  //   setData(layerData);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [legend]);
+
+  // useEffect(() => {
+  //   if (!mapInstance) return () => ({});
+  //   (async () => {
+  //     const results = await layersReader(LAYERS_CONFIG);
+  //     console.log(results);
+  //     const layerData = transform(results);
+  //     console.log(layerData);
+  //     setData(layerData);
+  //     layerNames.current = [...Object.keys(layerData)];
+  //     // dispatch(addLayerDataActionCreator([...Object.values<LayerType>(layerData)]));
+  //     updateSelection();
+  //   })();
+  //   return () => {
+  //     // dispatch(removeLayerDataActionCreator([...layerNames.current]));
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [mapInstance]);
+
+  console.log(mapData?.features?.length);
+
+  const [activeLayer, setActiveLayer] = useState<L.GeoJSON>();
 
   useEffect(() => {
-    if (!mapInstance) return () => ({});
-    (async () => {
-      const results = await layersReader(LAYERS_CONFIG);
-      const layerData = transform(results);
-      setData(layerData);
-      layerNames.current = [...Object.keys(layerData)];
-      dispatch(addLayerDataActionCreator([...Object.values(layerData)]));
-      udpateSelection();
-    })();
-    return () => {
-      dispatch(removeLayerDataActionCreator([...layerNames.current]));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapInstance]);
+    if (!mapInstance || !mapData) return;
+
+    console.time('create layer');
+    activeLayer?.remove();
+
+    const layer = L.geoJSON(mapData, getPointOptions('', onItemSelected));
+    layer.addTo(mapInstance);
+    console.timeEnd('create layer');
+
+    setActiveLayer(layer);
+  }, [mapInstance, mapData]);
 
   return (
-    (
-      <MarkersCluster
-        clusterOptions={clusterLayerOptions}
-        data={data}
-        pointOptions={getPointOptions}
-        onItemSelected={onItemSelected}
-      />
-    ) || null
+    <>
+      {/* {mapData && legend && selectedFilters && (
+        <GeoJSON
+          args={[mapData]}
+          options={{
+            ...getPointOptions('', onItemSelected),
+            filter: (feature) => {
+              console.log('filter');
+              if (selectedFilters.length === 0) {
+                return false;
+              }
+
+              const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) =>
+                selectedFilters.includes(type),
+              );
+
+              const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
+
+              console.log(allowedSensorTypes.includes(feature.properties?.sensorType) && ownerFilter(feature, owner));
+
+              return allowedSensorTypes.includes(feature.properties?.sensorType) && ownerFilter(feature, owner);
+            },
+          }}
+        />
+      )} */}
+    </>
   );
 };
 

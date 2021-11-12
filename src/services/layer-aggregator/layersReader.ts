@@ -1,3 +1,4 @@
+import { IntermediateLayer } from 'utils/types';
 import layersFormatter from './layersFormatter';
 
 /**
@@ -6,12 +7,14 @@ import layersFormatter from './layersFormatter';
  * Returns a flatten layer array
  * @param {*} layersConfig - the layers configuration
  */
-const layersReader = async layersConfig => {
+const layersReader: (layersConfig: any[]) => Promise<IntermediateLayer[]> = async (layersConfig) => {
   const results = await Promise.all(
-    layersConfig.map(async layer => {
+    layersConfig.map(async (layer) => {
       try {
         const data = await layer.fetchService(layer.url);
+
         const layers = layersFormatter(layer, data);
+
         return layers;
       } catch (ex) {
         // eslint-disable-next-line no-console
@@ -20,7 +23,7 @@ const layersReader = async layersConfig => {
       }
     }),
   );
-  return results.reduce((acc, item) => [...acc, ...item], []);
+  return results.flat();
 };
 
 export default layersReader;
