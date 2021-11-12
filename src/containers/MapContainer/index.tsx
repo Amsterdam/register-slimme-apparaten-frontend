@@ -10,7 +10,6 @@ import DrawerOverlay, { DeviceMode, DrawerState } from 'components/DrawerOverlay
 import LegendControl from 'components/LegendControl/LegendControl';
 import MapLegend from 'components/MapLegend';
 import DeviceDetails from 'components/DeviceDetails';
-import { ItemType } from 'utils/types';
 import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
 import useFilter from './hooks/useFilter';
 import { Feature } from 'geojson';

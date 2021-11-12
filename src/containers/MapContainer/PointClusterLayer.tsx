@@ -17,7 +17,6 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
   useEffect(() => {
     if (!mapInstance || !mapData) return;
 
-    console.time('create layer');
     activeLayer?.remove();
 
     const layer = L.geoJSON(mapData, {
@@ -56,7 +55,6 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
       },
     });
     layer.addTo(mapInstance);
-    console.timeEnd('create layer');
 
     setActiveLayer(layer);
   }, [mapInstance, mapData]);
