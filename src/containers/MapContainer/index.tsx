@@ -67,7 +67,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
 `;
 
 const DrawerContentWrapper = styled('div')`
-  width: 370px;
+  width: 400px;
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
   overflow-y: auto;
