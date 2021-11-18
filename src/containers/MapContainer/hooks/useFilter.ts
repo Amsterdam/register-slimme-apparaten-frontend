@@ -21,15 +21,24 @@ function useFilter(
     const filterdFeatureCollection = emptyFeatureCollection();
 
     filterdFeatureCollection.features = unFilteredResults?.features.filter((f) => {
+      // Given the total list of posible options (legend[LegendCategories['Sensor type']]) filter only those items which are selected.
       const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) =>
         selectedFilters.includes(type),
       );
+
+      // Do the same for themes
+      const allowedThemes = legend[LegendCategories.Thema].filter((thema) => selectedFilters.includes(thema));
 
       const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
 
       const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
 
-      return allowedSensorTypes.includes(f.properties?.sensorType) && ownerFilter(f, owner) && piFilter(f, pi);
+      return (
+        allowedSensorTypes.includes(f.properties?.sensorType) &&
+        ownerFilter(f, owner) &&
+        piFilter(f, pi) &&
+        f.properties?.themes.some((theme: string) => allowedThemes.includes(theme))
+      );
     });
 
     return filterdFeatureCollection;

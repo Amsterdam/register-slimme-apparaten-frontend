@@ -51,43 +51,6 @@ const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
           <ListItem>{soort}</ListItem>
         </List>
       </InfoContainer>
-      {/* <div className="device-details__table">
-        <div className="device-details__row">
-          <div className="device-details__row-label">Categorie</div>
-          <div className="device-details__row-element">{category}</div>
-        </div>
-        {soort && (
-          <div className="device-details__row">
-            <div className="device-details__row-label">Type</div>
-            <div className="device-details__row-element">{soort}</div>
-          </div>
-        )}
-        {organisation && (
-          <div className="device-details__row">
-            <div className="device-details__row-label">Organisatie</div>
-            <div className="device-details__row-element">{organisation}</div>
-          </div>
-        )}
-        {privacy && (
-          <div className="device-details__row">
-            <div className="device-details__row-label">Privacyverklaring</div>
-            <div className="device-details__row-element">
-              <a href={privacy} target="_blank" rel="noopener noreferrer">
-                {privacy}
-              </a>
-            </div>
-          </div>
-        )}
-      </div>
-      <StyledButton
-        variant="primary"
-        iconLeft={<MailIcon />}
-        onClick={() => {
-          history.push(`/contact-owner/${location.search}`);
-        }}
-      >
-        Contact met eigenaar
-      </StyledButton> */}
     </section>
   );
 };

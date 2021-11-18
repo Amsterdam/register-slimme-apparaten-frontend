@@ -80,6 +80,7 @@ export enum LegendCategories {
   'Sensor type' = 'Sensor type',
   Eigenaar = 'Eigenaar',
   'Verwerkt persoonsgegevens' = 'Verwerkt persoonsgegevens',
+  Thema = 'Thema',
 }
 
 export enum PiOptions {

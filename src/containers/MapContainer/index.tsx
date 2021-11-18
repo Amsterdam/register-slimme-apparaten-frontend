@@ -70,6 +70,7 @@ const DrawerContentWrapper = styled('div')`
   width: 370px;
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
+  overflow-y: auto;
 `;
 
 enum LegendOrDetails {

@@ -11,12 +11,19 @@ export const emptyFeatureCollection = (): FeatureCollection => ({
 });
 
 const addItemToFeatureCollection = (categoryKey: string, map: Record<string, FeatureCollection | null>, item: any) => {
-  if (map[categoryKey]) {
-    map[categoryKey]?.features.push(item);
-  } else {
-    map[categoryKey] = emptyFeatureCollection();
-    map[categoryKey]?.features.push(item);
+  let keys: string | string[] = categoryKey;
+  if (!Array.isArray(keys)) {
+    keys = [categoryKey];
   }
+
+  keys.forEach((key) => {
+    if (map[key]) {
+      map[key]?.features.push(item);
+    } else {
+      map[key] = emptyFeatureCollection();
+      map[key]?.features.push(item);
+    }
+  });
 
   return map;
 };
@@ -30,9 +37,7 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
     .flat();
 
   const sensorTypes = allFeatures.reduce((acc: AccumulatorType, curr) => {
-    acc = addItemToFeatureCollection(curr.properties?.sensorType, acc, curr);
-
-    return acc;
+    return addItemToFeatureCollection(curr.properties?.sensorType, acc, curr);
   }, {});
 
   const owner = allFeatures.reduce((acc: AccumulatorType, curr) => {
@@ -58,6 +63,10 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
     return acc;
   }, {});
 
+  const themes = allFeatures.reduce((acc: AccumulatorType, curr) => {
+    return addItemToFeatureCollection(curr.properties?.themes, acc, curr);
+  }, {});
+
   // Sensor type
   // Eigenaar (Gemeente A'dam ja/nee)
   // Verwerkt persoonsgegevens
@@ -67,6 +76,7 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
     [LegendCategories['Sensor type']]: sensorTypes,
     [LegendCategories.Eigenaar]: owner,
     [LegendCategories['Verwerkt persoonsgegevens']]: piData,
+    [LegendCategories.Thema]: themes,
   };
 }
 
