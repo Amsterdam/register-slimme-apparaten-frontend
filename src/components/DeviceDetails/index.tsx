@@ -1,5 +1,4 @@
 import React, { FormEvent } from 'react';
-import { useLocation } from 'react-router-dom';
 import { themeSpacing, List, ListItem, Link, themeColor } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
@@ -19,13 +18,11 @@ const InfoContainer = styled('div')`
 `;
 
 const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
-  const location = useLocation();
-
   if (!feature) {
     return null;
   }
 
-  const { category, soort, organisation, privacy } = feature.properties;
+  const { category, sensorType, organisation, privacy, contact, activeUntil, goal, legalGround } = feature.properties;
 
   return (
     <section id="device-details">
@@ -34,13 +31,11 @@ const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
       <InfoContainer>
         <h3>Verantwoordelijke voor de sensor</h3>
         <List variant="bullet">
+          <ListItem>{contact?.name}</ListItem>
           <ListItem>{organisation}</ListItem>
-          <ListItem>info@bedrijf.nl</ListItem>
+          <ListItem>{contact?.email}</ListItem>
           <ListItem>
             <Link href={privacy}>Privacyverklaring</Link>
-          </ListItem>
-          <ListItem>
-            <Link href={`/contact-owner/${location.search}`}>Contact</Link>
           </ListItem>
         </List>
       </InfoContainer>
@@ -48,7 +43,22 @@ const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
       <InfoContainer>
         <h3>Sensorgegevens</h3>
         <List variant="bullet">
-          <ListItem>{soort}</ListItem>
+          <ListItem>{sensorType}</ListItem>
+        </List>
+      </InfoContainer>
+
+      <InfoContainer>
+        <h3>Doel van de sensor</h3>
+        <List variant="bullet">
+          <ListItem>{goal}</ListItem>
+          <ListItem>{legalGround}</ListItem>
+        </List>
+      </InfoContainer>
+
+      <InfoContainer>
+        <h3>Sensor actief tot</h3>
+        <List variant="bullet">
+          <ListItem>{activeUntil}</ListItem>
         </List>
       </InfoContainer>
     </section>
