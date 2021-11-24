@@ -77,17 +77,17 @@ export enum SensorTypes {
 }
 
 export const mapSensorTypeToColor: { [key: string]: string } = {
-  [SensorTypes.Aanwezigheid]: '#4c4c4c',
-  [SensorTypes.Temperatuursensor]: '#b4b4b4',
-  [SensorTypes.Dichtheidssensor]: '#ec0100',
+  [SensorTypes.Aanwezigheid]: '#4C4C4C',
+  [SensorTypes.Temperatuursensor]: '#B4B4B4',
+  [SensorTypes.Dichtheidssensor]: '#EC0100',
   [SensorTypes.Druksensor]: '#004698',
-  [SensorTypes.Positie]: '#e50081',
-  [SensorTypes.Vloeistof]: '#a00178',
-  [SensorTypes.Electriciteitssensor]: ' #ffc815',
+  [SensorTypes.Positie]: '#E50081',
+  [SensorTypes.Vloeistof]: '#A00178',
+  [SensorTypes.Electriciteitssensor]: ' #FFC815',
   [SensorTypes.Chemiesensor]: '#019EED',
   [SensorTypes.Klimaatsensor]: '#ff9000',
   [SensorTypes.Geluidsensor]: '#BED200',
-  [SensorTypes.Optische]: '#01a03c',
+  [SensorTypes.Optische]: '#01A03C',
 };
 
 export enum LegendCategories {
