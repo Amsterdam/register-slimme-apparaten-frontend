@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Accordion, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
-import { LegendCategories } from 'utils/types';
+import { LegendCategories, mapSensorTypeToColor } from 'utils/types';
 
 const LegendSection = styled('section')`
   margin-bottom: ${themeSpacing(3)};
@@ -27,20 +27,6 @@ const Circle = ({ color }: { color: string }) => {
   );
 };
 
-const mapSensorTypeToColor: { [key: string]: string } = {
-  'Aanwezigheid of nabijheidsensor': '#FF0000',
-  Temperatuursensor: '#008080',
-  Dichtheidssensor: '#808000',
-  Druksensor: '#0000FF',
-  'Positie- of verplaatsingsensor': '#FF00FF',
-  'Vloeistof- en gasstroomsensor': '#800080',
-  Electriciteitssensor: ' #800000',
-  Chemiesensor: '#000000',
-  Klimaatsensor: '#FF000F',
-  Geluidsensor: '#FF00F0',
-  'Optische / camera sensor': '#FF0F00',
-};
-
 const LegendItem = styled.div`
   display: flex;
   align-items: center;
@@ -54,6 +40,10 @@ const LegendText = styled.span`
 const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory }) => {
   const otherCategories =
     (legend && Object.keys(legend).filter((category) => category !== LegendCategories['Sensor type'])) || [];
+
+  if (legend) {
+    console.log(legend[LegendCategories['Sensor type']]);
+  }
 
   return (
     <>

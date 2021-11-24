@@ -1,11 +1,12 @@
 import { DomEvent } from 'leaflet';
-import { readData } from '../datareader';
+import { mapSensorTypeToColor } from 'utils/types';
+import { readPaginatedData } from '../datareader';
 
 const LAYERS_CONFIG = [
   {
     name: 'sensornet api',
     url: 'http://localhost:8000/iothings/devices/',
-    fetchService: readData,
+    fetchService: readPaginatedData,
     layers: [
       {
         name: 'Sensornet',
@@ -18,7 +19,7 @@ const LAYERS_CONFIG = [
           properties: {
             privacy: item.privacy_declaration,
             contact: item.owner,
-            color: '#FF0000',
+            color: mapSensorTypeToColor[item.type] || '#000000',
             containsPiData: item.contains_pi_data,
             organisation: item.owner.organisation,
             sensorType: item.type,

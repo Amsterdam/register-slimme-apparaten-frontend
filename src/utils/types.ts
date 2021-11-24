@@ -76,6 +76,20 @@ export enum SensorTypes {
   Optische = 'Optische / camera sensor',
 }
 
+export const mapSensorTypeToColor: { [key: string]: string } = {
+  [SensorTypes.Aanwezigheid]: '#4c4c4c',
+  [SensorTypes.Temperatuursensor]: '#b4b4b4',
+  [SensorTypes.Dichtheidssensor]: '#ec0100',
+  [SensorTypes.Druksensor]: '#004698',
+  [SensorTypes.Positie]: '#e50081',
+  [SensorTypes.Vloeistof]: '#a00178',
+  [SensorTypes.Electriciteitssensor]: ' #ffc815',
+  [SensorTypes.Chemiesensor]: '#019EED',
+  [SensorTypes.Klimaatsensor]: '#ff9000',
+  [SensorTypes.Geluidsensor]: '#BED200',
+  [SensorTypes.Optische]: '#01a03c',
+};
+
 export enum LegendCategories {
   'Sensor type' = 'Sensor type',
   Eigenaar = 'Eigenaar',

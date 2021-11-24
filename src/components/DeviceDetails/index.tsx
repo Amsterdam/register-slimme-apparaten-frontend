@@ -51,7 +51,7 @@ const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
         <h3>Doel van de sensor</h3>
         <List variant="bullet">
           <ListItem>{goal}</ListItem>
-          <ListItem>{legalGround}</ListItem>
+          {legalGround && <ListItem>{legalGround}</ListItem>}
         </List>
       </InfoContainer>
 

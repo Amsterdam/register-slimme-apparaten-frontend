@@ -1,4 +1,4 @@
-const layersFormatter = (layer, { results }) => {
+const layersFormatter = (layer, results) => {
   return layer.layers.map((l) => ({
     name: l.name,
     layer: {
