@@ -91,7 +91,7 @@ export const mapSensorTypeToColor: { [key: string]: string } = {
 };
 
 export enum LegendCategories {
-  'Sensor type' = 'Sensor type',
+  'Sensor type' = 'Sensortype',
   Eigenaar = 'Eigenaar',
   'Verwerkt persoonsgegevens' = 'Verwerkt persoonsgegevens',
   Thema = 'Thema',

@@ -21,7 +21,7 @@ export const HeaderContainer = () => (
   <HeaderWrapper>
     <Header
       tall={false}
-      title="Register slimme apparaten"
+      title="Sensorenregister"
       homeLink="/"
       fullWidth
       navigation={
