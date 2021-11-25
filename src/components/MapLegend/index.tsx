@@ -41,10 +41,6 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory })
   const otherCategories =
     (legend && Object.keys(legend).filter((category) => category !== LegendCategories['Sensor type'])) || [];
 
-  if (legend) {
-    console.log(legend[LegendCategories['Sensor type']]);
-  }
-
   return (
     <>
       <h2>Legenda</h2>
