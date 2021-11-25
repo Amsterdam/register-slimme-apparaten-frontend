@@ -25,11 +25,8 @@ export interface LayerType {
 }
 
 export interface IntermediateLayer {
-  category: string;
-  className: string;
   layer: {
     features: any[]; // TODO: Better typing
-    type: string;
   };
   name: string;
 }
@@ -61,6 +58,8 @@ export interface ItemType {
   contact: string;
   organisation?: string;
 }
+
+// Beacon -> Aanwezigheid
 
 export enum SensorTypes {
   Aanwezigheid = 'Aanwezigheid of nabijheidsensor',

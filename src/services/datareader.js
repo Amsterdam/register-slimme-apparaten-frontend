@@ -86,3 +86,15 @@ export async function readPaginatedData(url) {
   }
   return results;
 }
+
+/**
+ * Requests data from a given url, resolving to response.data (default) or any other optionally specified value
+ * @param url
+ * @param resolve
+ * @returns {Promise<*>}
+ */
+export async function readData(url, resolve = (d) => d.data) {
+  const response = await get(url);
+  const data = resolve(response);
+  return data.features;
+}

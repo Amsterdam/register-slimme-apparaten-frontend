@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { themeSpacing, List, ListItem, Link, themeColor } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 
@@ -6,7 +6,6 @@ import './style.scss';
 
 export interface Props {
   feature: any | null;
-  onDeviceDetailsClose: (event: FormEvent<HTMLButtonElement>) => void;
 }
 
 const InfoContainer = styled('div')`
@@ -17,7 +16,7 @@ const InfoContainer = styled('div')`
   border-bottom: 2px solid ${themeColor('tint', 'level2')};
 `;
 
-const DeviceDetails: React.FC<Props> = ({ onDeviceDetailsClose, feature }) => {
+const DeviceDetails: React.FC<Props> = ({ feature }) => {
   if (!feature) {
     return null;
   }

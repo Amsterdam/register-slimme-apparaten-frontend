@@ -91,6 +91,7 @@ function useRetrieveMapDataAndLegend(): MapDataAndLegend {
   useEffect(() => {
     (async () => {
       const results = await layersReader(LAYERS_CONFIG);
+
       const sortedResults = sortResultsIntoFilterCategories(results);
 
       /**

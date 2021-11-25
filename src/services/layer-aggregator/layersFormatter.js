@@ -1,10 +1,10 @@
 const layersFormatter = (layer, results) => {
-  return layer.layers.map((l) => ({
-    name: l.name,
+  return {
+    name: layer.name,
     layer: {
-      features: results.map((item) => l.transformer(item)),
+      features: (layer.filter ? results.filter(layer.filter) : results).map((item) => layer.transformer(item)),
     },
-  }));
+  };
 };
 
 export default layersFormatter;
