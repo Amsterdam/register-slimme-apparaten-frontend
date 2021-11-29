@@ -9,7 +9,7 @@ import axios from 'axios';
 export const HTTPStatus = {
   pending: 0, // The number of pending HTTP requests
   success: 0, // The number of successfully received responses
-  error: 0 // The number of error responses
+  error: 0, // The number of error responses
 };
 
 /**
@@ -19,7 +19,9 @@ export const HTTPStatus = {
  * @returns {Promise<any>}
  */
 function sleep(ms) {
-  return new Promise((resolve, reject) => { setTimeout(resolve, ms); });
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 /**
@@ -35,7 +37,8 @@ async function get(url, nTries = 5) {
     try {
       HTTPStatus.pending++; // Track pending requests
       result = await axios({
-        method: 'get', url: url,
+        method: 'get',
+        url: url,
       });
     } catch (error) {
       console.error('Retry...', url);
@@ -90,7 +93,8 @@ export async function readPaginatedData(url) {
  * @param resolve
  * @returns {Promise<*>}
  */
-export async function readData(url, resolve = d => d.data) {
+export async function readData(url, resolve = (d) => d.data) {
   const response = await get(url);
-  return resolve(response);
+  const data = resolve(response);
+  return data.features;
 }

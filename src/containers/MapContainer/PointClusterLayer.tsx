@@ -1,121 +1,64 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
-import { useDispatch, useSelector } from 'react-redux';
-import { MarkerClusterGroupOptions } from 'leaflet';
-import layersReader from 'services/layer-aggregator/layersReader';
-import queryStringParser from '../../shared/services/auth/services/query-string-parser';
-import LAYERS_CONFIG, { getPointOptions } from '../../services/layer-aggregator/layersConfig';
-import { addLayerDataActionCreator, removeLayerDataActionCreator } from './MapContainerDucks';
-import MarkersCluster, { MarkerClusterData } from '../../components/MarkerCluster/MarkersCluster';
-
-const clusterLayerOptions: MarkerClusterGroupOptions = {
-  showCoverageOnHover: false,
-};
+import { Feature, FeatureCollection } from 'geojson';
+import L, { DomEvent } from 'leaflet';
 
 interface Props {
-  onItemSelected: (name: string, feature: any, element: HTMLElement, queryString?: string) => void;
+  mapData: FeatureCollection | null;
+  onItemSelected: (feature: Feature) => void;
 }
 
-const transform = (results: any) =>
-  results.reduce(
-    (acc: any, { category, layer }: { category: string; layer: any }) =>
-      layer.features.length
-        ? {
-            ...acc,
-            [category]: {
-              type: 'FeatureCollection',
-              name: category,
-              crs: {
-                type: 'name',
-                properties: {
-                  name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
-                },
-              },
-              ...acc[category],
-              features: [...(acc[category]?.features || []), ...layer.features],
-            },
-          }
-        : acc,
-    {},
-  );
-
-const PointClusterLayer: React.FC<Props> = ({ onItemSelected }) => {
-  const [data, setData] = useState<MarkerClusterData>({});
-  const dispatch = useDispatch();
-  const layerNames = useRef<Array<string>>([]);
+const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
   const mapInstance = useMapInstance();
+  const markerRef = useRef<L.CircleMarker>();
+  const activeLayer = useRef<L.GeoJSON>();
 
-  const legend = useSelector((state: any) => state?.map?.legend);
-  const layers = useSelector((state: any) =>
-    state?.map?.layers.filter((l: any) => layerNames.current.includes(l.name) && state?.map?.legend[l.name]),
-  );
+  useEffect(() => {
+    if (!mapInstance || !mapData) return;
 
-  const hanleMarkerSelected = (map: any, layer: any, onMarkerSelected: () => void, isMarker: boolean) => {
-    const bounds = isMarker ? [layer.getLatLng(), layer.getLatLng()] : layer.getBounds();
-    map.fitBounds(bounds);
-    if (isMarker) {
-      map.setZoom(16);
-    }
+    activeLayer.current?.remove();
 
-    onMarkerSelected(isMarker ? 'devices' : 'cameras', layer.feature, layer.getElement());
-  };
+    const layer = L.geoJSON(mapData, {
+      onEachFeature: (feature: Feature, layer: L.Layer) => {
+        layer.on('click', (e) => {
+          DomEvent.stopPropagation(e);
 
-  const udpateSelection = () => {
-    if (!mapInstance) return;
-    const { id, source } = queryStringParser(location.search);
-    mapInstance.eachLayer((f: any) => {
-      const isMarker = !f.getBounds;
-      if (!f.feature) return;
-      const featureId = String(isMarker ? f.feature.id : f.feature.properties.id);
-      if (isMarker) {
-        const chlildMarkers = f.__parent.getAllChildMarkers();
-        chlildMarkers.forEach((marker) => {
-          const fId = String(marker.feature.id);
-
-          if (fId === id && source === marker.feature.contact) {
-            hanleMarkerSelected(mapInstance, marker, onItemSelected, true);
+          if (markerRef.current) {
+            markerRef.current.remove();
           }
+
+          markerRef.current = L.circleMarker(
+            { lat: feature?.properties?.latitude, lng: feature?.properties?.longitude },
+            {
+              color: 'red',
+              fillColor: 'white',
+              stroke: true,
+              fillOpacity: 1,
+              radius: 9,
+            },
+          ).addTo(mapInstance);
+
+          onItemSelected(feature);
         });
-      }
+      },
+      pointToLayer: (feature: Feature, latlng: L.LatLng) => {
+        const marker = L.circleMarker(latlng, {
+          color: 'white',
+          fillColor: feature?.properties?.color,
+          stroke: true,
+          fillOpacity: 1,
+          radius: 8,
+        });
 
-      if (featureId === id && source === f.feature.contact) {
-        hanleMarkerSelected(mapInstance, f, onItemSelected, isMarker);
-      }
+        return marker;
+      },
     });
-  };
+    layer.addTo(mapInstance);
 
-  useEffect(() => {
-    const layerData = layers.reduce((acc: any, layer: any) => ({ ...acc, [layer.name]: layer }), {});
-    setData(layerData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [legend]);
+    activeLayer.current = layer;
+  }, [mapInstance, mapData, onItemSelected]);
 
-  useEffect(() => {
-    if (!mapInstance) return () => ({});
-    (async () => {
-      const results = await layersReader(LAYERS_CONFIG);
-      const layerData = transform(results);
-      setData(layerData);
-      layerNames.current = [...Object.keys(layerData)];
-      dispatch(addLayerDataActionCreator([...Object.values(layerData)]));
-      udpateSelection();
-    })();
-    return () => {
-      dispatch(removeLayerDataActionCreator([...layerNames.current]));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mapInstance]);
-
-  return (
-    (
-      <MarkersCluster
-        clusterOptions={clusterLayerOptions}
-        data={data}
-        pointOptions={getPointOptions}
-        onItemSelected={onItemSelected}
-      />
-    ) || null
-  );
+  return <></>;
 };
 
 export default PointClusterLayer;

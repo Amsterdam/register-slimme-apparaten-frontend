@@ -1,29 +1,18 @@
-import React, { useMemo } from 'react';
-import { MapOptions } from 'leaflet'
+import React, { useEffect, useState } from 'react';
+import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
-import { ViewerContainer } from '@amsterdam/asc-ui';
-import { Map, BaseLayer, Zoom, getCrsRd } from '@amsterdam/arm-core';
-import MapLegend from 'components/MapLegend';
-import { useSelector, useDispatch } from 'react-redux';
-import { compose } from 'redux';
-import injectReducer from 'utils/injectReducer';
-import { useHistory } from 'react-router-dom';
-import CameraAreaDetails from 'components/CameraAreaDetails';
-import DeviceDetails from 'components/DeviceDetails';
-import Geocoder, {
-  getSuggestions,
-  getAddressById,
-} from 'components/Geocoder'
-import { POLYGON_LAYERS_CONFIG, getPolygonOptions } from '../../services/layer-aggregator/layersConfig';
-import reducer, {
-  selectLayerItemActionCreator,
-  toggleMapLayerActionCreator,
-  MapState,
-} from './MapContainerDucks';
-import { CATEGORY_NAMES } from '../../shared/configuration/categories';
-import useHighlight from './hooks/useHighlight';
+import { Feature } from 'geojson';
+
+import { themeSpacing } from '@amsterdam/asc-ui';
+import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
+
 import PointClusterLayer from './PointClusterLayer';
-import MapLayer from './MapLayer';
+import DrawerOverlay, { DeviceMode, DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
+import LegendControl from 'components/LegendControl/LegendControl';
+import MapLegend from 'components/MapLegend';
+import DeviceDetails from 'components/DeviceDetails';
+import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
+import useFilter from './hooks/useFilter';
 
 const MAP_OPTIONS: MapOptions = {
   center: [52.3731081, 4.8932945],
@@ -37,7 +26,7 @@ const MAP_OPTIONS: MapOptions = {
     [52.25168, 4.64034],
     [52.50536, 5.10737],
   ],
-}
+};
 
 const StyledMap = styled(Map)`
   width: 100%;
@@ -59,10 +48,10 @@ const StyledMap = styled(Map)`
     box-shadow: 1px 1px 1px #666666;
 
     div {
-      width: 32px !important;
-      height: 32px !important;
-      margin-top: 4px !important;
-      margin-left: 4px !important;
+      width: ${themeSpacing(8)} !important;
+      height: ${themeSpacing(8)} !important;
+      margin-top: ${themeSpacing(1)} !important;
+      margin-left: ${themeSpacing(1)} !important;
       background-color: #004699 !important;
     }
 
@@ -77,57 +66,88 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
 `;
 
+const DrawerContentWrapper = styled('div')`
+  width: 400px;
+  padding-left: ${themeSpacing(5)};
+  padding-right: ${themeSpacing(5)};
+  overflow-y: auto;
+`;
 
-const MapContainer = () => {
-  const selectedLayer = useSelector<{map?: MapState}>(state => state?.map?.selectedLayer);
-  const selectedItem = useSelector<{map?: MapState}>(state => state?.map?.selectedItem);
-  const dispatch = useDispatch();
-  const { highlight } = useHighlight();
-  const { push } = useHistory();
-  const clearSelection = () => {
-    dispatch(selectLayerItemActionCreator());
+enum LegendOrDetails {
+  LEGEND,
+  DETAILS,
+}
+
+const MapContainer: () => JSX.Element = () => {
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open);
+  const [legendOrDetails, setLegendOrDetails] = useState<LegendOrDetails>(LegendOrDetails.LEGEND);
+  const [selectedItem, setSelectedItem] = useState<Feature | null>(null);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+  const { legend, featureCollection } = useRetrieveMapDataAndLegend();
+
+  const handleItemSelected = (feature: Feature) => {
+    setDrawerState(DrawerState.Open);
+    setLegendOrDetails(LegendOrDetails.DETAILS);
+
+    setSelectedItem(feature);
   };
 
-  const handleToggleCategory = (name: string) => {
-    dispatch(toggleMapLayerActionCreator(name));
-  };
+  useEffect(() => {
+    if (!legend) {
+      return;
+    }
 
-  const handleItemSelected = (name: string, feature: any, element: HTMLElement, queryString?: string) => {
-    if (queryString) push({ pathname: '/', search: queryString });
-    dispatch(selectLayerItemActionCreator(name, feature));
-    highlight(element);
-  };
+    setSelectedFilters(
+      Object.keys(legend)
+        .map((k) => legend[k])
+        .flat(),
+    );
+  }, [legend]);
 
-  const geocoderProps = useMemo(
-    () => ({
-      getSuggestions,
-      getAddressById,
-    }), 
-    [],
-  )
+  const filteredMapData = useFilter(featureCollection || emptyFeatureCollection(), legend || {}, selectedFilters);
 
   return (
-    <StyledMap options={MAP_OPTIONS} >
-      <StyledViewerContainer
-        topLeft={<Geocoder {...geocoderProps} />}
-        bottomRight={<Zoom />}
-      />
+    <StyledMap options={MAP_OPTIONS}>
+      <StyledViewerContainer bottomRight={<Zoom />} />
 
-      <MapLegend onToggleCategory={handleToggleCategory} />
-      {selectedLayer === 'devices' && <DeviceDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
-      {selectedLayer === 'cameras' && <CameraAreaDetails device={selectedItem} onDeviceDetailsClose={clearSelection} />}
+      <PointClusterLayer mapData={filteredMapData} onItemSelected={handleItemSelected} />
 
-      <PointClusterLayer onItemSelected={handleItemSelected} />
+      <DrawerOverlay
+        mode={DeviceMode.Desktop}
+        onStateChange={setDrawerState}
+        state={drawerState}
+        Controls={LegendControl}
+        onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
+      >
+        <DrawerContentWrapper>
+          {legendOrDetails === LegendOrDetails.DETAILS && (
+            <DeviceDetails
+              feature={selectedItem}
+              onDeviceDetailsClose={() => {
+                setLegendOrDetails(LegendOrDetails.LEGEND);
+              }}
+            />
+          )}
 
-      <MapLayer
-        options={getPolygonOptions(CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED, handleItemSelected)}
-        config={POLYGON_LAYERS_CONFIG}
-      />
+          {legendOrDetails === LegendOrDetails.LEGEND && (
+            <MapLegend
+              legend={legend}
+              selectedItems={selectedFilters}
+              onToggleCategory={(category) => {
+                if (selectedFilters.includes(category)) {
+                  return setSelectedFilters(selectedFilters.filter((l) => l !== category));
+                }
 
+                setSelectedFilters([...selectedFilters, category]);
+              }}
+            />
+          )}
+        </DrawerContentWrapper>
+      </DrawerOverlay>
       <BaseLayer />
     </StyledMap>
   );
 };
 
-const withReducer = injectReducer({ key: 'map', reducer });
-export default compose(withReducer)(MapContainer);
+export default MapContainer;

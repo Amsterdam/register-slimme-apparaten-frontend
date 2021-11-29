@@ -1,3 +1,5 @@
+import { FeatureCollection } from 'geojson';
+
 /**
  * Defines a general ActionType to be used with the reducers
  */
@@ -22,6 +24,13 @@ export interface LayerType {
   };
 }
 
+export interface IntermediateLayer {
+  layer: {
+    features: any[]; // TODO: Better typing
+  };
+  name: string;
+}
+
 export interface Item {
   category?: string[];
   contact?: string;
@@ -34,9 +43,67 @@ export interface Item {
   properties: any;
   soort?: string;
   type: string;
+  color: string;
+  containsPiData: boolean;
+  sensorType: SensorTypes;
 }
 
 export interface ItemType {
-  name: string;
+  id: number;
+  name?: string;
+  soort: string;
+  category: string;
+  privacy?: string;
   item: Item;
+  contact: string;
+  organisation?: string;
 }
+
+// Beacon -> Aanwezigheid
+
+export enum SensorTypes {
+  Aanwezigheid = 'Aanwezigheid of nabijheidsensor',
+  Temperatuursensor = 'Temperatuursensor',
+  Dichtheidssensor = 'Dichtheidssensor',
+  Druksensor = 'Druksensor',
+  Positie = 'Positie- of verplaatsingsensor',
+  Vloeistof = 'Vloeistof- en gasstroomsensor',
+  Electriciteitssensor = 'Electriciteitssensor',
+  Chemiesensor = 'Chemiesensor',
+  Klimaatsensor = 'Klimaatsensor',
+  Geluidsensor = 'Geluidsensor',
+  Optische = 'Optische / camera sensor',
+}
+
+export const mapSensorTypeToColor: { [key: string]: string } = {
+  [SensorTypes.Aanwezigheid]: '#4C4C4C',
+  [SensorTypes.Temperatuursensor]: '#B4B4B4',
+  [SensorTypes.Dichtheidssensor]: '#EC0100',
+  [SensorTypes.Druksensor]: '#004698',
+  [SensorTypes.Positie]: '#E50081',
+  [SensorTypes.Vloeistof]: '#A00178',
+  [SensorTypes.Electriciteitssensor]: ' #FFC815',
+  [SensorTypes.Chemiesensor]: '#019EED',
+  [SensorTypes.Klimaatsensor]: '#ff9000',
+  [SensorTypes.Geluidsensor]: '#BED200',
+  [SensorTypes.Optische]: '#01A03C',
+};
+
+export enum LegendCategories {
+  'Sensor type' = 'Sensortype',
+  Eigenaar = 'Eigenaar',
+  'Verwerkt persoonsgegevens' = 'Verwerkt persoonsgegevens',
+  Thema = 'Thema',
+}
+
+export enum PiOptions {
+  Ja = 'Ja',
+  Nee = 'Nee',
+}
+
+export enum OwnerType {
+  Gemeente = 'Gemeente Amsterdam',
+  Other = 'Andere',
+}
+
+export type SortedResults = { [category: string]: { [type: string]: FeatureCollection | null } };
