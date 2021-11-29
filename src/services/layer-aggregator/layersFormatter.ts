@@ -1,4 +1,9 @@
-const layersFormatter = (layer, results) => {
+import { IntermediateLayer } from 'utils/types';
+
+const layersFormatter = (
+  layer: { name: string; filter?: () => boolean; transformer: (item: any) => any },
+  results: any[],
+): IntermediateLayer => {
   return {
     name: layer.name,
     layer: {
