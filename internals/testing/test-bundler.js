@@ -3,7 +3,6 @@ import 'core-js/shim';
 import 'regenerator-runtime';
 import 'raf/polyfill';
 import 'jest-localstorage-mock';
-import 'leaflet-headless';
 
 import Enzyme from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
@@ -11,11 +10,8 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
 
-// add leaflet
-global.L = L
-
 // Mock the window.fetch function
-global.fetch = require('jest-fetch-mock')
+global.fetch = require('jest-fetch-mock');
 
 /**
  * Element.closest() polyfill
