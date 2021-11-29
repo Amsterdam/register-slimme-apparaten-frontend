@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { Feature, FeatureCollection } from 'geojson';
 import L, { DomEvent } from 'leaflet';
