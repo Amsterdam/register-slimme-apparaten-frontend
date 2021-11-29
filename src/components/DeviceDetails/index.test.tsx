@@ -1,31 +1,36 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { withAppContext } from 'test/utils';
+import { ThemeProvider } from '@amsterdam/asc-ui';
 
-import DeviceDetails , { Props } from '.';
+import DeviceDetails, { Props } from '.';
+import { SensorTypes } from 'utils/types';
 
 describe('DeviceDetails', () => {
-  const props:Props = {
-    device: {
-      id: 42,
-      soort: 'Luchtkwaliteit',
-      category: 'Sensor',
-      privacy: 'privacy',
-      contact: 'iothings',
-      organisation: 'GGD Amsterdam',
+  const props: Props = {
+    feature: {
+      properties: {
+        sensorType: SensorTypes.Chemiesensor,
+        organisation: 'GGD Amsterdam',
+        privacy: 'privacy',
+        contact: { name: 'Amsterdam Contact', email: 'email@amsterdam.nl' },
+        legalGround: 'legalGround',
+      },
     },
-    onDeviceDetailsClose: jest.fn(),
   };
   it('should render', () => {
-    const { queryByText } = render(
-      withAppContext(<DeviceDetails {...props} />)
+    const { queryByText, getByText } = render(
+      <ThemeProvider>
+        <DeviceDetails {...props} />
+      </ThemeProvider>,
     );
 
-    expect(queryByText(props.device.soort)).toBeInTheDocument();
-    expect(queryByText(props.device.category)).toBeInTheDocument();
-    expect(queryByText(props.device.privacy)).toBeInTheDocument();
-    expect(queryByText(props.device.organisation)).toBeInTheDocument();
+    expect(queryByText(props.feature.properties.sensorType)).toBeInTheDocument();
+    expect(getByText('Privacyverklaring')).toHaveAttribute('href', props.feature.properties.privacy);
+    expect(queryByText(props.feature.properties.organisation)).toBeInTheDocument();
 
-    expect(queryByText(props.device.contact)).not.toBeInTheDocument();
+    expect(queryByText(props.feature.properties.contact.name)).toBeInTheDocument();
+    expect(queryByText(props.feature.properties.contact.email)).toBeInTheDocument();
+
+    expect(queryByText(props.feature.properties.legalGround)).toBeInTheDocument();
   });
 });

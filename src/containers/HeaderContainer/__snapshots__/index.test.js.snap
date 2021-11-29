@@ -91,7 +91,7 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
       </React.Fragment>
     }
     tall={false}
-    title="Register slimme apparaten"
+    title="Sensorenregister"
   />
 </HeaderContainer__HeaderWrapper>
 `;
