@@ -6,7 +6,7 @@ import { readData, readPaginatedData } from '../datareader';
 const LAYERS_CONFIG = [
   {
     name: 'Sensornet',
-    url: `${CONFIGURATION.API_ROOT}/iothings/devices/`,
+    url: `${CONFIGURATION.API_ROOT}iothings/devices/`,
     fetchService: readPaginatedData,
     transformer: (item) => ({
       type: 'Feature',
