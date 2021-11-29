@@ -1,11 +1,12 @@
 import { DomEvent } from 'leaflet';
+import CONFIGURATION from 'shared/configuration/environment';
 import { mapSensorTypeToColor, SensorTypes } from 'utils/types';
 import { readData, readPaginatedData } from '../datareader';
 
 const LAYERS_CONFIG = [
   {
     name: 'Sensornet',
-    url: 'http://localhost:8000/iothings/devices/',
+    url: `${CONFIGURATION.API_ROOT}/iothings/devices/`,
     fetchService: readPaginatedData,
     transformer: (item) => ({
       type: 'Feature',
