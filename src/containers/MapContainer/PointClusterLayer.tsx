@@ -11,13 +11,12 @@ interface Props {
 const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
   const mapInstance = useMapInstance();
   const markerRef = useRef<L.CircleMarker>();
-
-  const [activeLayer, setActiveLayer] = useState<L.GeoJSON>();
+  const activeLayer = useRef<L.GeoJSON>();
 
   useEffect(() => {
     if (!mapInstance || !mapData) return;
 
-    activeLayer?.remove();
+    activeLayer.current?.remove();
 
     const layer = L.geoJSON(mapData, {
       onEachFeature: (feature: Feature, layer: L.Layer) => {
@@ -56,8 +55,8 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
     });
     layer.addTo(mapInstance);
 
-    setActiveLayer(layer);
-  }, [mapInstance, mapData]);
+    activeLayer.current = layer;
+  }, [mapInstance, mapData, onItemSelected]);
 
   return <></>;
 };
