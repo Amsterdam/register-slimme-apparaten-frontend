@@ -95,7 +95,7 @@
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "recharts": "^2.1.5",
-    "redux": "^4.1.1",
+    "redux": "^4.1.2",
     "redux-immutable": "4.0.0",
     "redux-saga": "^1.1.1",
     "reselect": "^4.0.0",
