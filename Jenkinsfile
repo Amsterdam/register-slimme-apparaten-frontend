@@ -51,30 +51,26 @@ node {
 
 String BRANCH = "${env.BRANCH_NAME}"
 
-if (BRANCH == "master" || BRANCH == "develop" ) {
-
-    node {
-        stage('Push acceptance image') {
-            tryStep "image tagging", {
-                def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("acceptance")
-            }
+node {
+    stage('Push acceptance image') {
+        tryStep "image tagging", {
+            def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_NUMBER}")
+            image.pull()
+            image.push("acceptance")
         }
     }
+}
 
-    node {
-        stage("Deploy to ACC") {
-            tryStep "deployment", {
-                build job: 'Subtask_Openstack_Playbook',
-                parameters: [
-                    [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy.yml'],
-                    [$class: 'StringParameterValue', name: 'PLAYBOOKPARAMS', value: "-e cmdb_id=app_slimme-apparaten-frontend"]                  ]
-            }
+node {
+    stage("Deploy to ACC") {
+        tryStep "deployment", {
+            build job: 'Subtask_Openstack_Playbook',
+            parameters: [
+                [$class: 'StringParameterValue', name: 'INVENTORY', value: 'acceptance'],
+                [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy.yml'],
+                [$class: 'StringParameterValue', name: 'PLAYBOOKPARAMS', value: "-e cmdb_id=app_slimme-apparaten-frontend"]                  ]
         }
     }
-
 }
 
 if (BRANCH == "master") {
