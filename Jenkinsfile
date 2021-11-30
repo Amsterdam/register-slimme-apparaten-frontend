@@ -16,13 +16,15 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
     }
 }
 
+String BUILD_ID = "${Math.abs(new Random().nextInt() % 600) + 1}"
+
 node {
     stage("Checkout") {
         checkout scm
     }
 
     stage("Unit tests") {
-      String  PROJECT = "iot-unittests-${env.BUILD_ID}"
+      String  PROJECT = "iot-unittests-${BUILD_ID}"
 
       tryStep "unittests start", {
         sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit test-unit"
@@ -38,10 +40,10 @@ node {
 node {
     stage("Build acceptance image") {
         tryStep "build", {
-            def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_ID}",
+            def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
                 "--shm-size 1G " +
                 "--build-arg BUILD_ENV=acc " +
-                "--build-arg BUILD_NUMBER=${env.BUILD_ID} " +
+                "--build-arg BUILD_NUMBER=${BUILD_ID} " +
                 ". ")
             image.push()
         }
@@ -54,7 +56,7 @@ String BRANCH = "${env.BRANCH_NAME}"
 node {
     stage('Push acceptance image') {
         tryStep "image tagging", {
-            def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_ID}")
+            def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}")
             image.pull()
             image.push("acceptance")
         }
@@ -85,9 +87,9 @@ if (BRANCH == "master") {
     node {
         stage("Build and Push Production image") {
             tryStep "build", {
-                def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_ID}",
+                def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
                     "--shm-size 1G " +
-                    "--build-arg BUILD_NUMBER=${env.BUILD_ID} " +
+                    "--build-arg BUILD_NUMBER=${BUILD_ID} " +
                     ".")
                 image.push("production")
                 image.push("latest")
