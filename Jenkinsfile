@@ -22,7 +22,7 @@ node {
     }
 
     stage("Unit tests") {
-      String  PROJECT = "iot-unittests-${env.BUILD_NUMBER}"
+      String  PROJECT = "iot-unittests-${env.BUILD_ID}"
 
       tryStep "unittests start", {
         sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit test-unit"
@@ -38,10 +38,10 @@ node {
 node {
     stage("Build acceptance image") {
         tryStep "build", {
-            def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_NUMBER}",
+            def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_ID}",
                 "--shm-size 1G " +
                 "--build-arg BUILD_ENV=acc " +
-                "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                "--build-arg BUILD_NUMBER=${env.BUILD_ID} " +
                 ". ")
             image.push()
         }
@@ -54,7 +54,7 @@ String BRANCH = "${env.BRANCH_NAME}"
 node {
     stage('Push acceptance image') {
         tryStep "image tagging", {
-            def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_NUMBER}")
+            def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_ID}")
             image.pull()
             image.push("acceptance")
         }
@@ -85,9 +85,9 @@ if (BRANCH == "master") {
     node {
         stage("Build and Push Production image") {
             tryStep "build", {
-                def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_NUMBER}",
+                def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${env.BUILD_ID}",
                     "--shm-size 1G " +
-                    "--build-arg BUILD_NUMBER=${env.BUILD_NUMBER} " +
+                    "--build-arg BUILD_NUMBER=${env.BUILD_ID} " +
                     ".")
                 image.push("production")
                 image.push("latest")
