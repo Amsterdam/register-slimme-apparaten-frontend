@@ -49,7 +49,7 @@ const MOUNT_NODE = document.getElementById('app');
 const hostname = window && window.location && window.location.hostname;
 const MatomoInstance = new MatomoTracker({
   urlBase: 'https://analytics.data.amsterdam.nl/',
-  siteId: hostname === 'slimmeapparaten.amsterdam.nl' ? 17 : 18,
+  siteId: hostname === 'sensorenregister.amsterdam.nl' ? 17 : 18,
 });
 
 MatomoInstance.trackPageView({});
