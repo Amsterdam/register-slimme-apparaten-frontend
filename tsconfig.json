@@ -4,7 +4,9 @@
     "jsx": "react",
     "allowJs": true,
     "esModuleInterop": true,
-    "baseUrl": "src/"
+    "baseUrl": "src/",
+    "outDir": "build/",
+    "lib": ["ES2019"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -1,58 +1,81 @@
-import React, { useState } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import { Accordion, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
+import { LegendCategories, mapSensorTypeToColor } from 'utils/types';
 
-import { legend } from 'shared/configuration/categories';
-import { Checkbox } from '../../shared/components/checkbox';
-
-import CollapseIcon from '../../images/icon-arrow-down.svg';
-import ExpandIcon from '../../images/icon-arrow-up.svg';
-import MapLayersIcon from '../../images/icon-map-layers.svg';
-
-import './style.scss';
+const LegendSection = styled('section')`
+  margin-bottom: ${themeSpacing(3)};
+`;
 
 export interface Props {
+  legend: Record<string, string[]> | null;
+  selectedItems: string[] | null;
   onToggleCategory: (name: string) => void;
 }
 
-const MapLegend: React.FC<Props> = ({ onToggleCategory }) => {
-  const [isLegendVisible, setLegendVisible] = useState(window.innerWidth > 576);
+const Circle = ({ color }: { color: string }) => {
+  return (
+    <svg
+      viewBox="0 0 10 10"
+      width="15px"
+      height="15px"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ marginRight: '4px' }}
+    >
+      <circle cx="5" cy="5" r="5" fill={color} />
+    </svg>
+  );
+};
+
+const LegendItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LegendText = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory }) => {
+  const otherCategories =
+    (legend && Object.keys(legend).filter((category) => category !== LegendCategories['Sensor type'])) || [];
 
   return (
-    <section
-      id="map-legend"
-      className={`
-          map-legend
-          map-legend--${isLegendVisible ? 'expanded' : 'collapsed'}
-        `}
-    >
-      <button
-        type="button"
-        className="map-legend__header"
-        data-testid="mapLegendToggleButton"
-        aria-label={
-          isLegendVisible ? 'Kaartlagen legenda, Kaartlagen verbergen' : 'Kaartlagen legenda, Kaartlagen tonen'
-        }
-        aria-expanded={isLegendVisible}
-        onClick={() => setLegendVisible(!isLegendVisible)}
-        title={isLegendVisible ? 'Kaartlagen verbergen' : 'Kaartlagen tonen'}
-      >
-        <MapLayersIcon className="map-legend__header-icon" />
-        <h4 className="map-legend__header-title">Apparaten</h4>
-        <CollapseIcon className="map-legend__header-icon map-legend__header-icon--expanded" />
-        <ExpandIcon className="map-legend__header-icon map-legend__header-icon--collapsed" />
-      </button>
-      <div className="map-legend__body">
-        {isLegendVisible &&
-          Object.entries(legend).map(([id, category]) => (
-            <div key={category.name} className="map-legend__row mb-1">
-              <Checkbox name="check" checked={category.enabled} onChange={() => onToggleCategory(id)} />
-              <span className="map-legend__icon">
-                <img className="map-legend__icon" src={category.iconUrl} alt="" />
-              </span>
-              <span className="map-legend__row-title">{category.name}</span>
-            </div>
-          ))}
-      </div>
-    </section>
+    <>
+      <h2>Legenda</h2>
+      {/* Because of the color legend we map sensor types seperatly */}
+      {legend && (
+        <LegendSection>
+          <Accordion id={LegendCategories['Sensor type']} title={LegendCategories['Sensor type']} isOpen>
+            {legend[LegendCategories['Sensor type']].map((item: string) => (
+              <LegendItem key={item}>
+                <Checkbox checked={selectedItems?.includes(item)} onChange={() => onToggleCategory(item)} />
+
+                <LegendText>
+                  <Circle color={mapSensorTypeToColor[item]} /> {item}
+                </LegendText>
+              </LegendItem>
+            ))}
+          </Accordion>
+        </LegendSection>
+      )}
+
+      {legend &&
+        otherCategories.map((categoryName) => (
+          <LegendSection key={categoryName}>
+            <Accordion id={categoryName} title={categoryName} isOpen>
+              {legend[categoryName].map((item) => (
+                <div key={item}>
+                  <Checkbox checked={selectedItems?.includes(item)} onChange={() => onToggleCategory(item)} />
+
+                  <span>{item}</span>
+                </div>
+              ))}
+            </Accordion>
+          </LegendSection>
+        ))}
+    </>
   );
 };
 

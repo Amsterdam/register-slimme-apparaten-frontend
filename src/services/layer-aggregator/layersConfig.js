@@ -1,190 +1,276 @@
-import CONFIGURATION from 'shared/configuration/environment';
 import { DomEvent } from 'leaflet';
-import { getMarkerIcon } from 'services/marker';
-import { CATEGORY_NAMES, categories } from '../../shared/configuration/categories';
-import { readData } from '../datareader';
-import { fetchDevices, fetchCameraAreas } from './layersFetcher';
+import CONFIGURATION from 'shared/configuration/environment';
+import { mapSensorTypeToColor, SensorTypes } from 'utils/types';
+import { readData, readPaginatedData } from '../datareader';
 
 const LAYERS_CONFIG = [
   {
-    name: 'cmsa',
+    name: 'Sensornet',
+    url: `${CONFIGURATION.API_ROOT}iothings/devices/`,
+    fetchService: readPaginatedData,
+    transformer: (item) => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [item.location.latitude, item.location.longitude],
+      },
+      properties: {
+        privacy: item.privacy_declaration,
+        contact: item.owner,
+        color: mapSensorTypeToColor[item.type] || '#000000',
+        containsPiData: item.contains_pi_data,
+        organisation: item.owner.organisation,
+        sensorType: item.type,
+        themes: item.themes,
+        longitude: item.location.longitude,
+        latitude: item.location.latitude,
+        activeUntil: flipDate(item.active_until),
+        goal: item.observation_goal,
+        legalGround: item.legal_ground,
+        originalData: item,
+      },
+    }),
+  },
+  {
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
     fetchService: readData,
-    layers: [
-      {
-        name: 'WiFi sensor Crowd Management',
-        filter: (item) => item.properties.Soort === 'WiFi sensor' && item.properties.Actief === 'Ja',
-        className: 'cmsa',
-        category: CATEGORY_NAMES.SENSOR,
-        transformer: (item) => ({
-          ...item,
-          category: CATEGORY_NAMES.SENSOR,
-          soort: item.properties.Soort,
-          privacy: item.properties.Privacyverklaring || '',
-          contact: 'cmsa',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-        }),
+    name: 'WiFi sensor Crowd Management',
+    filter: (item) => item.properties.Soort === 'WiFi sensor',
+    transformer: (item) => ({
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy: item.properties.Privacyverklaring,
+        contact: {
+          email: '',
+          name: 'Afdeling verkeersmanagment',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Aanwezigheid],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Aanwezigheid,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Tellen van mensen.',
+        legalGround: 'Verkeersmanagment in de rol van wegbeheerder.',
+        originalData: item,
       },
-    ],
+    }),
   },
   {
     name: 'Camera`s brug- en sluisbediening',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_BRUGSLUIS&THEMA=privacy',
     fetchService: readData,
-    category: CATEGORY_NAMES.CAMERA,
     transformer: (item) => ({
-      ...item,
-      category: CATEGORY_NAMES.CAMERA,
-      soort: item.properties.Naam,
-      privacy: item.properties.Privacyverklaring,
-      contact: item.properties.Eigenaar,
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy: item.properties.Privacyverklaring,
+        contact: {
+          email: '',
+          name: 'Afdeling stedelijkbeheer',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Het bedienen van sluisen en bruggen.',
+        legalGround: 'Sluisbeheerder in het kader van de woningwet 1991',
+        originalData: item,
+      },
     }),
   },
   {
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS&THEMA=vis',
     fetchService: readData,
-    layers: [
-      {
-        category: CATEGORY_NAMES.CAMERA,
-        name: 'CCTV camera`s Verkeersmanagement',
-        filter: (item) => item.properties.Soort === 'TV Camera',
-        transformer: (item) => ({
-          ...item,
-          category: CATEGORY_NAMES.CAMERA,
-          soort: item.properties.Soort,
-          privacy:
-            'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/verkeersmanagement',
-          contact: '',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-        }),
+    name: 'CCTV camera`s Verkeersmanagement',
+    filter: (item) => item.properties.Soort === 'TV Camera',
+    transformer: (item) => ({
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy:
+          'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/verkeersmanagement',
+        contact: {
+          email: '',
+          name: 'Afdeling verkeersmanagement',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Waarnemen van het verkeer.',
+        legalGround: 'Verkeersmanagment in de rol van wegbeheerder.',
+        originalData: item,
       },
-    ],
+    }),
   },
   {
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS&THEMA=vis',
     fetchService: readData,
-    layers: [
-      {
-        category: CATEGORY_NAMES.CAMERA,
-        name: 'Kentekencamera, reistijd (MoCo)',
-        filter: (item) => item.properties.Soort === 'Kentekencamera, reistijd (MoCo)',
-        transformer: (item) => ({
-          ...item,
-          category: CATEGORY_NAMES.CAMERA,
-          soort: item.properties.Soort,
-          privacy:
-            'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/reistijden-meetsysteem-privacy/',
-          contact: '',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-        }),
+    name: 'Kentekencamera, reistijd (MoCo)',
+    filter: (item) => item.properties.Soort === 'Kentekencamera, reistijd (MoCo)',
+    transformer: (item) => ({
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy:
+          'https://www.amsterdam.nl/privacy/specifieke/privacyverklaring-parkeren-verkeer-bouw/reistijden-meetsysteem-privacy/',
+        contact: {
+          email: '',
+          name: 'Afdeling verkeersmanagement',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Het tellen van voertuigen en meten van doorstroming.',
+        legalGround: 'Verkeersmanagement in de rol van wegbeheerder.',
+        originalData: item,
       },
-    ],
+    }),
   },
   {
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS&THEMA=vis',
     fetchService: readData,
-    layers: [
-      {
-        category: CATEGORY_NAMES.CAMERA,
-        name: 'Kentekencamera, milieuzone',
-        filter: (item) => item.properties.Soort === 'Kentekencamera, milieuzone',
-        transformer: (item) => ({
-          ...item,
-          category: CATEGORY_NAMES.CAMERA,
-          soort: item.properties.Soort,
-          privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/milieuzones/',
-          contact: '',
-          longitude: item.geometry.coordinates[0],
-          latitude: item.geometry.coordinates[1],
-        }),
+    name: 'Kentekencamera, milieuzone',
+    filter: (item) => item.properties.Soort === 'Kentekencamera, milieuzone',
+    transformer: (item) => ({
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy: 'https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-b/milieuzones/',
+        contact: {
+          email: '',
+          name: 'Afdeling stedelijk beheer',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit', 'Milieu'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Handhaving van verkeersbesluiten',
+        legalGround: 'Verkeersbesluiten in de rol van wegbeheerder.',
+        originalData: item,
       },
-    ],
+    }),
   },
   {
     name: 'AIS masten',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_AISMASTEN&THEMA=privacy',
     fetchService: readData,
-    className: 'ais-masten',
-    category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
     transformer: (item) => ({
-      ...item,
-      category: CATEGORY_NAMES.SLIMME_VERKEERSINFORMATIE,
-      soort: item.properties.Locatienaam,
-      privacy: item.properties.Privacyverklaring,
-      contact: 'ais-masten',
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy: item.properties.Privacyverklaring,
+        contact: {
+          email: '',
+          name: 'Programma varen',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Vaarweg management',
+        legalGround: 'In de rol van vaarwegbeheerder op basis van de binnenvaartwet.',
+        originalData: item,
+      },
     }),
   },
   {
-    name: 'Verkeersonderzoek en Overig',
+    name: 'Verkeersonderzoek met cameras',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=PRIVACY_OVERIG&THEMA=privacy',
     fetchService: readData,
-    className: 'overig',
-    category: CATEGORY_NAMES.CAMERA,
     transformer: (item) => ({
-      ...item,
-      category: CATEGORY_NAMES.CAMERA,
-      soort: item.properties.Soort,
-      privacy: item.properties.Privacyverklaring,
-      contact: 'overig',
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy: item.properties.Privacyverklaring,
+        contact: {
+          email: 'verkeersonderzoek@amsterdam.nl',
+          name: 'Afdeling kennis en kaders',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Tellen van voertuigen.',
+        legalGround: 'Verkeersmanagement in de rol van wegbeheerder.',
+        originalData: item,
+      },
     }),
   },
   {
     name: 'Beweegbare Fysieke Afsluiting (BFA)',
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=VIS_BFA&THEMA=vis',
     fetchService: readData,
-    className: 'bfa',
-    category: CATEGORY_NAMES.CAMERA,
     transformer: (item) => ({
-      ...item,
-      category: CATEGORY_NAMES.CAMERA,
-      soort: `${item.properties.BFA_nummer} - ${item.properties.BFA_type} - ${item.properties.Standplaats}`,
-      privacy: item.properties.Privacyverklaring || '',
-      contact: 'bfa',
-      longitude: item.geometry.coordinates[0],
-      latitude: item.geometry.coordinates[1],
+      type: 'Feature',
+      geometry: item.geometry,
+      properties: {
+        privacy: item.properties.Privacyverklaring,
+        contact: {
+          email: '',
+          name: 'Afdeling asset management',
+          organisation: 'Gemeente Amsterdam',
+        },
+        color: mapSensorTypeToColor[SensorTypes.Optische],
+        containsPiData: true,
+        organisation: 'Gemeente Amsterdam',
+        sensorType: SensorTypes.Optische,
+        themes: ['Mobiliteit'],
+        longitude: item.geometry.coordinates[1],
+        latitude: item.geometry.coordinates[0],
+        activeUntil: '01-01-2050',
+        goal: 'Verstrekken van selectieve toegang.',
+        legalGround: 'Verkeersmanagement in de rol van wegbeheerder.',
+        originalData: item,
+      },
     }),
   },
-  {
-    name: 'iothings',
-    url: `${CONFIGURATION.API_ROOT}iothings/devices/`,
-    fetchService: fetchDevices,
-    layers: Object.entries(categories).map(([key]) => ({
-      name: `IoT ${key}`,
-      filter: (item) => item.properties.application === key,
-      className: `iot${key}`,
-      category: key,
-      transformer: (item) => item,
-    })),
-  },
 ];
 
-export const POLYGON_LAYERS_CONFIG = [
-  {
-    id: 'cameras',
-    name: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
-    url: `${CONFIGURATION.MAP_ROOT}maps/overlastgebieden?REQUEST=GetFeature&SERVICE=wfs&OUTPUTFORMAT=application/json;%20subtype=geojson;%20charset=utf-8&srsName=EPSG:4326&Typename=ms:cameratoezichtgebied&version=1.1.0`,
-    fetchService: fetchCameraAreas,
-    className: 'cameras',
-    category: CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED,
-    transformer: (item) => item,
-  },
-];
+const flipDate = (date) => {
+  const arr = date?.split('-');
 
-const markerStyle = {
-  fillColor: '#f14600',
-  opacity: 1,
-  color: '#f14600',
-  strokeOpacity: 1,
-  weight: 1,
+  if (arr.length < 3) {
+    return date;
+  }
+
+  return `${arr[2]}-${arr[1]}-${arr[0]}`;
 };
 
 export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
@@ -197,24 +283,15 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
     });
   },
   pointToLayer: (feature, latlng) => {
-    const marker = L.marker(latlng, {
-      icon: getMarkerIcon(CATEGORY_NAME),
+    const marker = L.circleMarker(latlng, {
+      color: 'white',
+      fillColor: feature.properties.color,
+      stroke: true,
+      fillOpacity: 1,
+      radius: 8,
     });
     marker.feature = feature;
     return marker;
-  },
-});
-
-export const getPolygonOptions = (CATEGORY_NAME, onItemSelected) => ({
-  style: markerStyle,
-  onEachFeature: (feature, layer) => {
-    layer.on('click', (e) => {
-      DomEvent.stopPropagation(e);
-      const { id } = feature.properties;
-      const queryString = `?id=${id}&category=${CATEGORY_NAMES.CAMERA_TOEZICHTSGEBIED}`;
-
-      onItemSelected('cameras', feature, layer.getElement(), queryString);
-    });
   },
 });
 

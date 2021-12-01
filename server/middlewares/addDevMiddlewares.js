@@ -4,24 +4,24 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
 module.exports = function addDevMiddlewares(app, webpackConfig) {
-  const compiler = webpack(webpackConfig)
+  const compiler = webpack(webpackConfig);
   const middleware = webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
-  })
+  });
 
-  app.use(middleware)
-  app.use(webpackHotMiddleware(compiler))
+  app.use(middleware);
+  app.use(webpackHotMiddleware(compiler));
 
   // Since webpackDevMiddleware uses memory-fs internally to store build
   // artifacts, we use it instead
   const fs = middleware.fileSystem;
 
   app.get('/sw.js', (req, res) => {
-    res.sendFile(path.join(compiler.outputPath, 'sw.js'))
-  })
+    res.sendFile(path.join(compiler.outputPath, 'sw.js'));
+  });
 
   app.get('*', (req, res) => {
-    fs.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
+    fs?.readFile(path.join(compiler.outputPath, 'index.html'), (err, file) => {
       if (err) {
         res.sendStatus(404);
       } else {

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import globalConfig from 'globalConfig';
 
-const domainName = 'slimmeapparaten.amsterdam.nl';
+const domainName = 'sensorenregister.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
 
 const defaultConfig = {
