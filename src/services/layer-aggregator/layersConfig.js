@@ -12,7 +12,7 @@ const LAYERS_CONFIG = [
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [item.location.latitude, item.location.longitude],
+        coordinates: [item.location.longitude, item.location.latitude], // See also: https://datatracker.ietf.org/doc/html/rfc7946#section-3.1
       },
       properties: {
         privacy: item.privacy_declaration,
