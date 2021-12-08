@@ -21,7 +21,8 @@ const DeviceDetails: React.FC<Props> = ({ feature }) => {
     return null;
   }
 
-  const { category, sensorType, organisation, privacy, contact, activeUntil, goal, legalGround } = feature.properties;
+  const { category, sensorType, organisation, privacy, contact, activeUntil, goal, legalGround, reference } =
+    feature.properties;
 
   return (
     <section id="device-details">
@@ -43,6 +44,7 @@ const DeviceDetails: React.FC<Props> = ({ feature }) => {
         <h3>Sensorgegevens</h3>
         <List variant="bullet">
           <ListItem>{sensorType}</ListItem>
+          {reference && <ListItem>Referentie: {reference}</ListItem>}
         </List>
       </InfoContainer>
 
