@@ -33,8 +33,8 @@ const DeviceDetails: React.FC<Props> = ({ feature }) => {
         <List variant="bullet">
           <ListItem>{contact?.name}</ListItem>
           <ListItem>{organisation}</ListItem>
-          <ListItem>{contact?.email}</ListItem>
-          {privacy && (
+          {contact?.email?.length > 1 && <ListItem>{contact?.email}</ListItem>}
+          {!!privacy && (
             <ListItem>
               <Link href={privacy}>Privacyverklaring</Link>
             </ListItem>
