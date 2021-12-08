@@ -28,6 +28,7 @@ const LAYERS_CONFIG = [
         goal: item.observation_goal,
         legalGround: item.legal_ground,
         originalData: item,
+        reference: item?.reference,
       },
     }),
   },
