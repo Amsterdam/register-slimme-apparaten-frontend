@@ -34,9 +34,11 @@ const DeviceDetails: React.FC<Props> = ({ feature }) => {
           <ListItem>{contact?.name}</ListItem>
           <ListItem>{organisation}</ListItem>
           <ListItem>{contact?.email}</ListItem>
-          <ListItem>
-            <Link href={privacy}>Privacyverklaring</Link>
-          </ListItem>
+          {privacy && (
+            <ListItem>
+              <Link href={privacy}>Privacyverklaring</Link>
+            </ListItem>
+          )}
         </List>
       </InfoContainer>
 
