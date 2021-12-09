@@ -68,6 +68,11 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const DrawerContentWrapper = styled('div')`
   width: 400px;
+
+  @media (max-width: 650px) {
+    width: 100%;
+  }
+
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
   overflow-y: auto;
@@ -114,7 +119,6 @@ const MapContainer: () => JSX.Element = () => {
       <PointClusterLayer mapData={filteredMapData} onItemSelected={handleItemSelected} />
 
       <DrawerOverlay
-        mode={DeviceMode.Desktop}
         onStateChange={setDrawerState}
         state={drawerState}
         Controls={LegendControl}
