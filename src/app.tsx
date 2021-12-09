@@ -5,15 +5,11 @@
  * code.
  */
 
-// Needed for redux-saga es6 generator support
-import 'core-js/shim';
 import 'regenerator-runtime/runtime';
 
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider, ReactReduxContext } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
 import 'leaflet/dist/leaflet';
@@ -31,18 +27,14 @@ import '../public/images/icon-lantaarn@3x.png';
 
 // Import CSS and Global Styles
 import 'leaflet/dist/leaflet.css';
-import history from 'utils/history';
 
 // Import root app
 import App from './containers/App';
 
 import './global.scss';
 
-import configureStore from './configureStore';
+import { BrowserRouter } from 'react-router-dom';
 
-// Create redux store with history
-const initialState = {};
-const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
 // Setup Matomo
@@ -56,15 +48,12 @@ MatomoInstance.trackPageView({});
 
 const render = () => {
   ReactDOM.render(
-    // tslint:disable-next-line:jsx-wrap-multiline
-    <Provider store={store} context={ReactReduxContext}>
-      <ConnectedRouter history={history} context={ReactReduxContext}>
-        <ThemeProvider>
-          <GlobalStyle />
-          <App />
-        </ThemeProvider>
-      </ConnectedRouter>
-    </Provider>,
+    <BrowserRouter>
+      <ThemeProvider>
+        <GlobalStyle />
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>,
     MOUNT_NODE,
   );
 };
