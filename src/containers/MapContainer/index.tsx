@@ -121,14 +121,7 @@ const MapContainer: () => JSX.Element = () => {
         onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
       >
         <DrawerContentWrapper>
-          {legendOrDetails === LegendOrDetails.DETAILS && (
-            <DeviceDetails
-              feature={selectedItem}
-              onDeviceDetailsClose={() => {
-                setLegendOrDetails(LegendOrDetails.LEGEND);
-              }}
-            />
-          )}
+          {legendOrDetails === LegendOrDetails.DETAILS && <DeviceDetails feature={selectedItem} />}
 
           {legendOrDetails === LegendOrDetails.LEGEND && (
             <MapLegend
