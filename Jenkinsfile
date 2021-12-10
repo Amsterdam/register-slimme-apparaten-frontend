@@ -23,29 +23,25 @@ node {
         checkout scm
     }
 
-    stage("Unit tests") {
-      String  PROJECT = "iot-unittests-${BUILD_ID}"
-
-      tryStep "unittests start", {
-        sh "docker-compose -p ${PROJECT} up --build --exit-code-from test-unit test-unit"
-      }
-      always {
-        tryStep "unittests stop", {
-          sh "docker-compose -p ${PROJECT} down -v || true"
-        }
-      }
-    }
 }
 
 node {
-    stage("Build acceptance image") {
-        tryStep "build", {
-            def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
-                "--shm-size 1G " +
-                "--build-arg BUILD_ENV=acc " +
-                "--build-arg BUILD_NUMBER=${BUILD_ID} " +
-                ". ")
-            image.push()
+    def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
+        "--shm-size 1G " +
+        "--build-arg BUILD_NUMBER=${BUILD_ID} " +
+        ". ")
+
+    stage("Unit tests") {
+        tryStep "unit-test", {
+            image.inside {
+                sh 'npm run test'
+            }
+        } 
+    }
+
+    stage("Push acceptance image") {
+        tryStep "image tagging", {
+            image.push("acceptance")
         }
     }
 }
@@ -53,15 +49,6 @@ node {
 
 String BRANCH = "${env.BRANCH_NAME}"
 
-node {
-    stage('Push acceptance image') {
-        tryStep "image tagging", {
-            def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}")
-            image.pull()
-            image.push("acceptance")
-        }
-    }
-}
 
 node {
     stage("Deploy to ACC") {
@@ -85,12 +72,9 @@ if (BRANCH == "master") {
     }
 
     node {
-        stage("Build and Push Production image") {
+        stage("Push Production image") {
             tryStep "build", {
-                def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
-                    "--shm-size 1G " +
-                    "--build-arg BUILD_NUMBER=${BUILD_ID} " +
-                    ".")
+                def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}")
                 image.push("production")
                 image.push("latest")
             }

@@ -1,5 +1,5 @@
 
-FROM node:14.18-bullseye AS builder
+FROM node:16-bullseye AS builder
 LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
@@ -20,8 +20,6 @@ COPY package.json \
   jest.config.js \
   .babelrc \
   /app/
-
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
 
 #  Changing git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
