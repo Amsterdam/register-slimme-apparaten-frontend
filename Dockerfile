@@ -32,11 +32,16 @@ RUN npm --production=false \
   install
 RUN npm cache clean --force
 
+# Test 
+FROM builder as test
+RUN npm run test
+
 # Build
+FROM builder as build
 RUN npm run build
 
 # Deploy
 FROM nginx:stable-alpine
-COPY --from=builder /app/build/. /usr/share/nginx/html/
+COPY --from=build /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/

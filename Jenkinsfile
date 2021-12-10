@@ -26,21 +26,23 @@ node {
 }
 
 node {
-    def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
-        "--shm-size 1G " +
-        "--build-arg BUILD_NUMBER=${BUILD_ID} " +
-        ". ")
 
-    stage("Unit tests") {
-        tryStep "unit-test", {
-            image.inside {
-                sh 'npm run test'
-            }
-        } 
-    }
+    // stage("Unit tests") {
+    //     tryStep "unit-test", {
+    //         image.inside {
+    //             sh 'npm run test'
+    //         }
+    //     } 
+    // }
 
-    stage("Push acceptance image") {
-        tryStep "image tagging", {
+    stage("Build and push acceptance image") {
+
+        tryStep "build image", {
+            def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
+            "--shm-size 1G " +
+            "--build-arg BUILD_NUMBER=${BUILD_ID} " +
+            ". ")
+
             image.push("acceptance")
         }
     }
