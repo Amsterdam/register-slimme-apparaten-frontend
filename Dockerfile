@@ -7,7 +7,6 @@ ARG BUILD_NUMBER=0
 WORKDIR /app
 
 COPY src /app/src
-COPY public /app/public
 COPY internals /app/internals
 COPY server /app/server
 
