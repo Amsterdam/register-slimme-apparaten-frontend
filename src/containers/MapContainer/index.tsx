@@ -3,11 +3,11 @@ import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
 import { Feature } from 'geojson';
 
-import { themeSpacing } from '@amsterdam/asc-ui';
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui';
 import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
 
 import PointClusterLayer from './PointClusterLayer';
-import DrawerOverlay, { DeviceMode, DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
+import DrawerOverlay, { DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
 import LegendControl from 'components/LegendControl/LegendControl';
 import MapLegend from 'components/MapLegend';
 import DeviceDetails from 'components/DeviceDetails';
@@ -67,7 +67,12 @@ const StyledViewerContainer = styled(ViewerContainer)`
 `;
 
 const DrawerContentWrapper = styled('div')`
-  width: 400px;
+  width: 100%;
+
+  @media screen and (${breakpoint('min-width', 'tabletM')}) {
+    width: 100%;
+  }
+
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
   overflow-y: auto;
@@ -114,7 +119,6 @@ const MapContainer: () => JSX.Element = () => {
       <PointClusterLayer mapData={filteredMapData} onItemSelected={handleItemSelected} />
 
       <DrawerOverlay
-        mode={DeviceMode.Desktop}
         onStateChange={setDrawerState}
         state={drawerState}
         Controls={LegendControl}

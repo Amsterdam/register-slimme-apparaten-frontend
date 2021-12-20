@@ -1,6 +1,3 @@
-/* eslint-disable */
-import globalConfig from 'globalConfig';
-
 const domainName = 'sensorenregister.amsterdam.nl';
 const apiDomainName = 'api.data.amsterdam.nl';
 
@@ -40,9 +37,6 @@ const environmentConfig = () => {
 const CONFIGURATION = {
   // the configuration based on the domain
   ...environmentConfig(),
-
-  // the external configuration override form environment.conf.json
-  ...globalConfig,
 };
 
 export default CONFIGURATION;

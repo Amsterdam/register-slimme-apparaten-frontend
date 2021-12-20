@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Row, Column, Container, themeColor } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
 import HeaderContainer from 'containers/HeaderContainer';
@@ -14,7 +14,7 @@ const withContainer =
   (Component) =>
   ({ ...otherProps }) =>
     (
-      <Fragment>
+      <>
         <HeaderContainer />
         <StyledContainer>
           <Row hasMargin={false}>
@@ -29,7 +29,7 @@ const withContainer =
             <Column span={12}></Column>
           </Row>
         </StyledContainer>
-      </Fragment>
+      </>
     );
 
 export default withContainer;

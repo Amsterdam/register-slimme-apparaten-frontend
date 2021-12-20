@@ -26,7 +26,7 @@ const plugins = [
 ];
 
 if (dllPlugin) {
-  glob.sync(`${dllPlugin.path}/*.dll.js`).forEach(dllPath => {
+  glob.sync(`${dllPlugin.path}/*.dll.js`).forEach((dllPath) => {
     plugins.push(
       new AddAssetHtmlPlugin({
         filepath: dllPath,
@@ -41,7 +41,6 @@ module.exports = require('./webpack.base.babel')({
 
   // Add hot reloading in development
   entry: [
-    'whatwg-fetch',
     'eventsource-polyfill', // Necessary for hot reloading with IE
     'webpack-hot-middleware/client?reload=true',
     path.join(process.cwd(), 'src/app.tsx'), // Start with js/app.js
@@ -114,9 +113,9 @@ function dependencyHandlers() {
   }
 
   // If DLLs are explicitly defined, we automatically create a DLLReferencePlugin for each of them.
-  const dllManifests = Object.keys(dllPlugin.dlls).map(name => path.join(dllPath, `/${name}.json`));
+  const dllManifests = Object.keys(dllPlugin.dlls).map((name) => path.join(dllPath, `/${name}.json`));
 
-  return dllManifests.map(manifestPath => {
+  return dllManifests.map((manifestPath) => {
     if (!fs.existsSync(path)) {
       if (!fs.existsSync(manifestPath)) {
         logger.error(`The following Webpack DLL manifest is missing: ${path.basename(manifestPath)}`);

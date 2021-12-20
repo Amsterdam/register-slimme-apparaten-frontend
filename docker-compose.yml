@@ -2,8 +2,6 @@ version: '3.5'
 services:
   app: # NGINX
     build:
-      args:
-        - BUILD_ENV=acc
       context: .
     environment:
       - TZ=Europe/Amsterdam

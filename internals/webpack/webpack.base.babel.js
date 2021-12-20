@@ -90,11 +90,6 @@ module.exports = (options) => ({
     ],
   },
   plugins: options.plugins.concat([
-    // new webpack.ProvidePlugin({
-    //   // make fetch available
-    //   fetch: 'exports-loader?self.fetch!whatwg-fetch',
-    // }),
-
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically
     // drop any unreachable code.
@@ -129,7 +124,4 @@ module.exports = (options) => ({
   devtool: options.devtool,
   target: options.target || 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},
-  externals: {
-    globalConfig: JSON.stringify(require(path.resolve(process.cwd(), 'environment.conf.json'))), //eslint-disable-line
-  },
 });
