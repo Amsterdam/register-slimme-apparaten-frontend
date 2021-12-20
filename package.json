@@ -162,7 +162,7 @@
     "jest-environment-jsdom-global": "^3.0.0",
     "jest-mock-axios": "^4.4.0",
     "jest-styled-components": "^7.0.5",
-    "jsdom": "11.11.0",
+    "jsdom": "19.0.0",
     "mini-css-extract-plugin": "^1.6.2",
     "node-plop": "^0.26.2",
     "nodemon": "^2.0.6",
