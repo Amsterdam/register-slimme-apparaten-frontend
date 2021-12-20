@@ -1,17 +1,11 @@
 import '@testing-library/jest-dom/extend-expect';
-import 'core-js/shim';
 import 'regenerator-runtime';
-import 'raf/polyfill';
-import 'jest-localstorage-mock';
 
 import Enzyme from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 // React 16 Enzyme adapter
 Enzyme.configure({ adapter: new Adapter() });
-
-// Mock the window.fetch function
-global.fetch = require('jest-fetch-mock');
 
 /**
  * Element.closest() polyfill

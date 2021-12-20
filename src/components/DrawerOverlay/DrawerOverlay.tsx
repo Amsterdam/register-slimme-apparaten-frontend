@@ -3,14 +3,10 @@ import styled, { css } from 'styled-components';
 import { Button, Icon, styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { ChevronRight } from '@amsterdam/asc-assets';
 import { LegendControlProps } from 'components/LegendControl/LegendControl';
+import { DeviceMode, useDeviceMode } from 'utils/useDeviceMode';
 
 const HANDLE_SIZE_MOBILE = 70;
 const CONTROLS_PADDING = 32;
-
-export enum DeviceMode {
-  Desktop = 'DESKTOP',
-  Mobile = 'MOBILE',
-}
 
 export enum DrawerState {
   Open = 'OPEN',
@@ -183,7 +179,6 @@ const ControlsContainer = styled.div<ModeProp>`
 `;
 
 interface DrawerOverlayProps {
-  mode?: DeviceMode;
   state?: DrawerState;
   Controls: React.ComponentType<LegendControlProps>;
   onStateChange?: (state: DrawerState) => void;
@@ -194,15 +189,19 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
   children,
   onStateChange,
   Controls,
-  mode = DeviceMode.Desktop,
   state = DrawerState.Closed,
   onControlClick,
 }) => {
+  const mode = useDeviceMode();
   const DrawerHandle = isMobile(mode) ? DrawerHandleMobile : DrawerHandleDesktop;
 
   function getDrawerPositionTransform(drawerState = state) {
-    if (drawerState !== DrawerState.Open) {
+    if (drawerState !== DrawerState.Open && !isMobile(mode)) {
       return `translateX(calc(-100% + 178px))`;
+    }
+
+    if (drawerState !== DrawerState.Open && isMobile(mode)) {
+      return `translateY(calc(100% - 130px))`;
     }
 
     return '';
@@ -218,11 +217,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
       return;
     }
 
-    if (isMobile(mode)) {
-      onStateChange(state === DrawerState.Preview ? DrawerState.Closed : DrawerState.Preview);
-    } else {
-      onStateChange(state === DrawerState.Closed ? DrawerState.Open : DrawerState.Closed);
-    }
+    onStateChange(state === DrawerState.Closed ? DrawerState.Open : DrawerState.Closed);
   };
 
   return (

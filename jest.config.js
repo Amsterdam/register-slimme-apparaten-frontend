@@ -28,6 +28,6 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/internals/testing/test-bundler.js'],
   testRegex: '.*\\.test\\.(t|j|s)sx?$',
-  testEnvironment: './internals/testing/jest-environment-jsdom-global-fix',
+  testEnvironment: 'jsdom',
   snapshotSerializers: ['enzyme-to-json/serializer'],
 };

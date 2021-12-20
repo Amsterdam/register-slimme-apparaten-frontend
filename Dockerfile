@@ -1,5 +1,5 @@
 
-FROM node:14.18-bullseye AS builder
+FROM node:16-bullseye AS builder
 LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
@@ -7,7 +7,6 @@ ARG BUILD_NUMBER=0
 WORKDIR /app
 
 COPY src /app/src
-COPY public /app/public
 COPY internals /app/internals
 COPY server /app/server
 
@@ -21,8 +20,6 @@ COPY package.json \
   .babelrc \
   /app/
 
-COPY environment.conf.${BUILD_ENV}.json /app/environment.conf.json
-
 #  Changing git URL because network is blocking git protocol...
 RUN git config --global url."https://".insteadOf git://
 RUN git config --global url."https://github.com/".insteadOf git@github.com:
@@ -35,11 +32,16 @@ RUN npm --production=false \
   install
 RUN npm cache clean --force
 
+# Test 
+FROM builder as test
+RUN npm run test
+
 # Build
+FROM builder as build
 RUN npm run build
 
 # Deploy
 FROM nginx:stable-alpine
-COPY --from=builder /app/build/. /usr/share/nginx/html/
+COPY --from=build /app/build/. /usr/share/nginx/html/
 
 COPY default.conf /etc/nginx/conf.d/
