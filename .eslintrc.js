@@ -12,7 +12,6 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
-    'plugin:redux-saga/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:promise/recommended',
     'prettier',
