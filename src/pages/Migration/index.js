@@ -8,6 +8,10 @@ const Migration = () => (
       geïnstalleerd zijn en geschikt zijn om data te verzamelen, gemeld worden bij de gemeente Amsterdam. Andere
       bewoners of ondernemers kunnen het register inzien.
     </p>
+    <p>
+      Om aan deze doelstelling te voldoen is deze website, het Sensorenregister, ontworpen en de website Slimmeapparten
+      komen te vervallen.
+    </p>
   </div>
 );
 
