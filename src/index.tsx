@@ -14,8 +14,6 @@ import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
 import 'leaflet/dist/leaflet';
 
-import '!file-loader?name=[name].[ext]!./images/favicon.png';
-
 // Import CSS and Global Styles
 import 'leaflet/dist/leaflet.css';
 
@@ -50,15 +48,3 @@ const render = () => {
 };
 
 render();
-
-if (module.hot) {
-  module.hot.accept();
-}
-
-// Install ServiceWorker and AppCache in the end since
-// it's not most important operation and if main code fails,
-// we do not want it installed
-if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'acceptance') {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require('offline-plugin/runtime').install();
-}

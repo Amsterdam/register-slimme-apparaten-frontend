@@ -1,4 +1,4 @@
-import { IntermediateLayer } from 'utils/types';
+import { IntermediateLayer } from '../../utils/types';
 import layersFormatter from './layersFormatter';
 
 /**

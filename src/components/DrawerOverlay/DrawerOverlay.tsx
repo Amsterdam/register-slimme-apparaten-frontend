@@ -2,8 +2,8 @@ import React, { CSSProperties, FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
 import { Button, Icon, styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { ChevronRight } from '@amsterdam/asc-assets';
-import { LegendControlProps } from 'components/LegendControl/LegendControl';
-import { DeviceMode, useDeviceMode } from 'utils/useDeviceMode';
+import { LegendControlProps } from '../../components/LegendControl/LegendControl';
+import { DeviceMode, useDeviceMode } from '../../utils/useDeviceMode';
 
 const HANDLE_SIZE_MOBILE = 70;
 const CONTROLS_PADDING = 32;

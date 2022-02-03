@@ -1,6 +1,7 @@
 import React from 'react';
 import './style.scss';
 import { Footer as AscFooter, FooterTop, Row, Column, List, ListItem, Link } from '@amsterdam/asc-ui';
+
 const desclaimers = [
   {
     id: 1,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { categories } from 'shared/configuration/categories';
+import { categories } from '../../shared/configuration/categories';
 
 import './style.scss';
 

@@ -7,10 +7,10 @@ import { breakpoint, themeSpacing } from '@amsterdam/asc-ui';
 import { Map, BaseLayer, Zoom, getCrsRd, ViewerContainer } from '@amsterdam/arm-core';
 
 import PointClusterLayer from './PointClusterLayer';
-import DrawerOverlay, { DrawerState } from 'components/DrawerOverlay/DrawerOverlay';
-import LegendControl from 'components/LegendControl/LegendControl';
-import MapLegend from 'components/MapLegend';
-import DeviceDetails from 'components/DeviceDetails';
+import DrawerOverlay, { DrawerState } from '../../components/DrawerOverlay/DrawerOverlay';
+import LegendControl from '../../components/LegendControl/LegendControl';
+import MapLegend from '../../components/MapLegend';
+import DeviceDetails from '../../components/DeviceDetails';
 import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
 import useFilter from './hooks/useFilter';
 
