@@ -1,8 +1,7 @@
-import React from 'react';
-import './style.scss';
 import { Footer as AscFooter, FooterTop, Row, Column, List, ListItem, Link } from '@amsterdam/asc-ui';
+import './style.scss';
 
-const desclaimers = [
+const disclaimers = [
   {
     id: 1,
     value: `Het register biedt geen compleet overzicht van alle slimme apparaten. Registratie van slimme apparaten in het register is niet verplicht, maar wordt wel gevraagd.`,
@@ -25,9 +24,9 @@ const desclaimers = [
 ];
 const DisclaimerLinks: React.FC<{ indent?: boolean }> = () => (
   <List>
-    {desclaimers.map(({ id, value }) => (
+    {disclaimers.map(({ id, value }) => (
       <ListItem key={id}>
-        <Link darkBackground href="/" variant="with-chevron">
+        <Link darkBackground href="/" inList>
           {value}
         </Link>
       </ListItem>
