@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { ThemeProvider } from '@amsterdam/asc-ui';
 
 import DeviceDetails, { Props } from '.';
-import { SensorTypes } from 'utils/types';
+import { SensorTypes } from '../../utils/types';
 
 describe('DeviceDetails', () => {
   const props: Props = {

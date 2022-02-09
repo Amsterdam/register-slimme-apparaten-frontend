@@ -3,13 +3,13 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import NotFound from './index';
 
 describe('<NotFound />', () => {
   it('should render the Page Not Found text', () => {
-    const renderedComponent = shallow(<NotFound />);
-    expect(renderedComponent.contains(<h1>Page not found</h1>)).toEqual(true);
+    const { asFragment } = render(<NotFound />);
+    expect(asFragment()).toMatchSnapshot();
   });
 });
