@@ -6,7 +6,7 @@ ARG BUILD_ENV=prod
 ARG BUILD_NUMBER=0
 WORKDIR /app
 
-COPY src /app/src
+COPY . /app
 
 COPY package.json \
   package-lock.json \
