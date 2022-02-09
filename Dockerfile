@@ -6,18 +6,13 @@ ARG BUILD_ENV=prod
 ARG BUILD_NUMBER=0
 WORKDIR /app
 
-COPY src /app/src
-COPY internals /app/internals
-COPY server /app/server
+COPY . /app
 
 COPY package.json \
   package-lock.json \
-  .eslintrc.js \
   .gitignore \
   .gitattributes \
   tsconfig.json \
-  jest.config.js \
-  .babelrc \
   /app/
 
 #  Changing git URL because network is blocking git protocol...

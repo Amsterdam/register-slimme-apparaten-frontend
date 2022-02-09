@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import APP_ROUTES from 'services/appRoutes';
+import APP_ROUTES from '../../services/appRoutes';
 
 import './style.scss';
 

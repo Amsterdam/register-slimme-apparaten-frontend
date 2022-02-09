@@ -1,4 +1,4 @@
-import { IntermediateLayer } from 'utils/types';
+import { IntermediateLayer } from '../../utils/types';
 
 const layersFormatter = (
   layer: { name: string; filter?: () => boolean; transformer: (item: any) => any },

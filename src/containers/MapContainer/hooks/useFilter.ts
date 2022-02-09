@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Feature, FeatureCollection } from 'geojson';
 
-import { LegendCategories, OwnerType, PiOptions } from 'utils/types';
+import { LegendCategories, OwnerType, PiOptions } from '../../../utils/types';
 import { emptyFeatureCollection } from './useRetreiveMapDataAndLegend';
 
 function useFilter(

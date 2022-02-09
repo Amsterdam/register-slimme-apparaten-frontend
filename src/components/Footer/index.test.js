@@ -1,14 +1,19 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { ThemeProvider } from '@amsterdam/asc-ui';
 
 import Footer from './index';
 import './style.scss';
 
 describe('<Footer />', () => {
   it('should render correctly', () => {
-    const renderedComponent = shallow(
-      <Footer />
+    const { asFragment } = render(
+      <MemoryRouter>
+        <ThemeProvider>
+          <Footer />
+        </ThemeProvider>
+      </MemoryRouter>,
     );
-    expect(renderedComponent).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotFound /> should render the Page Not Found text 1`] = `
+<DocumentFragment>
+  <article>
+    <h1>
+      Page not found
+    </h1>
+  </article>
+</DocumentFragment>
+`;

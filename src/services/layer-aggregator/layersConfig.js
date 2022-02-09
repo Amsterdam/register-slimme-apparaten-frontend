@@ -1,6 +1,6 @@
-import { DomEvent } from 'leaflet';
-import CONFIGURATION from 'shared/configuration/environment';
-import { mapSensorTypeToColor, SensorTypes } from 'utils/types';
+import { DomEvent, circleMarker } from 'leaflet';
+import CONFIGURATION from '../../shared/configuration/environment';
+import { mapSensorTypeToColor, SensorTypes } from '../../utils/types';
 import { readData, readPaginatedData } from '../datareader';
 
 const LAYERS_CONFIG = [
@@ -284,7 +284,7 @@ export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
     });
   },
   pointToLayer: (feature, latlng) => {
-    const marker = L.circleMarker(latlng, {
+    const marker = circleMarker(latlng, {
       color: 'white',
       fillColor: feature.properties.color,
       stroke: true,

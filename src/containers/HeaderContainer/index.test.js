@@ -1,5 +1,6 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 import { HeaderContainer } from './index';
 
@@ -19,7 +20,11 @@ describe('<HeaderContainer />', () => {
   });
 
   it('should render correctly when authenticated', () => {
-    const renderedComponent = shallow(<HeaderContainer {...props} />);
-    expect(renderedComponent).toMatchSnapshot();
+    const { asFragment } = render(
+      <MemoryRouter>
+        <HeaderContainer {...props} />
+      </MemoryRouter>,
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

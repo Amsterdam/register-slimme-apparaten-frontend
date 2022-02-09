@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Column, Container, themeColor } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
-import HeaderContainer from 'containers/HeaderContainer';
+import HeaderContainer from '../containers/HeaderContainer';
 
 const StyledContainer = styled(Container)`
   background-color: ${themeColor('tint', 'level1')};
