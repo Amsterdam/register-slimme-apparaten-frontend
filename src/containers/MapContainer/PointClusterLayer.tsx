@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { Feature, FeatureCollection } from 'geojson';
 import L, { DomEvent } from 'leaflet';
@@ -13,8 +13,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
   const markerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
 
-  useEffect(() => {
+  console.log('PointClusterLayer render');
+
+  useMemo(() => {
     if (!mapInstance || !mapData) return;
+
+    console.log('useMemo PointCluserLayer');
 
     activeLayer.current?.remove();
 
@@ -42,6 +46,10 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
         });
       },
       pointToLayer: (feature: Feature, latlng: L.LatLng) => {
+        if (markerRef.current) {
+          markerRef.current.remove();
+        }
+
         const marker = L.circleMarker(latlng, {
           color: 'white',
           fillColor: feature?.properties?.color,

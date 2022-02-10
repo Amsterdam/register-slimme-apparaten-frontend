@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
 import { Feature } from 'geojson';
@@ -30,7 +30,7 @@ const MAP_OPTIONS: MapOptions = {
 
 const StyledMap = styled(Map)`
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 54px);
 
   .leaflet-marker-icon.active-element {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.8);
@@ -91,26 +91,21 @@ const MapContainer: () => JSX.Element = () => {
 
   const { legend, featureCollection } = useRetrieveMapDataAndLegend();
 
-  const handleItemSelected = (feature: Feature) => {
-    setDrawerState(DrawerState.Open);
-    setLegendOrDetails(LegendOrDetails.DETAILS);
+  const handleItemSelected = useCallback(
+    (feature: Feature) => {
+      setDrawerState(DrawerState.Open);
+      setLegendOrDetails(LegendOrDetails.DETAILS);
 
-    setSelectedItem(feature);
-  };
+      setSelectedItem(feature);
+    },
+    [setDrawerState, setSelectedItem, setLegendOrDetails],
+  );
 
-  useEffect(() => {
-    if (!legend) {
-      return;
-    }
-
-    setSelectedFilters(
-      Object.keys(legend)
-        .map((k) => legend[k])
-        .flat(),
-    );
-  }, [legend]);
+  const showLegend = useCallback(() => setLegendOrDetails(LegendOrDetails.LEGEND), [setLegendOrDetails]);
 
   const filteredMapData = useFilter(featureCollection || emptyFeatureCollection(), legend || {}, selectedFilters);
+
+  console.log('Render MapContainer');
 
   return (
     <StyledMap options={MAP_OPTIONS}>
@@ -125,7 +120,9 @@ const MapContainer: () => JSX.Element = () => {
         onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
       >
         <DrawerContentWrapper>
-          {legendOrDetails === LegendOrDetails.DETAILS && <DeviceDetails feature={selectedItem} />}
+          {legendOrDetails === LegendOrDetails.DETAILS && (
+            <DeviceDetails feature={selectedItem} showLegend={showLegend} />
+          )}
 
           {legendOrDetails === LegendOrDetails.LEGEND && (
             <MapLegend

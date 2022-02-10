@@ -20,24 +20,22 @@ function useFilter(
 
     const filterdFeatureCollection = emptyFeatureCollection();
 
+    // Given the total list of posible options (legend[LegendCategories['Sensor type']]) filter only those items which are selected.
+    const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) => selectedFilters.includes(type));
+
+    // Do the same for themes
+    const allowedThemes = legend[LegendCategories.Thema].filter((thema) => selectedFilters.includes(thema));
+
+    const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
+
+    const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
+
     filterdFeatureCollection.features = unFilteredResults?.features.filter((f) => {
-      // Given the total list of posible options (legend[LegendCategories['Sensor type']]) filter only those items which are selected.
-      const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) =>
-        selectedFilters.includes(type),
-      );
-
-      // Do the same for themes
-      const allowedThemes = legend[LegendCategories.Thema].filter((thema) => selectedFilters.includes(thema));
-
-      const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
-
-      const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
-
       return (
-        allowedSensorTypes.includes(f.properties?.sensorType) &&
+        sensoreTypeFilter(f, allowedSensorTypes) &&
         ownerFilter(f, owner) &&
         piFilter(f, pi) &&
-        f.properties?.themes.some((theme: string) => allowedThemes.includes(theme))
+        themeFilter(f, allowedThemes)
       );
     });
 
@@ -45,13 +43,29 @@ function useFilter(
   }, [unFilteredResults, legend, selectedFilters]);
 }
 
+const sensoreTypeFilter = (feature: Feature, typeFilter: string[]) => {
+  if (typeFilter.length === 0) {
+    return true;
+  }
+
+  return typeFilter.includes(feature.properties?.sensorType);
+};
+
+const themeFilter = (feature: Feature, themeFilter: string[]) => {
+  if (themeFilter.length === 0) {
+    return true;
+  }
+
+  return feature.properties?.themes.some((theme: string) => themeFilter.includes(theme));
+};
+
 const ownerFilter = (feature: Feature, ownerFilter: string[]) => {
   if (ownerFilter.length === 2) {
     return true;
   }
 
   if (ownerFilter.length === 0) {
-    return false;
+    return true;
   }
 
   return (
@@ -66,7 +80,7 @@ const piFilter = (feature: Feature, piFilter: string[]) => {
   }
 
   if (piFilter.length === 0) {
-    return false;
+    return true;
   }
 
   return (

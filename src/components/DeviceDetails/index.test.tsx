@@ -1,5 +1,4 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from '@amsterdam/asc-ui';
 
 import DeviceDetails, { Props } from '.';
@@ -16,21 +15,22 @@ describe('DeviceDetails', () => {
         legalGround: 'legalGround',
       },
     },
+    showLegend: () => {},
   };
   it('should render', () => {
-    const { queryByText, getByText } = render(
+    render(
       <ThemeProvider>
         <DeviceDetails {...props} />
       </ThemeProvider>,
     );
 
-    expect(queryByText(props.feature.properties.sensorType)).toBeInTheDocument();
-    expect(getByText('Privacyverklaring')).toHaveAttribute('href', props.feature.properties.privacy);
-    expect(queryByText(props.feature.properties.organisation)).toBeInTheDocument();
+    expect(screen.getByText(props.feature.properties.sensorType)).toBeInTheDocument();
+    expect(screen.getByText('Privacyverklaring')).toHaveAttribute('href', props.feature.properties.privacy);
+    expect(screen.getByText(props.feature.properties.organisation)).toBeInTheDocument();
 
-    expect(queryByText(props.feature.properties.contact.name)).toBeInTheDocument();
-    expect(queryByText(props.feature.properties.contact.email)).toBeInTheDocument();
+    expect(screen.getByText(props.feature.properties.contact.name)).toBeInTheDocument();
+    expect(screen.getByText(props.feature.properties.contact.email)).toBeInTheDocument();
 
-    expect(queryByText(props.feature.properties.legalGround)).toBeInTheDocument();
+    expect(screen.getByText(props.feature.properties.legalGround)).toBeInTheDocument();
   });
 });
