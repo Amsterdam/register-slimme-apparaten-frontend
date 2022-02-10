@@ -1,3 +1,4 @@
 # Maintainers
- - aditudorache
- - jasperswart
+
+- janthijs
+- jasperswart
