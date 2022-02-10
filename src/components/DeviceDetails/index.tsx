@@ -16,8 +16,17 @@ const InfoContainer = styled('div')`
   border-bottom: 2px solid ${themeColor('tint', 'level2')};
 `;
 
+const NoMarginH3 = styled.h3`
+  margin-top: 0px;
+`;
+
 const CloseButton = styled(Button)`
   min-width: inherit;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
 `;
 
 const DeviceDetails: React.FC<Props> = ({ feature, showLegend }) => {
@@ -30,17 +39,19 @@ const DeviceDetails: React.FC<Props> = ({ feature, showLegend }) => {
 
   return (
     <section id="device-details">
-      <CloseButton
-        type="button"
-        variant="blank"
-        title="Legenda"
-        data-testid="legenda"
-        iconSize={20}
-        onClick={showLegend}
-        iconLeft={<Close />}
-      />
+      <ButtonContainer>
+        <CloseButton
+          type="button"
+          variant="blank"
+          title="Legenda"
+          data-testid="legenda"
+          iconSize={20}
+          onClick={showLegend}
+          iconLeft={<Close />}
+        />
+      </ButtonContainer>
       <InfoContainer>
-        <h3>Verantwoordelijke voor de sensor</h3>
+        <NoMarginH3>Verantwoordelijke voor de sensor</NoMarginH3>
         <List variant="bullet">
           <ListItem>{contact?.name}</ListItem>
           <ListItem>{organisation}</ListItem>
