@@ -65,7 +65,7 @@ const LAYERS_CONFIG = [
   {
     url: 'https://maps.amsterdam.nl/open_geodata/geojson_lnglat.php?KAARTLAAG=CROWDSENSOREN&THEMA=cmsa',
     fetchService: readData,
-    name: 'WiFi sensor Crowd Management',
+    name: 'Sensoren Crowd Management',
     filter: (item) => ['Telcamera', 'Corona CMSA', '3D sensor'].includes(item.properties.Soort),
     transformer: (item) => ({
       type: 'Feature',
