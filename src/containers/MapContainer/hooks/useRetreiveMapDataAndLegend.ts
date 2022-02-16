@@ -3,7 +3,7 @@ import { FeatureCollection } from 'geojson';
 
 import layersReader from '../../../services/layer-aggregator/layersReader';
 import LAYERS_CONFIG from '../../../services/layer-aggregator/layersConfig';
-import { IntermediateLayer, LegendCategories, OwnerType, SortedResults } from '../../../utils/types';
+import { IntermediateLayer, LegendCategories, OwnerType, Sensor, SortedResults } from '../../../utils/types';
 
 export const emptyFeatureCollection = (): FeatureCollection => ({
   type: 'FeatureCollection',
@@ -83,10 +83,11 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
 type MapDataAndLegend = {
   legend: Record<string, string[]> | null;
   featureCollection: FeatureCollection | null;
+  sensors: Sensor[] | null;
 };
 
 function useRetrieveMapDataAndLegend(): MapDataAndLegend {
-  const [results, setResults] = useState<MapDataAndLegend>({ legend: null, featureCollection: null });
+  const [results, setResults] = useState<MapDataAndLegend>({ legend: null, featureCollection: null, sensors: null });
 
   useEffect(() => {
     (async () => {
@@ -112,21 +113,16 @@ function useRetrieveMapDataAndLegend(): MapDataAndLegend {
         };
       }, {});
 
-      /**
-       * Get an object with shape
-       * {
-       *    [subCategory]: FeatureCollection
-       * }
-       *
-       */
-
+      // Transform results into a feature collection.
       const featureCollection = emptyFeatureCollection();
       featureCollection.features = results
         .filter((r) => r.layer.features.length > 0)
         .map((r) => r.layer.features)
         .flat();
 
-      setResults({ legend, featureCollection });
+      const sensors = featureCollection.features.map((f) => new Sensor(f));
+
+      setResults({ legend, featureCollection, sensors });
     })();
   }, []);
 

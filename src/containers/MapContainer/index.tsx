@@ -89,7 +89,7 @@ const MapContainer: () => JSX.Element = () => {
   const [selectedItem, setSelectedItem] = useState<Feature | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const { legend, featureCollection } = useRetrieveMapDataAndLegend();
+  const { legend, sensors } = useRetrieveMapDataAndLegend();
 
   const handleItemSelected = useCallback(
     (feature: Feature) => {
@@ -103,9 +103,7 @@ const MapContainer: () => JSX.Element = () => {
 
   const showLegend = useCallback(() => setLegendOrDetails(LegendOrDetails.LEGEND), [setLegendOrDetails]);
 
-  const filteredMapData = useFilter(featureCollection || emptyFeatureCollection(), legend || {}, selectedFilters);
-
-  console.log('Render MapContainer');
+  const filteredMapData = useFilter(sensors || [], legend || {}, selectedFilters);
 
   return (
     <StyledMap options={MAP_OPTIONS}>

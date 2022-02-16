@@ -1,10 +1,12 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import { useMapInstance } from '@amsterdam/react-maps';
-import { Feature, FeatureCollection } from 'geojson';
+import React, { useMemo, useRef } from 'react';
+import { Feature } from 'geojson';
 import L, { DomEvent } from 'leaflet';
+import { useMapInstance } from '@amsterdam/react-maps';
+import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
+import { Sensor } from '../../utils/types';
 
 interface Props {
-  mapData: FeatureCollection | null;
+  mapData: Sensor[] | null;
   onItemSelected: (feature: Feature) => void;
 }
 
@@ -13,16 +15,15 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
   const markerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
 
-  console.log('PointClusterLayer render');
-
   useMemo(() => {
     if (!mapInstance || !mapData) return;
 
-    console.log('useMemo PointCluserLayer');
+    const fc = emptyFeatureCollection();
+    fc.features = mapData.map((s) => s.toFeature());
 
     activeLayer.current?.remove();
 
-    const layer = L.geoJSON(mapData, {
+    const layer = L.geoJSON(fc, {
       onEachFeature: (feature: Feature, layer: L.Layer) => {
         layer.on('click', (e) => {
           DomEvent.stopPropagation(e);
