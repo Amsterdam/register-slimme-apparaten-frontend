@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
 import { Feature } from 'geojson';
@@ -11,7 +11,7 @@ import DrawerOverlay, { DrawerState } from '../../components/DrawerOverlay/Drawe
 import LegendControl from '../../components/LegendControl/LegendControl';
 import MapLegend from '../../components/MapLegend';
 import DeviceDetails from '../../components/DeviceDetails';
-import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
+import useRetrieveMapDataAndLegend from './hooks/useRetreiveMapDataAndLegend';
 import useFilter from './hooks/useFilter';
 
 const MAP_OPTIONS: MapOptions = {

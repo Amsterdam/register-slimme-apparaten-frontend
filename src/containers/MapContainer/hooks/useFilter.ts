@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
-import { LegendCategories, Sensor, SensorFilter } from './../../../utils/types';
+import { Sensor } from '../../../classes/Sensor';
+import { SensorFilter } from '../../../classes/SensorFilter';
+import { LegendCategories } from './../../../utils/types';
 
 function useFilter(
   unFilteredResults: Sensor[],

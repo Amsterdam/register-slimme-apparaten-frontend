@@ -3,7 +3,8 @@ import { FeatureCollection } from 'geojson';
 
 import layersReader from '../../../services/layer-aggregator/layersReader';
 import LAYERS_CONFIG from '../../../services/layer-aggregator/layersConfig';
-import { IntermediateLayer, LegendCategories, OwnerType, Sensor, SortedResults } from '../../../utils/types';
+import { IntermediateLayer, LegendCategories, OwnerType, SortedResults } from '../../../utils/types';
+import { Sensor } from '../../../classes/Sensor';
 
 export const emptyFeatureCollection = (): FeatureCollection => ({
   type: 'FeatureCollection',

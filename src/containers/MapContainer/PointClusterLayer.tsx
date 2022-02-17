@@ -3,7 +3,7 @@ import { Feature } from 'geojson';
 import L, { DomEvent } from 'leaflet';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
-import { Sensor } from '../../utils/types';
+import { Sensor } from '../../classes/Sensor';
 
 interface Props {
   mapData: Sensor[] | null;

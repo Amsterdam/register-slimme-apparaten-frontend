@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Accordion, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
-import { LegendCategories, mapSensorTypeToColor, SensorFilter } from '../../utils/types';
+import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
+import { SensorFilter } from '../../classes/SensorFilter';
 
 const LegendSection = styled('section')`
   margin-bottom: ${themeSpacing(3)};
