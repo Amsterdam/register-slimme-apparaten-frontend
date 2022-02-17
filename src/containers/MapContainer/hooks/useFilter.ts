@@ -21,7 +21,7 @@ function useFilter(unFilteredResults: Sensor[], legend: Record<string, string[]>
 
     const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
 
-    const filter = new SensorFilter(unFilteredResults, allowedSensorTypes, allowedThemes, owner, pi).filter();
+    const filter = new SensorFilter(unFilteredResults, [], allowedSensorTypes, allowedThemes, owner, pi).filter();
 
     // const typeCounter = new SensorFilter(unFilteredResults, allowedSensorTypes, allowedThemes, owner, pi)
     //   .filterOwner()
