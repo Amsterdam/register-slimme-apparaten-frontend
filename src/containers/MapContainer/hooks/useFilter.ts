@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { LegendCategories, Sensor, SensorFilter } from './../../../utils/types';
 
-function useFilter(unFilteredResults: Sensor[], legend: Record<string, string[]>, selectedFilters: string[]): Sensor[] {
+function useFilter(
+  unFilteredResults: Sensor[],
+  legend: Record<string, string[]>,
+  selectedFilters: string[],
+): SensorFilter {
   return useMemo(() => {
-    if (!unFilteredResults) {
-      return unFilteredResults;
-    }
-
-    if (selectedFilters.length === 0 || !legend) {
-      return unFilteredResults;
+    if (!unFilteredResults || selectedFilters.length === 0 || !legend) {
+      return new SensorFilter(unFilteredResults);
     }
 
     // Given the total list of posible options (legend[LegendCategories['Sensor type']]) filter only those items which are selected.
@@ -21,19 +21,16 @@ function useFilter(unFilteredResults: Sensor[], legend: Record<string, string[]>
 
     const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
 
-    const filter = new SensorFilter(unFilteredResults, [], allowedSensorTypes, allowedThemes, owner, pi).filter();
+    const filter = new SensorFilter(
+      unFilteredResults,
+      unFilteredResults,
+      allowedSensorTypes,
+      allowedThemes,
+      owner,
+      pi,
+    ).filter();
 
-    // const typeCounter = new SensorFilter(unFilteredResults, allowedSensorTypes, allowedThemes, owner, pi)
-    //   .filterOwner()
-    //   .filterPi()
-    //   .filterTheme()
-    //   .countOtherSensorTypes();
-
-    // otherTypes.forEach((t) => {
-    //   console.log(`${t}: (${typeCounter.sensors.filter((s) => s.isSensorType(t)).length})`);
-    // });
-
-    return filter.sensors;
+    return filter;
   }, [unFilteredResults, legend, selectedFilters]);
 }
 

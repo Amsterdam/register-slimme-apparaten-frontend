@@ -145,7 +145,7 @@ export class Sensor {
   }
 }
 
-type CountType = { [key: string]: number } | null;
+type CountType = { [key: string]: number };
 export class SensorFilter {
   sensors: Sensor[];
   filteredSensors: Sensor[];
@@ -161,11 +161,11 @@ export class SensorFilter {
 
   constructor(
     sensors: Sensor[],
-    filteredSensors: Sensor[],
-    sensorTypeFilter: string[],
-    themeFilter: string[],
-    ownerFilter: string[],
-    piFilter: string[],
+    filteredSensors: Sensor[] = sensors,
+    sensorTypeFilter: string[] = [],
+    themeFilter: string[] = [],
+    ownerFilter: string[] = [],
+    piFilter: string[] = [],
   ) {
     this.sensors = sensors;
     this.filteredSensors = filteredSensors;
@@ -174,37 +174,10 @@ export class SensorFilter {
     this.ownerFilter = ownerFilter;
     this.piFilter = piFilter;
 
-    this.sensorTypeCount = sensors.reduce((prev: { [key: string]: number }, curr) => {
-      if (!prev[curr.sensorType]) {
-        prev[curr.sensorType] = 0;
-      }
-
-      prev[curr.sensorType] += 1;
-
-      return prev;
-    }, {});
-
-    this.themeCount = sensors.reduce((prev: { [key: string]: number }, sensor) => {
-      sensor.themes.forEach((t) => {
-        if (!prev[t]) {
-          prev[t] = 0;
-        }
-
-        prev[t] += 1;
-      });
-
-      return prev;
-    }, {});
-
-    this.piCount = {
-      [PiOptions.Ja]: sensors.filter((s) => s.isCollectingPiData()).length,
-      [PiOptions.Nee]: sensors.filter((s) => !s.isCollectingPiData()).length,
-    };
-
-    this.ownerCount = {
-      [OwnerType.Gemeente]: sensors.filter((s) => s.isOwnedByMunicipality()).length,
-      [OwnerType.Other]: sensors.filter((s) => !s.isOwnedByMunicipality()).length,
-    };
+    this.sensorTypeCount = this.countSensorTypes();
+    this.themeCount = this.countThemes();
+    this.piCount = this.countPi();
+    this.ownerCount = this.countOwner();
   }
 
   filterTheme() {
@@ -212,9 +185,7 @@ export class SensorFilter {
       return this;
     }
 
-    return this.filterdResult(
-      this.filteredSensors.filter((s) => this.themeFilter.some((t) => s.hasTheme(t))),
-    ).countSensorTypes();
+    return this.filterdResult(this.filteredSensors.filter((s) => this.themeFilter.some((t) => s.hasTheme(t))));
   }
 
   filterSensorType() {
@@ -236,7 +207,7 @@ export class SensorFilter {
           (this.ownerFilter[0] === OwnerType.Gemeente && s.isOwnedByMunicipality()) ||
           (this.ownerFilter[0] === OwnerType.Other && !s.isOwnedByMunicipality()),
       ),
-    ).countSensorTypes();
+    );
   }
 
   filterPi() {
@@ -250,60 +221,91 @@ export class SensorFilter {
           (this.piFilter[0] === PiOptions.Ja && s.isCollectingPiData()) ||
           (this.piFilter[0] === PiOptions.Nee && !s.isCollectingPiData()),
       ),
-    ).countSensorTypes();
+    );
   }
 
   filter() {
-    return this.filterOwner().filterPi().filterSensorType().filterTheme();
+    return this.filterSensorType().filterOwner().filterPi().filterTheme().count();
+  }
+
+  count() {
+    this.sensorTypeCount = this.freshInstance().filterOwner().filterPi().filterTheme().countSensorTypes();
+    this.ownerCount = this.freshInstance().filterSensorType().filterPi().filterTheme().countOwner();
+    this.piCount = this.freshInstance().filterOwner().filterSensorType().filterTheme().countPi();
+    this.themeCount = this.freshInstance().filterSensorType().filterPi().filterOwner().countThemes();
+
+    return this;
   }
 
   countSensorTypes() {
     const otherTypes = Object.values(SensorTypes).filter((t) => !this.sensorTypeFilter.includes(t));
 
-    this.sensorTypeCount = otherTypes.reduce((prev: { [key: string]: number }, type) => {
-      prev[type] = this.sensors.filter((s) => s.isSensorType(type)).length;
+    const sensorTypeCount = otherTypes.reduce((prev: { [key: string]: number }, type) => {
+      prev[type] = this.filteredSensors.filter((s) => s.isSensorType(type)).length;
 
       return prev;
     }, {});
 
-    console.log(this.sensorTypeCount);
-
-    return this;
+    return sensorTypeCount;
   }
 
   countThemes() {
     const themes = uniq(this.sensors.map((s) => s.themes).flat());
-    const otherThemes = console.log(this.themeCount);
+    const otherThemes = themes.filter((t) => !this.themeFilter.includes(t));
 
-    return this;
+    const themeCount = otherThemes.reduce((prev: { [key: string]: number }, theme) => {
+      prev[theme] = this.filteredSensors.filter((s) => s.hasTheme(theme)).length;
+
+      return prev;
+    }, {});
+
+    return themeCount;
   }
 
   countPi() {
-    this.piCount = {
-      [PiOptions.Ja]: this.sensors.filter((s) => s.isCollectingPiData()).length,
-      [PiOptions.Nee]: this.sensors.filter((s) => !s.isCollectingPiData()).length,
+    const piCount = {
+      [PiOptions.Ja]: this.filteredSensors.filter((s) => s.isCollectingPiData()).length,
+      [PiOptions.Nee]: this.filteredSensors.filter((s) => !s.isCollectingPiData()).length,
     };
 
-    console.log(this.piCount);
-
-    return this;
+    return piCount;
   }
 
   countOwner() {
-    this.ownerCount = {
-      [OwnerType.Gemeente]: this.sensors.filter((s) => s.isOwnedByMunicipality()).length,
-      [OwnerType.Other]: this.sensors.filter((s) => !s.isOwnedByMunicipality()).length,
+    const ownerCount = {
+      [OwnerType.Gemeente]: this.filteredSensors.filter((s) => s.isOwnedByMunicipality()).length,
+      [OwnerType.Other]: this.filteredSensors.filter((s) => !s.isOwnedByMunicipality()).length,
     };
 
-    console.log(this.ownerCount);
-
-    return this;
+    return ownerCount;
   }
 
+  /**
+   * Create a new instance using the filtered list of sensors.
+   *
+   * @param sensors A list of (filtered) sensors
+   * @returns A new instance of this class with the passed array of sensors plugged as the filtered sensors
+   */
   filterdResult(sensors: Sensor[]) {
     return new SensorFilter(
       this.sensors,
       sensors,
+      this.sensorTypeFilter,
+      this.themeFilter,
+      this.ownerFilter,
+      this.piFilter,
+    );
+  }
+
+  /**
+   * Create a fresh instance of this class with with no filters applied.
+   *
+   * @returns A new instance with no filters applied.
+   */
+  freshInstance() {
+    return new SensorFilter(
+      this.sensors,
+      this.sensors,
       this.sensorTypeFilter,
       this.themeFilter,
       this.ownerFilter,

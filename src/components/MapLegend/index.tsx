@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Accordion, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
-import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
+import { LegendCategories, mapSensorTypeToColor, SensorFilter } from '../../utils/types';
 
 const LegendSection = styled('section')`
   margin-bottom: ${themeSpacing(3)};
@@ -11,6 +11,7 @@ export interface Props {
   legend: Record<string, string[]> | null;
   selectedItems: string[] | null;
   onToggleCategory: (name: string) => void;
+  filter: SensorFilter;
 }
 
 const Circle = ({ color }: { color: string }) => {
@@ -37,7 +38,13 @@ const LegendText = styled.span`
   align-items: center;
 `;
 
-const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory }) => {
+const mapLegendToProperties = {
+  [LegendCategories.Thema]: 'themeCount',
+  [LegendCategories['Verwerkt persoonsgegevens']]: 'piCount',
+  [LegendCategories.Eigenaar]: 'ownerCount',
+};
+
+const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, filter }) => {
   const otherCategories =
     (legend && Object.keys(legend).filter((category) => category !== LegendCategories['Sensor type'])) || [];
 
@@ -48,15 +55,20 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory })
       {legend && (
         <LegendSection>
           <Accordion id={LegendCategories['Sensor type']} title={LegendCategories['Sensor type']} isOpen>
-            {legend[LegendCategories['Sensor type']].map((item: string) => (
-              <LegendItem key={item}>
-                <Checkbox checked={selectedItems?.includes(item)} onChange={() => onToggleCategory(item)} />
+            {legend[LegendCategories['Sensor type']].map((item: string) => {
+              const selected = selectedItems?.includes(item);
 
-                <LegendText>
-                  <Circle color={mapSensorTypeToColor[item]} /> {item}
-                </LegendText>
-              </LegendItem>
-            ))}
+              return (
+                <LegendItem key={item}>
+                  <Checkbox checked={selected} onChange={() => onToggleCategory(item)} />
+
+                  <LegendText>
+                    <Circle color={mapSensorTypeToColor[item]} />{' '}
+                    {`${item} ${!selected ? `(${filter.sensorTypeCount[item] || 0})` : ''}`}
+                  </LegendText>
+                </LegendItem>
+              );
+            })}
           </Accordion>
         </LegendSection>
       )}
@@ -65,13 +77,19 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory })
         otherCategories.map((categoryName) => (
           <LegendSection key={categoryName}>
             <Accordion id={categoryName} title={categoryName} isOpen>
-              {legend[categoryName].map((item) => (
-                <div key={item}>
-                  <Checkbox checked={selectedItems?.includes(item)} onChange={() => onToggleCategory(item)} />
+              {legend[categoryName].map((item) => {
+                const selected = selectedItems?.includes(item);
 
-                  <span>{item}</span>
-                </div>
-              ))}
+                return (
+                  <div key={item}>
+                    <Checkbox checked={selected} onChange={() => onToggleCategory(item)} />
+                    <span>{`${item} ${
+                      /* @ts-ignore */
+                      !selected ? `(${filter[mapLegendToProperties[categoryName]][item]})` : ''
+                    }`}</span>
+                  </div>
+                );
+              })}
             </Accordion>
           </LegendSection>
         ))}

@@ -103,13 +103,13 @@ const MapContainer: () => JSX.Element = () => {
 
   const showLegend = useCallback(() => setLegendOrDetails(LegendOrDetails.LEGEND), [setLegendOrDetails]);
 
-  const filteredMapData = useFilter(sensors || [], legend || {}, selectedFilters);
+  const filter = useFilter(sensors || [], legend || {}, selectedFilters);
 
   return (
     <StyledMap options={MAP_OPTIONS}>
       <StyledViewerContainer bottomRight={<Zoom />} />
 
-      <PointClusterLayer mapData={filteredMapData} onItemSelected={handleItemSelected} />
+      <PointClusterLayer mapData={filter.filteredSensors} onItemSelected={handleItemSelected} />
 
       <DrawerOverlay
         onStateChange={setDrawerState}
@@ -126,6 +126,7 @@ const MapContainer: () => JSX.Element = () => {
             <MapLegend
               legend={legend}
               selectedItems={selectedFilters}
+              filter={filter}
               onToggleCategory={(category) => {
                 if (selectedFilters.includes(category)) {
                   return setSelectedFilters(selectedFilters.filter((l) => l !== category));
