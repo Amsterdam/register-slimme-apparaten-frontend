@@ -71,5 +71,19 @@ describe('SensorenFilter', () => {
         sensorList.filter((s) => s.hasTheme('Veiligheid: gezondheid')),
       );
     });
+
+    it('should give the right results when combining filters', () => {
+      const filter = new SensorFilter(sensorList, sensorList, [SensorTypes.Optische], [], [], [PiOptions.Ja]);
+
+      expect(filter.filter().filteredSensors).toEqual(
+        sensorList.filter((s) => s.isSensorType(SensorTypes.Optische) && s.isCollectingPiData()),
+      );
+
+      const otherFilter = new SensorFilter(sensorList, sensorList, [], ['Veiligheid: gezondheid'], [], [PiOptions.Nee]);
+
+      expect(otherFilter.filter().filteredSensors).toEqual(
+        sensorList.filter((s) => s.hasTheme('Veiligheid: gezondheid') && !s.isCollectingPiData()),
+      );
+    });
   });
 });
