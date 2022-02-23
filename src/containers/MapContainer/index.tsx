@@ -105,8 +105,6 @@ const MapContainer: () => JSX.Element = () => {
 
   const filter = useFilter(sensors || [], legend || {}, selectedFilters);
 
-  console.log(JSON.stringify(legend));
-
   return (
     <StyledMap options={MAP_OPTIONS}>
       <StyledViewerContainer bottomRight={<Zoom />} />
@@ -130,6 +128,15 @@ const MapContainer: () => JSX.Element = () => {
               selectedItems={selectedFilters}
               filter={filter}
               onToggleCategory={(category) => {
+                if (Array.isArray(category)) {
+                  let newFilters = selectedFilters;
+                  category.forEach((c) => {
+                    newFilters = newFilters.filter((f) => f !== c);
+                  });
+
+                  return setSelectedFilters(newFilters);
+                }
+
                 if (selectedFilters.includes(category)) {
                   return setSelectedFilters(selectedFilters.filter((l) => l !== category));
                 }

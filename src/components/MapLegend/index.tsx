@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Accordion, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
+import { Accordion, Button, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
 import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
 import { SensorFilter } from '../../classes/SensorFilter';
 
@@ -11,7 +11,7 @@ const LegendSection = styled('section')`
 export interface Props {
   legend: Record<string, string[]> | null;
   selectedItems: string[] | null;
-  onToggleCategory: (name: string) => void;
+  onToggleCategory: (name: string | string[]) => void;
   filter: SensorFilter;
 }
 
@@ -39,6 +39,10 @@ const LegendText = styled.span`
   align-items: center;
 `;
 
+const ToggleButton = styled(Button)`
+  margin-bottom: ${themeSpacing(4)};
+`;
+
 const mapLegendToProperties = {
   [LegendCategories.Thema]: 'themeCount',
   [LegendCategories['Verwerkt persoonsgegevens']]: 'piCount',
@@ -52,6 +56,16 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
   return (
     <>
       <h2>Legenda</h2>
+      <ToggleButton
+        variant="textButton"
+        onClick={() => {
+          if (selectedItems) {
+            onToggleCategory(selectedItems);
+          }
+        }}
+      >
+        Reset alle filters
+      </ToggleButton>
       {/* Because of the color legend we map sensor types seperatly */}
       {legend && (
         <LegendSection>
