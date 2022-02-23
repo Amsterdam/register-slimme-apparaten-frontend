@@ -1,0 +1,306 @@
+[
+  {
+    "sensorType": "Optische / camera sensor",
+    "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+    "organisation": "Ekodis natuurmarkt",
+    "containsPiData": true,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.918636621413656, 52.35667668983825] },
+      "properties": {
+        "privacy": null,
+        "contact": { "name": "Maarten van Riel", "email": "maarten@ekodis.nl", "organisation": "Ekodis natuurmarkt" },
+        "color": "#01A03C",
+        "containsPiData": true,
+        "organisation": "Ekodis natuurmarkt",
+        "sensorType": "Optische / camera sensor",
+        "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+        "longitude": 4.918636621413656,
+        "latitude": 52.35667668983825,
+        "activeUntil": "01-01-2032",
+        "goal": "Beveiliging",
+        "legalGround": null,
+        "originalData": {
+          "owner": { "name": "Maarten van Riel", "email": "maarten@ekodis.nl", "organisation": "Ekodis natuurmarkt" },
+          "type": "Optische / camera sensor",
+          "regions": [],
+          "location": { "latitude": 52.35667668983825, "longitude": 4.918636621413656 },
+          "location_description": null,
+          "datastream": "Camera",
+          "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+          "contains_pi_data": true,
+          "observation_goal": "Beveiliging",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "2032-01-01",
+          "reference": "8151-9408.0"
+        },
+        "reference": "8151-9408.0"
+      }
+    }
+  },
+  {
+    "sensorType": "Optische / camera sensor",
+    "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+    "organisation": "El Punto Latino",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.884425783049923, 52.3641713674388] },
+      "properties": {
+        "privacy": null,
+        "contact": { "name": "A. Eldawoudy", "email": "algemeenEPL@outlook.com", "organisation": "El Punto Latino" },
+        "color": "#01A03C",
+        "containsPiData": false,
+        "organisation": "El Punto Latino",
+        "sensorType": "Optische / camera sensor",
+        "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+        "longitude": 4.884425783049923,
+        "latitude": 52.3641713674388,
+        "activeUntil": "31-12-3000",
+        "goal": "Verplicht i.v.m. veiligheidsrapport, onderdeel van de exploitatievergunning",
+        "legalGround": null,
+        "originalData": {
+          "owner": { "name": "A. Eldawoudy", "email": "algemeenEPL@outlook.com", "organisation": "El Punto Latino" },
+          "type": "Optische / camera sensor",
+          "regions": [],
+          "location": { "latitude": 52.3641713674388, "longitude": 4.884425783049923 },
+          "location_description": null,
+          "datastream": "Bezoekers monitoren op verzoek van de gemeente en politie: de entree + stukje straat voor de discotheek",
+          "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+          "contains_pi_data": false,
+          "observation_goal": "Verplicht i.v.m. veiligheidsrapport, onderdeel van de exploitatievergunning",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "3000-12-31",
+          "reference": "0674-2325.0"
+        },
+        "reference": "0674-2325.0"
+      }
+    }
+  },
+  {
+    "sensorType": "Optische / camera sensor",
+    "themes": ["Veiligheid: gezondheid"],
+    "organisation": "cv Bourbonstreet Jazz-Blues Discotheek",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.885351323213037, 52.36384728724604] },
+      "properties": {
+        "privacy": null,
+        "contact": {
+          "name": "HF Hendriks",
+          "email": "hfhendriksutrecht@gmail.com",
+          "organisation": "cv Bourbonstreet Jazz-Blues Discotheek"
+        },
+        "color": "#01A03C",
+        "containsPiData": false,
+        "organisation": "cv Bourbonstreet Jazz-Blues Discotheek",
+        "sensorType": "Optische / camera sensor",
+        "themes": ["Veiligheid: gezondheid"],
+        "longitude": 4.885351323213037,
+        "latitude": 52.36384728724604,
+        "activeUntil": "31-12-2022",
+        "goal": "Veiligheid",
+        "legalGround": null,
+        "originalData": {
+          "owner": {
+            "name": "HF Hendriks",
+            "email": "hfhendriksutrecht@gmail.com",
+            "organisation": "cv Bourbonstreet Jazz-Blues Discotheek"
+          },
+          "type": "Optische / camera sensor",
+          "regions": [],
+          "location": { "latitude": 52.36384728724604, "longitude": 4.885351323213037 },
+          "location_description": null,
+          "datastream": "Registreert de entree",
+          "themes": ["Veiligheid: gezondheid"],
+          "contains_pi_data": false,
+          "observation_goal": "Veiligheid",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "2022-12-31",
+          "reference": "1615-3000.0"
+        },
+        "reference": "1615-3000.0"
+      }
+    }
+  },
+  {
+    "sensorType": "Optische / camera sensor",
+    "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+    "organisation": "T&A Survey",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.852762026884379, 52.39766025543006] },
+      "properties": {
+        "privacy": null,
+        "contact": { "name": "Harmen Molenaar", "email": "molenaar@ta-survey.nl", "organisation": "T&A Survey" },
+        "color": "#01A03C",
+        "containsPiData": false,
+        "organisation": "T&A Survey",
+        "sensorType": "Optische / camera sensor",
+        "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+        "longitude": 4.852762026884379,
+        "latitude": 52.39766025543006,
+        "activeUntil": "31-12-2041",
+        "goal": "Beveiliging",
+        "legalGround": null,
+        "originalData": {
+          "owner": { "name": "Harmen Molenaar", "email": "molenaar@ta-survey.nl", "organisation": "T&A Survey" },
+          "type": "Optische / camera sensor",
+          "regions": [],
+          "location": { "latitude": 52.39766025543006, "longitude": 4.852762026884379 },
+          "location_description": null,
+          "datastream": "Licht",
+          "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+          "contains_pi_data": false,
+          "observation_goal": "Beveiliging",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "2041-12-31",
+          "reference": "5720-2759.0"
+        },
+        "reference": "5720-2759.0"
+      }
+    }
+  },
+  {
+    "sensorType": "Optische / camera sensor",
+    "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+    "organisation": "Het Feest van Ome Jan!",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.886419224449684, 52.36158690112193] },
+      "properties": {
+        "privacy": null,
+        "contact": {
+          "name": "Gijs Spierenburg",
+          "email": "info@hetfeestvanomejan.nl",
+          "organisation": "Het Feest van Ome Jan!"
+        },
+        "color": "#01A03C",
+        "containsPiData": false,
+        "organisation": "Het Feest van Ome Jan!",
+        "sensorType": "Optische / camera sensor",
+        "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+        "longitude": 4.886419224449684,
+        "latitude": 52.36158690112193,
+        "activeUntil": "31-12-2026",
+        "goal": "Hoe druk het is voor ons feest café",
+        "legalGround": null,
+        "originalData": {
+          "owner": {
+            "name": "Gijs Spierenburg",
+            "email": "info@hetfeestvanomejan.nl",
+            "organisation": "Het Feest van Ome Jan!"
+          },
+          "type": "Optische / camera sensor",
+          "regions": [],
+          "location": { "latitude": 52.36158690112193, "longitude": 4.886419224449684 },
+          "location_description": null,
+          "datastream": "Mensen",
+          "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+          "contains_pi_data": false,
+          "observation_goal": "Hoe druk het is voor ons feest café",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "2026-12-31",
+          "reference": "3569-5624.0"
+        },
+        "reference": "3569-5624.0"
+      }
+    }
+  },
+  {
+    "sensorType": "Optische / camera sensor",
+    "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+    "organisation": "Le Pub Leidseplein BV",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.882890739197458, 52.36461876373057] },
+      "properties": {
+        "privacy": null,
+        "contact": {
+          "name": "Todd De Romph",
+          "email": "kantoor@leidseplein2468.com",
+          "organisation": "Le Pub Leidseplein BV"
+        },
+        "color": "#01A03C",
+        "containsPiData": false,
+        "organisation": "Le Pub Leidseplein BV",
+        "sensorType": "Optische / camera sensor",
+        "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+        "longitude": 4.882890739197458,
+        "latitude": 52.36461876373057,
+        "activeUntil": "01-01-2100",
+        "goal": "Veiligheid",
+        "legalGround": null,
+        "originalData": {
+          "owner": {
+            "name": "Todd De Romph",
+            "email": "kantoor@leidseplein2468.com",
+            "organisation": "Le Pub Leidseplein BV"
+          },
+          "type": "Optische / camera sensor",
+          "regions": [],
+          "location": { "latitude": 52.36461876373057, "longitude": 4.882890739197458 },
+          "location_description": null,
+          "datastream": "Terras voor de deur",
+          "themes": ["Veiligheid: bewakings- en/of beveiligingscamera"],
+          "contains_pi_data": false,
+          "observation_goal": "Veiligheid",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "2100-01-01",
+          "reference": "0121-3691.0"
+        },
+        "reference": "0121-3691.0"
+      }
+    }
+  },
+  {
+    "sensorType": "Positie- of verplaatsingsensor",
+    "themes": ["Overig"],
+    "organisation": "Floepp B.V.",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.924565926914568, 52.36804250004109] },
+      "properties": {
+        "privacy": null,
+        "contact": { "name": "Jurriaan Vollebregt", "email": "jhbvollebregt@floepp.nl", "organisation": "Floepp B.V." },
+        "color": "#E50081",
+        "containsPiData": false,
+        "organisation": "Floepp B.V.",
+        "sensorType": "Positie- of verplaatsingsensor",
+        "themes": ["Overig"],
+        "longitude": 4.924565926914568,
+        "latitude": 52.36804250004109,
+        "activeUntil": "01-12-2026",
+        "goal": "Om verzakking van het gebouw te meten",
+        "legalGround": null,
+        "originalData": {
+          "owner": { "name": "Jurriaan Vollebregt", "email": "jhbvollebregt@floepp.nl", "organisation": "Floepp B.V." },
+          "type": "Positie- of verplaatsingsensor",
+          "regions": [],
+          "location": { "latitude": 52.36804250004109, "longitude": 4.924565926914568 },
+          "location_description": null,
+          "datastream": "Hoekverschuiving van de voorgevel van het werkspoormuseum",
+          "themes": ["Overig"],
+          "contains_pi_data": false,
+          "observation_goal": "Om verzakking van het gebouw te meten",
+          "legal_ground": null,
+          "privacy_declaration": null,
+          "active_until": "2026-12-01",
+          "reference": "6197-3413.0"
+        },
+        "reference": "6197-3413.0"
+      }
+    }
+  }
+]

@@ -25,7 +25,7 @@ export class SensorFilter {
     ownerFilter: string[] = [],
     piFilter: string[] = [],
   ) {
-    this.sensors = sensors;
+    this.sensors = [...sensors];
     this.filteredSensors = filteredSensors;
     this.sensorTypeFilter = sensorTypeFilter;
     this.themeFilter = themeFilter;

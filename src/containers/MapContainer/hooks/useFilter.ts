@@ -32,6 +32,8 @@ function useFilter(
       pi,
     ).filter();
 
+    console.log(JSON.stringify(filter.filteredSensors));
+
     return filter;
   }, [unFilteredResults, legend, selectedFilters]);
 }
