@@ -37,8 +37,6 @@ describe('SensorenFilter', () => {
 
       expect(filter.filter().filteredSensors).toEqual(sensorList.filter((s) => s.isCollectingPiData()));
 
-      expect(sensorList.length).toEqual(7);
-
       const otherFilter = new SensorFilter(sensorList, sensorList, [], [], [], [PiOptions.Nee]);
 
       expect(otherFilter.filter().filteredSensors).toEqual(sensorList.filter((s) => !s.isCollectingPiData()));
@@ -48,8 +46,6 @@ describe('SensorenFilter', () => {
       const filter = new SensorFilter(sensorList, sensorList, [], [], [OwnerType.Gemeente]);
 
       expect(filter.filter().filteredSensors).toEqual(sensorList.filter((s) => s.isOwnedByMunicipality()));
-
-      expect(sensorList.length).toEqual(7);
 
       const otherFilter = new SensorFilter(sensorList, sensorList, [], [], [OwnerType.Other]);
 
@@ -62,8 +58,6 @@ describe('SensorenFilter', () => {
       expect(filter.filter().filteredSensors).toEqual(
         sensorList.filter((s) => s.hasTheme('Veiligheid: bewakings- en/of beveiligingscamera')),
       );
-
-      expect(sensorList.length).toEqual(7);
 
       const otherFilter = new SensorFilter(sensorList, sensorList, [], ['Veiligheid: gezondheid'], [], []);
 

@@ -302,5 +302,59 @@
         "reference": "6197-3413.0"
       }
     }
+  },
+  {
+    "sensorType": "Geluidsensor",
+    "themes": ["Mobiliteit: railverkeer", "Mobiliteit: auto", "Mobiliteit: fiets", "Mobiliteit: voetganger"],
+    "organisation": "Gemeente Amsterdam",
+    "containsPiData": false,
+    "feature": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [4.909758, 52.358226]
+      },
+      "properties": {
+        "privacy": "nee",
+        "contact": {
+          "name": "verkeers onderzoek",
+          "email": "verkeersonderzoek@amsterdam.nl",
+          "organisation": "Gemeente Amsterdam"
+        },
+        "color": "#E50081",
+        "containsPiData": false,
+        "organisation": "Gemeente Amsterdam",
+        "sensorType": "Geluidsensor",
+        "themes": ["Mobiliteit: railverkeer", "Mobiliteit: auto", "Mobiliteit: fiets", "Mobiliteit: voetganger"],
+        "longitude": 4.909758,
+        "latitude": 52.358226,
+        "activeUntil": "01-01-2050",
+        "goal": "verkeersonderzoek",
+        "legalGround": null,
+        "originalData": {
+          "owner": {
+            "name": "verkeers onderzoek",
+            "email": "verkeersonderzoek@amsterdam.nl",
+            "organisation": "Gemeente Amsterdam"
+          },
+          "type": "Geluidsensor",
+          "regions": [],
+          "location": {
+            "latitude": 52.358226,
+            "longitude": 4.909758
+          },
+          "location_description": null,
+          "datastream": "aantallen voertuigen per categorie, snelheid",
+          "themes": ["Mobiliteit: railverkeer", "Mobiliteit: auto", "Mobiliteit: fiets", "Mobiliteit: voetganger"],
+          "contains_pi_data": false,
+          "observation_goal": "verkeersonderzoek",
+          "legal_ground": null,
+          "privacy_declaration": "nee",
+          "active_until": "2050-01-01",
+          "reference": "AMSTD002"
+        },
+        "reference": "AMSTD002"
+      }
+    }
   }
 ]
