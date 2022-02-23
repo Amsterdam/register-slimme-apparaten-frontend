@@ -1,6 +1,6 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 import APP_ROUTES from '../../services/appRoutes';
+import withContainer from '../withContainer';
 
 import './style.scss';
 
@@ -18,4 +18,4 @@ const About = () => (
   </div>
 );
 
-export default About;
+export default withContainer(About);

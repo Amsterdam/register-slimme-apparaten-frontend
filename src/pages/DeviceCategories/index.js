@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { categories } from '../../shared/configuration/categories';
+import withContainer from '../withContainer';
 
 import './style.scss';
 
@@ -70,4 +69,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default withContainer(Categories);
