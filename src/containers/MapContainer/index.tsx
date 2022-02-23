@@ -105,6 +105,8 @@ const MapContainer: () => JSX.Element = () => {
 
   const filter = useFilter(sensors || [], legend || {}, selectedFilters);
 
+  console.log(JSON.stringify(legend));
+
   return (
     <StyledMap options={MAP_OPTIONS}>
       <StyledViewerContainer bottomRight={<Zoom />} />

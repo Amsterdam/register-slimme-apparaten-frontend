@@ -22,6 +22,11 @@ const NoMarginH3 = styled.h3`
 
 const CloseButton = styled(Button)`
   min-width: inherit;
+  margin-right: -16px;
+
+  > span {
+    margin-right: 0;
+  }
 `;
 
 const ButtonContainer = styled.div`
