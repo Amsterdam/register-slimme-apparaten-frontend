@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Accordion, Button, Checkbox, themeSpacing } from '@amsterdam/asc-ui';
+import { Accordion, Button, Checkbox, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
 import { SensorFilter } from '../../classes/SensorFilter';
 
@@ -41,7 +41,7 @@ interface LegendTextProps {
 const LegendText = styled.span<LegendTextProps>`
   display: flex;
   align-items: center;
-  color: ${(props) => (props.noResults ? 'grey' : 'black')};
+  color: ${(props) => (props.noResults ? themeColor('tint', 'level4') : themeColor('tint', 'level7'))};
 `;
 
 const ToggleButton = styled(Button)`
