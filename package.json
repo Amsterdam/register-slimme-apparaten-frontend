@@ -63,7 +63,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "prettier": "^2.3.2",
     "prettier-eslint": "^13.0.0",
-    "sass": "^1.49.4"
+    "sass": "^1.49.9"
   },
   "browserslist": {
     "production": [
