@@ -109,9 +109,8 @@ export class SensorFilter {
 
   countThemes() {
     const themes = uniq(this.sensors.map((s) => s.themes).flat());
-    const otherThemes = themes.filter((t) => !this.themeFilter.includes(t));
 
-    const themeCount = otherThemes.reduce((prev: { [key: string]: number }, theme) => {
+    const themeCount = themes.reduce((prev: { [key: string]: number }, theme) => {
       prev[theme] = this.filteredSensors.filter((s) => s.hasTheme(theme)).length;
 
       return prev;
