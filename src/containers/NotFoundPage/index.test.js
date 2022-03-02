@@ -1,8 +1,6 @@
 /**
  * Testing the NotFoundPage
  */
-// eslint-disable-next-line jest/no-mocks-import
-import '../../__mocks__/matchMedia';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { ThemeProvider } from '@amsterdam/asc-ui';

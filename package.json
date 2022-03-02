@@ -32,6 +32,7 @@
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "minimist": "1.2.5",
+    "nock": "^13.2.4",
     "proj4": "^2.7.5",
     "proj4leaflet": "^1.0.2",
     "prop-types": "^15.7.2",

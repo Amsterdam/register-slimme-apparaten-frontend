@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Header, MenuItem, MenuButton, themeSpacing, breakpoint, themeColor } from '@amsterdam/asc-ui';
@@ -25,7 +24,7 @@ export const HeaderContainer = () => (
       homeLink="/"
       fullWidth
       navigation={
-        <Fragment>
+        <>
           <MenuItem>
             <MenuButton forwardedAs={Link} to={APP_ROUTES.HOME}>
               Kaart
@@ -46,7 +45,7 @@ export const HeaderContainer = () => (
               Over dit register
             </MenuButton>
           </MenuItem>
-        </Fragment>
+        </>
       }
     ></Header>
   </HeaderWrapper>
