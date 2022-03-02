@@ -1,6 +1,7 @@
 import { MemoryRouter } from 'react-router-dom';
 import nock from 'nock';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from '@amsterdam/asc-ui';
 import SensorenRegister from './containers/App/index';
 import sensors from './classes/__mockData__/sensors.json';
@@ -69,7 +70,22 @@ describe('SensorenRegister', () => {
 
       await screen.findByText('Sensortype');
       expect(screen.getByText('Eigenaar')).toBeInTheDocument();
+
       expect(screen.getByText('Gemeente Amsterdam (1)')).toBeInTheDocument();
+      expect(screen.getByText('Andere (7)')).toBeInTheDocument();
+      expect(screen.getByText('Veiligheid: bewakings- en/of beveiligingscamera (5)')).toBeInTheDocument();
+    });
+
+    it('should filter results when selecting a filter', async () => {
+      render(<TestRegister />);
+
+      await screen.findByText('Sensortype');
+
+      expect(screen.getByText('Positie- of verplaatsingsensor (1)')).toBeInTheDocument();
+
+      userEvent.click(screen.getByText('Gemeente Amsterdam (1)'));
+
+      await screen.findByText('Positie- of verplaatsingsensor (0)');
     });
   });
 });

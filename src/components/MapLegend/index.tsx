@@ -29,7 +29,7 @@ const Circle = ({ color }: { color: string }) => {
   );
 };
 
-const LegendItem = styled.div`
+const LegendItem = styled.label`
   display: flex;
   align-items: center;
 `;
@@ -68,8 +68,13 @@ const LegendOption = ({
   onToggleCategory: (option: string) => void;
 }) => {
   return (
-    <LegendItem>
-      <Checkbox checked={selected} onChange={() => onToggleCategory(text)} disabled={resultCount === 0} />
+    <LegendItem htmlFor={text}>
+      <Checkbox
+        id={text}
+        checked={selected}
+        onChange={() => onToggleCategory(text)}
+        disabled={resultCount === 0 && !selected}
+      />
       <LegendText noResults={resultCount === 0}>
         {children}
         {`${text} ${!selected ? `(${resultCount})` : ''}`}
