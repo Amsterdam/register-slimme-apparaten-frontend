@@ -86,6 +86,9 @@ describe('SensorenRegister', () => {
       userEvent.click(screen.getByText('Gemeente Amsterdam (1)'));
 
       await screen.findByText('Positie- of verplaatsingsensor (0)');
+
+      expect(screen.getByText('Mobiliteit: railverkeer (1)')).toBeInTheDocument();
+      expect(screen.getByText('Mobiliteit: fiets (1)')).toBeInTheDocument();
     });
   });
 });
