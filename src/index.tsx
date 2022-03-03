@@ -7,8 +7,6 @@
 
 import 'regenerator-runtime/runtime';
 
-// Import all the third party stuff
-import React from 'react';
 import ReactDOM from 'react-dom';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
