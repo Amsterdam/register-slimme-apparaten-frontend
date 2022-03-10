@@ -100,6 +100,9 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
       >
         Reset alle filters
       </ToggleButton>
+
+      <p className="sr-result-count">{filter.sensors.length} resultaten</p>
+
       {/* Because of the color legend we map sensor types seperatly */}
       {legend && (
         <LegendSection>
