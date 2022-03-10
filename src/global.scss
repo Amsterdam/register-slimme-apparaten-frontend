@@ -95,3 +95,15 @@ main {
     page-break-after: always;
   }
 }
+
+.sr-grouped-marker {
+  width: 16px;
+  height: 16px;
+
+  span {
+    position: absolute;
+    left: 8px;
+    top: 2px;
+    color: white;
+  }
+}

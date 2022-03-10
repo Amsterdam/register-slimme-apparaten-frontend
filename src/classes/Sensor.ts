@@ -1,4 +1,4 @@
-import { Feature } from 'geojson';
+import { Feature, GeoJsonProperties, Point } from 'geojson';
 import { OwnerType, PiOptions } from '../utils/types';
 
 export class Sensor {
@@ -6,9 +6,9 @@ export class Sensor {
   themes: string[];
   organisation: string;
   containsPiData: PiOptions;
-  feature: Feature;
+  feature: Feature<Point, GeoJsonProperties>;
 
-  constructor(feature: Feature) {
+  constructor(feature: Feature<Point, GeoJsonProperties>) {
     this.feature = feature;
     this.sensorType = feature.properties?.sensorType;
     this.themes = feature.properties?.themes;

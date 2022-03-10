@@ -30,6 +30,7 @@
     "@datapunt/matomo-tracker-js": "0.5.1",
     "axios": "^0.26.0",
     "leaflet": "^1.7.1",
+    "leaflet.markercluster": "^1.5.3",
     "lodash": "^4.17.21",
     "minimist": "1.2.5",
     "nock": "^13.2.4",

@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@amsterdam/asc-ui';
 import { render, screen } from '@testing-library/react';
-import { Feature } from 'geojson';
+import { Feature, GeoJsonProperties, Point } from 'geojson';
 import MapLegend from '.';
 import { Sensor } from '../../classes/Sensor';
 import { SensorFilter } from '../../classes/SensorFilter';
@@ -9,7 +9,7 @@ import sensors from '../../classes/__mockData__/sensors.json';
 describe('MapLegend', () => {
   let sensorList: Sensor[] = [];
   beforeAll(() => {
-    sensorList = sensors.map((s) => new Sensor(s.feature as Feature));
+    sensorList = sensors.map((s) => new Sensor(s.feature as Feature<Point, GeoJsonProperties>));
   });
 
   it('should show the right numbers in the legend', () => {

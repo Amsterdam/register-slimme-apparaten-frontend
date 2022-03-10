@@ -1,4 +1,4 @@
-import { Feature } from 'geojson';
+import { Feature, GeoJsonProperties, Point } from 'geojson';
 import { OwnerType, PiOptions, SensorTypes } from '../utils/types';
 import { Sensor } from './Sensor';
 import { SensorFilter } from './SensorFilter';
@@ -8,7 +8,7 @@ describe('SensorenFilter', () => {
   describe('Filter', () => {
     let sensorList: Sensor[] = [];
     beforeAll(() => {
-      sensorList = sensors.map((s) => new Sensor(s.feature as Feature));
+      sensorList = sensors.map((s) => new Sensor(s.feature as Feature<Point, GeoJsonProperties>));
     });
 
     it('should give the right results with no filters', () => {

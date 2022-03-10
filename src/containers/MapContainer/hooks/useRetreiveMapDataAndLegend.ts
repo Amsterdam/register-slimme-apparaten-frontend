@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FeatureCollection } from 'geojson';
+import { Feature, FeatureCollection, GeoJsonProperties, Point } from 'geojson';
 
 import layersReader from '../../../services/layer-aggregator/layersReader';
 import LAYERS_CONFIG from '../../../services/layer-aggregator/layersConfig';
@@ -121,7 +121,7 @@ function useRetrieveMapDataAndLegend(): MapDataAndLegend {
         .map((r) => r.layer.features)
         .flat();
 
-      const sensors = featureCollection.features.map((f) => new Sensor(f));
+      const sensors = featureCollection.features.map((f) => new Sensor(f as Feature<Point, GeoJsonProperties>));
 
       setResults({ legend, featureCollection, sensors });
     })();
