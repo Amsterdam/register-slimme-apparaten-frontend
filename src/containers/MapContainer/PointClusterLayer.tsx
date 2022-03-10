@@ -24,18 +24,31 @@ export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
       return;
     }
 
+    // Find all sensors which have simmilar coordinates and a different reference.
     let otherSensorsOnSameLocation = sensors.filter(
       (s) =>
         s.feature.geometry.coordinates[0] === sensor.feature.geometry.coordinates[0] &&
         s.feature.geometry.coordinates[1] === sensor.feature.geometry.coordinates[1] &&
         s.feature.properties?.reference !== sensor.feature.properties?.reference,
     );
+
+    // Add them to the list of sensors on the same location along with the current sensor
     if (otherSensorsOnSameLocation.length > 0) {
       sensorsOnSameLocation.push([sensor, ...otherSensorsOnSameLocation]);
     }
   });
 
   return sensorsOnSameLocation.filter(Boolean);
+}
+
+function createDefaultMarker(feature: Feature, latlng: LatLng) {
+  return L.circleMarker(latlng, {
+    color: 'white',
+    fillColor: feature?.properties?.color,
+    stroke: true,
+    fillOpacity: 1,
+    radius: 8,
+  });
 }
 
 const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
@@ -49,6 +62,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
     const sensorsOnSameLocation = filterSensorsOnSameLocation(mapData);
 
     const fc = emptyFeatureCollection();
+    // Add the features to the collection but filter all sensors found in the sensorsOnSameLocation array as those will be added differently.
     fc.features = mapData
       .filter(
         (sensor) =>
@@ -88,19 +102,14 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
           markerRef.current.remove();
         }
 
-        const marker = L.circleMarker(latlng, {
-          color: 'white',
-          fillColor: feature?.properties?.color,
-          stroke: true,
-          fillOpacity: 1,
-          radius: 8,
-        });
+        const marker = createDefaultMarker(feature, latlng);
 
         return marker;
       },
     });
     layer.addTo(mapInstance);
 
+    // Add markerClusterGroups for all sets of sensors on the same location.
     sensorsOnSameLocation.forEach((set) => {
       const overlappingSensors = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
@@ -111,17 +120,23 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
           });
         },
       });
+
       set.forEach((sensor) => {
         overlappingSensors.addLayer(
-          L.circleMarker(new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]), {
-            color: 'white',
-            fillColor: sensor.feature?.properties?.color,
-            stroke: true,
-            fillOpacity: 1,
-            radius: 8,
-          }),
+          createDefaultMarker(
+            sensor.feature,
+            new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
+          ),
+          // L.circleMarker(new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]), {
+          //   color: 'white',
+          //   fillColor: sensor.feature?.properties?.color,
+          //   stroke: true,
+          //   fillOpacity: 1,
+          //   radius: 8,
+          // }),
         );
       });
+
       overlappingSensors.addTo(mapInstance);
     });
 
