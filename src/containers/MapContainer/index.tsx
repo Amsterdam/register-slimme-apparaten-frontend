@@ -13,6 +13,8 @@ import MapLegend from '../../components/MapLegend';
 import DeviceDetails from '../../components/DeviceDetails';
 import useRetrieveMapDataAndLegend from './hooks/useRetreiveMapDataAndLegend';
 import useFilter from './hooks/useFilter';
+import SRSearchBar from '../../components/SearchBar/Index';
+import CenterMap from './CenterMap';
 
 const MAP_OPTIONS: MapOptions = {
   center: [52.3731081, 4.8932945],
@@ -107,6 +109,7 @@ const MapContainer: () => JSX.Element = () => {
 
   return (
     <StyledMap options={MAP_OPTIONS}>
+      <CenterMap />
       <StyledViewerContainer bottomRight={<Zoom />} />
 
       <PointClusterLayer mapData={filter.filteredSensors} onItemSelected={handleItemSelected} />
@@ -114,7 +117,14 @@ const MapContainer: () => JSX.Element = () => {
       <DrawerOverlay
         onStateChange={setDrawerState}
         state={drawerState}
-        Controls={LegendControl}
+        Controls={(props) => {
+          return (
+            <>
+              <LegendControl {...props} />
+              <SRSearchBar sensors={filter.filteredSensors} />
+            </>
+          );
+        }}
         onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
       >
         <DrawerContentWrapper>
@@ -147,6 +157,7 @@ const MapContainer: () => JSX.Element = () => {
           )}
         </DrawerContentWrapper>
       </DrawerOverlay>
+
       <BaseLayer />
     </StyledMap>
   );

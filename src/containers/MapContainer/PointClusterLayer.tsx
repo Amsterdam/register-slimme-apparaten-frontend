@@ -11,6 +11,14 @@ interface Props {
   onItemSelected: (feature: Feature) => void;
 }
 
+const markers: { [key: string]: L.CircleMarker } = {};
+
+const getMarkers = () => {
+  return markers;
+};
+
+export { getMarkers };
+
 export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
   const sensorsOnSameLocation: Sensor[][] = [];
 
@@ -42,13 +50,17 @@ export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
 }
 
 function createDefaultMarker(feature: Feature, latlng: LatLng) {
-  return L.circleMarker(latlng, {
+  const marker = L.circleMarker(latlng, {
     color: 'white',
     fillColor: feature?.properties?.color,
     stroke: true,
     fillOpacity: 1,
     radius: 8,
   });
+
+  markers[latlng.toString()] = marker;
+
+  return marker;
 }
 
 const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
@@ -127,13 +139,6 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
             sensor.feature,
             new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
           ),
-          // L.circleMarker(new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]), {
-          //   color: 'white',
-          //   fillColor: sensor.feature?.properties?.color,
-          //   stroke: true,
-          //   fillOpacity: 1,
-          //   radius: 8,
-          // }),
         );
       });
 

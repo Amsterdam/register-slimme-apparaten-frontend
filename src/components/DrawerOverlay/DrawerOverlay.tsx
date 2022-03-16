@@ -170,12 +170,6 @@ const ControlsContainer = styled.div<ModeProp>`
   @media print {
     display: none;
   }
-  ${({ $mode }) =>
-    isDesktop($mode) &&
-    css`
-      flex-direction: column;
-      height: 100%;
-    `}
 `;
 
 interface DrawerOverlayProps {
@@ -197,7 +191,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
 
   function getDrawerPositionTransform(drawerState = state) {
     if (drawerState !== DrawerState.Open && !isMobile(mode)) {
-      return `translateX(calc(-100% + 178px))`;
+      return `translateX(calc(-100% + 178px + 292px))`;
     }
 
     if (drawerState !== DrawerState.Open && isMobile(mode)) {
