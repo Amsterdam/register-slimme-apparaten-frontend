@@ -87,7 +87,11 @@ const SRSearchBar = ({ sensors }: { sensors: Sensor[] }) => {
 
   return (
     <SeachContainer>
-      <StyledSearchBar onChange={(e) => setDebouncedSearchTerm(e.target.value)} value={searchTerm} />
+      <StyledSearchBar
+        onChange={(e) => setDebouncedSearchTerm(e.target.value)}
+        value={searchTerm}
+        inputProps={{ autoComplete: 'off' }}
+      />
       {searchTerm.length > 0 && sensors.length > 0 && (
         <Results>
           {searchResult.length > 0 &&
@@ -96,14 +100,16 @@ const SRSearchBar = ({ sensors }: { sensors: Sensor[] }) => {
               .map((s) => (
                 <a
                   key={s.feature.properties?.reference}
-                  href={`/?sensor=${encodeURIComponent(JSON.stringify(s.feature.geometry.coordinates))}`}
+                  href={`/?sensor=${encodeURIComponent(JSON.stringify(s.feature.geometry.coordinates))}&reference=${
+                    s.feature.properties?.reference
+                  }`}
                   onClick={(e) => {
                     e.preventDefault();
                     setSearchTerm('');
                     navigate(
                       `/?sensor=${encodeURIComponent(
                         JSON.stringify([s.feature.geometry.coordinates[1], s.feature.geometry.coordinates[0]]),
-                      )}`,
+                      )}&reference=${s.feature.properties?.reference}`,
                     );
                   }}
                 >

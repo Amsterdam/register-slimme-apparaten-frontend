@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { Feature } from 'geojson';
+import { Feature, Point } from 'geojson';
 import L, { DomEvent, LatLng } from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import { useMapInstance } from '@amsterdam/react-maps';
@@ -11,7 +11,7 @@ interface Props {
   onItemSelected: (feature: Feature) => void;
 }
 
-const markers: { [key: string]: L.CircleMarker } = {};
+const markers: { [key: string]: L.CircleMarker | L.CircleMarker[] } = {};
 
 const getMarkers = () => {
   return markers;
@@ -58,7 +58,22 @@ function createDefaultMarker(feature: Feature, latlng: LatLng) {
     radius: 8,
   });
 
-  markers[latlng.toString()] = marker;
+  marker.feature = feature as Feature<Point, any>;
+
+  const key = `${latlng.toString()}-${feature.properties?.reference}`;
+
+  if (markers[key] !== undefined) {
+    console.warn(`Wanted to add marker ${feature.properties?.reference} to ${key} but found a marker already.`);
+
+    if (Array.isArray(markers[key])) {
+      /* @ts-ignore */
+      markers[key].push(marker);
+    } else {
+      /* @ts-ignore */
+      markers[key] = [markers[key], marker];
+    }
+  }
+  markers[key] = marker;
 
   return marker;
 }
@@ -103,6 +118,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
               stroke: true,
               fillOpacity: 1,
               radius: 9,
+              className: 'sr-highlighted-marker',
             },
           ).addTo(mapInstance);
 
@@ -138,7 +154,27 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
           createDefaultMarker(
             sensor.feature,
             new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
-          ),
+          ).on('click', (e) => {
+            if (markerRef.current) {
+              markerRef.current.remove();
+            }
+
+            console.log(e);
+
+            markerRef.current = L.circleMarker(
+              new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
+              {
+                color: 'red',
+                fillColor: 'white',
+                stroke: true,
+                fillOpacity: 1,
+                radius: 9,
+                className: 'sr-highlighted-marker',
+              },
+            ).addTo(mapInstance);
+
+            onItemSelected(sensor.feature);
+          }),
         );
       });
 

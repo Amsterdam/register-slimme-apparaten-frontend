@@ -14,6 +14,7 @@ const CenterMap = () => {
   useEffect(() => {
     // Read get param sensor
     const centerLocation = query.get('sensor') !== null ? JSON.parse(query.get('sensor') as string) : defaultCenter;
+    const ref = query.get('reference') || '';
 
     // If no lastLocation or the new centerLocation is different to the lastLocation update the map view.
     if (
@@ -24,10 +25,15 @@ const CenterMap = () => {
       map.panTo(centerLocation); // Pan map to new center
 
       const latLng = new LatLng(centerLocation[0], centerLocation[1]);
-      const marker = getMarkers()[latLng.toString()]; // Find the marker corresponding to this location
+      const key = `${latLng.toString()}-${ref}`;
+      const marker = getMarkers()[key]; // Find the marker corresponding to this location
 
       // Trigger a click event on the marker the user found.
-      marker?.fire('click');
+      if (Array.isArray(marker)) {
+        marker[0]?.fire('click');
+      } else {
+        marker?.fire('click');
+      }
     }
   }, [lastLocation, map, query]);
 
