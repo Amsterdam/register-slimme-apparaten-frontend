@@ -5,19 +5,12 @@ import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
 import { Sensor } from '../../classes/Sensor';
+import { MarkerStorage } from '../../classes/MarkerStorage';
 
 interface Props {
   mapData: Sensor[] | null;
   onItemSelected: (feature: Feature) => void;
 }
-
-const markers: { [key: string]: L.CircleMarker | L.CircleMarker[] } = {};
-
-const getMarkers = () => {
-  return markers;
-};
-
-export { getMarkers };
 
 export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
   const sensorsOnSameLocation: Sensor[][] = [];
@@ -60,20 +53,7 @@ function createDefaultMarker(feature: Feature, latlng: LatLng) {
 
   marker.feature = feature as Feature<Point, any>;
 
-  const key = `${latlng.toString()}-${feature.properties?.reference}`;
-
-  if (markers[key] !== undefined) {
-    console.warn(`Wanted to add marker ${feature.properties?.reference} to ${key} but found a marker already.`);
-
-    if (Array.isArray(markers[key])) {
-      /* @ts-ignore */
-      markers[key].push(marker);
-    } else {
-      /* @ts-ignore */
-      markers[key] = [markers[key], marker];
-    }
-  }
-  markers[key] = marker;
+  MarkerStorage.addMarker(latlng, marker);
 
   return marker;
 }
@@ -158,8 +138,6 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
             if (markerRef.current) {
               markerRef.current.remove();
             }
-
-            console.log(e);
 
             markerRef.current = L.circleMarker(
               new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),

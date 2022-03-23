@@ -90,5 +90,17 @@ describe('SensorenRegister', () => {
       expect(screen.getByText('Mobiliteit: railverkeer (1)')).toBeInTheDocument();
       expect(screen.getByText('Mobiliteit: fiets (1)')).toBeInTheDocument();
     });
+
+    it('should be possible to search for sensors', async () => {
+      render(<TestRegister />);
+
+      await screen.findByText('Sensortype');
+
+      expect(screen.queryByText('Verantwoordelijke voor de sensor')).not.toBeInTheDocument();
+
+      userEvent.type(screen.getByPlaceholderText('Zoeken...'), 'AMSTD002');
+
+      await screen.findByRole('link', { name: /amstd002/i });
+    });
   });
 });

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useMapInstance } from '@amsterdam/react-maps';
-import useQuery from './hooks/useQuery';
-import { getMarkers } from './PointClusterLayer';
 import { LatLng } from 'leaflet';
+import useQuery from './hooks/useQuery';
+import { MarkerStorage } from '../../classes/MarkerStorage';
 
 const defaultCenter = [52.3731081, 4.8932945];
 
@@ -26,7 +26,7 @@ const CenterMap = () => {
 
       const latLng = new LatLng(centerLocation[0], centerLocation[1]);
       const key = `${latLng.toString()}-${ref}`;
-      const marker = getMarkers()[key]; // Find the marker corresponding to this location
+      const marker = MarkerStorage.getMarkers()[key]; // Find the marker corresponding to this location
 
       // Trigger a click event on the marker the user found.
       if (Array.isArray(marker)) {

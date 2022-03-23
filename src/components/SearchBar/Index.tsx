@@ -70,7 +70,7 @@ export function displayPath(term: string, segment: string) {
 const fuseOptions = {
   threshold: 0.4,
   minMatchCharLength: 2,
-  keys: ['feature.properties.reference'],
+  keys: ['feature.properties.reference', 'feature.properties.organisation'],
 };
 
 const SRSearchBar = ({ sensors }: { sensors: Sensor[] }) => {
@@ -91,6 +91,7 @@ const SRSearchBar = ({ sensors }: { sensors: Sensor[] }) => {
         onChange={(e) => setDebouncedSearchTerm(e.target.value)}
         value={searchTerm}
         inputProps={{ autoComplete: 'off' }}
+        placeholder="Zoeken..."
       />
       {searchTerm.length > 0 && sensors.length > 0 && (
         <Results>
