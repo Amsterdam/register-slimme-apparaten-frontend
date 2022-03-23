@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Feature, Point } from 'geojson';
 import L, { DomEvent, LatLng } from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
@@ -10,6 +10,7 @@ import { MarkerStorage } from '../../classes/MarkerStorage';
 interface Props {
   mapData: Sensor[] | null;
   onItemSelected: (feature: Feature) => void;
+  showSelectedMarker: boolean;
 }
 
 export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
@@ -58,9 +59,9 @@ function createDefaultMarker(feature: Feature, latlng: LatLng) {
   return marker;
 }
 
-const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
+const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelectedMarker }) => {
   const mapInstance = useMapInstance();
-  const markerRef = useRef<L.CircleMarker>();
+  const selectedMarkerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
 
   useMemo(() => {
@@ -86,11 +87,11 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
         layer.on('click', (e) => {
           DomEvent.stopPropagation(e);
 
-          if (markerRef.current) {
-            markerRef.current.remove();
+          if (selectedMarkerRef.current) {
+            selectedMarkerRef.current.remove();
           }
 
-          markerRef.current = L.circleMarker(
+          selectedMarkerRef.current = L.circleMarker(
             { lat: feature?.properties?.latitude, lng: feature?.properties?.longitude },
             {
               color: 'red',
@@ -106,8 +107,8 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
         });
       },
       pointToLayer: (feature: Feature, latlng: L.LatLng) => {
-        if (markerRef.current) {
-          markerRef.current.remove();
+        if (selectedMarkerRef.current) {
+          selectedMarkerRef.current.remove();
         }
 
         const marker = createDefaultMarker(feature, latlng);
@@ -135,11 +136,11 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
             sensor.feature,
             new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
           ).on('click', (e) => {
-            if (markerRef.current) {
-              markerRef.current.remove();
+            if (selectedMarkerRef.current) {
+              selectedMarkerRef.current.remove();
             }
 
-            markerRef.current = L.circleMarker(
+            selectedMarkerRef.current = L.circleMarker(
               new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
               {
                 color: 'red',
@@ -161,6 +162,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected }) => {
 
     activeLayer.current = layer;
   }, [mapInstance, mapData, onItemSelected]);
+
+  useEffect(() => {
+    if (!showSelectedMarker && selectedMarkerRef) {
+      selectedMarkerRef.current?.remove();
+    }
+  }, [showSelectedMarker]);
 
   return <></>;
 };

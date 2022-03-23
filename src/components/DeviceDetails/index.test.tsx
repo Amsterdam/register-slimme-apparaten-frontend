@@ -15,7 +15,7 @@ describe('DeviceDetails', () => {
         legalGround: 'legalGround',
       },
     },
-    showLegend: () => {},
+    onClose: () => {},
   };
   it('should render', () => {
     render(

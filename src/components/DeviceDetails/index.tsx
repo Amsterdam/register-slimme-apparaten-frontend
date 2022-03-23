@@ -6,7 +6,7 @@ import './style.scss';
 
 export interface Props {
   feature: any | null;
-  showLegend: () => void;
+  onClose: () => void;
 }
 
 const InfoContainer = styled('div')`
@@ -34,7 +34,7 @@ const ButtonContainer = styled.div`
   flex-direction: row-reverse;
 `;
 
-const DeviceDetails: React.FC<Props> = ({ feature, showLegend }) => {
+const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
   if (!feature) {
     return null;
   }
@@ -51,7 +51,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, showLegend }) => {
           title="Legenda"
           data-testid="legenda"
           iconSize={20}
-          onClick={showLegend}
+          onClick={onClose}
           iconLeft={<Close />}
         />
       </ButtonContainer>

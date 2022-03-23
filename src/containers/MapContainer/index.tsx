@@ -112,7 +112,11 @@ const MapContainer: () => JSX.Element = () => {
       <CenterMap />
       <StyledViewerContainer bottomRight={<Zoom />} />
 
-      <PointClusterLayer mapData={filter.filteredSensors} onItemSelected={handleItemSelected} />
+      <PointClusterLayer
+        mapData={filter.filteredSensors}
+        onItemSelected={handleItemSelected}
+        showSelectedMarker={legendOrDetails === LegendOrDetails.DETAILS}
+      />
 
       <DrawerOverlay
         onStateChange={setDrawerState}
@@ -128,9 +132,7 @@ const MapContainer: () => JSX.Element = () => {
         onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
       >
         <DrawerContentWrapper>
-          {legendOrDetails === LegendOrDetails.DETAILS && (
-            <DeviceDetails feature={selectedItem} showLegend={showLegend} />
-          )}
+          {legendOrDetails === LegendOrDetails.DETAILS && <DeviceDetails feature={selectedItem} onClose={showLegend} />}
 
           {legendOrDetails === LegendOrDetails.LEGEND && (
             <MapLegend
