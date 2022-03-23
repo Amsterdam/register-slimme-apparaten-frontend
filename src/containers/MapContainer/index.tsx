@@ -22,7 +22,7 @@ const MAP_OPTIONS: MapOptions = {
   maxZoom: 16,
   minZoom: 8,
   zoomControl: false,
-  attributionControl: true,
+  attributionControl: false,
   crs: getCrsRd(),
   maxBounds: [
     [52.25168, 4.64034],
@@ -32,7 +32,7 @@ const MAP_OPTIONS: MapOptions = {
 
 const StyledMap = styled(Map)`
   width: 100%;
-  height: calc(100vh - 54px);
+  height: calc(100vh - 70px);
 
   .leaflet-marker-icon.active-element {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.8);
@@ -64,8 +64,14 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)`
-  top: 50px;
   z-index: 400;
+  top: 0px;
+  bottom: 70px;
+
+  @media screen and (min-width: 576px) {
+    bottom: 0px;
+    top: 50px;
+  }
 `;
 
 const DrawerContentWrapper = styled('div')`

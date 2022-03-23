@@ -47,7 +47,6 @@ const DrawerHandleMobile = styled(Button)`
   flex-shrink: 0;
   width: 100%;
   height: ${HANDLE_SIZE_MOBILE}px;
-  padding-bottom: ${themeSpacing(5)};
   &::before {
     content: '';
     display: block;
@@ -163,12 +162,17 @@ const DrawerContent = styled.div`
 
 const ControlsContainer = styled.div<ModeProp>`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
   padding: ${themeSpacing(4)};
+
   @media print {
     display: none;
+  }
+
+  @media screen and (min-width: 576px) {
+    flex-direction: row;
   }
 `;
 
@@ -195,7 +199,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
     }
 
     if (drawerState !== DrawerState.Open && isMobile(mode)) {
-      return `translateY(calc(100% - 130px))`;
+      return `translateY(calc(100% - 146px))`;
     }
 
     return '';
