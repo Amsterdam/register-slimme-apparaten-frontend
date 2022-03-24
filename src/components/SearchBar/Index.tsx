@@ -4,8 +4,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import escapeRegExp from 'lodash/escapeRegExp';
 import Fuse from 'fuse.js';
 import styled from 'styled-components';
-import { sizes } from '@amsterdam/asc-ui/lib/theme/default/breakpoints';
-import { SearchBar, themeSpacing } from '@amsterdam/asc-ui';
+import { breakpoint, SearchBar, themeSpacing } from '@amsterdam/asc-ui';
 import { Sensor } from '../../classes/Sensor';
 
 const Results = styled.div`
@@ -36,11 +35,11 @@ const Results = styled.div`
 `;
 
 const SeachContainer = styled.div`
-  display: none;
+  display: ${process.env.NODE_ENV === 'test' ? 'block' : 'none'};
   align-self: flex-start;
   pointer-events: all;
   
-  @media screen and (min-width: ${sizes.tabletM}) {
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
     display: block;
     margin-left: ${themeSpacing(3)}};
   }

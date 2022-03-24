@@ -34,6 +34,10 @@ const StyledMap = styled(Map)`
   width: 100%;
   height: calc(100vh - 70px);
 
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    height: calc(100vh - 56px);
+  }
+
   .leaflet-marker-icon.active-element {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.8);
     border-radius: 50%;
@@ -76,11 +80,6 @@ const StyledViewerContainer = styled(ViewerContainer)`
 
 const DrawerContentWrapper = styled('div')`
   width: 100%;
-
-  @media screen and (${breakpoint('min-width', 'tabletM')}) {
-    width: 100%;
-  }
-
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
   overflow-y: auto;
