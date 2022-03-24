@@ -95,3 +95,28 @@ main {
     page-break-after: always;
   }
 }
+
+.sr-grouped-marker {
+  width: 16px;
+  height: 16px;
+
+  span {
+    position: absolute;
+    left: 8px;
+    top: 2px;
+    color: white;
+  }
+}
+
+.sr-result-count {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.sr-highlighted-marker {
+  z-index: 981;
+}
+
+.leaflet-overlay-pane {
+  z-index: 601;
+}

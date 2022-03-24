@@ -3,29 +3,29 @@
 exports[`<Footer /> should render correctly 1`] = `
 <DocumentFragment>
   <footer
-    class="sc-dtDOqo fmZTiB"
+    class="sc-duzrYq ixYGkX"
   >
     <div
-      class="sc-dkYRCH kzDlBn"
+      class="sc-dkdnUF efPDUE"
     >
       <div
-        class="sc-jQrDum hRUQZo"
+        class="sc-jQHtVU knwAvz"
       >
         <div
-          class="sc-jUosCB eqpptV"
+          class="sc-jTYCaT fyIMpI"
         >
           <ul
-            class="sc-iAKWXU eWzuVZ"
+            class="sc-iAvgwm ijbSfF"
           >
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -39,21 +39,21 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   Het register biedt geen compleet overzicht van alle slimme apparaten. Registratie van slimme apparaten in het register is niet verplicht, maar wordt wel gevraagd.
                 </span>
               </a>
             </li>
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -67,21 +67,21 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   De "slimme apparaten" in het register zijn van diverse organisaties.
                 </span>
               </a>
             </li>
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -95,21 +95,21 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   De gegevens van de eigenaar van het slimme apparaat worden niet getoond i.v.m. privacy.
                 </span>
               </a>
             </li>
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -123,21 +123,21 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   De eigenaar bepaalt of hij reageert; hij is dat niet verplicht.
                 </span>
               </a>
             </li>
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -151,21 +151,21 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   Uw mail wordt niet gearchiveerd in het register. Ook uw persoonlijke gegevens worden niet geregistreerd in het register.
                 </span>
               </a>
             </li>
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -179,21 +179,21 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   De gegevens van de apparaten in het register worden overgenomen van de eigenaar. Die is verantwoordelijk voor de juistheid en volledigheid van de gegevens.
                 </span>
               </a>
             </li>
             <li
-              class="sc-iUKqMP gPYUw"
+              class="sc-iTONeN cUdwZi"
             >
               <a
-                class="sc-bqiRlB bUCcBA sc-caiLqq bZXbwF"
+                class="sc-breuTD fjcetk sc-bZnhIo iNlNWF"
                 href="/"
               >
                 <span
-                  class="sc-bdvvtL sc-gWXbKe sc-cCcXHH cUCCdQ dLvmfN gmVMvN"
+                  class="sc-bczRLJ sc-gXmSlM sc-cCsOjp bQEpMj jBcPmP cTVbAy"
                 >
                   <svg
                     focusable="false"
@@ -207,7 +207,7 @@ exports[`<Footer /> should render correctly 1`] = `
                   </svg>
                 </span>
                 <span
-                  class="sc-jcFjpl iJxVku"
+                  class="sc-jdAMXn kaRejt"
                 >
                   OIS, onderdeel van Gemeente Amsterdam, kan niet aansprakelijk worden gesteld voor de juistheid, volledigheid en actualiteit van de website. De Gemeente Amsterdam, OIS kan in het bijzonder niet aansprakelijk worden gesteld voor eventuele schade of consequenties ontstaan door direct of indirect gebruik van de inhoud van de website.
                 </span>
