@@ -33,6 +33,15 @@ const MatomoInstance = new MatomoTracker({
 
 MatomoInstance.trackPageView({});
 
+// Remove previously installed service workers.
+if (navigator !== undefined) {
+  navigator?.serviceWorker?.getRegistrations()?.then(function (registrations) {
+    for (let registration of registrations) {
+      registration.unregister();
+    }
+  });
+}
+
 const render = () => {
   ReactDOM.render(
     <BrowserRouter>
