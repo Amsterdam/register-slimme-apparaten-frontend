@@ -60,7 +60,10 @@ const Categories = () => {
           <li>Overgangsrand sensor</li>
           <li>
             UV-sensor Een instrument dat gebruikt wordt om de intensiteit van ultraviolette (electromagnetische)
-            straling te meten. https://wiki.seeedstudio.com/Grove-UV_Sensor/
+            straling te meten.{' '}
+            <a href="https://wiki.seeedstudio.com/Grove-UV_Sensor/" target="_blank" rel="noreferrer">
+              https://wiki.seeedstudio.com/Grove-UV_Sensor/
+            </a>
           </li>
           <li>Zichtbaar licht foton-teller</li>
           <li>Wavefront-sensor</li>
@@ -76,14 +79,16 @@ const Categories = () => {
         <p>Voorbeelden:</p>
         <ul>
           <li>Geofoon</li>
-          <li>Hydrofoon </li>
-          <li>Microfoon </li>
-          <li>Seismometer </li>
+          <li>Hydrofoon</li>
+          <li>Microfoon</li>
+          <li>Seismometer</li>
           <li>
             Geluidsmeter Een meetinstrument om het geluidsniveau te meten.
-            https://nl.wikipedia.org/wiki/Geluidsniveaumeter{' '}
+            <a href="https://nl.wikipedia.org/wiki/Geluidsniveaumeter" target="_blank" rel="noreferrer">
+              https://nl.wikipedia.org/wiki/Geluidsniveaumeter
+            </a>{' '}
           </li>
-          <li>Geluidszoeker </li>
+          <li>Geluidszoeker</li>
         </ul>
       </Accordion>
 
@@ -123,7 +128,10 @@ const Categories = () => {
           <li>Redox-elektrode</li>
           <li>
             Rookdetector Een detector die alarm slaat na waarnemen van rookdeeltjes (aerosolen), die kunnen wijzen op
-            een (beginnende) brand. https://nl.wikipedia.org/wiki/Rookmelder
+            een (beginnende) brand.{' '}
+            <a href="https://nl.wikipedia.org/wiki/Rookmelder" target="_blank" rel="noreferrer">
+              https://nl.wikipedia.org/wiki/Rookmelder
+            </a>
           </li>
           <li>Zinkoxide nanostaaf sensor</li>
         </ul>
@@ -218,7 +226,10 @@ const Categories = () => {
           <li>Capacitieve detectie</li>
           <li>
             Detectielus Een inductielus van koperdraad verzonken in het wegdek, waarmee met behulp van elektronica een
-            voertuig kan worden waargenomen. https://nl.wikipedia.org/wiki/Detectielus
+            voertuig kan worden waargenomen.{' '}
+            <a href="https://nl.wikipedia.org/wiki/Detectielus" target="_blank" rel="noreferrer">
+              https://nl.wikipedia.org/wiki/Detectielus
+            </a>
           </li>
           <li>Flex-sensor</li>
           <li>Vrije val sensor</li>
@@ -248,7 +259,10 @@ const Categories = () => {
           <li>Datalogger voor schokken</li>
           <li>
             SpeedDetectionDevice Een apparaat dat snelheidsovertredingen in het verkeer of het door een rood
-            verkeerslicht rijden kan vaststellen. https://nl.wikipedia.org/wiki/Flitspaal
+            verkeerslicht rijden kan vaststellen.{' '}
+            <a href="https://nl.wikipedia.org/wiki/Flitspaal" target="_blank" rel="noreferrer">
+              https://nl.wikipedia.org/wiki/Flitspaal
+            </a>
           </li>
           <li>Plotselinge bewegingssensor</li>
           <li>Kantel sensor</li>
@@ -334,7 +348,10 @@ const Categories = () => {
           <li>Doppler-radar</li>
           <li>
             Bewegingsdetector Een apparaat dat door middel van ultrageluid, of door elektromagnetische straling, zoals
-            microgolven of infrarode straling, beweging detecteert. https://nl.wikipedia.org/wiki/Bewegingssensor
+            microgolven of infrarode straling, beweging detecteert.{' '}
+            <a href="https://nl.wikipedia.org/wiki/Bewegingssensor" target="_blank" rel="noreferrer">
+              https://nl.wikipedia.org/wiki/Bewegingssensor
+            </a>
           </li>
           <li>Aanwezigheidssensor</li>
           <li>Nabijheidssensor</li>
