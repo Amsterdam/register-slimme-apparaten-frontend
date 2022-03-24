@@ -43,7 +43,7 @@ export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
   return sensorsOnSameLocation.filter(Boolean);
 }
 
-function createDefaultMarker(feature: Feature, latlng: LatLng) {
+function createDefaultMarker(feature: Feature, latlng: LatLng, addToList: boolean) {
   const marker = L.circleMarker(latlng, {
     color: 'white',
     fillColor: feature?.properties?.color,
@@ -54,7 +54,9 @@ function createDefaultMarker(feature: Feature, latlng: LatLng) {
 
   marker.feature = feature as Feature<Point, any>;
 
-  MarkerStorage.addMarker(latlng, marker);
+  if (addToList) {
+    MarkerStorage.addMarker(latlng, marker);
+  }
 
   return marker;
 }
@@ -63,9 +65,10 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
   const mapInstance = useMapInstance();
   const selectedMarkerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
+  const firstRun = useRef(true);
 
   useMemo(() => {
-    if (!mapInstance || !mapData) return;
+    if (!mapInstance || !mapData || mapData.length === 0) return;
 
     const sensorsOnSameLocation = filterSensorsOnSameLocation(mapData);
 
@@ -111,7 +114,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
           selectedMarkerRef.current.remove();
         }
 
-        const marker = createDefaultMarker(feature, latlng);
+        const marker = createDefaultMarker(feature, latlng, firstRun.current);
 
         return marker;
       },
@@ -135,6 +138,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
           createDefaultMarker(
             sensor.feature,
             new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
+            firstRun.current,
           ).on('click', (e) => {
             if (selectedMarkerRef.current) {
               selectedMarkerRef.current.remove();
@@ -161,6 +165,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
     });
 
     activeLayer.current = layer;
+    firstRun.current = false;
   }, [mapInstance, mapData, onItemSelected]);
 
   useEffect(() => {
