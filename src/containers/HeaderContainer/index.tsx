@@ -26,21 +26,25 @@ export const HeaderContainer = () => (
       navigation={
         <>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.HOME}>
               Kaart
             </MenuButton>
           </MenuItem>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.CATEGORIES}>
-              Type apparaten
+              Type sensoren
             </MenuButton>
           </MenuItem>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT_FAQ}>
               Veelgevraagd
             </MenuButton>
           </MenuItem>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT}>
               Over dit register
             </MenuButton>
