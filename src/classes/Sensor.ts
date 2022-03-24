@@ -7,6 +7,7 @@ export class Sensor {
   organisation: string;
   containsPiData: PiOptions;
   feature: Feature<Point, GeoJsonProperties>;
+  region: string[];
 
   constructor(feature: Feature<Point, GeoJsonProperties>) {
     this.feature = feature;
@@ -14,6 +15,7 @@ export class Sensor {
     this.themes = feature.properties?.themes;
     this.organisation = feature.properties?.organisation;
     this.containsPiData = feature.properties?.containsPiData;
+    this.region = feature.properties?.region;
   }
 
   hasTheme(theme: string) {
@@ -30,6 +32,10 @@ export class Sensor {
 
   isCollectingPiData() {
     return this.containsPiData;
+  }
+
+  isMobileSensor() {
+    return this.region?.length > 0;
   }
 
   toFeature() {
