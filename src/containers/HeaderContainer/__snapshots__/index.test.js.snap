@@ -79,7 +79,7 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
                 <span
                   class="sc-eFegNN"
                 >
-                  Type apparaten
+                  Type sensoren
                 </span>
               </span>
             </a>

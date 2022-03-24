@@ -79,7 +79,7 @@ exports[`<NotFound /> should render the Page Not Found text 1`] = `
                 <span
                   class="sc-eFegNN"
                 >
-                  Type apparaten
+                  Type sensoren
                 </span>
               </span>
             </a>
