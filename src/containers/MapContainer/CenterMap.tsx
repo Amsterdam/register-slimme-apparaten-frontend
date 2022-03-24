@@ -3,15 +3,32 @@ import { useMapInstance } from '@amsterdam/react-maps';
 import { LatLng } from 'leaflet';
 import useQuery from './hooks/useQuery';
 import { MarkerStorage } from '../../classes/MarkerStorage';
+import useSafeState from './hooks/useSafeState';
 
 const defaultCenter = [52.3731081, 4.8932945];
 
 const CenterMap = () => {
   const map = useMapInstance();
   const [lastLocation, setLastLocation] = useState([]);
+  const [delay, setDelay] = useSafeState<Boolean>(true);
   const query = useQuery();
 
   useEffect(() => {
+    // If we need to delay, wait for X-ms. This allows for MarkerStorage to be filled.
+    if (delay) {
+      setTimeout(() => {
+        setDelay(false);
+      }, 100);
+
+      return;
+    }
+
+    // If no markers present set delay to true again and stop.
+    if (Object.keys(MarkerStorage.getMarkers()).length === 0) {
+      setDelay(true);
+      return;
+    }
+
     // Read get param sensor
     const centerLocation = query.get('sensor') !== null ? JSON.parse(query.get('sensor') as string) : defaultCenter;
     const ref = query.get('reference') || '';
@@ -35,7 +52,7 @@ const CenterMap = () => {
         marker?.fire('click');
       }
     }
-  }, [lastLocation, map, query]);
+  }, [lastLocation, map, query, delay]);
 
   return <></>;
 };

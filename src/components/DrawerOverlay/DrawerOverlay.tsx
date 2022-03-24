@@ -158,6 +158,7 @@ const DrawerContent = styled.div`
   min-height: 0;
   position: relative;
   background-color: ${themeColor('tint', 'level1')};
+  max-width: 380px;
 `;
 
 const ControlsContainer = styled.div<ModeProp>`

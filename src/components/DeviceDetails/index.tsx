@@ -64,7 +64,9 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
           <ListItem>{!!containsPiData ? 'Verwerkt persoonsgegevens' : 'Verwerkt geen persoonsgegevens'}</ListItem>
           {!!privacy && (
             <ListItem>
-              <Link href={privacy}>Privacyverklaring</Link>
+              <Link href={privacy} variant="inline" icon="external" target="_blank">
+                Privacyverklaring
+              </Link>
             </ListItem>
           )}
         </List>
