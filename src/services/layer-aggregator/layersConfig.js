@@ -3,6 +3,8 @@ import CONFIGURATION from '../../shared/environment';
 import { mapSensorTypeToColor, SensorTypes } from '../../utils/types';
 import { readData, readPaginatedData } from '../datareader';
 
+const regions = ['A01f', 'A', 'DX01'];
+
 const LAYERS_CONFIG = [
   {
     name: 'Sensornet',
