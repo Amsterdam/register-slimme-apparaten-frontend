@@ -61,6 +61,8 @@ const LAYERS_CONFIG = [
         legalGround: 'Verkeersmanagment in de rol van wegbeheerder.',
         originalData: item,
         reference: item.properties?.Objectnummer,
+        // Temp, select a random region.
+        region: regions[Math.max(Math.round(Math.random() * 10), regions.length)],
       },
     }),
   },
