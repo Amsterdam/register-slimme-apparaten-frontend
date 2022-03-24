@@ -1,5 +1,5 @@
 import { DomEvent, circleMarker } from 'leaflet';
-import CONFIGURATION from '../../shared/configuration/environment';
+import CONFIGURATION from '../../shared/environment';
 import { mapSensorTypeToColor, SensorTypes } from '../../utils/types';
 import { readData, readPaginatedData } from '../datareader';
 
