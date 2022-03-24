@@ -91,7 +91,7 @@ enum LegendOrDetails {
 }
 
 const MapContainer: () => JSX.Element = () => {
-  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open);
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Closed);
   const [legendOrDetails, setLegendOrDetails] = useState<LegendOrDetails>(LegendOrDetails.LEGEND);
   const [selectedItem, setSelectedItem] = useState<Feature | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);

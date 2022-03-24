@@ -1,6 +1,6 @@
 import React, { CSSProperties, FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
-import { Button, Icon, styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import { breakpoint, Button, Icon, styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { ChevronRight } from '@amsterdam/asc-assets';
 import { LegendControlProps } from '../../components/LegendControl/LegendControl';
 import { DeviceMode, useDeviceMode } from '../../utils/useDeviceMode';
@@ -158,7 +158,11 @@ const DrawerContent = styled.div`
   min-height: 0;
   position: relative;
   background-color: ${themeColor('tint', 'level1')};
-  max-width: 380px;
+  max-width: 100%;
+
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    max-width: 420px;
+  }
 `;
 
 const ControlsContainer = styled.div<ModeProp>`
