@@ -52,7 +52,7 @@ const CenterMap = () => {
         marker?.fire('click');
       }
     }
-  }, [lastLocation, map, query, delay]);
+  }, [lastLocation, map, query, delay, setDelay]);
 
   return <></>;
 };

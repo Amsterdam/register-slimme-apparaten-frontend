@@ -3,24 +3,24 @@
 exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
 <DocumentFragment>
   <div
-    class="sc-itWPBs cTEjNV"
+    class="sc-iuStju kddxlw"
   >
     <div
-      class="sc-xiLah kcKARe"
+      class="sc-yeoIj dpucpi"
       id="header"
     >
       <header
-        class="sc-ilfuhL sc-uojGG dvapgK bHnrIj"
+        class="sc-ikjQzJ sc-tsFYE ggxMJi cAmydo"
       >
         <h1
-          class="sc-hAcGzb fwHvde"
+          class="sc-hAsxaJ vABBE"
         >
           <a
-            class="sc-crHmcD dEwMcK"
+            class="sc-crXcEl cFuGMc"
             href="/"
           >
             <svg
-              class="sc-furwcr jtpomI"
+              class="sc-ftvSup jqFYuX"
               focusable="false"
               viewBox="0 0 754.78 340.19"
               xmlns="http://www.w3.org/2000/svg"
@@ -31,34 +31,34 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
               />
             </svg>
             <span
-              class="sc-iqseJM clUbPx"
+              class="sc-iqcoie iphfdG"
             >
               Sensorenregister
             </span>
           </a>
           <a
-            class="sc-bqiRlB fdzMZA sc-caiLqq fMsmWp sc-eGPXGI RGlbv"
+            class="sc-breuTD hNLdzc sc-bZnhIo ksMiwE sc-eGAhfa lniHdR"
             href="/"
           >
             Sensorenregister
           </a>
         </h1>
         <nav
-          class="sc-kYHfwS bTpect"
+          class="sc-kYWVYA dEQVsw"
         >
           <li
-            class="sc-fXEqDS fkIXIL"
+            class="sc-fWIMVQ dQcfqK"
           >
             <a
-              class="sc-eCImPb hAKyiY sc-lkgTHX sc-jlRLRk dBQOiB kleaEJ"
+              class="sc-eCYdqJ zCFMn sc-lkwKjF sc-jmNpzm eRuzEn bcVGGl"
               href="/"
               variant="blank"
             >
               <span
-                class="sc-fmBCVi"
+                class="sc-fmRtwQ"
               >
                 <span
-                  class="sc-eFegNN"
+                  class="sc-eEOqmf"
                 >
                   Kaart
                 </span>
@@ -66,18 +66,18 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             </a>
           </li>
           <li
-            class="sc-fXEqDS fkIXIL"
+            class="sc-fWIMVQ dQcfqK"
           >
             <a
-              class="sc-eCImPb hAKyiY sc-lkgTHX sc-jlRLRk dBQOiB kleaEJ"
+              class="sc-eCYdqJ zCFMn sc-lkwKjF sc-jmNpzm eRuzEn bcVGGl"
               href="/categories"
               variant="blank"
             >
               <span
-                class="sc-fmBCVi"
+                class="sc-fmRtwQ"
               >
                 <span
-                  class="sc-eFegNN"
+                  class="sc-eEOqmf"
                 >
                   Type sensoren
                 </span>
@@ -85,18 +85,18 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             </a>
           </li>
           <li
-            class="sc-fXEqDS fkIXIL"
+            class="sc-fWIMVQ dQcfqK"
           >
             <a
-              class="sc-eCImPb hAKyiY sc-lkgTHX sc-jlRLRk dBQOiB kleaEJ"
+              class="sc-eCYdqJ zCFMn sc-lkwKjF sc-jmNpzm eRuzEn bcVGGl"
               href="/about/faq"
               variant="blank"
             >
               <span
-                class="sc-fmBCVi"
+                class="sc-fmRtwQ"
               >
                 <span
-                  class="sc-eFegNN"
+                  class="sc-eEOqmf"
                 >
                   Veelgevraagd
                 </span>
@@ -104,18 +104,18 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
             </a>
           </li>
           <li
-            class="sc-fXEqDS fkIXIL"
+            class="sc-fWIMVQ dQcfqK"
           >
             <a
-              class="sc-eCImPb hAKyiY sc-lkgTHX sc-jlRLRk dBQOiB kleaEJ"
+              class="sc-eCYdqJ zCFMn sc-lkwKjF sc-jmNpzm eRuzEn bcVGGl"
               href="/about"
               variant="blank"
             >
               <span
-                class="sc-fmBCVi"
+                class="sc-fmRtwQ"
               >
                 <span
-                  class="sc-eFegNN"
+                  class="sc-eEOqmf"
                 >
                   Over dit register
                 </span>
@@ -124,7 +124,7 @@ exports[`<HeaderContainer /> should render correctly when authenticated 1`] = `
           </li>
         </nav>
         <div
-          class="sc-bilyIR eGpmjK"
+          class="sc-bhVIhj khka-dW"
         />
       </header>
     </div>
