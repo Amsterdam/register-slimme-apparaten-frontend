@@ -123,8 +123,10 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
 
     // Add markerClusterGroups for all sets of sensors on the same location.
     sensorsOnSameLocation.forEach((set) => {
+      let c: null | L.MarkerCluster = null;
       const overlappingSensors = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
+          c = cluster;
           return L.divIcon({
             className: 'sr-grouped-marker',
             iconSize: [21, 21],
@@ -154,7 +156,14 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
                 radius: 9,
                 className: 'sr-highlighted-marker',
               },
-            ).addTo(mapInstance);
+            )
+              .addTo(mapInstance)
+              .on('click', () => {
+                if (c) {
+                  selectedMarkerRef?.current?.remove();
+                  c.spiderfy();
+                }
+              });
 
             onItemSelected(sensor.feature);
           }),

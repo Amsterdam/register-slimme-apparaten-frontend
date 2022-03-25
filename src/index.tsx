@@ -8,19 +8,16 @@
 import 'regenerator-runtime/runtime';
 
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
-import 'leaflet/dist/leaflet';
-
-// Import CSS and Global Styles
-import 'leaflet/dist/leaflet.css';
 
 // Import root app
 import App from './containers/App';
 
+// Import CSS and Global Styles
+import 'leaflet/dist/leaflet.css';
 import './global.scss';
-
-import { BrowserRouter } from 'react-router-dom';
 
 const MOUNT_NODE = document.getElementById('app');
 
