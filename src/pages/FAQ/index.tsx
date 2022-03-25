@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { AccordionWrapper, Accordion } from '@amsterdam/asc-ui';
-
+import withContainer from '../withContainer';
 import './style.scss';
 
 const FAQ = () => (
@@ -35,4 +33,4 @@ const FAQ = () => (
   </div>
 );
 
-export default FAQ;
+export default withContainer(FAQ);

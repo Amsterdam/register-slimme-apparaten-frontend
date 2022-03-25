@@ -59,8 +59,6 @@ export interface ItemType {
   organisation?: string;
 }
 
-// Beacon -> Aanwezigheid
-
 export enum SensorTypes {
   Aanwezigheid = 'Aanwezigheid of nabijheidsensor',
   Temperatuursensor = 'Temperatuursensor',

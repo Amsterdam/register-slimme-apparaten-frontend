@@ -1,4 +1,3 @@
-import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Header, MenuItem, MenuButton, themeSpacing, breakpoint, themeColor } from '@amsterdam/asc-ui';
@@ -25,28 +24,32 @@ export const HeaderContainer = () => (
       homeLink="/"
       fullWidth
       navigation={
-        <Fragment>
+        <>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.HOME}>
               Kaart
             </MenuButton>
           </MenuItem>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.CATEGORIES}>
-              Type apparaten
+              Type sensoren
             </MenuButton>
           </MenuItem>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT_FAQ}>
               Veelgevraagd
             </MenuButton>
           </MenuItem>
           <MenuItem>
+            {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.ABOUT}>
               Over dit register
             </MenuButton>
           </MenuItem>
-        </Fragment>
+        </>
       }
     ></Header>
   </HeaderWrapper>

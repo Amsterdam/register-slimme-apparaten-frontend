@@ -7,8 +7,6 @@
 
 import 'regenerator-runtime/runtime';
 
-// Import all the third party stuff
-import React from 'react';
 import ReactDOM from 'react-dom';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
 import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
@@ -34,6 +32,15 @@ const MatomoInstance = new MatomoTracker({
 });
 
 MatomoInstance.trackPageView({});
+
+// Remove previously installed service workers.
+if (navigator !== undefined) {
+  navigator?.serviceWorker?.getRegistrations()?.then(function (registrations) {
+    for (let registration of registrations) {
+      registration.unregister();
+    }
+  });
+}
 
 const render = () => {
   ReactDOM.render(

@@ -1,6 +1,6 @@
 import React, { CSSProperties, FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
-import { Button, Icon, styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
+import { breakpoint, Button, Icon, styles, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { ChevronRight } from '@amsterdam/asc-assets';
 import { LegendControlProps } from '../../components/LegendControl/LegendControl';
 import { DeviceMode, useDeviceMode } from '../../utils/useDeviceMode';
@@ -47,7 +47,6 @@ const DrawerHandleMobile = styled(Button)`
   flex-shrink: 0;
   width: 100%;
   height: ${HANDLE_SIZE_MOBILE}px;
-  padding-bottom: ${themeSpacing(5)};
   &::before {
     content: '';
     display: block;
@@ -159,23 +158,27 @@ const DrawerContent = styled.div`
   min-height: 0;
   position: relative;
   background-color: ${themeColor('tint', 'level1')};
+  max-width: 100%;
+
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    max-width: 420px;
+  }
 `;
 
 const ControlsContainer = styled.div<ModeProp>`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
   padding: ${themeSpacing(4)};
+
   @media print {
     display: none;
   }
-  ${({ $mode }) =>
-    isDesktop($mode) &&
-    css`
-      flex-direction: column;
-      height: 100%;
-    `}
+
+  @media screen and (min-width: 576px) {
+    flex-direction: row;
+  }
 `;
 
 interface DrawerOverlayProps {
@@ -197,11 +200,11 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
 
   function getDrawerPositionTransform(drawerState = state) {
     if (drawerState !== DrawerState.Open && !isMobile(mode)) {
-      return `translateX(calc(-100% + 178px))`;
+      return `translateX(calc(-100% + 178px + 292px))`;
     }
 
     if (drawerState !== DrawerState.Open && isMobile(mode)) {
-      return `translateY(calc(100% - 130px))`;
+      return `translateY(calc(100% - 146px))`;
     }
 
     return '';

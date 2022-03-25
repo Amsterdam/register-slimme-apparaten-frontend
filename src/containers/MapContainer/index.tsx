@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { MapOptions } from 'leaflet';
 import styled from 'styled-components';
 import { Feature } from 'geojson';
@@ -11,8 +11,10 @@ import DrawerOverlay, { DrawerState } from '../../components/DrawerOverlay/Drawe
 import LegendControl from '../../components/LegendControl/LegendControl';
 import MapLegend from '../../components/MapLegend';
 import DeviceDetails from '../../components/DeviceDetails';
-import useRetrieveMapDataAndLegend, { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
+import useRetrieveMapDataAndLegend from './hooks/useRetreiveMapDataAndLegend';
 import useFilter from './hooks/useFilter';
+import SRSearchBar from '../../components/SearchBar/Index';
+import CenterMap from './CenterMap';
 
 const MAP_OPTIONS: MapOptions = {
   center: [52.3731081, 4.8932945],
@@ -20,7 +22,7 @@ const MAP_OPTIONS: MapOptions = {
   maxZoom: 16,
   minZoom: 8,
   zoomControl: false,
-  attributionControl: true,
+  attributionControl: false,
   crs: getCrsRd(),
   maxBounds: [
     [52.25168, 4.64034],
@@ -30,7 +32,11 @@ const MAP_OPTIONS: MapOptions = {
 
 const StyledMap = styled(Map)`
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 70px);
+
+  @media screen and ${breakpoint('min-width', 'tabletM')} {
+    height: calc(100vh - 56px);
+  }
 
   .leaflet-marker-icon.active-element {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.8);
@@ -62,17 +68,18 @@ const StyledMap = styled(Map)`
 `;
 
 const StyledViewerContainer = styled(ViewerContainer)`
-  top: 50px;
   z-index: 400;
+  top: 0px;
+  bottom: 70px;
+
+  @media screen and (min-width: 576px) {
+    bottom: 0px;
+    top: 50px;
+  }
 `;
 
 const DrawerContentWrapper = styled('div')`
   width: 100%;
-
-  @media screen and (${breakpoint('min-width', 'tabletM')}) {
-    width: 100%;
-  }
-
   padding-left: ${themeSpacing(5)};
   padding-right: ${themeSpacing(5)};
   overflow-y: auto;
@@ -84,54 +91,69 @@ enum LegendOrDetails {
 }
 
 const MapContainer: () => JSX.Element = () => {
-  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Open);
+  const [drawerState, setDrawerState] = useState<DrawerState>(DrawerState.Closed);
   const [legendOrDetails, setLegendOrDetails] = useState<LegendOrDetails>(LegendOrDetails.LEGEND);
   const [selectedItem, setSelectedItem] = useState<Feature | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const { legend, featureCollection } = useRetrieveMapDataAndLegend();
+  const { legend, sensors } = useRetrieveMapDataAndLegend();
 
-  const handleItemSelected = (feature: Feature) => {
-    setDrawerState(DrawerState.Open);
-    setLegendOrDetails(LegendOrDetails.DETAILS);
+  const handleItemSelected = useCallback(
+    (feature: Feature) => {
+      setDrawerState(DrawerState.Open);
+      setLegendOrDetails(LegendOrDetails.DETAILS);
 
-    setSelectedItem(feature);
-  };
+      setSelectedItem(feature);
+    },
+    [setDrawerState, setSelectedItem, setLegendOrDetails],
+  );
 
-  useEffect(() => {
-    if (!legend) {
-      return;
-    }
+  const showLegend = useCallback(() => setLegendOrDetails(LegendOrDetails.LEGEND), [setLegendOrDetails]);
 
-    setSelectedFilters(
-      Object.keys(legend)
-        .map((k) => legend[k])
-        .flat(),
-    );
-  }, [legend]);
-
-  const filteredMapData = useFilter(featureCollection || emptyFeatureCollection(), legend || {}, selectedFilters);
+  const filter = useFilter(sensors || [], legend || {}, selectedFilters);
 
   return (
     <StyledMap options={MAP_OPTIONS}>
+      <CenterMap />
       <StyledViewerContainer bottomRight={<Zoom />} />
 
-      <PointClusterLayer mapData={filteredMapData} onItemSelected={handleItemSelected} />
+      <PointClusterLayer
+        mapData={filter.filteredSensors}
+        onItemSelected={handleItemSelected}
+        showSelectedMarker={legendOrDetails === LegendOrDetails.DETAILS}
+      />
 
       <DrawerOverlay
         onStateChange={setDrawerState}
         state={drawerState}
-        Controls={LegendControl}
+        Controls={(props) => {
+          return (
+            <>
+              <LegendControl {...props} />
+              <SRSearchBar sensors={filter.filteredSensors} />
+            </>
+          );
+        }}
         onControlClick={() => setLegendOrDetails(LegendOrDetails.LEGEND)}
       >
         <DrawerContentWrapper>
-          {legendOrDetails === LegendOrDetails.DETAILS && <DeviceDetails feature={selectedItem} />}
+          {legendOrDetails === LegendOrDetails.DETAILS && <DeviceDetails feature={selectedItem} onClose={showLegend} />}
 
           {legendOrDetails === LegendOrDetails.LEGEND && (
             <MapLegend
               legend={legend}
               selectedItems={selectedFilters}
+              filter={filter}
               onToggleCategory={(category) => {
+                if (Array.isArray(category)) {
+                  let newFilters = selectedFilters;
+                  category.forEach((c) => {
+                    newFilters = newFilters.filter((f) => f !== c);
+                  });
+
+                  return setSelectedFilters(newFilters);
+                }
+
                 if (selectedFilters.includes(category)) {
                   return setSelectedFilters(selectedFilters.filter((l) => l !== category));
                 }
@@ -142,6 +164,7 @@ const MapContainer: () => JSX.Element = () => {
           )}
         </DrawerContentWrapper>
       </DrawerOverlay>
+
       <BaseLayer />
     </StyledMap>
   );

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { MapLayers } from '@amsterdam/asc-assets';
 import { Button } from '@amsterdam/asc-ui';
 import styled from 'styled-components';

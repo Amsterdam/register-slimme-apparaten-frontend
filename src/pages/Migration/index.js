@@ -1,4 +1,4 @@
-import React from 'react';
+import withContainer from '../withContainer';
 
 const Migration = () => (
   <div>
@@ -15,4 +15,4 @@ const Migration = () => (
   </div>
 );
 
-export default Migration;
+export default withContainer(Migration);
