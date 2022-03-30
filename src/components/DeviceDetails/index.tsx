@@ -1,6 +1,7 @@
 import { Close } from '@amsterdam/asc-assets';
 import { themeSpacing, List, ListItem, Link, themeColor, Button } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
+import RegionMap from './RegionMap';
 
 import './style.scss';
 
@@ -39,8 +40,18 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
     return null;
   }
 
-  const { sensorType, organisation, privacy, contact, activeUntil, goal, legalGround, reference, containsPiData } =
-    feature.properties;
+  const {
+    sensorType,
+    organisation,
+    privacy,
+    contact,
+    activeUntil,
+    goal,
+    legalGround,
+    reference,
+    containsPiData,
+    region,
+  } = feature.properties;
 
   return (
     <section id="device-details">
@@ -55,6 +66,9 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
           iconLeft={<Close />}
         />
       </ButtonContainer>
+
+      {region && <RegionMap region={region} />}
+
       <InfoContainer>
         <NoMarginH3>Verantwoordelijke voor de sensor</NoMarginH3>
         <List variant="bullet">
@@ -77,6 +91,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         <List variant="bullet">
           <ListItem>{sensorType}</ListItem>
           {reference && <ListItem>Referentie: {reference}</ListItem>}
+          {region && <ListItem>Gebied: {region}</ListItem>}
         </List>
       </InfoContainer>
 

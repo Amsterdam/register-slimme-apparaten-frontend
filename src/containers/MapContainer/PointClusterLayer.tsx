@@ -126,6 +126,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
       let c: null | L.MarkerCluster = null;
       const overlappingSensors = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
+          // A workaround to get a reference to the ClusterMarker
           c = cluster;
           return L.divIcon({
             className: 'sr-grouped-marker',
