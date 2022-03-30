@@ -6,6 +6,7 @@ import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
 import { Sensor } from '../../classes/Sensor';
 import { MarkerStorage } from '../../classes/MarkerStorage';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   mapData: Sensor[] | null;
@@ -63,6 +64,7 @@ function createDefaultMarker(feature: Feature, latlng: LatLng, addToList: boolea
 
 const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelectedMarker }) => {
   const mapInstance = useMapInstance();
+  const navigate = useNavigate();
   const selectedMarkerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
   const firstRun = useRef(true);
@@ -105,6 +107,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
               className: 'sr-highlighted-marker',
             },
           ).addTo(mapInstance);
+
+          navigate(
+            `/?sensor=${encodeURIComponent(
+              JSON.stringify([feature?.properties?.latitude, feature?.properties?.longitude]),
+            )}&reference=${feature.properties?.reference}`,
+          );
 
           onItemSelected(feature);
         });
@@ -165,6 +173,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
                   c.spiderfy();
                 }
               });
+
+            navigate(
+              `/?sensor=${encodeURIComponent(
+                JSON.stringify([sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]]),
+              )}&reference=${sensor.feature.properties?.reference}`,
+            );
 
             onItemSelected(sensor.feature);
           }),
