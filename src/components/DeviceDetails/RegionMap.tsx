@@ -94,7 +94,7 @@ function RegionMap({ regions }: { regions: string[] }) {
     <>
       <Heading>Locatie</Heading>
       <StyledMap setInstance={setMapInstance} options={mapOptions} fullScreen>
-        <BaseLayer baseLayer={constants.DEFAULT_AMSTERDAM_LAYERS[2].urlTemplate} />
+        <BaseLayer />
       </StyledMap>
     </>
   );
