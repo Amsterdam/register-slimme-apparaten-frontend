@@ -13,7 +13,7 @@ const mapOptions: MapOptions = {
   dragging: false,
   attributionControl: false,
   zoomControl: false,
-  maxZoom: zoom,
+  maxZoom: 14,
   minZoom: zoom,
   zoom,
 };
