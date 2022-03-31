@@ -34,10 +34,6 @@ const StyledMap = styled(Map)`
   height: 175px;
 `;
 
-const Heading = styled.h3`
-  margin-top: 0px;
-`;
-
 function RegionMap({ regions }: { regions: string[] }) {
   const [isLoading, setIsLoading] = useState(true);
   const layers = useRef<LayerGroup | null>(new LayerGroup());
@@ -92,7 +88,7 @@ function RegionMap({ regions }: { regions: string[] }) {
 
   return (
     <>
-      <Heading>Locatie</Heading>
+      <h3>Locatie</h3>
       <StyledMap setInstance={setMapInstance} options={mapOptions} fullScreen>
         <BaseLayer />
       </StyledMap>
