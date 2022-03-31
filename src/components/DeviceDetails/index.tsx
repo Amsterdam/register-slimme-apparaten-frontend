@@ -67,7 +67,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         />
       </ButtonContainer>
 
-      {region && <RegionMap region={region} />}
+      {region?.length > 0 && <RegionMap regions={region} />}
 
       <InfoContainer>
         <NoMarginH3>Verantwoordelijke voor de sensor</NoMarginH3>
@@ -91,7 +91,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         <List variant="bullet">
           <ListItem>{sensorType}</ListItem>
           {reference && <ListItem>Referentie: {reference}</ListItem>}
-          {region && <ListItem>Gebied: {region}</ListItem>}
+          {region && <ListItem>Gebied: {region.join(', ')}</ListItem>}
         </List>
       </InfoContainer>
 

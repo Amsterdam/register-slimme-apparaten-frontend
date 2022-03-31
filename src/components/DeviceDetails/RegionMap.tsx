@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import L, { Map as MapType, GeoJSON, MapOptions } from 'leaflet';
-import { Feature, Polygon } from 'geojson';
+import L, { Map as MapType, MapOptions, LayerGroup } from 'leaflet';
+import { Feature, FeatureCollection, Polygon } from 'geojson';
 import { Map, BaseLayer, constants } from '@amsterdam/arm-core';
 import { Area, getAllRegions } from '../../services/regions';
 import { rdPolygonToWgs84 } from '../../services/geojson';
+import { getFCBoundingBox } from './getFCBoundingBox';
 
 const zoom = 6;
 const mapOptions: MapOptions = {
@@ -37,9 +38,9 @@ const Heading = styled.h3`
   margin-top: 0px;
 `;
 
-function RegionMap({ region }: { region: string }) {
+function RegionMap({ regions }: { regions: string[] }) {
   const [isLoading, setIsLoading] = useState(true);
-  const layer = useRef<GeoJSON | null>(null);
+  const layers = useRef<LayerGroup | null>(new LayerGroup());
   const [mapInstance, setMapInstance] = useState<MapType | undefined>();
 
   useEffect(() => {
@@ -49,33 +50,45 @@ function RegionMap({ region }: { region: string }) {
 
     (async () => {
       setIsLoading(true);
-      const regions = await getAllRegions();
+      const allRegions = await getAllRegions();
 
-      const area = regions[region.toLowerCase()];
-      if (!area || !area?.geometrie) {
-        console.log(`Region ${region} not found`);
+      // Remove previous layers from LayerGroup
+      layers.current?.clearLayers();
 
-        return;
-      }
+      regions.forEach((region) => {
+        const area = allRegions[region.toLowerCase()];
+        if (!area || !area?.geometrie) {
+          console.log(`Region ${region} not found`);
 
-      // Remove current layer from mapInstance.
-      layer.current?.removeFrom(mapInstance);
+          return;
+        }
 
-      // Create new layer and add it to the map.
-      layer.current = L.geoJSON(getGeoJson(area), {
-        style: {
-          color: '#ec0000',
-          fillColor: '#ec0000',
-          fillOpacity: 0.2,
-        },
+        // Create new layer and add it to the LayerGroup.
+        layers.current?.addLayer(
+          L.geoJSON(getGeoJson(area), {
+            style: {
+              color: '#ec0000',
+              fillColor: '#ec0000',
+              fillOpacity: 0.2,
+            },
+          }),
+        );
       });
-      layer.current.addTo(mapInstance);
 
-      mapInstance.fitBounds(layer.current.getBounds());
+      const collection = layers.current?.toGeoJSON() as FeatureCollection<Polygon, any>;
+
+      mapInstance.fitBounds(getFCBoundingBox(collection));
+
+      // Add the LayerGroup to the map.
+      layers.current?.addTo(mapInstance);
 
       setIsLoading(false);
     })();
-  }, [region, mapInstance]);
+  }, [regions, mapInstance]);
+
+  if (!regions?.length) {
+    return <></>;
+  }
 
   return (
     <>

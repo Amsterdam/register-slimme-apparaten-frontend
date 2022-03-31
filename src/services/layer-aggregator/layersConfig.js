@@ -62,7 +62,10 @@ const LAYERS_CONFIG = [
         originalData: item,
         reference: item.properties?.Objectnummer,
         // Temp, select a random region.
-        region: regions[Math.min(Math.round(Math.random() * 10), regions.length)],
+        region: [
+          regions[Math.min(Math.round(Math.random() * 10), regions.length - 1)],
+          regions[Math.min(Math.round(Math.random() * 10), regions.length - 1)],
+        ],
       },
     }),
   },
