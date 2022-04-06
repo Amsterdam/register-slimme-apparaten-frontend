@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Feature, Point } from 'geojson';
-import L, { DomEvent, LatLng } from 'leaflet';
+import { Feature, Point, GeoJsonProperties } from 'geojson';
+import L, { DomEvent, LatLng, Layer } from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
@@ -44,22 +44,28 @@ export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
   return sensorsOnSameLocation.filter(Boolean);
 }
 
-function createDefaultMarker(feature: Feature, latlng: LatLng, addToList: boolean) {
-  const marker = L.circleMarker(latlng, {
-    color: 'white',
-    fillColor: feature?.properties?.color,
-    stroke: true,
-    fillOpacity: 1,
-    radius: 8,
-  });
-
-  marker.feature = feature as Feature<Point, any>;
+function createDefaultMarker(sensor: Sensor, addToList: boolean) {
+  const marker = sensor.getMarker();
 
   if (addToList) {
-    MarkerStorage.addMarker(latlng, marker);
+    MarkerStorage.addMarker(sensor.getLatLng(), marker);
   }
 
   return marker;
+}
+
+function createSelectedMarker(feature: Feature) {
+  return L.circleMarker(
+    { lat: feature?.properties?.latitude, lng: feature?.properties?.longitude },
+    {
+      color: 'red',
+      fillColor: 'white',
+      stroke: true,
+      fillOpacity: 1,
+      radius: 9,
+      className: 'sr-highlighted-marker',
+    },
+  );
 }
 
 const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelectedMarker }) => {
@@ -88,7 +94,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
     activeLayer.current?.remove();
 
     const layer = L.geoJSON(fc, {
-      onEachFeature: (feature: Feature, layer: L.Layer) => {
+      onEachFeature: (feature: Feature<Point, GeoJsonProperties>, layer: L.Layer) => {
         layer.on('click', (e) => {
           DomEvent.stopPropagation(e);
 
@@ -96,17 +102,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
             selectedMarkerRef.current.remove();
           }
 
-          selectedMarkerRef.current = L.circleMarker(
-            { lat: feature?.properties?.latitude, lng: feature?.properties?.longitude },
-            {
-              color: 'red',
-              fillColor: 'white',
-              stroke: true,
-              fillOpacity: 1,
-              radius: 9,
-              className: 'sr-highlighted-marker',
-            },
-          ).addTo(mapInstance);
+          selectedMarkerRef.current = createSelectedMarker(feature).addTo(mapInstance);
 
           navigate(
             `/?sensor=${encodeURIComponent(
@@ -117,12 +113,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
           onItemSelected(feature);
         });
       },
-      pointToLayer: (feature: Feature, latlng: L.LatLng) => {
+      pointToLayer: (feature: Feature<Point, GeoJsonProperties>) => {
         if (selectedMarkerRef.current) {
           selectedMarkerRef.current.remove();
         }
 
-        const marker = createDefaultMarker(feature, latlng, firstRun.current);
+        const marker = createDefaultMarker(new Sensor(feature), firstRun.current);
 
         return marker;
       },
@@ -146,26 +142,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
 
       set.forEach((sensor) => {
         overlappingSensors.addLayer(
-          createDefaultMarker(
-            sensor.feature,
-            new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
-            firstRun.current,
-          ).on('click', (e) => {
+          createDefaultMarker(sensor, firstRun.current).on('click', (e) => {
             if (selectedMarkerRef.current) {
               selectedMarkerRef.current.remove();
             }
 
-            selectedMarkerRef.current = L.circleMarker(
-              new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
-              {
-                color: 'red',
-                fillColor: 'white',
-                stroke: true,
-                fillOpacity: 1,
-                radius: 9,
-                className: 'sr-highlighted-marker',
-              },
-            )
+            selectedMarkerRef.current = createSelectedMarker(sensor.feature)
               .addTo(mapInstance)
               .on('click', () => {
                 if (c) {
@@ -190,7 +172,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
 
     activeLayer.current = layer;
     firstRun.current = false;
-  }, [mapInstance, mapData, onItemSelected]);
+  }, [mapInstance, mapData, onItemSelected, navigate]);
 
   useEffect(() => {
     if (!showSelectedMarker && selectedMarkerRef) {

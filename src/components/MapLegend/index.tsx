@@ -52,6 +52,7 @@ const mapLegendToProperties = {
   [LegendCategories.Thema]: 'themeCount',
   [LegendCategories['Verwerkt persoonsgegevens']]: 'piCount',
   [LegendCategories.Eigenaar]: 'ownerCount',
+  [LegendCategories.Mobiel]: 'mobileCount',
 };
 
 const LegendOption = ({

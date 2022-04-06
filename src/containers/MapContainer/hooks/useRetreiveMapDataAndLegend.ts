@@ -1,3 +1,4 @@
+import { MobileType } from './../../../utils/types';
 import { useEffect, useState } from 'react';
 import { Feature, FeatureCollection, GeoJsonProperties, Point } from 'geojson';
 
@@ -68,16 +69,28 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
     return addItemToFeatureCollection(curr.properties?.themes, acc, curr);
   }, {});
 
+  const mobile = allFeatures.reduce((acc: AccumulatorType, curr) => {
+    if (curr.properties?.region?.length > 0) {
+      acc = addItemToFeatureCollection(MobileType.Mobiel, acc, curr);
+    } else {
+      acc = addItemToFeatureCollection(MobileType.Vast, acc, curr);
+    }
+
+    return acc;
+  }, {});
+
   // Sensor type
   // Eigenaar (Gemeente A'dam ja/nee)
   // Verwerkt persoonsgegevens
   // Thema
+  // Mobiel
 
   return {
     [LegendCategories['Sensor type']]: sensorTypes,
     [LegendCategories.Eigenaar]: owner,
     [LegendCategories['Verwerkt persoonsgegevens']]: piData,
     [LegendCategories.Thema]: themes,
+    [LegendCategories.Mobiel]: mobile,
   };
 }
 

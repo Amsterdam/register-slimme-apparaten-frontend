@@ -18,7 +18,7 @@ const InfoContainer = styled('div')`
 
 const CloseButton = styled(Button)`
   position: absolute;
-  top: 12px;
+  top: 14px;
   right: 20px;
   min-width: inherit;
 
