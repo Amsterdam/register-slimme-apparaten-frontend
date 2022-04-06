@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Feature, Point, GeoJsonProperties } from 'geojson';
-import L, { DomEvent, LatLng, Layer } from 'leaflet';
+import L, { DomEvent } from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
@@ -62,7 +62,7 @@ function createSelectedMarker(feature: Feature) {
       fillColor: 'white',
       stroke: true,
       fillOpacity: 1,
-      radius: 9,
+      radius: 11,
       className: 'sr-highlighted-marker',
     },
   );
