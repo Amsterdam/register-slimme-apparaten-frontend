@@ -73,10 +73,16 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
   const navigate = useNavigate();
   const selectedMarkerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
+  const activeOverlapping = useRef<L.MarkerClusterGroup[]>();
   const firstRun = useRef(true);
 
   useMemo(() => {
     if (!mapInstance || !mapData || mapData.length === 0) return;
+
+    // Remove points from previous render
+    activeLayer.current?.remove();
+    activeOverlapping.current?.forEach((cluster) => cluster.remove());
+    activeOverlapping.current = [];
 
     const sensorsOnSameLocation = filterSensorsOnSameLocation(mapData);
 
@@ -90,8 +96,6 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
           ),
       )
       .map((s) => s.toFeature());
-
-    activeLayer.current?.remove();
 
     const layer = L.geoJSON(fc, {
       onEachFeature: (feature: Feature<Point, GeoJsonProperties>, layer: L.Layer) => {
@@ -168,6 +172,7 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
       });
 
       overlappingSensors.addTo(mapInstance);
+      activeOverlapping.current?.push(overlappingSensors);
     });
 
     activeLayer.current = layer;

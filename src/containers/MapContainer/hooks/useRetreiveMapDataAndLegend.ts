@@ -89,8 +89,8 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
     [LegendCategories['Sensor type']]: sensorTypes,
     [LegendCategories.Eigenaar]: owner,
     [LegendCategories['Verwerkt persoonsgegevens']]: piData,
-    [LegendCategories.Thema]: themes,
     [LegendCategories.Mobiel]: mobile,
+    [LegendCategories.Thema]: themes,
   };
 }
 

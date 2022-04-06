@@ -4,6 +4,7 @@ import { Polygon } from 'geojson';
 export type Area = {
   code: string;
   geometrie: Polygon;
+  naam: string;
 };
 
 /**
@@ -80,5 +81,9 @@ export async function getAllRegions() {
     });
   }
 
+  return regions;
+}
+
+export function getRegions() {
   return regions;
 }

@@ -1,6 +1,7 @@
 import { Close } from '@amsterdam/asc-assets';
 import { themeSpacing, List, ListItem, Link, themeColor, Button } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
+import { getRegions } from '../../services/regions';
 import RegionMap from './RegionMap';
 import './style.scss';
 
@@ -49,6 +50,8 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
     region,
   } = feature.properties;
 
+  const regions = getRegions();
+
   return (
     <DeviceDetailsWrapper id="device-details">
       <CloseButton
@@ -84,8 +87,11 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         <h3>Sensorgegevens</h3>
         <List variant="bullet">
           <ListItem>{sensorType}</ListItem>
+          <ListItem>{region ? 'Mobiele sensor' : 'Vaste sensor'}</ListItem>
           {reference && <ListItem>Referentie: {reference}</ListItem>}
-          {region && <ListItem>Gebied: {region.join(', ')}</ListItem>}
+          {region && (
+            <ListItem>Gebied: {region.map((r: string) => regions[r.toLowerCase()]?.naam).join(', ')}</ListItem>
+          )}
         </List>
       </InfoContainer>
 
