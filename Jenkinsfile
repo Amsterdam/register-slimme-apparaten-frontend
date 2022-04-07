@@ -22,7 +22,6 @@ node {
     stage("Checkout") {
         checkout scm
     }
-
 }
 
 node {

@@ -1,7 +1,9 @@
 import { DomEvent, circleMarker } from 'leaflet';
-import CONFIGURATION from '../../shared/configuration/environment';
+import CONFIGURATION from '../../shared/environment';
 import { mapSensorTypeToColor, SensorTypes } from '../../utils/types';
 import { readData, readPaginatedData } from '../datareader';
+
+// const regions = ['KM', 'A', 'GN19', 'K', 'GE03', 'SA', 'AD07', 'S', 'AA04', 'GM14', 'GT23', 'GA02'];
 
 const LAYERS_CONFIG = [
   {
@@ -59,6 +61,11 @@ const LAYERS_CONFIG = [
         legalGround: 'Verkeersmanagment in de rol van wegbeheerder.',
         originalData: item,
         reference: item.properties?.Objectnummer,
+        // // Temp, select a random region.
+        // region: [
+        //   regions[Math.min(Math.round(Math.random() * 10), regions.length - 1)],
+        //   regions[Math.min(Math.round(Math.random() * 10), regions.length - 1)],
+        // ],
       },
     }),
   },

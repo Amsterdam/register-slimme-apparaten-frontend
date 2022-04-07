@@ -4,6 +4,13 @@ import { ThemeProvider } from '@amsterdam/asc-ui';
 import DeviceDetails, { Props } from '.';
 import { SensorTypes } from '../../utils/types';
 
+jest.mock('../../services/regions', () => {
+  return {
+    useRegions: jest.fn(),
+    __esModule: true,
+  };
+});
+
 describe('DeviceDetails', () => {
   const props: Props = {
     feature: {

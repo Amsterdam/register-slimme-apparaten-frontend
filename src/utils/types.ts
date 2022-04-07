@@ -92,6 +92,7 @@ export enum LegendCategories {
   Eigenaar = 'Eigenaar',
   'Verwerkt persoonsgegevens' = 'Verwerkt persoonsgegevens',
   Thema = 'Thema',
+  Mobiel = 'Vaste / mobiele sensoren',
 }
 
 export enum PiOptions {
@@ -102,6 +103,11 @@ export enum PiOptions {
 export enum OwnerType {
   Gemeente = 'Gemeente Amsterdam',
   Other = 'Andere',
+}
+
+export enum MobileType {
+  Mobiel = 'Mobiele sensor',
+  Vast = 'Vaste sensor',
 }
 
 export type SortedResults = { [category: string]: { [type: string]: FeatureCollection | null } };
