@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Polygon } from 'geojson';
+import { useState, useEffect } from 'react';
 
 export type Area = {
   code: string;
@@ -84,6 +85,18 @@ export async function getAllRegions() {
   return regions;
 }
 
-export function getRegions() {
+export function useRegions() {
+  const [regions, setRegions] = useState<{ [key: string]: Area } | null>(null);
+
+  useEffect(() => {
+    async function getData() {
+      const regions = await getAllRegions();
+
+      setRegions(regions);
+    }
+
+    getData();
+  });
+
   return regions;
 }

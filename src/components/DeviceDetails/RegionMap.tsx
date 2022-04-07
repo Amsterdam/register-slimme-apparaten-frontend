@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import L, { Map as MapType, MapOptions, LayerGroup } from 'leaflet';
 import { Feature, FeatureCollection, Polygon } from 'geojson';
 import { Map, BaseLayer, constants } from '@amsterdam/arm-core';
-import { Area, getAllRegions } from '../../services/regions';
+import { Area, useRegions } from '../../services/regions';
 import { rdPolygonToWgs84 } from '../../services/geojson';
 import { getFCBoundingBox } from './getFCBoundingBox';
 
@@ -35,19 +35,16 @@ const StyledMap = styled(Map)`
 `;
 
 function RegionMap({ regions }: { regions: string[] }) {
-  const [isLoading, setIsLoading] = useState(true);
+  const allRegions = useRegions();
   const layers = useRef<LayerGroup | null>(new LayerGroup());
   const [mapInstance, setMapInstance] = useState<MapType | undefined>();
 
   useEffect(() => {
-    if (!mapInstance) {
+    if (!mapInstance || !allRegions) {
       return;
     }
 
     (async () => {
-      setIsLoading(true);
-      const allRegions = await getAllRegions();
-
       // Remove previous layers from LayerGroup
       layers.current?.clearLayers();
 
@@ -77,10 +74,8 @@ function RegionMap({ regions }: { regions: string[] }) {
 
       // Add the LayerGroup to the map.
       layers.current?.addTo(mapInstance);
-
-      setIsLoading(false);
     })();
-  }, [regions, mapInstance]);
+  }, [regions, mapInstance, allRegions]);
 
   if (!regions?.length) {
     return <></>;

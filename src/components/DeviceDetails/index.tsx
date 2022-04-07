@@ -1,7 +1,7 @@
 import { Close } from '@amsterdam/asc-assets';
 import { themeSpacing, List, ListItem, Link, themeColor, Button } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
-import { getRegions } from '../../services/regions';
+import { useRegions } from '../../services/regions';
 import RegionMap from './RegionMap';
 import './style.scss';
 
@@ -33,6 +33,8 @@ const DeviceDetailsWrapper = styled.section`
 `;
 
 const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
+  const regions = useRegions();
+
   if (!feature) {
     return null;
   }
@@ -49,8 +51,6 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
     containsPiData,
     region,
   } = feature.properties;
-
-  const regions = getRegions();
 
   return (
     <DeviceDetailsWrapper id="device-details">
@@ -89,7 +89,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
           <ListItem>{sensorType}</ListItem>
           <ListItem>{region ? 'Mobiele sensor' : 'Vaste sensor'}</ListItem>
           {reference && <ListItem>Referentie: {reference}</ListItem>}
-          {region && (
+          {region && regions && (
             <ListItem>Gebied: {region.map((r: string) => regions[r.toLowerCase()]?.naam).join(', ')}</ListItem>
           )}
         </List>
