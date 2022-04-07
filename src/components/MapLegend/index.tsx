@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Accordion, Button, Checkbox, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
@@ -127,7 +127,7 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
 
       {legend &&
         otherCategories.map((categoryName) => (
-          <>
+          <Fragment key={categoryName}>
             {/* Only show category when there is something to choose (e.g. more than 1 item). */}
             {legend[categoryName].length > 1 && (
               <LegendSection key={categoryName}>
@@ -149,7 +149,7 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
                 </Accordion>
               </LegendSection>
             )}
-          </>
+          </Fragment>
         ))}
     </>
   );

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Feature, Point, GeoJsonProperties } from 'geojson';
 import L, { DomEvent } from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
@@ -6,7 +7,6 @@ import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
 import { Sensor } from '../../classes/Sensor';
 import { MarkerStorage } from '../../classes/MarkerStorage';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
   mapData: Sensor[] | null;
