@@ -127,24 +127,29 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
 
       {legend &&
         otherCategories.map((categoryName) => (
-          <LegendSection key={categoryName}>
-            <Accordion id={categoryName} title={categoryName} isOpen>
-              {legend[categoryName].map((item) => {
-                return (
-                  <LegendOption
-                    onToggleCategory={onToggleCategory}
-                    resultCount={
-                      /* @ts-ignore */
-                      filter[mapLegendToProperties[categoryName]][item] || 0
-                    }
-                    selected={selectedItems?.includes(item) || false}
-                    text={item}
-                    key={item}
-                  ></LegendOption>
-                );
-              })}
-            </Accordion>
-          </LegendSection>
+          <>
+            {/* Only show category when there is something to choose (e.g. more than 1 item). */}
+            {legend[categoryName].length > 1 && (
+              <LegendSection key={categoryName}>
+                <Accordion id={categoryName} title={categoryName} isOpen>
+                  {legend[categoryName].map((item) => {
+                    return (
+                      <LegendOption
+                        onToggleCategory={onToggleCategory}
+                        resultCount={
+                          /* @ts-ignore */
+                          filter[mapLegendToProperties[categoryName]][item] || 0
+                        }
+                        selected={selectedItems?.includes(item) || false}
+                        text={item}
+                        key={item}
+                      ></LegendOption>
+                    );
+                  })}
+                </Accordion>
+              </LegendSection>
+            )}
+          </>
         ))}
     </>
   );
