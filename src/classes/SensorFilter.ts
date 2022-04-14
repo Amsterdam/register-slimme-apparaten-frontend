@@ -1,5 +1,5 @@
 import uniq from 'lodash/uniq';
-import { OwnerType, PiOptions, SensorTypes } from '../utils/types';
+import { MobileType, OwnerType, PiOptions, SensorTypes } from '../utils/types';
 import { Sensor } from './Sensor';
 
 type CountType = { [key: string]: number };
@@ -11,11 +11,13 @@ export class SensorFilter {
   themeFilter: string[];
   ownerFilter: string[];
   piFilter: string[];
+  mobileFilter: string[];
 
   sensorTypeCount: CountType;
   piCount: CountType;
   ownerCount: CountType;
   themeCount: CountType;
+  mobileCount: CountType;
 
   constructor(
     sensors: Sensor[],
@@ -24,6 +26,7 @@ export class SensorFilter {
     themeFilter: string[] = [],
     ownerFilter: string[] = [],
     piFilter: string[] = [],
+    mobileFilter: string[] = [],
   ) {
     this.sensors = [...sensors];
     this.filteredSensors = filteredSensors;
@@ -31,11 +34,13 @@ export class SensorFilter {
     this.themeFilter = themeFilter;
     this.ownerFilter = ownerFilter;
     this.piFilter = piFilter;
+    this.mobileFilter = mobileFilter;
 
     this.sensorTypeCount = this.countSensorTypes();
     this.themeCount = this.countThemes();
     this.piCount = this.countPi();
     this.ownerCount = this.countOwner();
+    this.mobileCount = this.countMobile();
   }
 
   filterTheme() {
@@ -68,6 +73,20 @@ export class SensorFilter {
     );
   }
 
+  filterMobile() {
+    if (this.mobileFilter.length === 2 || this.mobileFilter.length === 0) {
+      return this;
+    }
+
+    return this.filterdResult(
+      this.filteredSensors.filter(
+        (s) =>
+          (this.mobileFilter[0] === MobileType.Mobiel && s.isMobileSensor()) ||
+          (this.mobileFilter[0] === MobileType.Vast && !s.isMobileSensor()),
+      ),
+    );
+  }
+
   filterPi() {
     if (this.piFilter.length === 2 || this.piFilter.length === 0) {
       return this;
@@ -83,14 +102,20 @@ export class SensorFilter {
   }
 
   filter() {
-    return this.filterSensorType().filterOwner().filterPi().filterTheme().count();
+    return this.filterSensorType().filterOwner().filterPi().filterTheme().filterMobile().count();
   }
 
   count() {
-    this.sensorTypeCount = this.freshInstance().filterOwner().filterPi().filterTheme().countSensorTypes();
-    this.ownerCount = this.freshInstance().filterSensorType().filterPi().filterTheme().countOwner();
-    this.piCount = this.freshInstance().filterOwner().filterSensorType().filterTheme().countPi();
-    this.themeCount = this.freshInstance().filterSensorType().filterPi().filterOwner().countThemes();
+    this.sensorTypeCount = this.freshInstance()
+      .filterOwner()
+      .filterPi()
+      .filterTheme()
+      .filterMobile()
+      .countSensorTypes();
+    this.ownerCount = this.freshInstance().filterSensorType().filterPi().filterTheme().filterMobile().countOwner();
+    this.piCount = this.freshInstance().filterOwner().filterSensorType().filterTheme().filterMobile().countPi();
+    this.themeCount = this.freshInstance().filterSensorType().filterPi().filterOwner().filterMobile().countThemes();
+    this.mobileCount = this.freshInstance().filterSensorType().filterPi().filterOwner().filterTheme().countMobile();
 
     return this;
   }
@@ -137,6 +162,15 @@ export class SensorFilter {
     return ownerCount;
   }
 
+  countMobile() {
+    const mobileCount = {
+      [MobileType.Mobiel]: this.filteredSensors.filter((s) => s.isMobileSensor()).length,
+      [MobileType.Vast]: this.filteredSensors.filter((s) => !s.isMobileSensor()).length,
+    };
+
+    return mobileCount;
+  }
+
   /**
    * Create a new instance using the filtered list of sensors.
    *
@@ -151,6 +185,7 @@ export class SensorFilter {
       this.themeFilter,
       this.ownerFilter,
       this.piFilter,
+      this.mobileFilter,
     );
   }
 
@@ -167,6 +202,7 @@ export class SensorFilter {
       this.themeFilter,
       this.ownerFilter,
       this.piFilter,
+      this.mobileFilter,
     );
   }
 }

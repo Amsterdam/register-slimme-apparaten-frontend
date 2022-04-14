@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { Feature, Point } from 'geojson';
-import L, { DomEvent, LatLng } from 'leaflet';
+import { useNavigate } from 'react-router-dom';
+import { Feature, Point, GeoJsonProperties } from 'geojson';
+import L, { DomEvent } from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster.js';
 import { useMapInstance } from '@amsterdam/react-maps';
 import { emptyFeatureCollection } from './hooks/useRetreiveMapDataAndLegend';
@@ -43,32 +44,45 @@ export function filterSensorsOnSameLocation(sensors: Sensor[]): Sensor[][] {
   return sensorsOnSameLocation.filter(Boolean);
 }
 
-function createDefaultMarker(feature: Feature, latlng: LatLng, addToList: boolean) {
-  const marker = L.circleMarker(latlng, {
-    color: 'white',
-    fillColor: feature?.properties?.color,
-    stroke: true,
-    fillOpacity: 1,
-    radius: 8,
-  });
-
-  marker.feature = feature as Feature<Point, any>;
+function createDefaultMarker(sensor: Sensor, addToList: boolean) {
+  const marker = sensor.getMarker();
 
   if (addToList) {
-    MarkerStorage.addMarker(latlng, marker);
+    MarkerStorage.addMarker(sensor.getLatLng(), marker);
   }
 
   return marker;
 }
 
+function createSelectedMarker(feature: Feature) {
+  return L.circleMarker(
+    { lat: feature?.properties?.latitude, lng: feature?.properties?.longitude },
+    {
+      color: 'red',
+      fillColor: 'white',
+      stroke: true,
+      fillOpacity: 1,
+      radius: 11,
+      className: 'sr-highlighted-marker',
+    },
+  );
+}
+
 const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelectedMarker }) => {
   const mapInstance = useMapInstance();
+  const navigate = useNavigate();
   const selectedMarkerRef = useRef<L.CircleMarker>();
   const activeLayer = useRef<L.GeoJSON>();
+  const activeOverlapping = useRef<L.MarkerClusterGroup[]>();
   const firstRun = useRef(true);
 
   useMemo(() => {
     if (!mapInstance || !mapData || mapData.length === 0) return;
+
+    // Remove points from previous render
+    activeLayer.current?.remove();
+    activeOverlapping.current?.forEach((cluster) => cluster.remove());
+    activeOverlapping.current = [];
 
     const sensorsOnSameLocation = filterSensorsOnSameLocation(mapData);
 
@@ -83,10 +97,8 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
       )
       .map((s) => s.toFeature());
 
-    activeLayer.current?.remove();
-
     const layer = L.geoJSON(fc, {
-      onEachFeature: (feature: Feature, layer: L.Layer) => {
+      onEachFeature: (feature: Feature<Point, GeoJsonProperties>, layer: L.Layer) => {
         layer.on('click', (e) => {
           DomEvent.stopPropagation(e);
 
@@ -94,27 +106,23 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
             selectedMarkerRef.current.remove();
           }
 
-          selectedMarkerRef.current = L.circleMarker(
-            { lat: feature?.properties?.latitude, lng: feature?.properties?.longitude },
-            {
-              color: 'red',
-              fillColor: 'white',
-              stroke: true,
-              fillOpacity: 1,
-              radius: 9,
-              className: 'sr-highlighted-marker',
-            },
-          ).addTo(mapInstance);
+          selectedMarkerRef.current = createSelectedMarker(feature).addTo(mapInstance);
+
+          navigate(
+            `/?sensor=${encodeURIComponent(
+              JSON.stringify([feature?.properties?.latitude, feature?.properties?.longitude]),
+            )}&reference=${feature.properties?.reference}`,
+          );
 
           onItemSelected(feature);
         });
       },
-      pointToLayer: (feature: Feature, latlng: L.LatLng) => {
+      pointToLayer: (feature: Feature<Point, GeoJsonProperties>) => {
         if (selectedMarkerRef.current) {
           selectedMarkerRef.current.remove();
         }
 
-        const marker = createDefaultMarker(feature, latlng, firstRun.current);
+        const marker = createDefaultMarker(new Sensor(feature), firstRun.current);
 
         return marker;
       },
@@ -123,8 +131,11 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
 
     // Add markerClusterGroups for all sets of sensors on the same location.
     sensorsOnSameLocation.forEach((set) => {
+      let c: null | L.MarkerCluster = null;
       const overlappingSensors = L.markerClusterGroup({
         iconCreateFunction: function (cluster) {
+          // A workaround to get a reference to the ClusterMarker
+          c = cluster;
           return L.divIcon({
             className: 'sr-grouped-marker',
             iconSize: [21, 21],
@@ -135,26 +146,25 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
 
       set.forEach((sensor) => {
         overlappingSensors.addLayer(
-          createDefaultMarker(
-            sensor.feature,
-            new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
-            firstRun.current,
-          ).on('click', (e) => {
+          createDefaultMarker(sensor, firstRun.current).on('click', (e) => {
             if (selectedMarkerRef.current) {
               selectedMarkerRef.current.remove();
             }
 
-            selectedMarkerRef.current = L.circleMarker(
-              new LatLng(sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]),
-              {
-                color: 'red',
-                fillColor: 'white',
-                stroke: true,
-                fillOpacity: 1,
-                radius: 9,
-                className: 'sr-highlighted-marker',
-              },
-            ).addTo(mapInstance);
+            selectedMarkerRef.current = createSelectedMarker(sensor.feature)
+              .addTo(mapInstance)
+              .on('click', () => {
+                if (c) {
+                  selectedMarkerRef?.current?.remove();
+                  c.spiderfy();
+                }
+              });
+
+            navigate(
+              `/?sensor=${encodeURIComponent(
+                JSON.stringify([sensor.feature.geometry.coordinates[1], sensor.feature.geometry.coordinates[0]]),
+              )}&reference=${sensor.feature.properties?.reference}`,
+            );
 
             onItemSelected(sensor.feature);
           }),
@@ -162,11 +172,12 @@ const PointClusterLayer: React.FC<Props> = ({ mapData, onItemSelected, showSelec
       });
 
       overlappingSensors.addTo(mapInstance);
+      activeOverlapping.current?.push(overlappingSensors);
     });
 
     activeLayer.current = layer;
     firstRun.current = false;
-  }, [mapInstance, mapData, onItemSelected]);
+  }, [mapInstance, mapData, onItemSelected, navigate]);
 
   useEffect(() => {
     if (!showSelectedMarker && selectedMarkerRef) {

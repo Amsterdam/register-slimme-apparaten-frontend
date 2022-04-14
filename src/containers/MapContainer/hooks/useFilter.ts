@@ -23,6 +23,8 @@ function useFilter(
 
     const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
 
+    const mobiel = legend[LegendCategories.Mobiel].filter((type) => selectedFilters.includes(type));
+
     const filter = new SensorFilter(
       unFilteredResults,
       unFilteredResults,
@@ -30,6 +32,7 @@ function useFilter(
       allowedThemes,
       owner,
       pi,
+      mobiel,
     ).filter();
 
     return filter;

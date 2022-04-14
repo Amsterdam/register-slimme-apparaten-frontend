@@ -1,7 +1,8 @@
 import { Close } from '@amsterdam/asc-assets';
 import { themeSpacing, List, ListItem, Link, themeColor, Button } from '@amsterdam/asc-ui';
 import styled from 'styled-components';
-
+import { useRegions } from '../../services/regions';
+import RegionMap from './RegionMap';
 import './style.scss';
 
 export interface Props {
@@ -16,47 +17,57 @@ const InfoContainer = styled('div')`
   border-bottom: 2px solid ${themeColor('tint', 'level2')};
 `;
 
-const NoMarginH3 = styled.h3`
-  margin-top: 0px;
-`;
-
 const CloseButton = styled(Button)`
+  position: absolute;
+  top: 14px;
+  right: 20px;
   min-width: inherit;
-  margin-right: -16px;
 
   > span {
     margin-right: 0;
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
+const DeviceDetailsWrapper = styled.section`
+  postision: relative;
 `;
 
 const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
+  const regions = useRegions();
+
   if (!feature) {
     return null;
   }
 
-  const { sensorType, organisation, privacy, contact, activeUntil, goal, legalGround, reference, containsPiData } =
-    feature.properties;
+  const {
+    sensorType,
+    organisation,
+    privacy,
+    contact,
+    activeUntil,
+    goal,
+    legalGround,
+    reference,
+    containsPiData,
+    region,
+  } = feature.properties;
 
   return (
-    <section id="device-details">
-      <ButtonContainer>
-        <CloseButton
-          type="button"
-          variant="blank"
-          title="Legenda"
-          data-testid="legenda"
-          iconSize={20}
-          onClick={onClose}
-          iconLeft={<Close />}
-        />
-      </ButtonContainer>
+    <DeviceDetailsWrapper id="device-details">
+      <CloseButton
+        type="button"
+        variant="blank"
+        title="Legenda"
+        data-testid="legenda"
+        iconSize={20}
+        onClick={onClose}
+        iconLeft={<Close />}
+      />
+
+      {region?.length > 0 && <RegionMap regions={region} />}
+
       <InfoContainer>
-        <NoMarginH3>Verantwoordelijke voor de sensor</NoMarginH3>
+        <h3>Verantwoordelijke voor de sensor</h3>
         <List variant="bullet">
           <ListItem>{contact?.name}</ListItem>
           <ListItem>{organisation}</ListItem>
@@ -76,7 +87,11 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         <h3>Sensorgegevens</h3>
         <List variant="bullet">
           <ListItem>{sensorType}</ListItem>
+          <ListItem>{region ? 'Mobiele sensor' : 'Vaste sensor'}</ListItem>
           {reference && <ListItem>Referentie: {reference}</ListItem>}
+          {region && regions && (
+            <ListItem>Gebied: {region.map((r: string) => regions[r.toLowerCase()]?.naam).join(', ')}</ListItem>
+          )}
         </List>
       </InfoContainer>
 
@@ -94,7 +109,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
           <ListItem>{activeUntil}</ListItem>
         </List>
       </InfoContainer>
-    </section>
+    </DeviceDetailsWrapper>
   );
 };
 

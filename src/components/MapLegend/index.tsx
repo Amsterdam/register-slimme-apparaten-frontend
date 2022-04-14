@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Accordion, Button, Checkbox, themeColor, themeSpacing } from '@amsterdam/asc-ui';
 import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
@@ -52,6 +52,7 @@ const mapLegendToProperties = {
   [LegendCategories.Thema]: 'themeCount',
   [LegendCategories['Verwerkt persoonsgegevens']]: 'piCount',
   [LegendCategories.Eigenaar]: 'ownerCount',
+  [LegendCategories.Mobiel]: 'mobileCount',
 };
 
 const LegendOption = ({
@@ -126,24 +127,29 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
 
       {legend &&
         otherCategories.map((categoryName) => (
-          <LegendSection key={categoryName}>
-            <Accordion id={categoryName} title={categoryName} isOpen>
-              {legend[categoryName].map((item) => {
-                return (
-                  <LegendOption
-                    onToggleCategory={onToggleCategory}
-                    resultCount={
-                      /* @ts-ignore */
-                      filter[mapLegendToProperties[categoryName]][item] || 0
-                    }
-                    selected={selectedItems?.includes(item) || false}
-                    text={item}
-                    key={item}
-                  ></LegendOption>
-                );
-              })}
-            </Accordion>
-          </LegendSection>
+          <Fragment key={categoryName}>
+            {/* Only show category when there is something to choose (e.g. more than 1 item). */}
+            {legend[categoryName].length > 1 && (
+              <LegendSection key={categoryName}>
+                <Accordion id={categoryName} title={categoryName} isOpen>
+                  {legend[categoryName].map((item) => {
+                    return (
+                      <LegendOption
+                        onToggleCategory={onToggleCategory}
+                        resultCount={
+                          /* @ts-ignore */
+                          filter[mapLegendToProperties[categoryName]][item] || 0
+                        }
+                        selected={selectedItems?.includes(item) || false}
+                        text={item}
+                        key={item}
+                      ></LegendOption>
+                    );
+                  })}
+                </Accordion>
+              </LegendSection>
+            )}
+          </Fragment>
         ))}
     </>
   );
