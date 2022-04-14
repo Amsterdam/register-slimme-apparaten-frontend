@@ -6,7 +6,6 @@ import { LegendCategories, SortedResults } from './../../../utils/types';
 function useFilter(unFilteredResults: Sensor[], legend: SortedResults | null, selectedFilters: string[]): SensorFilter {
   return useMemo(() => {
     if (!unFilteredResults || selectedFilters.length === 0 || !legend) {
-      console.log(new SensorFilter(unFilteredResults));
       return new SensorFilter(unFilteredResults);
     }
 
@@ -44,8 +43,6 @@ function useFilter(unFilteredResults: Sensor[], legend: SortedResults | null, se
       mobileFilter,
       projectFilter,
     ).filter();
-
-    console.log(filter);
 
     return filter;
   }, [unFilteredResults, legend, selectedFilters]);

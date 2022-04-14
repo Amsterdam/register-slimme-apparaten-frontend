@@ -122,7 +122,7 @@ export class SensorFilter {
   }
 
   filter() {
-    return this.filterSensorType().filterOwner().filterPi().filterTheme().filterMobile().count();
+    return this.filterSensorType().filterOwner().filterPi().filterTheme().filterMobile().filterProject().count();
   }
 
   getCountForCategory(category: LegendCategories) {
