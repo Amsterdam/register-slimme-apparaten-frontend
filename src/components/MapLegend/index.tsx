@@ -13,7 +13,7 @@ const LegendSection = styled('section')`
 export interface Props {
   legend: SortedResults | null;
   selectedItems: string[] | null;
-  onToggleCategory: (name: string | string[]) => void;
+  onToggleCategory: (name: string | string[], select: boolean) => void;
   filter: SensorFilter;
 }
 
@@ -48,7 +48,7 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
         variant="textButton"
         onClick={() => {
           if (selectedItems) {
-            onToggleCategory(selectedItems);
+            onToggleCategory(selectedItems, false);
           }
         }}
       >

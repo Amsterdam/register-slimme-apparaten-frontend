@@ -27,14 +27,14 @@ const LegendOption = ({
   selected: boolean;
   resultCount: number;
   text: string;
-  onToggleCategory: (option: string) => void;
+  onToggleCategory: (option: string, select: boolean) => void;
 }) => {
   return (
     <LegendItem htmlFor={text}>
       <Checkbox
         id={text}
         checked={selected}
-        onChange={() => onToggleCategory(text)}
+        onChange={() => onToggleCategory(text, !selected)}
         disabled={resultCount === 0 && !selected}
       />
       <LegendText noResults={resultCount === 0}>

@@ -144,15 +144,24 @@ const MapContainer: () => JSX.Element = () => {
               legend={legend}
               selectedItems={selectedFilters}
               filter={filter}
-              onToggleCategory={(category) => {
+              onToggleCategory={(category, select) => {
                 // Check if we received an array (used for resetting the currently selected filters).
                 if (Array.isArray(category)) {
-                  // Set filters to an empty list.
-                  return setSelectedFilters([]);
+                  if (select) {
+                    return setSelectedFilters([...selectedFilters, ...category]);
+                  } else {
+                    if (category.length === 0) {
+                      // Set filters to an empty list.
+                      return setSelectedFilters([]);
+                    } else {
+                      // De-select passed items
+                      return setSelectedFilters(selectedFilters.filter((f) => !category.includes(f)));
+                    }
+                  }
                 }
 
                 // An option was selected which was already selected, deselect it.
-                if (selectedFilters.includes(category)) {
+                if (selectedFilters.includes(category) && !select) {
                   return setSelectedFilters(selectedFilters.filter((l) => l !== category));
                 }
 
