@@ -110,7 +110,7 @@ const MapContainer: () => JSX.Element = () => {
 
   const showLegend = useCallback(() => setLegendOrDetails(LegendOrDetails.LEGEND), [setLegendOrDetails]);
 
-  const filter = useFilter(sensors || [], legend || {}, selectedFilters);
+  const filter = useFilter(sensors || [], legend, selectedFilters);
 
   return (
     <StyledMap options={MAP_OPTIONS}>
@@ -145,15 +145,13 @@ const MapContainer: () => JSX.Element = () => {
               selectedItems={selectedFilters}
               filter={filter}
               onToggleCategory={(category) => {
+                // Check if we received an array (used for resetting the currently selected filters).
                 if (Array.isArray(category)) {
-                  let newFilters = selectedFilters;
-                  category.forEach((c) => {
-                    newFilters = newFilters.filter((f) => f !== c);
-                  });
-
-                  return setSelectedFilters(newFilters);
+                  // Set filters to an empty list.
+                  return setSelectedFilters([]);
                 }
 
+                // An option was selected which was already selected, deselect it.
                 if (selectedFilters.includes(category)) {
                   return setSelectedFilters(selectedFilters.filter((l) => l !== category));
                 }

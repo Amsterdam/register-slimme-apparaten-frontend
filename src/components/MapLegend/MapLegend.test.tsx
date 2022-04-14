@@ -33,6 +33,7 @@ describe('MapLegend', () => {
         'Mobiliteit',
         'Milieu',
       ],
+      'Vaste / mobiele sensoren': ['Vast', 'Mobiel'],
     };
 
     const filter = new SensorFilter(sensorList);

@@ -110,4 +110,4 @@ export enum MobileType {
   Vast = 'Vaste sensor',
 }
 
-export type SortedResults = { [category: string]: { [type: string]: FeatureCollection | null } };
+export type SortedResults = { [category in LegendCategories]: string[] | { [key: string]: string[] } };

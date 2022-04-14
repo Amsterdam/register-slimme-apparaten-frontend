@@ -1,9 +1,11 @@
 import { DomEvent, circleMarker } from 'leaflet';
 import CONFIGURATION from '../../shared/environment';
-import { mapSensorTypeToColor, SensorTypes } from '../../utils/types';
+import { mapSensorTypeToColor, OwnerType, SensorTypes } from '../../utils/types';
 import { readData, readPaginatedData } from '../datareader';
 
 // const regions = ['KM', 'A', 'GN19', 'K', 'GE03', 'SA', 'AD07', 'S', 'AA04', 'GM14', 'GT23', 'GA02'];
+
+const projects = ['Digitale Gracht', 'Verkeershandhaving', 'Reistijden meetsysteem', 'Verkeersonderzoek', 'Anders'];
 
 const LAYERS_CONFIG = [
   {
@@ -31,6 +33,8 @@ const LAYERS_CONFIG = [
         legalGround: item.legal_ground,
         originalData: item,
         reference: item?.reference,
+        region: item?.region,
+        projectPaths: item?.project_paths,
       },
     }),
   },
@@ -175,10 +179,10 @@ const LAYERS_CONFIG = [
           name: 'Afdeling verkeersmanagement',
           organisation: 'Gemeente Amsterdam',
         },
-        color: mapSensorTypeToColor[SensorTypes.Optische],
+        color: mapSensorTypeToColor[SensorTypes.Klimaatsensor],
         containsPiData: true,
         organisation: 'Gemeente Amsterdam',
-        sensorType: SensorTypes.Optische,
+        sensorType: SensorTypes.Klimaatsensor,
         themes: ['Mobiliteit'],
         longitude: item.geometry.coordinates[0],
         latitude: item.geometry.coordinates[1],
@@ -187,6 +191,10 @@ const LAYERS_CONFIG = [
         legalGround: 'Verkeersmanagement in de rol van wegbeheerder.',
         originalData: item,
         reference: item.properties?.Objectnummer_Amsterdam,
+        projectPaths: [
+          [OwnerType.Gemeente, projects[Math.min(Math.round(Math.random() * 10), projects.length - 1)]],
+          [OwnerType.Gemeente, projects[Math.min(Math.round(Math.random() * 10), projects.length - 1)]],
+        ],
       },
     }),
   },

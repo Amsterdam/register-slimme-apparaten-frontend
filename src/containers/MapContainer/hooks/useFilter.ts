@@ -1,39 +1,51 @@
 import { useMemo } from 'react';
 import { Sensor } from '../../../classes/Sensor';
 import { SensorFilter } from '../../../classes/SensorFilter';
-import { LegendCategories } from './../../../utils/types';
+import { LegendCategories, SortedResults } from './../../../utils/types';
 
-function useFilter(
-  unFilteredResults: Sensor[],
-  legend: Record<string, string[]>,
-  selectedFilters: string[],
-): SensorFilter {
+function useFilter(unFilteredResults: Sensor[], legend: SortedResults | null, selectedFilters: string[]): SensorFilter {
   return useMemo(() => {
     if (!unFilteredResults || selectedFilters.length === 0 || !legend) {
+      console.log(new SensorFilter(unFilteredResults));
       return new SensorFilter(unFilteredResults);
     }
 
     // Given the total list of posible options (legend[LegendCategories['Sensor type']]) filter only those items which are selected.
-    const allowedSensorTypes = legend[LegendCategories['Sensor type']].filter((type) => selectedFilters.includes(type));
+    const sensorTypes = legend[LegendCategories['Sensor type']];
+    const allowedSensorTypes = Array.isArray(sensorTypes)
+      ? sensorTypes.filter((type) => selectedFilters.includes(type))
+      : [];
 
     // Do the same for themes
-    const allowedThemes = legend[LegendCategories.Thema].filter((thema) => selectedFilters.includes(thema));
+    const themes = legend[LegendCategories.Thema];
+    const allowedThemes = Array.isArray(themes) ? themes.filter((thema) => selectedFilters.includes(thema)) : [];
 
-    const owner = legend[LegendCategories.Eigenaar].filter((type) => selectedFilters.includes(type));
+    const owner = legend[LegendCategories.Eigenaar] as { [key: string]: string[] };
+    const ownerFilter = Object.keys(owner).filter((owner) => selectedFilters.includes(owner));
 
-    const pi = legend[LegendCategories['Verwerkt persoonsgegevens']].filter((type) => selectedFilters.includes(type));
+    // Projects are a special case
+    const projectFilter = Object.keys(owner)
+      .map((k) => owner[k].filter((project) => selectedFilters.includes(project)))
+      .flat();
 
-    const mobiel = legend[LegendCategories.Mobiel].filter((type) => selectedFilters.includes(type));
+    const pi = legend[LegendCategories['Verwerkt persoonsgegevens']];
+    const piFilter = Array.isArray(pi) ? pi.filter((type) => selectedFilters.includes(type)) : [];
+
+    const mobile = legend[LegendCategories.Mobiel];
+    const mobileFilter = Array.isArray(mobile) ? mobile.filter((type) => selectedFilters.includes(type)) : [];
 
     const filter = new SensorFilter(
       unFilteredResults,
       unFilteredResults,
       allowedSensorTypes,
       allowedThemes,
-      owner,
-      pi,
-      mobiel,
+      ownerFilter,
+      piFilter,
+      mobileFilter,
+      projectFilter,
     ).filter();
+
+    console.log(filter);
 
     return filter;
   }, [unFilteredResults, legend, selectedFilters]);

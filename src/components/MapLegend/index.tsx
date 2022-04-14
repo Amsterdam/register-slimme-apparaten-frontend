@@ -1,15 +1,17 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { Accordion, Button, Checkbox, themeColor, themeSpacing } from '@amsterdam/asc-ui';
-import { LegendCategories, mapSensorTypeToColor } from '../../utils/types';
+import { Accordion, Button, themeSpacing } from '@amsterdam/asc-ui';
+import { LegendCategories, mapSensorTypeToColor, SortedResults } from '../../utils/types';
 import { SensorFilter } from '../../classes/SensorFilter';
+import LegendOption from './LegendOption';
+import LegendOptions from './LegendOptions';
 
 const LegendSection = styled('section')`
   margin-bottom: ${themeSpacing(3)};
 `;
 
 export interface Props {
-  legend: Record<string, string[]> | null;
+  legend: SortedResults | null;
   selectedItems: string[] | null;
   onToggleCategory: (name: string | string[]) => void;
   filter: SensorFilter;
@@ -29,64 +31,15 @@ const Circle = ({ color }: { color: string }) => {
   );
 };
 
-const LegendItem = styled.label`
-  display: flex;
-  align-items: center;
-`;
-
-interface LegendTextProps {
-  readonly noResults?: boolean;
-}
-
-const LegendText = styled.span<LegendTextProps>`
-  display: flex;
-  align-items: center;
-  color: ${(props) => (props.noResults ? themeColor('tint', 'level4') : themeColor('tint', 'level7'))};
-`;
-
 const ToggleButton = styled(Button)`
   margin-bottom: ${themeSpacing(4)};
 `;
 
-const mapLegendToProperties = {
-  [LegendCategories.Thema]: 'themeCount',
-  [LegendCategories['Verwerkt persoonsgegevens']]: 'piCount',
-  [LegendCategories.Eigenaar]: 'ownerCount',
-  [LegendCategories.Mobiel]: 'mobileCount',
-};
-
-const LegendOption = ({
-  children,
-  selected,
-  resultCount,
-  text,
-  onToggleCategory,
-}: {
-  children?: JSX.Element;
-  selected: boolean;
-  resultCount: number;
-  text: string;
-  onToggleCategory: (option: string) => void;
-}) => {
-  return (
-    <LegendItem htmlFor={text}>
-      <Checkbox
-        id={text}
-        checked={selected}
-        onChange={() => onToggleCategory(text)}
-        disabled={resultCount === 0 && !selected}
-      />
-      <LegendText noResults={resultCount === 0}>
-        {children}
-        {`${text} ${!selected ? `(${resultCount})` : ''}`}
-      </LegendText>
-    </LegendItem>
-  );
-};
-
 const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, filter }) => {
   const otherCategories =
-    (legend && Object.keys(legend).filter((category) => category !== LegendCategories['Sensor type'])) || [];
+    ((legend &&
+      Object.keys(legend).filter((category) => category !== LegendCategories['Sensor type'])) as LegendCategories[]) ||
+    [];
 
   return (
     <>
@@ -108,19 +61,26 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
       {legend && (
         <LegendSection>
           <Accordion id={LegendCategories['Sensor type']} title={LegendCategories['Sensor type']} isOpen>
-            {legend[LegendCategories['Sensor type']].map((item: string) => {
-              return (
-                <LegendOption
-                  onToggleCategory={onToggleCategory}
-                  resultCount={filter.sensorTypeCount[item] || 0}
-                  selected={selectedItems?.includes(item) || false}
-                  text={item}
-                  key={item}
-                >
-                  <Circle color={mapSensorTypeToColor[item]} />
-                </LegendOption>
-              );
-            })}
+            {
+              /* @ts-ignore */
+              legend[LegendCategories['Sensor type']].map((item) => {
+                if (Array.isArray(item)) {
+                  return <></>;
+                }
+
+                return (
+                  <LegendOption
+                    onToggleCategory={onToggleCategory}
+                    resultCount={filter.sensorTypeCount[item] || 0}
+                    selected={selectedItems?.includes(item) || false}
+                    text={item}
+                    key={item}
+                  >
+                    <Circle color={mapSensorTypeToColor[item]} />
+                  </LegendOption>
+                );
+              })
+            }
           </Accordion>
         </LegendSection>
       )}
@@ -129,23 +89,16 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
         otherCategories.map((categoryName) => (
           <Fragment key={categoryName}>
             {/* Only show category when there is something to choose (e.g. more than 1 item). */}
-            {legend[categoryName].length > 1 && (
+            {((Array.isArray(legend[categoryName]) && legend[categoryName].length > 1) ||
+              Object.keys(legend[categoryName]).length > 1) && (
               <LegendSection key={categoryName}>
                 <Accordion id={categoryName} title={categoryName} isOpen>
-                  {legend[categoryName].map((item) => {
-                    return (
-                      <LegendOption
-                        onToggleCategory={onToggleCategory}
-                        resultCount={
-                          /* @ts-ignore */
-                          filter[mapLegendToProperties[categoryName]][item] || 0
-                        }
-                        selected={selectedItems?.includes(item) || false}
-                        text={item}
-                        key={item}
-                      ></LegendOption>
-                    );
-                  })}
+                  <LegendOptions
+                    options={legend[categoryName]}
+                    filter={filter.getCountForCategory(categoryName)}
+                    onToggleCategory={onToggleCategory}
+                    selectedItems={selectedItems}
+                  />
                 </Accordion>
               </LegendSection>
             )}

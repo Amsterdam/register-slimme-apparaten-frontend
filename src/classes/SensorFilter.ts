@@ -1,8 +1,15 @@
 import uniq from 'lodash/uniq';
-import { MobileType, OwnerType, PiOptions, SensorTypes } from '../utils/types';
+import { LegendCategories, MobileType, OwnerType, PiOptions, SensorTypes } from '../utils/types';
 import { Sensor } from './Sensor';
 
 type CountType = { [key: string]: number };
+
+const mapLegendToProperties: { [category: string]: 'themeCount' | 'piCount' | 'ownerCount' | 'mobileCount' } = {
+  [LegendCategories.Thema]: 'themeCount',
+  [LegendCategories['Verwerkt persoonsgegevens']]: 'piCount',
+  [LegendCategories.Eigenaar]: 'ownerCount',
+  [LegendCategories.Mobiel]: 'mobileCount',
+};
 
 export class SensorFilter {
   sensors: Sensor[];
@@ -12,12 +19,14 @@ export class SensorFilter {
   ownerFilter: string[];
   piFilter: string[];
   mobileFilter: string[];
+  projectFilter: string[];
 
   sensorTypeCount: CountType;
   piCount: CountType;
   ownerCount: CountType;
   themeCount: CountType;
   mobileCount: CountType;
+  projectsCount: CountType;
 
   constructor(
     sensors: Sensor[],
@@ -27,6 +36,7 @@ export class SensorFilter {
     ownerFilter: string[] = [],
     piFilter: string[] = [],
     mobileFilter: string[] = [],
+    projectFilter: string[] = [],
   ) {
     this.sensors = [...sensors];
     this.filteredSensors = filteredSensors;
@@ -35,12 +45,14 @@ export class SensorFilter {
     this.ownerFilter = ownerFilter;
     this.piFilter = piFilter;
     this.mobileFilter = mobileFilter;
+    this.projectFilter = projectFilter;
 
     this.sensorTypeCount = this.countSensorTypes();
     this.themeCount = this.countThemes();
     this.piCount = this.countPi();
     this.ownerCount = this.countOwner();
     this.mobileCount = this.countMobile();
+    this.projectsCount = this.countProjects();
   }
 
   filterTheme() {
@@ -71,6 +83,14 @@ export class SensorFilter {
           (this.ownerFilter[0] === OwnerType.Other && !s.isOwnedByMunicipality()),
       ),
     );
+  }
+
+  filterProject() {
+    if (this.projectFilter.length === 0) {
+      return this;
+    }
+
+    return this.filterdResult(this.filteredSensors.filter((s) => this.projectFilter.some((t) => s.isPartOfProject(t))));
   }
 
   filterMobile() {
@@ -105,6 +125,17 @@ export class SensorFilter {
     return this.filterSensorType().filterOwner().filterPi().filterTheme().filterMobile().count();
   }
 
+  getCountForCategory(category: LegendCategories) {
+    if (category === LegendCategories.Eigenaar) {
+      return {
+        ...this.ownerCount,
+        ...this.projectsCount,
+      };
+    } else {
+      return this[mapLegendToProperties[category]];
+    }
+  }
+
   count() {
     this.sensorTypeCount = this.freshInstance()
       .filterOwner()
@@ -112,10 +143,41 @@ export class SensorFilter {
       .filterTheme()
       .filterMobile()
       .countSensorTypes();
-    this.ownerCount = this.freshInstance().filterSensorType().filterPi().filterTheme().filterMobile().countOwner();
-    this.piCount = this.freshInstance().filterOwner().filterSensorType().filterTheme().filterMobile().countPi();
-    this.themeCount = this.freshInstance().filterSensorType().filterPi().filterOwner().filterMobile().countThemes();
-    this.mobileCount = this.freshInstance().filterSensorType().filterPi().filterOwner().filterTheme().countMobile();
+    this.ownerCount = this.freshInstance()
+      .filterSensorType()
+      .filterPi()
+      .filterTheme()
+      .filterMobile()
+      .filterProject()
+      .countOwner();
+    this.piCount = this.freshInstance()
+      .filterOwner()
+      .filterSensorType()
+      .filterTheme()
+      .filterMobile()
+      .filterProject()
+      .countPi();
+    this.themeCount = this.freshInstance()
+      .filterSensorType()
+      .filterPi()
+      .filterOwner()
+      .filterMobile()
+      .filterProject()
+      .countThemes();
+    this.mobileCount = this.freshInstance()
+      .filterSensorType()
+      .filterPi()
+      .filterOwner()
+      .filterTheme()
+      .filterProject()
+      .countMobile();
+    this.projectsCount = this.freshInstance()
+      .filterSensorType()
+      .filterPi()
+      .filterOwner()
+      .filterMobile()
+      .filterTheme()
+      .countProjects();
 
     return this;
   }
@@ -162,6 +224,18 @@ export class SensorFilter {
     return ownerCount;
   }
 
+  countProjects() {
+    const projectOptions = uniq(this.sensors.map((s) => s?.projectsPaths?.flat()).flat());
+
+    const projectCount = projectOptions.reduce((prev: { [key: string]: number }, project) => {
+      prev[project] = this.filteredSensors.filter((s) => s.isPartOfProject(project)).length;
+
+      return prev;
+    }, {});
+
+    return projectCount;
+  }
+
   countMobile() {
     const mobileCount = {
       [MobileType.Mobiel]: this.filteredSensors.filter((s) => s.isMobileSensor()).length,
@@ -186,6 +260,7 @@ export class SensorFilter {
       this.ownerFilter,
       this.piFilter,
       this.mobileFilter,
+      this.projectFilter,
     );
   }
 
@@ -203,6 +278,7 @@ export class SensorFilter {
       this.ownerFilter,
       this.piFilter,
       this.mobileFilter,
+      this.projectFilter,
     );
   }
 }
