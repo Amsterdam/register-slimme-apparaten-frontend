@@ -73,13 +73,22 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
           <ListItem>{organisation}</ListItem>
           {contact?.email?.length > 1 && <ListItem>{contact?.email}</ListItem>}
           <ListItem>{!!containsPiData ? 'Verwerkt persoonsgegevens' : 'Verwerkt geen persoonsgegevens'}</ListItem>
-          {!!privacy && (
-            <ListItem>
-              <Link href={privacy} variant="inline" icon="external" target="_blank">
-                Privacyverklaring
-              </Link>
-            </ListItem>
-          )}
+          {!!privacy &&
+            (Array.isArray(privacy) ? (
+              privacy.map((p, index) => (
+                <ListItem key={index}>
+                  <Link href={p} variant="inline" icon="external" target="_blank">
+                    Privacyverklaring
+                  </Link>
+                </ListItem>
+              ))
+            ) : (
+              <ListItem>
+                <Link href={privacy} variant="inline" icon="external" target="_blank">
+                  Privacyverklaring
+                </Link>
+              </ListItem>
+            ))}
         </List>
       </InfoContainer>
 
