@@ -48,17 +48,22 @@ const InvisibleButton = styled.button<{ toggle: boolean }>`
 `;
 
 const LegendOptions = ({
+  id,
   options,
   selectedItems,
   onToggleCategory,
   filter,
 }: {
+  id: string;
   options: string[] | { [key: string]: string[] };
   selectedItems: string[] | null;
   onToggleCategory: (option: string | string[], select: boolean) => void;
   filter: { [key: string]: number };
 }) => {
   const [showSubsection, setShowSubsection] = useState<boolean>(true);
+
+  // id's used in aria-* cant have spaces in them.
+  const accessibleId = id?.split(' ')?.join();
 
   return (
     <>
@@ -86,12 +91,18 @@ const LegendOptions = ({
                     selected={selectedItems?.includes(k) || false}
                     text={k}
                   ></LegendOption>
-                  <InvisibleButton toggle={showSubsection} onClick={() => setShowSubsection(!showSubsection)}>
+                  <InvisibleButton
+                    title={`Toon ${showSubsection ? 'minder' : 'meer'} filter opties`}
+                    aria-controls={accessibleId}
+                    aria-expanded={showSubsection}
+                    toggle={showSubsection}
+                    onClick={() => setShowSubsection(!showSubsection)}
+                  >
                     <ChevronDown width={20} height={20} />
                   </InvisibleButton>
                 </LegendOptionWithIcon>
 
-                <SubSection visible={showSubsection}>
+                <SubSection visible={showSubsection} id={accessibleId}>
                   {subItems.map((item) => (
                     <LegendOption
                       onToggleCategory={() => {

@@ -92,8 +92,9 @@ const MapLegend: React.FC<Props> = ({ legend, selectedItems, onToggleCategory, f
             {((Array.isArray(legend[categoryName]) && legend[categoryName].length > 1) ||
               Object.keys(legend[categoryName]).length > 1) && (
               <LegendSection key={categoryName}>
-                <Accordion id={categoryName} title={categoryName} isOpen>
+                <Accordion id={(categoryName as string).split(' ').join('')} title={categoryName} isOpen>
                   <LegendOptions
+                    id={categoryName}
                     options={legend[categoryName]}
                     filter={filter.getCountForCategory(categoryName)}
                     onToggleCategory={onToggleCategory}
