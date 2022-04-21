@@ -1,10 +1,9 @@
-import { MobileType } from './../../../utils/types';
 import { useEffect, useState } from 'react';
 import { Feature, FeatureCollection, GeoJsonProperties, Point } from 'geojson';
 
 import layersReader from '../../../services/layer-aggregator/layersReader';
 import LAYERS_CONFIG from '../../../services/layer-aggregator/layersConfig';
-import { LegendCategories, OwnerType, SortedResults } from '../../../utils/types';
+import { LegendCategories, OwnerType, SortedResults, MobileType } from '../../../utils/types';
 import { Sensor } from '../../../classes/Sensor';
 
 export const emptyFeatureCollection = (): FeatureCollection => ({

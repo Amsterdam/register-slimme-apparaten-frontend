@@ -11,6 +11,11 @@ jest.mock('./containers/MapContainer/PointClusterLayer', () => ({
   default: () => <></>,
 }));
 
+jest.mock('./containers/MapContainer/CenterMap', () => ({
+  __esModule: true,
+  default: () => <></>,
+}));
+
 jest.mock('./containers/HeaderContainer/index', () => {
   return {
     __esModule: true,
