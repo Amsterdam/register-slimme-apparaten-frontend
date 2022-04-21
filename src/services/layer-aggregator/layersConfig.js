@@ -5,7 +5,7 @@ import { readData, readPaginatedData } from '../datareader';
 
 // const regions = ['KM', 'A', 'GN19', 'K', 'GE03', 'SA', 'AD07', 'S', 'AA04', 'GM14', 'GT23', 'GA02'];
 
-const projects = ['Digitale Gracht', 'Verkeershandhaving', 'Reistijden meetsysteem', 'Verkeersonderzoek', 'Anders'];
+// const projects = ['Digitale Gracht', 'Verkeershandhaving', 'Reistijden meetsysteem', 'Verkeersonderzoek', 'Anders'];
 
 const LAYERS_CONFIG = [
   {
@@ -191,10 +191,10 @@ const LAYERS_CONFIG = [
         legalGround: 'Verkeersmanagement in de rol van wegbeheerder.',
         originalData: item,
         reference: item.properties?.Objectnummer_Amsterdam,
-        projectPaths: [
-          [OwnerType.Gemeente, projects[Math.min(Math.round(Math.random() * 10), projects.length - 1)]],
-          [OwnerType.Gemeente, projects[Math.min(Math.round(Math.random() * 10), projects.length - 1)]],
-        ],
+        // projectPaths: [
+        //   [OwnerType.Gemeente, projects[Math.min(Math.round(Math.random() * 10), projects.length - 1)]],
+        //   [OwnerType.Gemeente, projects[Math.min(Math.round(Math.random() * 10), projects.length - 1)]],
+        // ],
       },
     }),
   },
@@ -326,27 +326,5 @@ const flipDate = (date) => {
 
   return `${arr[2]}-${arr[1]}-${arr[0]}`;
 };
-
-export const getPointOptions = (CATEGORY_NAME, onItemSelected) => ({
-  onEachFeature: (feature, layer) => {
-    layer.on('click', (e) => {
-      DomEvent.stopPropagation(e);
-      const { id, category, contact: source } = feature;
-      const queryString = `?id=${id}&category=${category}&source=${source}`;
-      onItemSelected('devices', feature, layer._icon, queryString);
-    });
-  },
-  pointToLayer: (feature, latlng) => {
-    const marker = circleMarker(latlng, {
-      color: 'white',
-      fillColor: feature.properties.color,
-      stroke: true,
-      fillOpacity: 1,
-      radius: 8,
-    });
-    marker.feature = feature;
-    return marker;
-  },
-});
 
 export default LAYERS_CONFIG;
