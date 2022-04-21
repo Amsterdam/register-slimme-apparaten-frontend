@@ -63,4 +63,49 @@ describe('MapLegend', () => {
     expect(screen.getByText('Mobiliteit: auto (1)')).toBeInTheDocument();
     expect(screen.getByText('Veiligheid: bewakings- en/of beveiligingscamera (5)')).toBeInTheDocument();
   });
+
+  it('should support nested items', () => {
+    const legend = {
+      Sensortype: [
+        'Positie- of verplaatsingsensor',
+        'Optische / camera sensor',
+        'Geluidsensor',
+        'Aanwezigheid of nabijheidsensor',
+      ],
+      Eigenaar: {
+        'Gemeente Amsterdam': ['Digitale gracht', 'Verkeershandhaving'],
+        Andere: [],
+      },
+      'Verwerkt persoonsgegevens': ['Nee', 'Ja'],
+      Thema: [
+        'Mobiliteit: railverkeer',
+        'Mobiliteit: auto',
+        'Mobiliteit: fiets',
+        'Mobiliteit: voetganger',
+        'Veiligheid: bewakings- en/of beveiligingscamera',
+        'Veiligheid: gezondheid',
+        'Overig',
+        'Mobiliteit',
+        'Milieu',
+      ],
+      'Vaste / mobiele sensoren': ['Vast', 'Mobiel'],
+    };
+
+    const filter = new SensorFilter(sensorList);
+
+    render(
+      <ThemeProvider>
+        <MapLegend legend={legend} onToggleCategory={jest.fn()} filter={filter} selectedItems={[]} />
+      </ThemeProvider>,
+    );
+
+    expect(screen.getByText('Thema')).toBeInTheDocument();
+    expect(screen.getByText('Verwerkt persoonsgegevens')).toBeInTheDocument();
+
+    expect(screen.getByText('Gemeente Amsterdam (1)')).toBeInTheDocument();
+    expect(screen.getByText('Andere (7)')).toBeInTheDocument();
+
+    expect(screen.getByText('Digitale gracht (0)')).toBeInTheDocument();
+    expect(screen.getByText('Verkeershandhaving (0)')).toBeInTheDocument();
+  });
 });
