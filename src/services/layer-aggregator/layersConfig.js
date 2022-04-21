@@ -1,6 +1,5 @@
-import { DomEvent, circleMarker } from 'leaflet';
 import CONFIGURATION from '../../shared/environment';
-import { mapSensorTypeToColor, OwnerType, SensorTypes } from '../../utils/types';
+import { mapSensorTypeToColor, SensorTypes } from '../../utils/types';
 import { readData, readPaginatedData } from '../datareader';
 
 // const regions = ['KM', 'A', 'GN19', 'K', 'GE03', 'SA', 'AD07', 'S', 'AA04', 'GM14', 'GT23', 'GA02'];

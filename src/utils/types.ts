@@ -1,5 +1,3 @@
-import { FeatureCollection } from 'geojson';
-
 /**
  * Defines a general ActionType to be used with the reducers
  */
