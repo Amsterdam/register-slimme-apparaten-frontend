@@ -32,7 +32,7 @@ const MAP_OPTIONS: MapOptions = {
 
 const StyledMap = styled(Map)`
   width: 100%;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 40px);
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     height: calc(100vh - 56px);
