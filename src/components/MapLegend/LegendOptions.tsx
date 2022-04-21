@@ -63,7 +63,7 @@ const LegendOptions = ({
   const [showSubsection, setShowSubsection] = useState<boolean>(true);
 
   // id's used in aria-* cant have spaces in them.
-  const accessibleId = id?.split(' ')?.join();
+  const accessibleId = `legendoptions-${id?.split(' ')?.join()}`;
 
   return (
     <>

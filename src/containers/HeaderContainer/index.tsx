@@ -16,6 +16,12 @@ const HeaderWrapper = styled.div`
   }
 `;
 
+const Menu = styled.ul`
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+`;
+
 export const HeaderContainer = () => (
   <HeaderWrapper>
     <Header
@@ -24,7 +30,7 @@ export const HeaderContainer = () => (
       homeLink="/"
       fullWidth
       navigation={
-        <>
+        <Menu>
           <MenuItem>
             {/* @ts-ignore */}
             <MenuButton forwardedAs={Link} to={APP_ROUTES.HOME}>
@@ -49,7 +55,7 @@ export const HeaderContainer = () => (
               Over dit register
             </MenuButton>
           </MenuItem>
-        </>
+        </Menu>
       }
     ></Header>
   </HeaderWrapper>
