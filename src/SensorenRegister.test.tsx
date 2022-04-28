@@ -101,6 +101,8 @@ describe('SensorenRegister', () => {
 
       await screen.findByText('Sensortype');
 
+      expect(screen.getByText('Positie- of verplaatsingsensor (1)')).toBeInTheDocument();
+
       expect(screen.queryByText('Verantwoordelijke voor de sensor')).not.toBeInTheDocument();
 
       userEvent.type(screen.getByPlaceholderText('Zoeken...'), 'AMSTD002');
