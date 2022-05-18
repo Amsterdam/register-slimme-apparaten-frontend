@@ -1,4 +1,3 @@
-import { filter } from 'lodash';
 import CONFIGURATION from '../../shared/environment';
 import { mapSensorTypeToColor } from '../../utils/types';
 import { readPaginatedData } from '../datareader';
