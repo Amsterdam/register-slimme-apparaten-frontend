@@ -17,9 +17,9 @@ describe('DeviceDetails', () => {
       properties: {
         sensorType: SensorTypes.Chemiesensor,
         organisation: 'GGD Amsterdam',
-        privacy: 'privacy',
+        privacy: ['privacy'],
         contact: { name: 'Amsterdam Contact', email: 'email@amsterdam.nl' },
-        legalGround: 'legalGround',
+        legalGround: ['legalGround'],
       },
     },
     onClose: () => {},
@@ -32,7 +32,7 @@ describe('DeviceDetails', () => {
     );
 
     expect(screen.getByText(props.feature.properties.sensorType)).toBeInTheDocument();
-    expect(screen.getByText('Privacyverklaring')).toHaveAttribute('href', props.feature.properties.privacy);
+    expect(screen.getByText('Privacyverklaring')).toHaveAttribute('href', props.feature.properties.privacy[0]);
     expect(screen.getByText(props.feature.properties.organisation)).toBeInTheDocument();
 
     expect(screen.getByText(props.feature.properties.contact.name)).toBeInTheDocument();

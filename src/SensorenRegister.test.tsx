@@ -11,6 +11,11 @@ jest.mock('./containers/MapContainer/PointClusterLayer', () => ({
   default: () => <></>,
 }));
 
+jest.mock('./containers/MapContainer/CenterMap', () => ({
+  __esModule: true,
+  default: () => <></>,
+}));
+
 jest.mock('./containers/HeaderContainer/index', () => {
   return {
     __esModule: true,
@@ -95,6 +100,8 @@ describe('SensorenRegister', () => {
       render(<TestRegister />);
 
       await screen.findByText('Sensortype');
+
+      expect(screen.getByText('Positie- of verplaatsingsensor (1)')).toBeInTheDocument();
 
       expect(screen.queryByText('Verantwoordelijke voor de sensor')).not.toBeInTheDocument();
 
