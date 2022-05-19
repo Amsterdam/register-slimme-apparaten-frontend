@@ -97,21 +97,27 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         </List>
       </InfoContainer>
 
-      <InfoContainer>
-        <h3>Doel van de sensor</h3>
-        <List variant="bullet">
-          {Array.isArray(goal) && goal.length > 0 && (goal as string[]).map((g) => <ListItem key={g}>{g}</ListItem>)}
-        </List>
-      </InfoContainer>
+      {Array.isArray(goal) && goal.length > 0 && (
+        <InfoContainer>
+          <h3>Doel van de sensor</h3>
+          <List variant="bullet">
+            {(goal as string[]).map((g) => (
+              <ListItem key={g}>{g}</ListItem>
+            ))}
+          </List>
+        </InfoContainer>
+      )}
 
-      <InfoContainer>
-        <h3>Wettelijke grondslag</h3>
-        <List variant="bullet">
-          {Array.isArray(legalGround) &&
-            legalGround.length > 0 &&
-            (legalGround as string[]).map((l) => <ListItem key={l}>{l}</ListItem>)}
-        </List>
-      </InfoContainer>
+      {Array.isArray(legalGround) && legalGround.length > 0 && (
+        <InfoContainer>
+          <h3>Wettelijke grondslag</h3>
+          <List variant="bullet">
+            {(legalGround as string[]).map((l) => (
+              <ListItem key={l}>{l}</ListItem>
+            ))}
+          </List>
+        </InfoContainer>
+      )}
 
       <InfoContainer>
         <h3>Sensor actief tot</h3>
