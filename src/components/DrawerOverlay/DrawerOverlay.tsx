@@ -5,7 +5,7 @@ import { ChevronRight } from '@amsterdam/asc-assets';
 import { LegendControlProps } from '../../components/LegendControl/LegendControl';
 import { DeviceMode, useDeviceMode } from '../../utils/useDeviceMode';
 
-const HANDLE_SIZE_MOBILE = 70;
+const HANDLE_SIZE_MOBILE = 40;
 const CONTROLS_PADDING = 32;
 
 export enum DrawerState {
@@ -204,7 +204,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
     }
 
     if (drawerState !== DrawerState.Open && isMobile(mode)) {
-      return `translateY(calc(100% - 146px))`;
+      return `translateY(calc(100% - 116px))`;
     }
 
     return '';
@@ -234,7 +234,7 @@ const DrawerOverlay: FunctionComponent<DrawerOverlayProps> = ({
                 return;
               }
 
-              onStateChange(DrawerState.Open);
+              drawerClick();
               onControlClick();
             }}
           />

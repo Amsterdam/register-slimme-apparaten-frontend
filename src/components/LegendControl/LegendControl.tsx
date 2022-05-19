@@ -10,6 +10,7 @@ export interface LegendControlProps {
 
 const StyledButton = styled(Button)`
   min-width: inherit;
+  color: black;
 `;
 
 const Control = styled.div`

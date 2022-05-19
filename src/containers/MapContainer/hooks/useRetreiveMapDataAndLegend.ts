@@ -1,10 +1,9 @@
-import { MobileType } from './../../../utils/types';
 import { useEffect, useState } from 'react';
 import { Feature, FeatureCollection, GeoJsonProperties, Point } from 'geojson';
 
 import layersReader from '../../../services/layer-aggregator/layersReader';
 import LAYERS_CONFIG from '../../../services/layer-aggregator/layersConfig';
-import { IntermediateLayer, LegendCategories, OwnerType, SortedResults } from '../../../utils/types';
+import { LegendCategories, OwnerType, SortedResults, MobileType } from '../../../utils/types';
 import { Sensor } from '../../../classes/Sensor';
 
 export const emptyFeatureCollection = (): FeatureCollection => ({
@@ -12,72 +11,54 @@ export const emptyFeatureCollection = (): FeatureCollection => ({
   features: [],
 });
 
-const addItemToFeatureCollection = (categoryKey: string, map: Record<string, FeatureCollection | null>, item: any) => {
-  let keys: string | string[] = categoryKey;
-  if (!Array.isArray(keys)) {
-    keys = [categoryKey];
-  }
+function sortResultsIntoFilterCategories(sensors: Sensor[]): SortedResults {
+  const sensorTypes = new Set<string>();
+  sensors.forEach((s) => {
+    sensorTypes.add(s.sensorType);
+  });
 
-  keys.forEach((key) => {
-    if (map[key]) {
-      map[key]?.features.push(item);
+  const ownerData = new Map<string, Set<string>>();
+  sensors.forEach((s) => {
+    if (s.isOwnedByMunicipality()) {
+      if (ownerData.get(OwnerType.Gemeente) === undefined) {
+        ownerData.set(OwnerType.Gemeente, new Set<string>());
+      }
+
+      s.projectsPaths?.forEach((path) =>
+        path.filter((p) => p !== OwnerType.Gemeente).forEach((p) => ownerData.get(OwnerType.Gemeente)?.add(p)),
+      );
     } else {
-      map[key] = emptyFeatureCollection();
-      map[key]?.features.push(item);
+      ownerData.set(OwnerType.Other, new Set<string>());
     }
   });
 
-  return map;
-};
+  const owner: { [owner: string]: string[] } = {};
+  ownerData.forEach((v, k) => {
+    owner[k] = Array.from(v);
+  });
 
-function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedResults {
-  type AccumulatorType = { [key: string]: FeatureCollection | null };
-
-  const allFeatures = results
-    .filter((r) => r.layer.features.length > 0)
-    .map((r) => r.layer.features)
-    .flat();
-
-  const sensorTypes = allFeatures.reduce((acc: AccumulatorType, curr) => {
-    return addItemToFeatureCollection(curr.properties?.sensorType, acc, curr);
-  }, {});
-
-  const owner = allFeatures.reduce((acc: AccumulatorType, curr) => {
-    if (curr.properties?.organisation === OwnerType.Gemeente) {
-      acc = addItemToFeatureCollection(OwnerType.Gemeente, acc, curr);
+  const piData = new Set<string>();
+  sensors.forEach((s) => {
+    if (s.isCollectingPiData()) {
+      piData.add('Ja');
     } else {
-      acc = addItemToFeatureCollection(OwnerType.Other, acc, curr);
+      piData.add('Nee');
     }
+  });
 
-    return acc;
-  }, {});
+  const themes = new Set<string>();
+  sensors.forEach((s) => {
+    s.themes.forEach((t) => themes.add(t));
+  });
 
-  const piData = allFeatures.reduce((acc: AccumulatorType, curr) => {
-    const ja = 'Ja';
-    const nee = 'Nee';
-
-    if (curr.properties?.containsPiData) {
-      acc = addItemToFeatureCollection(ja, acc, curr);
+  const mobile = new Set<string>();
+  sensors.forEach((s) => {
+    if (s.isMobileSensor()) {
+      mobile.add(MobileType.Mobiel);
     } else {
-      acc = addItemToFeatureCollection(nee, acc, curr);
+      mobile.add(MobileType.Vast);
     }
-
-    return acc;
-  }, {});
-
-  const themes = allFeatures.reduce((acc: AccumulatorType, curr) => {
-    return addItemToFeatureCollection(curr.properties?.themes, acc, curr);
-  }, {});
-
-  const mobile = allFeatures.reduce((acc: AccumulatorType, curr) => {
-    if (curr.properties?.region?.length > 0) {
-      acc = addItemToFeatureCollection(MobileType.Mobiel, acc, curr);
-    } else {
-      acc = addItemToFeatureCollection(MobileType.Vast, acc, curr);
-    }
-
-    return acc;
-  }, {});
+  });
 
   // Sensor type
   // Eigenaar (Gemeente A'dam ja/nee)
@@ -86,22 +67,21 @@ function sortResultsIntoFilterCategories(results: IntermediateLayer[]): SortedRe
   // Mobiel
 
   return {
-    [LegendCategories['Sensor type']]: sensorTypes,
+    [LegendCategories['Sensor type']]: Array.from(sensorTypes.values()),
     [LegendCategories.Eigenaar]: owner,
-    [LegendCategories['Verwerkt persoonsgegevens']]: piData,
-    [LegendCategories.Mobiel]: mobile,
-    [LegendCategories.Thema]: themes,
+    [LegendCategories['Verwerkt persoonsgegevens']]: Array.from(piData.values()),
+    [LegendCategories.Mobiel]: Array.from(mobile.values()),
+    [LegendCategories.Thema]: Array.from(themes.values()),
   };
 }
 
 type MapDataAndLegend = {
-  legend: Record<string, string[]> | null;
-  featureCollection: FeatureCollection | null;
+  legend: SortedResults | null;
   sensors: Sensor[] | null;
 };
 
 function useRetrieveMapDataAndLegend(): MapDataAndLegend {
-  const [results, setResults] = useState<MapDataAndLegend>({ legend: null, featureCollection: null, sensors: null });
+  const [results, setResults] = useState<MapDataAndLegend>({ legend: null, sensors: null });
 
   useEffect(() => {
     (async () => {
@@ -111,7 +91,15 @@ function useRetrieveMapDataAndLegend(): MapDataAndLegend {
         return;
       }
 
-      const sortedResults = sortResultsIntoFilterCategories(results);
+      // Transform results into a feature collection.
+      const featureCollection = emptyFeatureCollection();
+      featureCollection.features = results
+        .filter((r) => r.layer.features.length > 0)
+        .map((r) => r.layer.features)
+        .flat();
+
+      // Convert feature collection to sensors.
+      const sensors = featureCollection.features.map((f) => new Sensor(f as Feature<Point, GeoJsonProperties>));
 
       /**
        * Get all main categories and sub-categories based on acctual data.
@@ -120,23 +108,9 @@ function useRetrieveMapDataAndLegend(): MapDataAndLegend {
        * }
        *
        */
-      const legend = Object.keys(sortedResults).reduce((acc, key) => {
-        return {
-          ...acc,
-          [key]: Object.keys(sortedResults[key]),
-        };
-      }, {});
+      const legend = sortResultsIntoFilterCategories(sensors);
 
-      // Transform results into a feature collection.
-      const featureCollection = emptyFeatureCollection();
-      featureCollection.features = results
-        .filter((r) => r.layer.features.length > 0)
-        .map((r) => r.layer.features)
-        .flat();
-
-      const sensors = featureCollection.features.map((f) => new Sensor(f as Feature<Point, GeoJsonProperties>));
-
-      setResults({ legend, featureCollection, sensors });
+      setResults({ legend, sensors });
     })();
   }, []);
 
