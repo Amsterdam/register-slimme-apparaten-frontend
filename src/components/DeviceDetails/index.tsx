@@ -73,13 +73,15 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
           <ListItem>{organisation}</ListItem>
           {contact?.email?.length > 1 && <ListItem>{contact?.email}</ListItem>}
           <ListItem>{!!containsPiData ? 'Verwerkt persoonsgegevens' : 'Verwerkt geen persoonsgegevens'}</ListItem>
-          {!!privacy && (
-            <ListItem>
-              <Link href={privacy} variant="inline" icon="external" target="_blank">
-                Privacyverklaring
-              </Link>
-            </ListItem>
-          )}
+          {Array.isArray(privacy) &&
+            privacy.length > 0 &&
+            privacy.map((p, index) => (
+              <ListItem key={index}>
+                <Link href={p} variant="inline" icon="external" target="_blank">
+                  Privacyverklaring
+                </Link>
+              </ListItem>
+            ))}
         </List>
       </InfoContainer>
 
@@ -95,13 +97,27 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         </List>
       </InfoContainer>
 
-      <InfoContainer>
-        <h3>Doel van de sensor</h3>
-        <List variant="bullet">
-          <ListItem>{goal}</ListItem>
-          {legalGround && <ListItem>{legalGround}</ListItem>}
-        </List>
-      </InfoContainer>
+      {Array.isArray(goal) && goal.length > 0 && (
+        <InfoContainer>
+          <h3>Doel van de sensor</h3>
+          <List variant="bullet">
+            {(goal as string[]).map((g) => (
+              <ListItem key={g}>{g}</ListItem>
+            ))}
+          </List>
+        </InfoContainer>
+      )}
+
+      {Array.isArray(legalGround) && legalGround.length > 0 && (
+        <InfoContainer>
+          <h3>Wettelijke grondslag</h3>
+          <List variant="bullet">
+            {(legalGround as string[]).map((l) => (
+              <ListItem key={l}>{l}</ListItem>
+            ))}
+          </List>
+        </InfoContainer>
+      )}
 
       <InfoContainer>
         <h3>Sensor actief tot</h3>

@@ -1,4 +1,4 @@
-import L, { LatLng, Layer } from 'leaflet';
+import { LatLng, Layer } from 'leaflet';
 
 export class MarkerStorage {
   static markers: { [key: string]: Layer | Layer[] } = {};

@@ -32,7 +32,7 @@ const MAP_OPTIONS: MapOptions = {
 
 const StyledMap = styled(Map)`
   width: 100%;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 40px);
 
   @media screen and ${breakpoint('min-width', 'tabletM')} {
     height: calc(100vh - 56px);
@@ -110,7 +110,7 @@ const MapContainer: () => JSX.Element = () => {
 
   const showLegend = useCallback(() => setLegendOrDetails(LegendOrDetails.LEGEND), [setLegendOrDetails]);
 
-  const filter = useFilter(sensors || [], legend || {}, selectedFilters);
+  const filter = useFilter(sensors || [], legend, selectedFilters);
 
   return (
     <StyledMap options={MAP_OPTIONS}>
@@ -144,17 +144,24 @@ const MapContainer: () => JSX.Element = () => {
               legend={legend}
               selectedItems={selectedFilters}
               filter={filter}
-              onToggleCategory={(category) => {
+              onToggleCategory={(category, select) => {
+                // Check if we received an array (used for resetting the currently selected filters).
                 if (Array.isArray(category)) {
-                  let newFilters = selectedFilters;
-                  category.forEach((c) => {
-                    newFilters = newFilters.filter((f) => f !== c);
-                  });
-
-                  return setSelectedFilters(newFilters);
+                  if (select) {
+                    return setSelectedFilters([...selectedFilters, ...category]);
+                  } else {
+                    if (category.length === 0) {
+                      // Set filters to an empty list.
+                      return setSelectedFilters([]);
+                    } else {
+                      // De-select passed items
+                      return setSelectedFilters(selectedFilters.filter((f) => !category.includes(f)));
+                    }
+                  }
                 }
 
-                if (selectedFilters.includes(category)) {
+                // An option was selected which was already selected, deselect it.
+                if (selectedFilters.includes(category) && !select) {
                   return setSelectedFilters(selectedFilters.filter((l) => l !== category));
                 }
 

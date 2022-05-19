@@ -46,82 +46,86 @@ exports[`<NotFound /> should render the Page Not Found text 1`] = `
         <nav
           class="sc-kYWVYA dEQVsw"
         >
-          <li
-            class="sc-fWIMVQ dQcfqK"
+          <ul
+            class="sc-ddcaxn gMkUbg"
           >
-            <a
-              class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
-              href="/"
-              variant="blank"
+            <li
+              class="sc-fWIMVQ dQcfqK"
             >
-              <span
-                class="sc-fmRtwQ"
+              <a
+                class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
+                href="/"
+                variant="blank"
               >
                 <span
-                  class="sc-eEOqmf"
+                  class="sc-fmRtwQ"
                 >
-                  Kaart
+                  <span
+                    class="sc-eEOqmf"
+                  >
+                    Kaart
+                  </span>
                 </span>
-              </span>
-            </a>
-          </li>
-          <li
-            class="sc-fWIMVQ dQcfqK"
-          >
-            <a
-              class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
-              href="/categories"
-              variant="blank"
+              </a>
+            </li>
+            <li
+              class="sc-fWIMVQ dQcfqK"
             >
-              <span
-                class="sc-fmRtwQ"
+              <a
+                class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
+                href="/categories"
+                variant="blank"
               >
                 <span
-                  class="sc-eEOqmf"
+                  class="sc-fmRtwQ"
                 >
-                  Type sensoren
+                  <span
+                    class="sc-eEOqmf"
+                  >
+                    Type sensoren
+                  </span>
                 </span>
-              </span>
-            </a>
-          </li>
-          <li
-            class="sc-fWIMVQ dQcfqK"
-          >
-            <a
-              class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
-              href="/about/faq"
-              variant="blank"
+              </a>
+            </li>
+            <li
+              class="sc-fWIMVQ dQcfqK"
             >
-              <span
-                class="sc-fmRtwQ"
+              <a
+                class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
+                href="/about/faq"
+                variant="blank"
               >
                 <span
-                  class="sc-eEOqmf"
+                  class="sc-fmRtwQ"
                 >
-                  Veelgevraagd
+                  <span
+                    class="sc-eEOqmf"
+                  >
+                    Veelgevraagd
+                  </span>
                 </span>
-              </span>
-            </a>
-          </li>
-          <li
-            class="sc-fWIMVQ dQcfqK"
-          >
-            <a
-              class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
-              href="/about"
-              variant="blank"
+              </a>
+            </li>
+            <li
+              class="sc-fWIMVQ dQcfqK"
             >
-              <span
-                class="sc-fmRtwQ"
+              <a
+                class="sc-eCYdqJ fLWZLC sc-lkwKjF sc-jmNpzm fpDZhh kcLwtV"
+                href="/about"
+                variant="blank"
               >
                 <span
-                  class="sc-eEOqmf"
+                  class="sc-fmRtwQ"
                 >
-                  Over dit register
+                  <span
+                    class="sc-eEOqmf"
+                  >
+                    Over dit register
+                  </span>
                 </span>
-              </span>
-            </a>
-          </li>
+              </a>
+            </li>
+          </ul>
         </nav>
         <div
           class="sc-bhVIhj fqehcO"
@@ -133,7 +137,7 @@ exports[`<NotFound /> should render the Page Not Found text 1`] = `
     class="sc-HzFiz cbPbWk"
   >
     <div
-      class="sc-grREDI iWMwtM sc-ddcaxn bfupMW"
+      class="sc-grREDI iWMwtM sc-egNfGp gDyNxv"
     >
       <div
         class="sc-jQHtVU pAKJq"

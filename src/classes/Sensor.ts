@@ -9,6 +9,7 @@ export class Sensor {
   containsPiData: PiOptions;
   feature: Feature<Point, GeoJsonProperties>;
   region: string[];
+  projectsPaths: string[][];
 
   constructor(feature: Feature<Point, GeoJsonProperties>) {
     this.feature = feature;
@@ -17,6 +18,13 @@ export class Sensor {
     this.organisation = feature.properties?.organisation;
     this.containsPiData = feature.properties?.containsPiData;
     this.region = feature.properties?.region;
+    this.projectsPaths = feature.properties?.projectPaths?.map((projects: string[]) =>
+      projects.filter((project: string) => project !== OwnerType.Gemeente),
+    );
+  }
+
+  isPartOfProject(project: string) {
+    return this.projectsPaths?.map((path) => path.includes(project)).some((p) => p === true);
   }
 
   hasTheme(theme: string) {
