@@ -26,13 +26,11 @@ node {
 
 node {
 
-    // stage("Unit tests") {
-    //     tryStep "unit-test", {
-    //         image.inside {
-    //             sh 'npm run test'
-    //         }
-    //     } 
-    // }
+    stage('Test') {
+        tryStep "test", {
+            sh "docker-compose up --abort-on-container-exit test-unit"
+        }
+    }
 
     stage("Build and push acceptance image") {
 
