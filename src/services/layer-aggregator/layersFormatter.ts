@@ -7,7 +7,9 @@ const layersFormatter = (
   return {
     name: layer.name,
     layer: {
-      features: (layer.filter ? results.filter(layer.filter) : results)?.map((item) => layer.transformer(item)),
+      features: (layer.filter ? results.filter(layer.filter) : results)
+        ?.map((item) => layer.transformer(item))
+        ?.filter(Boolean),
     },
   };
 };

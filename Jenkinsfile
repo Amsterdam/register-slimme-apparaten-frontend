@@ -25,15 +25,6 @@ node {
 }
 
 node {
-
-    // stage("Unit tests") {
-    //     tryStep "unit-test", {
-    //         image.inside {
-    //             sh 'npm run test'
-    //         }
-    //     } 
-    // }
-
     stage("Build and push acceptance image") {
 
         tryStep "build image", {
