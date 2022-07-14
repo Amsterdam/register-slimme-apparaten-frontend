@@ -27,6 +27,7 @@ const MAP_OPTIONS: MapOptions = {
   maxBounds: [
     [52.25168, 4.64034],
     [52.50536, 5.10737],
+    [52.264463, 5.147111],
   ],
 };
 
@@ -70,12 +71,6 @@ const StyledMap = styled(Map)`
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
   top: 0px;
-  bottom: 70px;
-
-  @media screen and (min-width: 576px) {
-    bottom: 0px;
-    top: 50px;
-  }
 `;
 
 const DrawerContentWrapper = styled('div')`
