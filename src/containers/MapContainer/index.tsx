@@ -70,12 +70,6 @@ const StyledMap = styled(Map)`
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400;
   top: 0px;
-  bottom: 70px;
-
-  @media screen and (min-width: 576px) {
-    bottom: 0px;
-    top: 50px;
-  }
 `;
 
 const DrawerContentWrapper = styled('div')`
