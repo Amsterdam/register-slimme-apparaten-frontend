@@ -26,6 +26,8 @@ services:
     build:
       context: .
       target: builder
+    volumes:
+      - ./src:/app/src
     environment:
       - NODE_ENV=development
       - TZ=Europe/Amsterdam
