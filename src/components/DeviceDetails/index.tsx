@@ -49,7 +49,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
     legalGround,
     reference,
     containsPiData,
-    region,
+    regions,
   } = feature.properties;
 
   return (
@@ -64,7 +64,7 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         iconLeft={<Close />}
       />
 
-      {region?.length > 0 && <RegionMap regions={region} />}
+      {regions?.length > 0 && <RegionMap regions={regions} />}
 
       <InfoContainer>
         <h3>Verantwoordelijke voor de sensor</h3>
@@ -89,10 +89,10 @@ const DeviceDetails: React.FC<Props> = ({ feature, onClose }) => {
         <h3>Sensorgegevens</h3>
         <List variant="bullet">
           <ListItem>{sensorType}</ListItem>
-          <ListItem>{region ? 'Mobiele sensor' : 'Vaste sensor'}</ListItem>
+          <ListItem>{regions ? 'Mobiele sensor' : 'Vaste sensor'}</ListItem>
           {reference && <ListItem>Referentie: {reference}</ListItem>}
-          {region && regions && (
-            <ListItem>Gebied: {region.map((r: string) => regions[r.toLowerCase()]?.naam).join(', ')}</ListItem>
+          {regions && regions && (
+            <ListItem>Gebied: {regions.map((r: string) => regions[r.toLowerCase()]?.naam).join(', ')}</ListItem>
           )}
         </List>
       </InfoContainer>
