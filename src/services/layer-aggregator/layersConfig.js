@@ -35,7 +35,7 @@ const LAYERS_CONFIG = [
           legalGround: item?.observation_goals?.filter((i) => i.legal_ground !== null)?.map((g) => g.legal_ground),
           originalData: item,
           reference: item?.reference,
-          region: item?.region,
+          regions: item?.regions,
           projectPaths: item?.project_paths,
         },
       };

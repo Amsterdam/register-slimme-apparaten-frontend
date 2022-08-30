@@ -8,7 +8,7 @@ export class Sensor {
   organisation: string;
   containsPiData: PiOptions;
   feature: Feature<Point, GeoJsonProperties>;
-  region: string[];
+  regions: string[];
   projectsPaths: string[][];
 
   constructor(feature: Feature<Point, GeoJsonProperties>) {
@@ -17,7 +17,7 @@ export class Sensor {
     this.themes = feature.properties?.themes;
     this.organisation = feature.properties?.organisation;
     this.containsPiData = feature.properties?.containsPiData;
-    this.region = feature.properties?.region;
+    this.regions = feature.properties?.regions;
     this.projectsPaths = feature.properties?.projectPaths?.map((projects: string[]) =>
       projects.filter((project: string) => project !== OwnerType.Gemeente),
     );
@@ -44,7 +44,7 @@ export class Sensor {
   }
 
   isMobileSensor() {
-    return this.region?.length > 0;
+    return this.regions?.length > 0;
   }
 
   toFeature() {
