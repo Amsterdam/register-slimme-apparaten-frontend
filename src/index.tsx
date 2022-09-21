@@ -10,7 +10,7 @@ import 'regenerator-runtime/runtime';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import MatomoTracker from '@datapunt/matomo-tracker-js';
-import { ThemeProvider, GlobalStyle } from '@amsterdam/asc-ui';
+import { ThemeProvider, GlobalStyle, ascDefaultTheme } from '@amsterdam/asc-ui';
 
 // Import root app
 import App from './containers/App';
@@ -42,7 +42,12 @@ if (navigator !== undefined) {
 const render = () => {
   ReactDOM.render(
     <BrowserRouter>
-      <ThemeProvider>
+      <ThemeProvider
+        theme={{
+          ...ascDefaultTheme,
+          typography: { ...ascDefaultTheme.typography, fontFamily: 'Amsterdam Sans, Arial, Helvetica, sans-serif' },
+        }}
+      >
         <GlobalStyle />
         <App />
       </ThemeProvider>
