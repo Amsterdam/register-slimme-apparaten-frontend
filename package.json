@@ -26,7 +26,7 @@
     "@amsterdam/arm-core": "^1.0.0",
     "@amsterdam/asc-assets": "^0.37.0",
     "@amsterdam/asc-ui": "^0.37.0",
-    "@amsterdam/react-maps": "^1.1.0",
+    "@amsterdam/react-maps": "^1.1.1",
     "@datapunt/matomo-tracker-js": "0.5.1",
     "axios": "^0.27.2",
     "fuse.js": "^6.6.2",
