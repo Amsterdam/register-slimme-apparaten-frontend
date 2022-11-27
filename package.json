@@ -28,7 +28,7 @@
     "@amsterdam/asc-ui": "^0.37.0",
     "@amsterdam/react-maps": "^1.1.1",
     "@datapunt/matomo-tracker-js": "0.5.1",
-    "axios": "^0.27.2",
+    "axios": "^1.2.0",
     "fuse.js": "^6.6.2",
     "leaflet": "^1.9.3",
     "leaflet.markercluster": "^1.5.3",
