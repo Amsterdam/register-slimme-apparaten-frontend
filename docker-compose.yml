@@ -11,10 +11,25 @@ services:
     ports:
       - '3002:80'
 
+  dev:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - ./src:/app/src
+    environment:
+      - NODE_ENV=development
+      - TZ=Europe/Amsterdam
+    command: npm run start
+    ports:
+      - '3002:3000'
+
   test-unit:
     build:
       context: .
       target: builder
+    volumes:
+      - ./src:/app/src
     environment:
       - NODE_ENV=development
       - TZ=Europe/Amsterdam

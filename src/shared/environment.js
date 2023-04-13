@@ -27,6 +27,13 @@ const environmentConfig = () => {
       ROOT: `https://${hostname}/`,
       AUTH_ROOT: `https://acc.${apiDomainName}/`,
     };
+  } else if ([`127.0.0.1`, `0.0.0.0`].includes(hostname)) {
+    environment = {
+      API_ROOT: `http://127.0.0.1:8001/`,
+      MAP_ROOT: 'https://map.data.amsterdam.nl/',
+      ROOT: `https://${hostname}/`,
+      AUTH_ROOT: `https://acc.${apiDomainName}/`,
+    };
   } else {
     environment = defaultConfig;
   }
