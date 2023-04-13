@@ -31,6 +31,7 @@ node {
             def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
             "--shm-size 1G " +
             "--build-arg BUILD_NUMBER=${BUILD_ID} " +
+            "--build-arg REACT_APP_PIWIK_PRO_TRACKING_CODE=e63312c0-0efe-4c4f-bba1-3ca1f05374a8 " +
             ". ")
 
             image.push("acceptance")
@@ -64,9 +65,13 @@ if (BRANCH == "master") {
     }
 
     node {
-        stage("Push Production image") {
+        stage("Build and push Production image") {
             tryStep "build", {
-                def image = docker.image("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}")
+                def image = docker.build("docker-registry.secure.amsterdam.nl/ois/slimme-apparaten-frontend:${BUILD_ID}",
+                "--shm-size 1G " +
+                "--build-arg BUILD_NUMBER=${BUILD_ID} " +
+                "--build-arg REACT_APP_PIWIK_PRO_TRACKING_CODE=f558164e-e388-49e0-864e-5f172552789c " +
+                ". ")
                 image.push("production")
                 image.push("latest")
             }
