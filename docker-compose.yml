@@ -3,6 +3,8 @@ services:
   app: # NGINX
     build:
       context: .
+      args:
+        - REACT_APP_PIWIK_PRO_TRACKING_CODE=besttrackingcode
     environment:
       - TZ=Europe/Amsterdam
     ipc: host

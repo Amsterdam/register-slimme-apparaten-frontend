@@ -4,6 +4,7 @@ LABEL maintainer="datapunt@amsterdam.nl"
 
 ARG BUILD_ENV=prod
 ARG BUILD_NUMBER=0
+ARG REACT_APP_PIWIK_PRO_TRACKING_CODE
 WORKDIR /app
 
 COPY . /app
@@ -27,7 +28,7 @@ RUN npm --production=false \
   install
 RUN npm cache clean --force
 
-# Test 
+# Test
 FROM builder as test
 RUN npm run test
 
